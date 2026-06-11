@@ -1,5 +1,5 @@
 # 다운한 에셋 ignore 추가
-/Assets/DownloadAssets
+Assets/DownloadAssets/
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
