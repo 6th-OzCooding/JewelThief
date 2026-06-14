@@ -1,4 +1,4 @@
-
+ï»¿
 using Cysharp.Threading.Tasks;
 
 public class GameManager : SingletonBehaviour<GameManager>
@@ -28,8 +28,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     private async UniTaskVoid InitAsync()
     {
 
-        // TODO(±èÀÍÈ¯ 2026-06-14): ¸®¼Ò½º ºñµ¿±â·Î ¹Ì¸® ·ÎµåÇÏ±â ·ÎµùÃ¢¿¡¼­ ·ÎµùÇÒ °ÍÀÓ
-        // ÃßÈÄ ·Îµù UI°¡ »ı±â¸é ¾Æ·¡ InitÇÔ¼öÀÇ ¸Å°³º¯¼ö·Î ·Îµù ÁøÇà·üÀ» Àü´ŞÇÒ ¼ö ÀÖµµ·Ï ¼öÁ¤ÇÏ±â
+        // TODO(ê¹€ìµí™˜ 2026-06-14): ë¦¬ì†ŒìŠ¤ ë¹„ë™ê¸°ë¡œ ë¯¸ë¦¬ ë¡œë“œí•˜ê¸° ë¡œë”©ì°½ì—ì„œ ë¡œë”©í•  ê²ƒì„
+        // ì¶”í›„ ë¡œë”© UIê°€ ìƒê¸°ë©´ ì•„ë˜ Inití•¨ìˆ˜ì˜ ë§¤ê°œë³€ìˆ˜ë¡œ ë¡œë”© ì§„í–‰ë¥ ì„ ì „ë‹¬í•  ìˆ˜ ìˆë„ë¡ ìˆ˜ì •í•˜ê¸°
         await _resourceManager.Init();
 
 

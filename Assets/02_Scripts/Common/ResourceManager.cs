@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -11,8 +11,8 @@ public class ResourceManager
 
     public async UniTask Init(System.Action<float> onProgress = null)
     {
-        // TODO(±èÀÍÈ¯ 2026-06-14): Å©±â°¡ Å« ¿¡¼ÂµéÀº ¹Ì¸® ·ÎµåÇÏ±â - audio, material, mesh, texture µî
-        // preLoadAddresses¿¡ ¹Ì¸® ·ÎµåµÉ address ³Ö±â
+        // TODO(ê¹€ìµí™˜ 2026-06-14): í¬ê¸°ê°€ í° ì—ì…‹ë“¤ì€ ë¯¸ë¦¬ ë¡œë“œí•˜ê¸° - audio, material, mesh, texture ë“±
+        // preLoadAddressesì— ë¯¸ë¦¬ ë¡œë“œë  address ë„£ê¸°
         int totalCount = preLoadAddresses.Length;
 
         if(totalCount == 0)
@@ -50,7 +50,7 @@ public class ResourceManager
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"¿¡¼Â ·Îµå ½ÇÆĞ: {address}, Exception: {ex}");
+            Debug.LogError($"ì—ì…‹ ë¡œë“œ ì‹¤íŒ¨: {address}, Exception: {ex}");
 
             if (loadHandle.IsValid())
                 Addressables.Release(loadHandle);
@@ -63,19 +63,19 @@ public class ResourceManager
     {
         if(!_handles.TryGetValue(address, out AsyncOperationHandle handle))
         {
-            Debug.LogError($"·ÎµåµÇÁö ¾ÊÀº ¿¡¼ÂÀÔ´Ï´Ù: {address}");
+            Debug.LogError($"ë¡œë“œë˜ì§€ ì•Šì€ ì—ì…‹ì…ë‹ˆë‹¤: {address}");
             return null;
         }
 
         if(!handle.IsValid())
         {
-            Debug.LogError($"À¯È¿ÇÏÁö ¾ÊÀº ¿¡¼Â ÇÚµéÀÔ´Ï´Ù: {address}");
+            Debug.LogError($"ìœ íš¨í•˜ì§€ ì•Šì€ ì—ì…‹ í•¸ë“¤ì…ë‹ˆë‹¤: {address}");
             return null;
         }
 
         if(handle.Status != AsyncOperationStatus.Succeeded)
         {
-            Debug.LogError($"¿¡¼Â ·Îµå°¡ ¿Ï·áµÇÁö ¾Ê¾Ò°Å³ª ½ÇÆĞÇÑ ¿¡¼ÂÀÔ´Ï´Ù: {address}");
+            Debug.LogError($"ì—ì…‹ ë¡œë“œê°€ ì™„ë£Œë˜ì§€ ì•Šì•˜ê±°ë‚˜ ì‹¤íŒ¨í•œ ì—ì…‹ì…ë‹ˆë‹¤: {address}");
             return null;
         }
 
@@ -83,7 +83,7 @@ public class ResourceManager
 
         if (null == asset)
         {
-            Debug.LogError($"¿¡¼Â Å¸ÀÔÀÌ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù: {address}");
+            Debug.LogError($"ì—ì…‹ íƒ€ì…ì´ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤: {address}");
             return null;
         }
 
@@ -96,7 +96,7 @@ public class ResourceManager
         {
             Addressables.Release(handle);
             _handles.Remove(address);
-            Debug.Log($"¿¡¼Â ¸Ş¸ğ¸® ÇØÁ¦ ¿Ï·á: {address}");
+            Debug.Log($"ì—ì…‹ ë©”ëª¨ë¦¬ í•´ì œ ì™„ë£Œ: {address}");
         }
     }
 
@@ -107,7 +107,7 @@ public class ResourceManager
             Addressables.Release(handle);
         }
         _handles.Clear();
-        Debug.Log("¸ğµç ¿¡¼Â ¸Ş¸ğ¸® ÇØÁ¦ ¿Ï·á");
+        Debug.Log("ëª¨ë“  ì—ì…‹ ë©”ëª¨ë¦¬ í•´ì œ ì™„ë£Œ");
     }
 
     private async UniTask PreLoadAssetAsync(string address, int loadedIndex, int totalCount, System.Action<float> onProgress)
@@ -141,7 +141,7 @@ public class ResourceManager
         }
         else
         {
-            Debug.LogError($"¿¡¼Â ·Îµå ½ÇÆĞ: {address}, Exection: {loadHandle.OperationException}");
+            Debug.LogError($"ì—ì…‹ ë¡œë“œ ì‹¤íŒ¨: {address}, Exection: {loadHandle.OperationException}");
 
             if (loadHandle.IsValid())
                 Addressables.Release(loadHandle);

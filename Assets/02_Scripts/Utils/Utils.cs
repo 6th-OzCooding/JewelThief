@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using static PoolManager;
@@ -56,7 +56,7 @@ public static class Utils
         AudioClip clip = await GameManager.Resource.LoadAssetAsync<AudioClip>(path);
         if (null == clip)
         {
-            Debug.LogError($"¿Àµğ¿À Å¬¸³ ·Îµå ½ÇÆĞ: {path}");
+            Debug.LogError($"ì˜¤ë””ì˜¤ í´ë¦½ ë¡œë“œ ì‹¤íŒ¨: {path}");
             return;
         }
 
@@ -78,7 +78,7 @@ public static class Utils
         Sprite sprite = await GameManager.Resource.LoadAssetAsync<Sprite>(path);
         if (null == sprite)
         {
-            Debug.LogError($"½ºÇÁ¶óÀÌÆ® ·Îµå ½ÇÆĞ: {path}");
+            Debug.LogError($"ìŠ¤í”„ë¼ì´íŠ¸ ë¡œë“œ ì‹¤íŒ¨: {path}");
             return;
         }
         targetImage.sprite = sprite;

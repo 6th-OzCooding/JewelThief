@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +44,7 @@ public class PoolManager
         if (obj.TryGetComponent<T>(out T component))
             return component;
         else
-            throw new Exception($"Pool Id({poolId})¿¡ ¿Ã¹Ù¸¥ ÄÄÆ÷³ÍÆ®°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. component: {typeof(T)}.");
+            throw new Exception($"Pool Id({poolId})ì— ì˜¬ë°”ë¥¸ ì»´í¬ë„ŒíŠ¸ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. component: {typeof(T)}.");
     }
     public T SpawnFromPool<T>(string poolId, Vector3 position, Quaternion rotation) where T : Component
     {
@@ -52,7 +52,7 @@ public class PoolManager
         if (obj.TryGetComponent<T>(out T component))
             return component;
         else
-            throw new Exception($"Pool Id({poolId})¿¡ ¿Ã¹Ù¸¥ ÄÄÆ÷³ÍÆ®°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. component: {typeof(T)}.");
+            throw new Exception($"Pool Id({poolId})ì— ì˜¬ë°”ë¥¸ ì»´í¬ë„ŒíŠ¸ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. component: {typeof(T)}.");
     }
 
     public void DespawnToPool(GameObject obj)
@@ -79,7 +79,7 @@ public class PoolManager
     private GameObject GetFromPool(string poolId, Vector3 position, Quaternion rotation)
     {
         if (!objectPools.ContainsKey(poolId))
-            throw new Exception($"Pool Id({poolId})¿¡ ÇØ´çÇÏ´Â Ç®Àº Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            throw new Exception($"Pool Id({poolId})ì— í•´ë‹¹í•˜ëŠ” í’€ì€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 
         Queue<GameObject> poolQueue = objectPools[poolId];
         if (poolQueue.Count <= 0)
@@ -118,7 +118,7 @@ public class PoolManager
         GameObject gameObject = GameManager.Resource.GetLoadedAsset<GameObject>(poolId);
         if (null == gameObject)
         {
-            throw new Exception($"Pool Id({poolId})¿¡ ÇØ´çÇÏ´Â ÇÁ¸®ÆÕÀÌ ResourceManager¿¡¼­ ·ÎµåµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+            throw new Exception($"Pool Id({poolId})ì— í•´ë‹¹í•˜ëŠ” í”„ë¦¬íŒ¹ì´ ResourceManagerì—ì„œ ë¡œë“œë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
         }
         return gameObject;
     }
