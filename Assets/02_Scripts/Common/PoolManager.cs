@@ -5,30 +5,23 @@ using UnityEngine;
 
 public class PoolManager
 {
-    [Serializable]
-    public class Pool
-    {
-        public string poolId;
-        public int size;
-    }
-
-    Pool[] pools;
-
     Dictionary<string, Queue<GameObject>> objectPools = new();
     Dictionary<string, List<GameObject>> activedObjects = new();
 
 
     public void Init()
     {
-        foreach (Pool pool in pools)
+        var poolDatas = GameManager.DataTable.GetPoolingObjectDataTable();
+
+        foreach (string poolId in poolDatas.Keys)
         {
-            objectPools.Add(pool.poolId, new Queue<GameObject>());
+            objectPools.Add(poolId, new Queue<GameObject>());
 
-            var gameObject = LoadGameObject(pool.poolId);
+            var gameObject = LoadGameObject(poolId);
 
-            for (int i = 0; i < pool.size; i++)
+            for (int i = 0; i < poolDatas[poolId].InitSize; i++)
             {
-                CreateNewObject(pool.poolId, gameObject);
+                CreateNewObject(poolId, gameObject);
             }
         }
     }
@@ -84,8 +77,7 @@ public class PoolManager
         Queue<GameObject> poolQueue = objectPools[poolId];
         if (poolQueue.Count <= 0)
         {
-            Pool pool = Array.Find(pools, x => x.poolId == poolId);
-            CreateNewObject(pool.poolId, LoadGameObject(pool.poolId));
+            CreateNewObject(poolId, LoadGameObject(poolId));
         }
 
         GameObject obj = poolQueue.Dequeue();

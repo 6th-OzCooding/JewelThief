@@ -84,4 +84,9 @@ public static class Utils
         targetImage.sprite = sprite;
         targetImage.gameObject.SetActive(true);
     }
+
+    public static T ResourcesLoad<T>(string path) where T : Object
+    {
+        return Resources.Load<T>(path);
+    }
 }
