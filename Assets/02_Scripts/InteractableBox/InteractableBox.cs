@@ -48,4 +48,12 @@ public class InteractableBox : MonoBehaviour
 
         return _hadItemList[randomIndex];
     }
+
+    public void InteractCloserPlayer()
+    {
+        // TODO(안우재 2026-6-15) : Player와 가까이 왔을 시 상호작용(HUD 띄우기) 함수 등록
+        // 추가로 Collider로 Player를 구분할것인지, 거리에 따라 구분할 것인지, 플레이어의 시야 정 중앙일때 일지
+        // 정해야함
+
+    }
 }
