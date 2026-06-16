@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using UnityEngine;
+
+/// <summary>
 /// UI 프리팹이 배치될 Canvas 루트 종류입니다.
 /// </summary>
 public enum UIRootType
@@ -42,12 +44,7 @@ public static class UIManagerExtension
     {
         uiManager.OpenLoadingUI();
         uiManager.OpenUI(UIRootType.MainUI, UIType.MainUI);
-        uiManager.OpenCenterPointUI();
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.LockGameplayCursor();
-        }
+        uiManager.EnterGameplayCursorMode();
     }
 
     /// <summary>
@@ -88,11 +85,8 @@ public static class UIManagerExtension
     public static void EnterGameplayCursorMode(this UIManager uiManager)
     {
         uiManager.OpenCenterPointUI();
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.LockGameplayCursor();
-        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     /// <summary>
@@ -101,10 +95,7 @@ public static class UIManagerExtension
     public static void ExitGameplayCursorMode(this UIManager uiManager)
     {
         uiManager.CloseCenterPointUI();
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.UnlockGameplayCursor();
-        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

@@ -1,6 +1,5 @@
 ﻿
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -40,22 +39,4 @@ public class GameManager : SingletonBehaviour<GameManager>
         _poolManager.Init();
     }
 
-
-    /// <summary>
-    /// 게임 플레이 화면에서 마우스 커서를 잠그고 보이지 않게 만듭니다.
-    /// </summary>
-    public void LockGameplayCursor()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    /// <summary>
-    /// UI 조작 화면에서 마우스 커서 잠금을 풀고 보이게 만듭니다.
-    /// </summary>
-    public void UnlockGameplayCursor()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
 }
