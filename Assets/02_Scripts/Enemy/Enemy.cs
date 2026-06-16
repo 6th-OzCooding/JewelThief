@@ -2,61 +2,85 @@
 
 public class Enemy : MonoBehaviour
 {
-    // 적의 애니메이션을 담는 변수
     private Animator _anim;
-    // 부채꼴을 위하여 원 콜리더를 생성
-    private SphereCollider _col;
 
-    // 적의 시야를 정하는 거리와 각도
+    // 시야각 생성
     private float _viewRadius = 5.0f;
-    private float _viewAngle = 150.0f;
-
+    private float _viewAngle = 120.0f;
+    // 속도 조정 예정
     private float _moveSpeed = 3.0f;
 
     private void Start()
     {
-        // 애니메이션을 찾고 그 애니메이션을 담을 변수인 _anim으로 지정
         _anim = GetComponent<Animator>();
-
-        _col = GetComponent<SphereCollider>();
-        _col.isTrigger = true;
-        _col.radius = _viewRadius;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-        // 플레이어의 태그를 일단 확인하기 => 바뀌는 경우에는 바꾸면 됨
-        if (other.CompareTag("Player"))
+        // 플레이어를 인지했는지 계속 확인하는 함수
+        FindPlayerInSight();
+    }
+
+    private void FindPlayerInSight()
+    {
+        bool isPlayerSpotted = false;
+
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius);
+
+        for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
-            Vector3 dirToTarget = (other.transform.position - transform.position).normalized;
+            Collider target = targetsInViewRadius[i];
 
-            float angle = Vector3.Angle(transform.forward, dirToTarget);
-
-            // 정면을 기준으로 양쪽을 계산하기 때문에 120도면 왼쪽60, 오른쪽 60으로 설정하기 위해 2로 나눔
-            if (angle <= _viewAngle / 2)
+            if (target.CompareTag("Player"))
             {
-                // 시야각 안에 들어온 경우 행동을 작성하면 됨
-                Debug.Log("플레이어 발견!");
-                // 시야각에 들어왔으므로 플레이어를 향해 뛰어가는 애니메이션 적용
-                _anim.SetBool("isRun", true);
+                // 플레이어 방향 확인
+                Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
 
-                // 플레이어쪽으로 몸을 트는 코드
-                Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 3f);
-                // 앞을 보며 달려가는 코드
-                transform.Translate(Vector3.forward * _moveSpeed * Time.deltaTime);
-            }
+                // 플레이어와의 거리 확인
+                float dstToTarget = Vector3.Distance(transform.position, target.transform.position);
 
-            else
-            {
-                _anim.SetBool("isRun", false);
+                // 플레이어와의 각도 계산
+                float angle = Vector3.Angle(transform.forward, dirToTarget);
+
+                // 시야각 내에 들어왔는지 확인 (양 옆으로 계산 되기 때문에 2로 나눠준다)
+                if (angle <= _viewAngle / 2)
+                {
+                    // 바닥에 바로 쏘면 문제가 생길 수 있으므로 살짝 띄운다.
+                    Vector3 rayOrigin = transform.position + Vector3.up * 0.3f;
+
+                    if (Physics.Raycast(rayOrigin, dirToTarget, out RaycastHit hit, dstToTarget))
+                    {
+                        // 플레이어를 바로 탐지한 경우 (다른 물체가 가로막지 않은 경우)
+                        if (hit.collider.CompareTag("Player"))
+                        {
+                            isPlayerSpotted = true;
+
+                            Debug.Log("Raycast로 플레이어 발견!");
+                            // 발견을 했다면 달리는 애니메이션 적용
+                            _anim.SetBool("isRun", true);
+
+                            // 플레이어 쪽으로 몸을 트는 코드
+                            Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
+                            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 3f);
+
+                            transform.Translate(Vector3.forward * _moveSpeed * Time.deltaTime);
+
+                            break;
+                        }
+                    }
+                }
             }
+        }
+        // 시야각에서 사라지거나 못찾은 경우에는 달리지 않고 걷게 함
+        if (!isPlayerSpotted)
+        {
+            _anim.SetBool("isRun", false);
         }
     }
 
     private void OnDrawGizmos()
     {
-        if (_anim == null) return;
+        if (_anim == null && !Application.isPlaying) return;
 
         Vector3 origin = transform.position + Vector3.up * 0.3f;
         Gizmos.color = Color.red;
@@ -68,14 +92,13 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawLine(origin, origin + leftBoundary * _viewRadius);
         Gizmos.DrawLine(origin, origin + rightBoundary * _viewRadius);
 
-        // 많이 자르면 예쁘게 보이지만, 시간과 자원을 많이 잡아먹으므로 적당히 25개로 자름 => 하나당 6으로 계산
-        int segments = 25;
+        int segments = 20;
         float angleStep = _viewAngle / segments;
         Vector3 prevPoint = origin + leftBoundary * _viewRadius;
 
         for (int i = 1; i <= segments; i++)
         {
-            // 왼쪽부터(- 60도부터 그리기 시작)
+            // 왼쪽에서부터 시작 해서 부채꼴 모양으로 만든다.
             float currentAngle = (-_viewAngle / 2) + (angleStep * i);
             Vector3 currentDir = Quaternion.Euler(0, currentAngle, 0) * forward;
             Vector3 currentPoint = origin + currentDir * _viewRadius;

@@ -1392,7 +1392,6 @@ GameObject:
   - component: {fileID: 7953509556356755597}
   - component: {fileID: 1495665262920640028}
   - component: {fileID: 3574285097803866685}
-  - component: {fileID: 5675444416233750167}
   - component: {fileID: 1536487761448601308}
   - component: {fileID: 9064102321957697825}
   m_Layer: 0
@@ -1453,27 +1452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bb52685f63eee46a3cf7c97fa4cb8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
---- !u!135 &5675444416233750167
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4521435234813036530}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1536487761448601308
 Rigidbody:
   m_ObjectHideFlags: 0
