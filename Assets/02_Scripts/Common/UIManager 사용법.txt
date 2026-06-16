@@ -1,0 +1,51 @@
+UIManager 사용법
+
+씬에 UIManager 프리팹을 배치한 뒤, Inspector에서 각 Canvas Root를 연결합니다.
+
+UI 프리팹은 Resources.Load로 불러오기 때문에 아래 경로 규칙에 맞춰 배치해야 합니다.
+
+Assets/Resources/Prefabs/UI/{UIRootType}/{UIType}.prefab
+
+예시:
+
+Assets/Resources/Prefabs/UI/MainUI/MainUI.prefab
+Assets/Resources/Prefabs/UI/VeryFrontUI/LoadingUI.prefab
+
+UI 프리팹에는 UIBase를 붙여야 합니다.
+
+UI를 열 때는 UIManager.Instance를 사용합니다.
+
+UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainUI);
+
+로딩 UI처럼 자주 쓰는 UI는 확장 메서드로 열 수 있습니다.
+
+UIManager.Instance.OpenLoadingUI();
+
+UI를 닫을 때는 CloseUI를 사용합니다.
+
+UIManager.Instance.CloseUI(UIType.LoadingUI);
+
+Content UI나 Popup UI는 전용 메서드로 열 수도 있습니다.
+
+UIManager.Instance.OpenContentUI(UIType.MainUI);
+UIManager.Instance.OpenPopupUI(UIType.LoadingUI);
+
+새 UI를 추가할 때는 UIType enum에 값을 추가하고, 같은 이름의 프리팹을 경로 규칙에 맞춰 배치합니다.
+
+예를 들어 InventoryUI를 추가한다면:
+
+public enum UIType
+{
+None = 0,
+MainUI,
+LoadingUI,
+InventoryUI
+}
+
+프리팹 경로:
+
+Assets/Resources/Prefabs/UI/ContentUI/InventoryUI.prefab
+
+호출:
+
+UIManager.Instance.OpenContentUI(UIType.InventoryUI);

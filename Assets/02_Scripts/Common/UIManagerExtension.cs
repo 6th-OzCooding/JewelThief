@@ -27,9 +27,9 @@ public enum UIType
 public static class UIManagerExtension
 {
     /// <summary>
-    /// UI 루트 종류와 UI 종류를 Addressables 주소 문자열로 변환합니다.
+    /// UI 루트 종류와 UI 종류를 Resources 폴더 기준 경로 문자열로 변환합니다.
     /// </summary>
-    public static string GetUIAddress(this UIManager uiManager, UIRootType uiRootType, UIType uiType)
+    public static string GetUIPath(this UIManager uiManager, UIRootType uiRootType, UIType uiType)
     {
         return $"Prefabs/UI/{uiRootType}/{uiType}";
     }
@@ -37,18 +37,18 @@ public static class UIManagerExtension
     /// <summary>
     /// 게임 시작 시 기본으로 필요한 UI를 여는 진입점입니다.
     /// </summary>
-    public static async Cysharp.Threading.Tasks.UniTask ShowStartupUIOnGameStartAsync(this UIManager uiManager)
+    public static void ShowStartupUIOnGameStart(this UIManager uiManager)
     {
-        await uiManager.OpenUIAsync(UIRootType.VeryFrontUI, UIType.LoadingUI);
-        await uiManager.OpenUIAsync(UIRootType.MainUI, UIType.MainUI);
+        uiManager.OpenLoadingUI();
+        uiManager.OpenUI(UIRootType.MainUI, UIType.MainUI);
     }
 
     /// <summary>
     /// 로딩 UI를 엽니다.
     /// </summary>
-    public static Cysharp.Threading.Tasks.UniTask<UIBase> OpenLoadingUIAsync(this UIManager uiManager)
+    public static UIBase OpenLoadingUI(this UIManager uiManager)
     {
-        return uiManager.OpenUIAsync(UIRootType.VeryFrontUI, UIType.LoadingUI);
+        return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
     }
 
     /// <summary>

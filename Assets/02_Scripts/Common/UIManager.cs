@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +6,11 @@ using UnityEngine;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
+    /// <summary>
+    /// 현재 씬에서 사용하는 UIManager 인스턴스입니다.
+    /// </summary>
+    public static UIManager Instance { get; private set; }
+
     [Header("UI Root Canvases")]
     [SerializeField] private Canvas _backgroundRoot;
     [SerializeField] private Canvas _mainRoot;
@@ -17,25 +21,30 @@ public class UIManager : MonoBehaviour
     private readonly Dictionary<UIType, UIBase> _createdUIDic = new();
     private readonly HashSet<UIType> _openedUIDic = new();
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
     /// <summary>
     /// UI 프리팹을 생성하거나 이미 만든 UI를 다시 열어 반환합니다.
     /// </summary>
-    public async UniTask<UIBase> OpenUIAsync(UIRootType uiRootType, UIType uiType, bool isInitialHide = false)
+    public UIBase OpenUI(UIRootType uiRootType, UIType uiType)
     {
-        UIBase uiBase = await GetCreatedUIAsync(uiRootType, uiType);
+        UIBase uiBase = GetCreatedUI(uiRootType, uiType);
         if (uiBase == null)
             return null;
 
         if (!_openedUIDic.Contains(uiType))
             _openedUIDic.Add(uiType);
 
-        if (isInitialHide)
-        {
-            uiBase.gameObject.SetActive(false);
-            return uiBase;
-        }
-
-        uiBase.Open();
+        uiBase.gameObject.SetActive(true);
         return uiBase;
     }
 
@@ -54,24 +63,24 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        uiBase.Close();
+        uiBase.gameObject.SetActive(false);
         _openedUIDic.Remove(uiType);
     }
 
     /// <summary>
     /// Content 루트에 UI를 엽니다.
     /// </summary>
-    public UniTask<UIBase> OpenContentUIAsync(UIType uiType)
+    public UIBase OpenContentUI(UIType uiType)
     {
-        return OpenUIAsync(UIRootType.ContentUI, uiType);
+        return OpenUI(UIRootType.ContentUI, uiType);
     }
 
     /// <summary>
     /// Popup 루트에 UI를 엽니다.
     /// </summary>
-    public UniTask<UIBase> OpenPopupUIAsync(UIType uiType)
+    public UIBase OpenPopupUI(UIType uiType)
     {
-        return OpenUIAsync(UIRootType.PopupUI, uiType);
+        return OpenUI(UIRootType.PopupUI, uiType);
     }
 
     /// <summary>
@@ -90,15 +99,15 @@ public class UIManager : MonoBehaviour
         CloseUI(uiType);
     }
 
-    private async UniTask<UIBase> GetCreatedUIAsync(UIRootType uiRootType, UIType uiType)
+    private UIBase GetCreatedUI(UIRootType uiRootType, UIType uiType)
     {
         if (_createdUIDic.TryGetValue(uiType, out UIBase createdUI))
             return createdUI;
 
-        return await CreateUIAsync(uiRootType, uiType);
+        return CreateUI(uiRootType, uiType);
     }
 
-    private async UniTask<UIBase> CreateUIAsync(UIRootType uiRootType, UIType uiType)
+    private UIBase CreateUI(UIRootType uiRootType, UIType uiType)
     {
         if (uiRootType == UIRootType.None || uiType == UIType.None)
         {
@@ -113,29 +122,22 @@ public class UIManager : MonoBehaviour
             return null;
         }
 
-        string address = this.GetUIAddress(uiRootType, uiType);
-        if (GameManager.Instance == null)
-        {
-            Debug.LogWarning($"GameManager가 생성되기 전에 UI 로드를 요청했습니다. Address: {address}");
-            return null;
-        }
-
-        GameObject prefab = await GameManager.Resource.LoadAssetAsync<GameObject>(address);
+        string path = this.GetUIPath(uiRootType, uiType);
+        GameObject prefab = Utils.ResourcesLoad<GameObject>(path);
         if (prefab == null)
         {
-            Debug.LogWarning($"UI 프리팹을 로드하지 못했습니다. Address: {address}");
+            Debug.LogWarning($"UI 프리팹을 로드하지 못했습니다. Path: {path}");
             return null;
         }
 
         GameObject instance = Instantiate(prefab, root);
         if (!instance.TryGetComponent(out UIBase uiBase))
         {
-            Debug.LogWarning($"UI 프리팹에 UIBase 컴포넌트가 없습니다. Address: {address}");
+            Debug.LogWarning($"UI 프리팹에 UIBase 컴포넌트가 없습니다. Path: {path}");
             Destroy(instance);
             return null;
         }
 
-        uiBase.Initialize();
         _createdUIDic.Add(uiType, uiBase);
 
         return uiBase;
