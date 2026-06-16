@@ -7,23 +7,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeed = 8f;
     [SerializeField] private Rigidbody _rigidbody_Player;
     private Vector3 _moveDirection; // 플레이어 이동하는 방향
-    private Vector2 _inputVector; // 키보드 이동값을 받는 벡터
+    private Vector2 _inputVector; // WASD 키보드 이동값을 받는 벡터
 
     [Header("점프관련 설정")]
     [SerializeField] private float _jumpForce = 7f; // 점프 힘 (높이 조절)
     [SerializeField] private Transform _groundCheck;    // 발 밑에 배치할 빈 오브젝트
     [SerializeField] private float _groundCheckRadius = 0.5f; // 체크 범위
     [SerializeField] private LayerMask _groundLayer;    // 지면으로 인식할 레이어 (Platforms 등)
-    private bool _isGrounded; // 바닥에 붙어있는지 여부
+    private bool _isGrounded = false; // 바닥에 붙어있는지 여부
     private bool _jumpRequested = false; // 점프 입력이 들어왔는지 확인하는 플래그
 
     [Header("카메라 회전 설정")]
     [SerializeField] private Transform _cameraRig; // 플레이어 자식으로 있는 CameraRig 오브젝트 등록
-    [SerializeField] private float _mouseSensitivity = 0.1f; // 마우스 민감도
+    [SerializeField] private float _mouseSensitivity = 10f; // 마우스 민감도
     [SerializeField] private float _minLookAngle = -40f; // 카메라 상단 제한 각도
     [SerializeField] private float _maxLookAngle = 70f;  // 카메라 하단 제한 각도
     private Vector2 _lookVector; //카메라 회전값을 받는 벡터
     private float _verticalRotation = 0f; // 카메라 상하 회전 누적 값
+
     void Awake()
     {
         // 인스펙터에서 깜빡하고 할당 안 했을 때를 대비해 자동으로 리지드바디 넣기
@@ -32,7 +33,13 @@ public class PlayerController : MonoBehaviour
             _rigidbody_Player = GetComponent<Rigidbody>();
         }
 
+        if (_groundCheck == null)
+        {
+            _groundCheck = this.transform;
+        }
        
+
+
     }
 
     void Update()
@@ -65,6 +72,8 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+       
+
         _rigidbody_Player.linearVelocity = new Vector3(
              _moveDirection.x * _moveSpeed,
              _rigidbody_Player.linearVelocity.y,
@@ -77,13 +86,14 @@ public class PlayerController : MonoBehaviour
     // 마우스 움직임에 따른 회전 로직
     private void RotatePlayerAndCamera()
     {
-        // 좌우 회전: 마우스 X 움직임에 따라 플레이어 본체(Y축)를 회전시킵니다.
-        float horizontalRotation = _lookVector.x * _mouseSensitivity;
+        // 1. Time.deltaTime을 곱해 1초당 회전량으로 보정합니다.
+        // (이때 감도가 너무 낮아지면 _mouseSensitivity 기본값을 인스펙터에서 키워주세요)
+        float horizontalRotation = _lookVector.x * _mouseSensitivity * Time.deltaTime;
         this.transform.Rotate(Vector3.up * horizontalRotation);
 
-        // 상하 회전: 마우스 Y 움직임에 따라 CameraRig(X축)만 회전시킵니다.
-        // 마우스를 올리면 카메라도 위를 봐야 하므로 마이너스(-)를 해줍니다.
-        _verticalRotation -= _lookVector.y * _mouseSensitivity;
+        // 2. 상하 회전 역시 Time.deltaTime을 곱해줍니다.
+        _verticalRotation -= _lookVector.y * _mouseSensitivity * Time.deltaTime;
+
         // 목이 뒤로 꺾이거나 땅 뚫고 들어가지 않도록 각도 제한 (Clamp)
         _verticalRotation = Mathf.Clamp(_verticalRotation, _minLookAngle, _maxLookAngle);
 
