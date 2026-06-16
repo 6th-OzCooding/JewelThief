@@ -9,8 +9,8 @@ public class InteractableIronBox : InteractableBox
         _isLocking = true;
     }
 
-    // 아이템 List에 존재하는 아이템들 더 높은 단계 잘나오도록 추출
-    protected override string GradingItem()
+    // 아이템 List에 존재하는 아이템들 더 높은 단계 잘나오도록 추출(LcokPick으로 상자 오픈 시)
+    private string UseLockPickGradingItem()
     {
         if (_hadItemList == null || _hadItemList.Count == 0)
         {
