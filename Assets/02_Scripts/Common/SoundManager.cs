@@ -21,4 +21,12 @@ public class SoundManager
     {
         Utils.LoadAndPlayAudioClip(BGMSourcePlayer, soundDataId, isLoop: true).Forget();
     }
+
+    public void SetBGMPitch(float pitch)
+    {
+        if (null == BGMSourcePlayer) return;
+
+        BGMSourcePlayer.pitch = Mathf.Clamp(pitch, 0f, 2f);
+    }
+
 }

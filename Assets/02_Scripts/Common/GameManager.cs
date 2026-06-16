@@ -6,13 +6,16 @@ public class GameManager : SingletonBehaviour<GameManager>
     public static ResourceManager Resource { get { return Instance._resourceManager; } }
     public static SoundManager Sound { get { return Instance._soundManager; } }
     public static PoolManager Pool { get { return Instance._poolManager; } }
+    public static AlertManager Alert { get { return Instance._alertManager; } }
     public static DataTable DataTable { get { return Instance._dataTable; } }
+    
 
     #region Manager Varialbes
 
     private ResourceManager _resourceManager = new();
     private SoundManager _soundManager = new();
     private PoolManager _poolManager = new();
+    private AlertManager _alertManager = new();
     private DataTable _dataTable = new();
 
     #endregion
