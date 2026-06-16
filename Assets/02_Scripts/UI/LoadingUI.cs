@@ -3,27 +3,20 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using TMPro;
 
-public class LoadingUI : MonoBehaviour
+public class LoadingUI : UIBase
 {
     [Header("컴포넌트 연결")]
     [SerializeField] private Image LoadingBar;
     [SerializeField] private TextMeshProUGUI LoadingText;
-
-    private ResourceManager _resourceManager;
-
-    private void Awake()
-    {
-        _resourceManager = new ResourceManager();
-    }
 
     public async UniTask StartLoading()
     {
         LoadingBar.fillAmount = 0;
         LoadingText.text = "데이터 불러 오는 중 ... 0%";
 
-        await _resourceManager.Init(OnResourceLoadProgress);
+        await GameManager.Resource.Init(OnResourceLoadProgress);
 
-        LoadingText.text = "로딩 완료";
+        LoadingText.text = "로딩 완료. [Enter]";
 
         while (true)
         {
@@ -34,6 +27,8 @@ public class LoadingUI : MonoBehaviour
 
             await UniTask.Yield();
         }
+
+        UIManager.Instance.CloseLoadingUI();
     }
 
 
