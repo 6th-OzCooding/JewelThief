@@ -1,7 +1,7 @@
 using UnityEngine;
 using TeamConvention.Interfaces;
 
-public class MimicItemTrap : MonoBehaviour, IInteractable
+public class MimicItemTrap : MonoBehaviour//, IInteractable
 {
     [Header("트랩 데이터")]
     [SerializeField] private int _trapId = 40000001;
@@ -16,7 +16,7 @@ public class MimicItemTrap : MonoBehaviour, IInteractable
 
     public string InteractPrompt => _interactPrompt;
 
-    public void Interact(PlayerController player)
+    public void Interact(MonoBehaviour player)    //추후 MonoBehaviour를 PlayerController로 대체
     {
         if (_isDisarmed)
         {
@@ -29,11 +29,11 @@ public class MimicItemTrap : MonoBehaviour, IInteractable
 
         Debug.Log($"[함정 발동] ID: {_trapId} - 함정 발동!");
 
-        player.TakeDamage(_damage);
+        //player.TakeDamage(_damage);
 
-        if (GameManager.Instance != null && GameManager.Instance.AlertManager != null)
+        //if (GameManager.Instance != null && GameManager.Instance.AlertManager != null)
         {
-            GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
+           // GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
         }
 
             TriggerNoise();   //소음 발생
@@ -53,10 +53,10 @@ public class MimicItemTrap : MonoBehaviour, IInteractable
         Collider[] caughtEnemies = Physics.OverlapSphere(transform.position, _soundRadius);
         foreach (Collider col in caughtEnemies)
         {
-            Enemy enemy = col.GetComponent<Enemy>();
-            if (enemy != null)
+            //Enemy enemy = col.GetComponent<Enemy>();
+           // if (enemy != null)
             {
-                enemy.HearNoise(transform.position);
+                //enemy.HearNoise(transform.position);
             }
         }
     }

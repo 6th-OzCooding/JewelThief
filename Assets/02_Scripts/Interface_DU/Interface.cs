@@ -4,6 +4,6 @@ namespace TeamConvention.Interfaces
     {
         string InteractPrompt { get; }
 
-        void Interact(PlayerController player);
+        //void Interact(PlayerController player);
     }
 }

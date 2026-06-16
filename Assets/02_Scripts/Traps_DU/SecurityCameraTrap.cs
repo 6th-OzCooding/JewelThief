@@ -83,9 +83,9 @@ public class SecurityCameraTrap : MonoBehaviour
 
         // 카메라 경고 사운드 및 빨간 불빛 이펙트 켜기
 
-        if (GameManager.Instance != null && GameManager.Instance.AlertManager != null)   // 경계 레벨 타이머 감소
+        //if (GameManager.Instance != null && GameManager.Instance.AlertManager != null)   // 경계 레벨 타이머 감소
         {
-            GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
+            //GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
         }
     }
 
