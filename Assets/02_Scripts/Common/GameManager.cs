@@ -1,18 +1,22 @@
 ﻿
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
     public static ResourceManager Resource { get { return Instance._resourceManager; } }
     public static SoundManager Sound { get { return Instance._soundManager; } }
     public static PoolManager Pool { get { return Instance._poolManager; } }
+    public static AlertManager Alert { get { return Instance._alertManager; } }
     public static DataTable DataTable { get { return Instance._dataTable; } }
+    
 
     #region Manager Varialbes
 
     private ResourceManager _resourceManager = new();
     private SoundManager _soundManager = new();
     private PoolManager _poolManager = new();
+    private AlertManager _alertManager = new();
     private DataTable _dataTable = new();
 
     #endregion
@@ -37,5 +41,24 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         _soundManager.Init(this.gameObject);
         _poolManager.Init();
+    }
+
+
+    /// <summary>
+    /// 게임 플레이 화면에서 마우스 커서를 잠그고 보이지 않게 만듭니다.
+    /// </summary>
+    public void LockGameplayCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    /// <summary>
+    /// UI 조작 화면에서 마우스 커서 잠금을 풀고 보이게 만듭니다.
+    /// </summary>
+    public void UnlockGameplayCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
