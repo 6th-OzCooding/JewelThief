@@ -5,10 +5,20 @@ using UnityEngine;
 
 public class InteractableBox : MonoBehaviour
 {
+    [Header("컴포넌트")]
+    [SerializeField] private InteractableBoxAnimeController _animController;
+
     protected string _instId;
     protected string _interactableBoxName;
     protected List<string> _hadItemList = new List<string>();
     protected bool _isLocking;
+
+
+    private void Start()
+    {
+        //  TODO(안우재 2026-6-16) : 아래는 애니메이션 테스트 용도 테스트 부분 추후 삭제 필요
+        _animController.SetStat(BoxState.Open);
+    }
 
     // TODO(안우재 2026-6-15) : 매개변수로 어떠한 형식으로 데이터를 받아올지 확인 및 대입 필요
     public virtual void InitBox()
@@ -55,4 +65,6 @@ public class InteractableBox : MonoBehaviour
 
 
     }
+
+    
 }
