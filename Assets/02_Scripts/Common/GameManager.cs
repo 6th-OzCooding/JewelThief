@@ -1,5 +1,6 @@
 ﻿
 using Cysharp.Threading.Tasks;
+using System.Diagnostics;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -42,4 +43,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         _poolManager.Init();
     }
 
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
 }

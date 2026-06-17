@@ -21,7 +21,8 @@ public enum UIType
     None = 0,
     MainUI,
     LoadingUI,
-    CenterPointUI
+    CenterPointUI,
+    TitleUI
 }
 
 /// <summary>
