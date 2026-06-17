@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
     private void PushKeyOne()
     {
         Debug.Log("E키 입력됨!");
-       
+        _inputHandler.InteractRequested = false;
     }
 
     private void OnDrawGizmos() //시각적으로 _groundCheck 그리기
