@@ -1,8 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 
 public class Enemy : MonoBehaviour
 {
+    // enum으로 상태 관리 ( 왠지 다른 매니저에서 사용할 것 같아서 일단은 public으로 설정)
+    public enum EnemyState
+    {
+        Normal, //그냥 걷는 상태 (거리에 안들어온 상태)
+        Track, // 거리에 들어와서 플레이어 쪽으로 걸어가는 상태
+        Chase, // 시야각에 들어와서 플레이어를 쫓는 상태
+        Attack // 공격 사거리에 들어와서 플레이어를 공격하는 상태
+    }
+
     private Animator _anim;
     // Transform 대신 Rigidbody를 사용하기 위하여 => Transform은 벽에 끼는 현상 순간이동 하는 현상이 나타날 수 있으므로
     private Rigidbody _rb;
@@ -18,12 +30,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _runSpeed = 4.5f;
     // 공격 사거리 (조정 가능)
     [SerializeField] private float _attackRadius = 1.5f;
-    
-    // 플레이어를 공격하지 않으면 공격하지 않게끔 설정
-    private bool _isAttacking = false;
-    // 원래 FindPlayerInSight 메서드에 있던 변수들을 미리 설정
-    private bool _isPlayerInDetectRange = false; // 거리 안에 들어왔는지
-    private bool _isPlayerSpotted = false; // 플레이어가 탐지 되었는지 안되었는지
+
+    // 이제부터 상태를 나타내는 변수는 currentState로 지정
+    private EnemyState _currentState = EnemyState.Normal;
+
     private Vector3 _dirToTarget = Vector3.zero; // 플레이어와의 방향 초기화
     private float _dstToTarget = 0.0f; // 플레이어까지의 거리 초기화
     private float _detectTimer = 0.0f; // 탐지되고 나면 다시 초기화하기 위한 변수
@@ -48,12 +58,18 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isPlayerSpotted && _dstToTarget <= _attackRadius)
+        // 시야각에 들어오면서 공격사거리에 들어온 경우
+        if (_currentState == EnemyState.Chase && _dstToTarget <= _attackRadius)
         {
             EnemyAttack(); // 공격 메서드 호출
         }
-
-        else if (!_isAttacking)
+        // 이미 공격중인 상태이면 공격 메서드 계속 호출
+        else if (_currentState == EnemyState.Attack)
+        {
+            EnemyAttack(); // 공격 메서드 호출
+        }
+        // 그 외는 움직이는 상태로 이동
+        else
         {
             EnemyMovement(); // 이동 메서드 호출
         }
@@ -61,9 +77,9 @@ public class Enemy : MonoBehaviour
 
     private void DetectPlayer()
     {
-        // 매 탐지되는 순간마다 초기화
-        _isPlayerInDetectRange = false;
-        _isPlayerSpotted = false;
+        // 탐지한 경우 다음 상태를 Normal로 지정
+        EnemyState nextState = EnemyState.Normal;
+
         _dirToTarget = Vector3.zero;
         _dstToTarget = 0.0f;
 
@@ -75,14 +91,14 @@ public class Enemy : MonoBehaviour
 
             if (target.CompareTag("Player"))
             {
-                // 플레이어가 거리안에 들어왔으므로 true
-                _isPlayerInDetectRange = true;
+                // 플레이어가 거리안에 들어왔으므로 상태를 Track으로 변경
+                nextState = EnemyState.Track;
 
                 // 플레이어와의 방향 확인
                 _dirToTarget = (target.transform.position - transform.position);
                 _dirToTarget.y = 0.0f;
                 _dirToTarget.Normalize();
-                
+
                 // 플레이어와의 거리 확인
                 _dstToTarget = Vector3.Distance(transform.position, target.transform.position);
 
@@ -102,7 +118,7 @@ public class Enemy : MonoBehaviour
                             // 플레이어를 바로 탐지한 경우 (다른 물체가 가로막지 않은 경우)
                             if (hit.collider.CompareTag("Player"))
                             {
-                                _isPlayerSpotted = true;
+                                nextState = EnemyState.Chase;
                             }
                         }
                     }
@@ -110,37 +126,36 @@ public class Enemy : MonoBehaviour
                 break; // 플레이어를 발견 했다면 빠져나오게
             }
         }
+        // 현재 공격중이 아닐 때, 새로운 상태를 다시 재적용
+        if (_currentState != EnemyState.Attack)
+        {
+            _currentState = nextState;
+        }
     }
 
     private void EnemyMovement()
     {
-        if (_isPlayerSpotted) // 시야각에 들어왔다면
+        switch (_currentState)
         {
-            // 시야각에 들어왔으므로 달리기로 애니메이션 적용
-            _anim.SetBool("isRun", true);
+            case EnemyState.Chase: // 시야각에 들어왔다면 (뛰기)
+                _anim.SetBool("isRun", true);
+                Quaternion chaseRotation = Quaternion.LookRotation(_dirToTarget);
+                _rb.MoveRotation(Quaternion.Slerp(transform.rotation, chaseRotation, Time.fixedDeltaTime * 3.5f));
+                _rb.MovePosition(transform.position + transform.forward * _runSpeed * Time.fixedDeltaTime);
+                break;
 
-            Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
+            case EnemyState.Track: // 거리 안에 있다면 플레이어 방향으로 걸어감
+                _anim.SetBool("isRun", false);
+                Quaternion trackRotation = Quaternion.LookRotation(_dirToTarget);
+                _rb.MoveRotation(Quaternion.Slerp(transform.rotation, trackRotation, Time.fixedDeltaTime * 2.0f));
+                _rb.MovePosition(transform.position + transform.forward * _walkSpeed * Time.fixedDeltaTime);
+                break;
 
-            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 3.5f));
-            // Transform 대신 MovePosition
-            _rb.MovePosition(transform.position + transform.forward * _runSpeed * Time.fixedDeltaTime);
-        }
-
-        else if (_isPlayerInDetectRange) // 거리 안에 있다면 플레이어 방향으로 걸어감
-        {
-            // 거리 안에 들어왔으므로 걷기로 애니메이션 적용
-            _anim.SetBool("isRun", false);
-
-            Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
-            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 2.0f));
-            // Transform 대신 MovePosition
-            _rb.MovePosition(transform.position + transform.forward * _walkSpeed * Time.fixedDeltaTime);
-        }
-
-        else // 아무것도 아닌 경우 가던 방향으로 걸어감
-        {
-            _anim.SetBool("isRun", false);
-            _rb.MovePosition(transform.position + transform.forward * _walkSpeed * Time.fixedDeltaTime);
+            case EnemyState.Normal: // 아무것도 아닌 경우 가던 방향으로 걸어감
+            default:
+                _anim.SetBool("isRun", false);
+                _rb.MovePosition(transform.position + transform.forward * _walkSpeed * Time.fixedDeltaTime);
+                break;
         }
     }
 
@@ -148,10 +163,13 @@ public class Enemy : MonoBehaviour
     {
         _anim.SetBool("isRun", false); // 공격해야 하는 애니메이션으로 뛰는 애니메이션을 멈춘다.
 
-        if (!_isAttacking)
+        if (_currentState != EnemyState.Attack)
         {
+            // 상태를 공격으로 변경
+            _currentState = EnemyState.Attack;
+
             // 공격 애니메이션 시작
-            StartCoroutine(AttackRoutine());
+            AttackRoutine().Forget();
         }
 
         // 공격할 때에 플레이어를 바라보며 공격하도록 설정
@@ -160,24 +178,23 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private IEnumerator AttackRoutine()
+    private async UniTaskVoid AttackRoutine()
     {
-
-        _isAttacking = true;
 
         Debug.Log("Enemy가 Player를 공격했습니다!");
         _anim.SetTrigger("isAttack");
-        
+        CancellationTokenSource cancel = new CancellationTokenSource();
         // 잠깐 기다리는 시간
-        yield return new WaitForSeconds(0.1f);
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: cancel.Token);
 
         // 현재 애니메이션의 길이를 알아내어 기다림
         float currentAnimLength = _anim.GetCurrentAnimatorStateInfo(0).length;
-        
-        // 기다린 시간 삭제
-        yield return new WaitForSeconds(currentAnimLength - 0.1f);
 
-        _isAttacking = false;
+        // 기다린 시간 삭제
+        await UniTask.Delay(TimeSpan.FromSeconds(currentAnimLength - 0.1f), cancellationToken: cancel.Token);
+
+        // 공격이 끝나면 상태를 다시 Normal로 변경(초기화)
+        _currentState = EnemyState.Normal;
     }
 
     private void OnDrawGizmos()
