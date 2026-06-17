@@ -2289,7 +2289,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 4e4a29473f2f8984aa16e9cde242c219, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2310,6 +2310,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bb52685f63eee46a3cf7c97fa4cb8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  _viewRadius: 6
+  _viewAngle: 120
+  _detectRadius: 12
+  _walkSpeed: 2.5
+  _runSpeed: 4.5
+  _attackRadius: 1.5
 --- !u!54 &4535526360965078789
 Rigidbody:
   m_ObjectHideFlags: 0

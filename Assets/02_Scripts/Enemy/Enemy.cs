@@ -4,10 +4,12 @@ using System.Collections;
 public class Enemy : MonoBehaviour
 {
     private Animator _anim;
+    // Transform 대신 Rigidbody를 사용하기 위하여 => Transform은 벽에 끼는 현상 순간이동 하는 현상이 나타날 수 있으므로
+    private Rigidbody _rb;
 
     // 시야각 생성 (조정 가능)
     [SerializeField] private float _viewRadius = 6.0f;
-    [SerializeField] private float _viewAngle = 180.0f;
+    [SerializeField] private float _viewAngle = 120.0f;
 
     // 플레이어를 '인지'하는 거리 (조정 가능)
     [SerializeField] private float _detectRadius = 12.0f;
@@ -19,120 +21,144 @@ public class Enemy : MonoBehaviour
     
     // 플레이어를 공격하지 않으면 공격하지 않게끔 설정
     private bool _isAttacking = false;
+    // 원래 FindPlayerInSight 메서드에 있던 변수들을 미리 설정
+    private bool _isPlayerInDetectRange = false; // 거리 안에 들어왔는지
+    private bool _isPlayerSpotted = false; // 플레이어가 탐지 되었는지 안되었는지
+    private Vector3 _dirToTarget = Vector3.zero; // 플레이어와의 방향 초기화
+    private float _dstToTarget = 0.0f; // 플레이어까지의 거리 초기화
+    private float _detectTimer = 0.0f; // 탐지되고 나면 다시 초기화하기 위한 변수
+    private float _detectDelay = 0.1f; // Collider로 탐지하는데 0.1초 제한을 두기 위한 변수
 
     private void Start()
     {
         _anim = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        // 플레이어를 인지했는지 확인하는 함수
-        FindPlayerInSight();
+        // 0.1초마다 한 번씩만 시야 탐지 => 0.1초가 넘어가면 다시 초기화
+        _detectTimer += Time.deltaTime;
+        if (_detectTimer >= _detectDelay)
+        {
+            _detectTimer = 0.0f;
+            DetectPlayer(); // 탐지 메서드 호출
+        }
     }
 
-    private void FindPlayerInSight()
+    private void FixedUpdate()
     {
-        // 플레이어가 거리안에 있는지 확인하는 변수
-        bool isPlayerInDetectRange = false;
-        // 플레이어가 시야각 안에 들어왔는지 확인하는 변수
-        bool isPlayerSpotted = false;
+        if (_isPlayerSpotted && _dstToTarget <= _attackRadius)
+        {
+            EnemyAttack(); // 공격 메서드 호출
+        }
 
-        Vector3 dirToTarget = Vector3.zero;
-        
-        // 플레이어와의 거리 확인 => 공격할 때를 위하여 미리 초기화해놓음
-        float dstToTarget = 0f;
+        else if (!_isAttacking)
+        {
+            EnemyMovement(); // 이동 메서드 호출
+        }
+    }
+
+    private void DetectPlayer()
+    {
+        // 매 탐지되는 순간마다 초기화
+        _isPlayerInDetectRange = false;
+        _isPlayerSpotted = false;
+        _dirToTarget = Vector3.zero;
+        _dstToTarget = 0.0f;
 
         Collider[] targetsInDetectRadius = Physics.OverlapSphere(transform.position, _detectRadius);
 
-        for (int i = 0; i < targetsInDetectRadius.Length; i++)
+        for (int i = 0; i <targetsInDetectRadius.Length; i++)
         {
             Collider target = targetsInDetectRadius[i];
 
             if (target.CompareTag("Player"))
             {
-                // 플레이어란 태그가 거리안에 들어왔다면
-                isPlayerInDetectRange = true;
-                // 플레이어 방향 확인
-                dirToTarget = (target.transform.position - transform.position);
-                dirToTarget.y = 0f;
-                dirToTarget.Normalize();
+                // 플레이어가 거리안에 들어왔으므로 true
+                _isPlayerInDetectRange = true;
 
+                // 플레이어와의 방향 확인
+                _dirToTarget = (target.transform.position - transform.position);
+                _dirToTarget.y = 0.0f;
+                _dirToTarget.Normalize();
+                
                 // 플레이어와의 거리 확인
-                dstToTarget = Vector3.Distance(transform.position, target.transform.position);
+                _dstToTarget = Vector3.Distance(transform.position, target.transform.position);
 
                 // 플레이어가 시야각(거리) 안에 들어왔는지 확인
-                if (dstToTarget <= _viewRadius)
+                if (_dstToTarget <= _viewRadius)
                 {
                     // 플레이어와의 각도 확인
-                    float angle = Vector3.Angle(transform.forward, dirToTarget);
+                    float angle = Vector3.Angle(transform.forward, _dirToTarget);
 
                     if (angle <= _viewAngle / 2)
                     {
-                        // 바닥에 바로 쏘면 문제가 생길 수 있으므로 살짝 띄운다.
+                        // 살짝 띄워서 RayCast를 쏜다.
                         Vector3 rayOrigin = transform.position + Vector3.up * 0.5f;
 
-                        if (Physics.Raycast(rayOrigin, dirToTarget, out RaycastHit hit, dstToTarget))
+                        if (Physics.Raycast(rayOrigin, _dirToTarget, out RaycastHit hit, _dstToTarget))
                         {
                             // 플레이어를 바로 탐지한 경우 (다른 물체가 가로막지 않은 경우)
                             if (hit.collider.CompareTag("Player"))
                             {
-                                isPlayerSpotted = true;
+                                _isPlayerSpotted = true;
                             }
                         }
                     }
                 }
-                break; // 플레이어를 발견 했다면 종료
+                break; // 플레이어를 발견 했다면 빠져나오게
             }
-        }
-
-        // 플레이어를 탐지했을 경우
-        if (isPlayerSpotted)
-        {
-            // 공격 사거리에 들어온 경우
-            if (dstToTarget <= _attackRadius)
-            {
-                _anim.SetBool("isRun", false);
-
-                if (!_isAttacking)
-                {
-                    // 공격 애니메이션 시작
-                    StartCoroutine(AttackRoutine());
-                }
-                // 공격중에도 플레이어를 바라보게끔 설정
-                Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 3.0f);
-            }
-
-            // 공격 사거리에는 들어가지 않고 시야각에만 들어온 경우
-            else if (!_isAttacking)
-            {
-                _anim.SetBool("isRun", true);
-
-                Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 3.5f);
-                transform.position += dirToTarget * _runSpeed * Time.deltaTime;
-            }
-        }
-
-        // 시야각에서 탐지되지는 않았지만, 거리 안에 있는 경우
-        else if (isPlayerInDetectRange && !_isAttacking)
-        {
-            _anim.SetBool("isRun", false);
-            // 플레이어 쪽으로 몸을 돌려서 걸어가도록
-            Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2.0f);
-            transform.position += dirToTarget * _walkSpeed * Time.deltaTime;
-        }
-
-        // 거리 안에 플레이어가 없는 경우
-        else if (!_isAttacking)
-        {
-            _anim.SetBool("isRun", false);
-            // 원래 가던 방향으로 계속 가도록
-            transform.position += transform.forward * _walkSpeed * Time.deltaTime;
         }
     }
+
+    private void EnemyMovement()
+    {
+        if (_isPlayerSpotted) // 시야각에 들어왔다면
+        {
+            // 시야각에 들어왔으므로 달리기로 애니메이션 적용
+            _anim.SetBool("isRun", true);
+
+            Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
+
+            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 3.5f));
+            // Transform 대신 MovePosition
+            _rb.MovePosition(transform.position + transform.forward * _runSpeed * Time.fixedDeltaTime);
+        }
+
+        else if (_isPlayerInDetectRange) // 거리 안에 있다면 플레이어 방향으로 걸어감
+        {
+            // 거리 안에 들어왔으므로 걷기로 애니메이션 적용
+            _anim.SetBool("isRun", false);
+
+            Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
+            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 2.0f));
+            // Transform 대신 MovePosition
+            _rb.MovePosition(transform.position + transform.forward * _walkSpeed * Time.fixedDeltaTime);
+        }
+
+        else // 아무것도 아닌 경우 가던 방향으로 걸어감
+        {
+            _anim.SetBool("isRun", false);
+            _rb.MovePosition(transform.position + transform.forward * _walkSpeed * Time.fixedDeltaTime);
+        }
+    }
+
+    private void EnemyAttack() // 공격하는 메서드
+    {
+        _anim.SetBool("isRun", false); // 공격해야 하는 애니메이션으로 뛰는 애니메이션을 멈춘다.
+
+        if (!_isAttacking)
+        {
+            // 공격 애니메이션 시작
+            StartCoroutine(AttackRoutine());
+        }
+
+        // 공격할 때에 플레이어를 바라보며 공격하도록 설정
+        Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
+        _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 3.0f));
+    }
+
 
     private IEnumerator AttackRoutine()
     {
@@ -141,11 +167,13 @@ public class Enemy : MonoBehaviour
 
         Debug.Log("Enemy가 Player를 공격했습니다!");
         _anim.SetTrigger("isAttack");
+        
         // 잠깐 기다리는 시간
         yield return new WaitForSeconds(0.1f);
 
         // 현재 애니메이션의 길이를 알아내어 기다림
         float currentAnimLength = _anim.GetCurrentAnimatorStateInfo(0).length;
+        
         // 기다린 시간 삭제
         yield return new WaitForSeconds(currentAnimLength - 0.1f);
 
