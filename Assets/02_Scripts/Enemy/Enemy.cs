@@ -4,11 +4,15 @@ public class Enemy : MonoBehaviour
 {
     private Animator _anim;
 
-    // 시야각 생성
-    private float _viewRadius = 5.0f;
-    private float _viewAngle = 120.0f;
-    // 속도 조정 예정
-    private float _moveSpeed = 3.0f;
+    // 시야각 생성 (조정 가능)
+    [SerializeField] private float _viewRadius = 6.0f;
+    [SerializeField] private float _viewAngle = 180.0f;
+
+    // 플레이어를 '인지'하는 거리 (조정 가능)
+    [SerializeField] private float _detectRadius = 12.0f;
+    // 거리안에 없을 시 (걷는 속도), 거리 안에 있으면서 시야각 안에 플레이어가 있다면 (뛰는 속도)
+    [SerializeField] private float _walkSpeed = 2.5f;
+    [SerializeField] private float _runSpeed = 4.5f;
 
     private void Start()
     {
@@ -17,64 +21,85 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        // 플레이어를 인지했는지 계속 확인하는 함수
+        // 플레이어를 인지했는지 확인하는 함수
         FindPlayerInSight();
     }
 
     private void FindPlayerInSight()
     {
+        // 플레이어가 거리안에 있는지 확인하는 변수
+        bool isPlayerInDetectRange = false;
+        // 플레이어가 시야각 안에 들어왔는지 확인하는 변수
         bool isPlayerSpotted = false;
 
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius);
+        Vector3 dirToTarget = Vector3.zero;
 
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        Collider[] targetsInDetectRadius = Physics.OverlapSphere(transform.position, _detectRadius);
+
+        for (int i = 0; i < targetsInDetectRadius.Length; i++)
         {
-            Collider target = targetsInViewRadius[i];
+            Collider target = targetsInDetectRadius[i];
 
             if (target.CompareTag("Player"))
             {
+                // 플레이어란 태그가 거리안에 들어왔다면
+                isPlayerInDetectRange = true;
                 // 플레이어 방향 확인
-                Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
+                dirToTarget = (target.transform.position - transform.position);
+                dirToTarget.y = 0f;
+                dirToTarget.Normalize();
 
                 // 플레이어와의 거리 확인
                 float dstToTarget = Vector3.Distance(transform.position, target.transform.position);
 
-                // 플레이어와의 각도 계산
-                float angle = Vector3.Angle(transform.forward, dirToTarget);
-
-                // 시야각 내에 들어왔는지 확인 (양 옆으로 계산 되기 때문에 2로 나눠준다)
-                if (angle <= _viewAngle / 2)
+                // 플레이어가 시야각(거리) 안에 들어왔는지 확인
+                if (dstToTarget <= _viewRadius)
                 {
-                    // 바닥에 바로 쏘면 문제가 생길 수 있으므로 살짝 띄운다.
-                    Vector3 rayOrigin = transform.position + Vector3.up * 0.3f;
+                    // 플레이어와의 각도 확인
+                    float angle = Vector3.Angle(transform.forward, dirToTarget);
 
-                    if (Physics.Raycast(rayOrigin, dirToTarget, out RaycastHit hit, dstToTarget))
+                    if (angle <= _viewAngle / 2)
                     {
-                        // 플레이어를 바로 탐지한 경우 (다른 물체가 가로막지 않은 경우)
-                        if (hit.collider.CompareTag("Player"))
+                        // 바닥에 바로 쏘면 문제가 생길 수 있으므로 살짝 띄운다.
+                        Vector3 rayOrigin = transform.position + Vector3.up * 0.5f;
+
+                        if (Physics.Raycast(rayOrigin, dirToTarget, out RaycastHit hit, dstToTarget))
                         {
-                            isPlayerSpotted = true;
-
-                            Debug.Log("Raycast로 플레이어 발견!");
-                            // 발견을 했다면 달리는 애니메이션 적용
-                            _anim.SetBool("isRun", true);
-
-                            // 플레이어 쪽으로 몸을 트는 코드
-                            Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
-                            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 3f);
-
-                            transform.Translate(Vector3.forward * _moveSpeed * Time.deltaTime);
-
-                            break;
+                            // 플레이어를 바로 탐지한 경우 (다른 물체가 가로막지 않은 경우)
+                            if (hit.collider.CompareTag("Player"))
+                            {
+                                isPlayerSpotted = true;
+                            }
                         }
                     }
                 }
+                break; // 플레이어를 발견 했다면 종료
             }
         }
-        // 시야각에서 사라지거나 못찾은 경우에는 달리지 않고 걷게 함
-        if (!isPlayerSpotted)
+        // 플레이어를 탐지했다면 달리도록
+        if (isPlayerSpotted)
+        {
+            _anim.SetBool("isRun", true);
+
+            Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 3.5f);
+            transform.position += dirToTarget * _runSpeed * Time.deltaTime;
+        }
+        // 시야각에서 탐지되지는 않았지만, 거리 안에 있는 경우
+        else if (isPlayerInDetectRange)
         {
             _anim.SetBool("isRun", false);
+            // 플레이어 쪽으로 몸을 돌려서 걸어가도록
+            Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2.0f);
+            transform.position += dirToTarget * _walkSpeed * Time.deltaTime;
+        }
+        // 거리 안에 플레이어가 없는 경우
+        else
+        {
+            _anim.SetBool("isRun", false);
+            // 원래 가던 방향으로 계속 가도록
+            transform.position += transform.forward * _walkSpeed * Time.deltaTime;
         }
     }
 
@@ -83,9 +108,12 @@ public class Enemy : MonoBehaviour
         if (_anim == null && !Application.isPlaying) return;
 
         Vector3 origin = transform.position + Vector3.up * 0.3f;
-        Gizmos.color = Color.red;
-
         Vector3 forward = transform.forward;
+        // 거리 안에 있는 걸 확인하기 위한 기즈모 (노란색)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _detectRadius);
+        // 시야각 안에 있는 걸 확인하기 위한 기즈모 (빨간색) => 시야각
+        Gizmos.color = Color.red;
         Vector3 leftBoundary = Quaternion.Euler(0, -_viewAngle / 2, 0) * forward;
         Vector3 rightBoundary = Quaternion.Euler(0, _viewAngle / 2, 0) * forward;
 
