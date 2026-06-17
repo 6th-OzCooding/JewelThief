@@ -29,6 +29,8 @@ public class LoadingUI : UIBase
         }
 
         UIManager.Instance.CloseLoadingUI();
+        UIManager.Instance.ExitGameplayCursorMode();
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
 
 
