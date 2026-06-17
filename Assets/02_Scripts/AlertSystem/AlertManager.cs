@@ -131,6 +131,37 @@ public class AlertManager
         return AlertLevel.High;
     }
 
+    // 경계 단계 변경 이벤트 발행 + 내부 연출(BGM) 처리
+    private void RaiseAlertLevelChanged(AlertLevel level)
+    {
+        UpdateBGMPitch(level);
+        OnAlertLevelChanged?.Invoke(level);
+    }
+
+    #endregion
+
+    #region Presentation
+
+    // 경계 레벨에 따라 BGM 재생 속도 조정
+    private void UpdateBGMPitch(AlertLevel level)
+    {
+        float pitch;
+
+        switch (level)
+        {
+            case AlertLevel.Low:    pitch = 1.0f;
+                break;
+            case AlertLevel.Mid:    pitch = 1.25f;
+                break;
+            case AlertLevel.High:   pitch = 1.5f;
+                break;
+            default: pitch = 1.0f;
+                break;
+        }
+
+        GameManager.Sound.SetBGMPitch(pitch);
+    }
+
     #endregion
 
     // 제한시간 소진 처리
@@ -139,7 +170,7 @@ public class AlertManager
         _isTimeUp = true;
         _currentLevel = AlertLevel.High;
 
-        OnAlertLevelChanged?.Invoke(_currentLevel);
+        RaiseAlertLevelChanged(_currentLevel);
         OnTimeUp?.Invoke();
     }
 }
