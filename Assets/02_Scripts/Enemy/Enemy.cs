@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
 
         Collider[] targetsInDetectRadius = Physics.OverlapSphere(transform.position, _detectRadius);
 
-        for (int i = 0; i <targetsInDetectRadius.Length; i++)
+        for (int i = 0; i < targetsInDetectRadius.Length; i++)
         {
             Collider target = targetsInDetectRadius[i];
 
@@ -181,8 +181,11 @@ public class Enemy : MonoBehaviour
         }
 
         // 공격할 때에 플레이어를 바라보며 공격하도록 설정
-        Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
-        _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 3.0f));
+        if (_dirToTarget != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
+            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 3.0f));
+        }
     }
 
 
@@ -215,7 +218,7 @@ public class Enemy : MonoBehaviour
         // 거리 안에 있는 걸 확인하기 위한 기즈모 (노란색)
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _detectRadius);
-        
+
         // 시야각 안에 있는 걸 확인하기 위한 기즈모 (빨간색) => 부채꼴
         Gizmos.color = Color.red;
         Vector3 leftBoundary = Quaternion.Euler(0, -_viewAngle / 2, 0) * forward;
