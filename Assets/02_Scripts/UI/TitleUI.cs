@@ -39,6 +39,11 @@ public class TitleUI : UIBase
 
     private void OnClickExit()
     {
-        GameManager.Instance.QuitGame();
-    }
+        UIBase popupBase = UIManager.Instance.OpenPopupUI(UIType.ConfirmPopup);
+
+        if (popupBase != null && popupBase.TryGetComponent(out ConfirmPopupUI confirmUI))
+        {
+            confirmUI.SetUI("정말 게임을 종료하시겠습니까?", GameManager.Instance.QuitGame);
+        }
+    } 
 }
