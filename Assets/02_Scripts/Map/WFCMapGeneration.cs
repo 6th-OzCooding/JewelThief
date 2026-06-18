@@ -15,9 +15,14 @@ public class WFCMapGeneration : MonoBehaviour
     [SerializeField] private MapGrid _mapGridObject;
     [SerializeField] private MapTile _backUpTile;
 
+    // cache
     private List<MapGrid> _grids;
 
-    private int _count = 0;
+    // Buffer를 만들어 재활용
+    private readonly List<MapGrid> _lowEntropyGrids = new();
+    private readonly MapGrid[] _collapsedNeighbors = new MapGrid[4];
+
+    private int _generationCount = 0;
 
     private void Awake()
     {
@@ -28,13 +33,17 @@ public class WFCMapGeneration : MonoBehaviour
 
     private void InitGrid()
     {
+        int index = 0;
+
         for (int y = 0; y < _mapSize; y++)
         {
             for (int x = 0; x < _mapSize; x++)
             {
                 MapGrid newGrid = Instantiate(_mapGridObject, new Vector3(x * _gridSpacing, 0, y * _gridSpacing), Quaternion.identity);
-                newGrid.CreateMapGrid(false, _tileObjects);
+                newGrid.CreateMapGrid(false, _tileObjects, index);
                 _grids.Add(newGrid);
+
+                index++;
             }
         }
 
@@ -43,15 +52,42 @@ public class WFCMapGeneration : MonoBehaviour
 
     private IEnumerator CheckEntropy()
     {
-        List<MapGrid> lowEntropyGrids = new(_grids);
+        _lowEntropyGrids.Clear();
 
-        lowEntropyGrids.RemoveAll(grid => grid.IsCollapsed);
-        lowEntropyGrids.Sort((a, b) => a.TileOptions.Length - b.TileOptions.Length);
-        lowEntropyGrids.RemoveAll(grid => grid.TileOptions.Length != lowEntropyGrids[0].TileOptions.Length);
+        int lowestEntropy = int.MaxValue;
+
+        for(int i = 0; i < _grids.Count; i++)
+        {
+            MapGrid grid = _grids[i];
+
+            if (_grids[i].IsCollapsed)
+            {
+                continue;
+            }
+
+            int optionCount = grid.TileOptions.Length;
+
+            if(optionCount == 0)
+            {
+                grid.SetTileOptions(new MapTile[] { _backUpTile });
+                optionCount = 1;
+            }
+
+            if (optionCount < lowestEntropy)
+            {
+                lowestEntropy = optionCount;
+                _lowEntropyGrids.Clear();
+                _lowEntropyGrids.Add(grid);
+            }
+            else if(optionCount == lowestEntropy)
+            {
+                _lowEntropyGrids.Add(grid);
+            }
+        }
 
         yield return new WaitForSeconds(0.01f);
 
-        CollapseGrid(lowEntropyGrids);
+        CollapseGrid(_lowEntropyGrids);
     }
 
     private void CollapseGrid(List<MapGrid> collapseCandidatetGrids)
@@ -72,11 +108,11 @@ public class WFCMapGeneration : MonoBehaviour
 
     private void UpdateGeneration(MapGrid currentGrid, MapTile seletedTile)
     {
-        List<MapGrid> neighborsGrid = GetNeighbors(currentGrid);
+        UpdateCollapsedNeighbors(currentGrid);
 
-        for (int i = 0; i < neighborsGrid.Count; i++)
+        for (int i = 0; i < _collapsedNeighbors.Length; i++)
         {
-            if (neighborsGrid[i] == null || neighborsGrid[i].IsCollapsed)
+            if (_collapsedNeighbors[i] == null || _collapsedNeighbors[i].IsCollapsed)
             {
                 continue;
             }
@@ -84,50 +120,45 @@ public class WFCMapGeneration : MonoBehaviour
             MapTile[] updatedOptions = null;
             if (i == 0)         // 위
             {
-                updatedOptions = CheckValidation(neighborsGrid[i].TileOptions, seletedTile.GetUpTiles);
+                updatedOptions = CheckValidation(_collapsedNeighbors[i].TileOptions, seletedTile.GetUpTiles);
             }
             else if (i == 1)    // 아래
             {
-                updatedOptions = CheckValidation(neighborsGrid[i].TileOptions, seletedTile.GetDownTiles);
+                updatedOptions = CheckValidation(_collapsedNeighbors[i].TileOptions, seletedTile.GetDownTiles);
             }
             else if (i == 2)    // 오른쪽
             {
-                updatedOptions = CheckValidation(neighborsGrid[i].TileOptions, seletedTile.GetRightTiles);
+                updatedOptions = CheckValidation(_collapsedNeighbors[i].TileOptions, seletedTile.GetRightTiles);
             }
             else if (i == 3)    // 왼쪽
             {
-                updatedOptions = CheckValidation(neighborsGrid[i].TileOptions, seletedTile.GetLeftTiles);
+                updatedOptions = CheckValidation(_collapsedNeighbors[i].TileOptions, seletedTile.GetLeftTiles);
             }
 
-            neighborsGrid[i].SetTileOptions(updatedOptions);
+            _collapsedNeighbors[i].SetTileOptions(updatedOptions);
         }
 
-        _count++;
-        if (_count < _mapSize * _mapSize)
+        _generationCount++;
+        if (_generationCount < _mapSize * _mapSize)
         {
             StartCoroutine(CheckEntropy());
         }
     }
 
     // 위, 아래, 오른쪽, 왼쪽 순서로 반환.
-    private List<MapGrid> GetNeighbors(MapGrid currentGrid)
+    private void UpdateCollapsedNeighbors(MapGrid currentGrid)
     {
-        List<MapGrid> neighbors = new();
-
-        // O(n)의 시간, 최적화를 위해선 데이터 관리 방식을 바꿔야함.
-        int currentGridIndex = Array.IndexOf(_grids.ToArray(), currentGrid);
+        int currentGridIndex = currentGrid.Index;
 
         int upIndex = (currentGridIndex + _mapSize < _grids.Count) ? currentGridIndex + _mapSize : -1;
         int downIndex = (currentGridIndex - _mapSize >= 0) ? currentGridIndex - _mapSize : -1;
         int rightIndex = (currentGridIndex % _mapSize < _mapSize - 1) ? currentGridIndex + 1 : -1;
         int leftIndex = (currentGridIndex % _mapSize > 0) ? currentGridIndex - 1 : -1;
 
-        neighbors.Add(upIndex != -1 ? _grids[upIndex] : null);
-        neighbors.Add(downIndex != -1 ? _grids[downIndex] : null);
-        neighbors.Add(rightIndex != -1 ? _grids[rightIndex] : null);
-        neighbors.Add(leftIndex != -1 ? _grids[leftIndex] : null);
-
-        return neighbors;
+        _collapsedNeighbors[0] = upIndex != -1 ? _grids[upIndex] : null;
+        _collapsedNeighbors[1] = downIndex != -1 ? _grids[downIndex] : null;
+        _collapsedNeighbors[2] = rightIndex != -1 ? _grids[rightIndex] : null;
+        _collapsedNeighbors[3] = leftIndex != -1 ? _grids[leftIndex] : null;
     }
 
     private MapTile[] CheckValidation(MapTile[] neighborOptionsList, MapTile[] validOptions)
