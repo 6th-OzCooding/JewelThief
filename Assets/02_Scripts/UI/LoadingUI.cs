@@ -28,9 +28,6 @@ public class LoadingUI : UIBase
             await UniTask.Yield();
         }
 
-        UIManager.Instance.CloseLoadingUI();
-        UIManager.Instance.ExitGameplayCursorMode();
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
 
 

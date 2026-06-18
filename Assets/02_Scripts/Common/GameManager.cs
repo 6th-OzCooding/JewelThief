@@ -48,6 +48,19 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         _soundManager.Init(this.gameObject);
         _poolManager.Init();
+
+        UIManager.Instance.CloseLoadingUI();
+        UIManager.Instance.ExitGameplayCursorMode();
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
+    }
+
+    public void EnterGamePlayer()
+    {
+        UIManager.Instance.CloseUI(UIType.TitleUI);
+
+        UIManager.Instance.EnterGameplayCursorMode();
+
+        // 후추
     }
 
     public void QuitGame()

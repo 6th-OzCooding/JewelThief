@@ -20,8 +20,7 @@ public class TitleUI : UIBase
     private void OnClickNewGame()
     {
         Debug.Log("새 게임 시작!");
-        UIManager.Instance.CloseUI(UIType.TitleUI);
-        UIManager.Instance.EnterGameplayCursorMode();
+        GameManager.Instance.EnterGamePlayer();
 
         // 후추 : 인게임 진입 로직
     }
