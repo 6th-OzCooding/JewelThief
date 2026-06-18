@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Cinemachine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -17,18 +18,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("카메라 회전 설정")] 
     [SerializeField] private Transform _tranform_cameraRig; // 플레이어 자식으로 있는 CameraRig 트랜스폼
-    [SerializeField] private float _mouseSensitivity = 10f; // 마우스 민감도
-    [SerializeField] private float _rotationSmoothTime = 0.05f; //부드러운 회전을 위한 지연시간
-    [SerializeField] private float _minLookAngle = -40f; // 카메라 상단 제한 각도
-    [SerializeField] private float _maxLookAngle = 70f;  // 카메라 하단 제한 각도
-    private float _verticalRotation = 0f;
-    private float _horizontalRotation = 0f;
-    // 카메라 회전 누적 값
-    private float _targetHorizontalRotation = 0f;
-    private float _targetVerticalRotation = 0f;
-    // 카메라 회전 최종 값
-    private float _currentVerticalVelocity = 0f;
-    private float _currentHorizontalVelocity = 0f;
+    [SerializeField] private Camera Camera_FPS;
+
+    
     //카메라 회전에 사용되는 가속도 변수
 
     [Header("입력부 가져오기")]
@@ -58,12 +50,11 @@ public class PlayerController : MonoBehaviour
     {
 
 
-        CalculateTargetRotation();
     }
     void FixedUpdate()
     {
-        RotatePlayerAndCamera();
         Move();
+        RotatePlayer();
 
         if (_groundCheck != null)
         {
@@ -98,39 +89,17 @@ public class PlayerController : MonoBehaviour
             );
     }
 
-    private void CalculateTargetRotation() //카메라 회전값 계산
-    {
-        if (_inputHandler == null) return;
-
-        // 1. 마우스 입력값 누적 (Time.deltaTime을 곱해 독립적인 프레임 보정)
-        float mouseX = _inputHandler.LookVector.x * _mouseSensitivity * Time.deltaTime;
-        float mouseY = _inputHandler.LookVector.y * _mouseSensitivity * Time.deltaTime;
-
-        // 2. 목표로 하는 '최종 각도'를 먼저 더해줍니다.
-        _targetHorizontalRotation += mouseX;
-        _targetVerticalRotation -= mouseY;
-        _targetVerticalRotation = Mathf.Clamp(_targetVerticalRotation, _minLookAngle, _maxLookAngle);
-
-        // 3. [핵심 수정] '현재 각도'에서 '목표 각도'로 SmoothDamp를 흘려보내 미세 떨림을 잡습니다.
-        _horizontalRotation = Mathf.SmoothDamp(_horizontalRotation, _targetHorizontalRotation, ref _currentHorizontalVelocity, _rotationSmoothTime);
-        _verticalRotation = Mathf.SmoothDamp(_verticalRotation, _targetVerticalRotation, ref _currentVerticalVelocity, _rotationSmoothTime);
-    }
-
+   
     
-    private void RotatePlayerAndCamera()
+    private void RotatePlayer()
     {
-        // 좌우 회전 (Rigidbody를 사용해 물리 기반으로 쭉 밀어줍니다)
-        if (_rigidbody_Player != null)
-        {
-            Quaternion targetBodyRotation = Quaternion.Euler(0f, _horizontalRotation, 0f);
-            _rigidbody_Player.MoveRotation(targetBodyRotation);
-        }
+        float cameraYaw = Camera_FPS.transform.eulerAngles.y;
 
-        // 상하 고개 회전 (카메라 릭은 물리 연산 대상이 아니므로 트랜스폼으로 부드럽게 연동)
-        if (_tranform_cameraRig != null)
-        {
-            _tranform_cameraRig.localRotation = Quaternion.Euler(_verticalRotation, 0f, 0f);
-        }
+        // 2. 플레이어의 물리 몸통을 해당 각도로 회전시킵니다.
+        // (반드시 MoveRotation을 써야 덜덜거리는 물리 Jittering이 없습니다)
+        Quaternion targetRotation = Quaternion.Euler(0f, cameraYaw, 0f);
+        // _rigidbody_Player.MoveRotation(targetRotation);
+        this.transform.rotation = targetRotation;
     }
 
     private void Jump()
