@@ -171,7 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1071232960049654108}
   - component: {fileID: 8398148805445488114}
-  - component: {fileID: 4542969836757330315}
+  - component: {fileID: 4340746213071336760}
   - component: {fileID: 2601834788071413528}
   - component: {fileID: 206534093054001160}
   m_Layer: 0
@@ -189,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2224699554623832276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.57357645, y: -0, z: -0, w: 0.81915206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &4542969836757330315
+--- !u!114 &4340746213071336760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,7 +277,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: 70
+    Value: 0
     Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0
@@ -321,7 +321,7 @@ MonoBehaviour:
         InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
         Gain: -5
         CancelDeltaTime: 0
-      InputValue: 0
+      InputValue: -0
       Driver:
         AccelTime: 0
         DecelTime: 0
@@ -445,7 +445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3029062730831253007}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.57357645, y: 0, z: 0, w: 0.81915206}
+  m_LocalRotation: {x: -0.57357645, y: 0, z: 0, w: 0.81915206}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -677,7 +677,7 @@ MonoBehaviour:
   _groundCheckRadius: 0.31
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   _tranform_cameraRig: {fileID: 1199289281340607420}
   Camera_FPS: {fileID: 8692974156563246813}
   _inputHandler: {fileID: 5910133177189523141}

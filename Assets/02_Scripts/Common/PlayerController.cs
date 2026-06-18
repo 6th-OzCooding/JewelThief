@@ -95,11 +95,10 @@ public class PlayerController : MonoBehaviour
     {
         float cameraYaw = Camera_FPS.transform.eulerAngles.y;
 
-        // 2. 플레이어의 물리 몸통을 해당 각도로 회전시킵니다.
-        // (반드시 MoveRotation을 써야 덜덜거리는 물리 Jittering이 없습니다)
         Quaternion targetRotation = Quaternion.Euler(0f, cameraYaw, 0f);
-        // _rigidbody_Player.MoveRotation(targetRotation);
-        this.transform.rotation = targetRotation;
+
+        // _rigidbody_Player.MoveRotation(targetRotation); //리지드바디로 회전시키기
+        this.transform.rotation = targetRotation; //트랜스폼으로 회전시키기
     }
 
     private void Jump()
