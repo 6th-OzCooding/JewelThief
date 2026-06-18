@@ -22,6 +22,7 @@ public enum UIType
     MainUI,
     LoadingUI,
     CenterPointUI,
+    TitleUI
     ItemInfoPopupUI
 }
 
