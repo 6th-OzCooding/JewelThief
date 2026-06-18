@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
     private Animator _anim;
     // Transform 대신 Rigidbody를 사용하기 위하여 => Transform은 벽에 끼는 현상 순간이동 하는 현상이 나타날 수 있으므로
     private Rigidbody _rb;
+    // 취소 토큰을 미리 선언해두기
+    private CancellationToken _cancelToken;
 
     // 시야각 생성 (조정 가능)
     [SerializeField] private float _viewRadius = 6.0f;
@@ -38,6 +40,12 @@ public class Enemy : MonoBehaviour
     private float _dstToTarget = 0.0f; // 플레이어까지의 거리 초기화
     private float _detectTimer = 0.0f; // 탐지되고 나면 다시 초기화하기 위한 변수
     private float _detectDelay = 0.1f; // Collider로 탐지하는데 0.1초 제한을 두기 위한 변수
+
+    private void Awake()
+    {
+        // 토큰을 받은 오브젝트가 사라지면 받은 토큰을 없애도록
+        _cancelToken = this.GetCancellationTokenOnDestroy();
+    }
 
     private void Start()
     {
@@ -180,18 +188,19 @@ public class Enemy : MonoBehaviour
 
     private async UniTaskVoid AttackRoutine()
     {
+        // 만약 Enemy가 없어진다면 (오브젝트가 삭제된다면) 바로 공격 함수 종료
+        if (_cancelToken.IsCancellationRequested) return;
 
         Debug.Log("Enemy가 Player를 공격했습니다!");
         _anim.SetTrigger("isAttack");
-        CancellationTokenSource cancel = new CancellationTokenSource();
         // 잠깐 기다리는 시간
-        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: cancel.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: _cancelToken);
 
         // 현재 애니메이션의 길이를 알아내어 기다림
         float currentAnimLength = _anim.GetCurrentAnimatorStateInfo(0).length;
 
         // 기다린 시간 삭제
-        await UniTask.Delay(TimeSpan.FromSeconds(currentAnimLength - 0.1f), cancellationToken: cancel.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(currentAnimLength - 0.1f), cancellationToken: _cancelToken);
 
         // 공격이 끝나면 상태를 다시 Normal로 변경(초기화)
         _currentState = EnemyState.Normal;

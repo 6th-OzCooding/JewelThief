@@ -214,7 +214,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -383,7 +383,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7953509556102262452}
+  m_Father: {fileID: 843968105}
   m_LocalEulerAnglesHint: {x: 0.83, y: -1.374, z: -0.02}
 --- !u!114 &326944057
 MonoBehaviour:
@@ -463,7 +463,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -575,7 +575,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -688,7 +688,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -782,6 +782,11 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!4 &843968105 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4085711896285193530, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
+  m_PrefabInstance: {fileID: 5677621993920042664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &848384894
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,7 +821,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -907,7 +912,7 @@ GameObject:
   - component: {fileID: 1137595927}
   - component: {fileID: 1137595926}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1041,7 +1046,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1153,7 +1158,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1406,9 +1411,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4535526360965078789, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6761651812816497216, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8266060151830099065, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
       propertyPath: m_Name
@@ -1422,11 +1431,6 @@ PrefabInstance:
       addedObject: {fileID: 326944056}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
---- !u!4 &7953509556102262452 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4085711896285193530, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
-  m_PrefabInstance: {fileID: 5677621993920042664}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
