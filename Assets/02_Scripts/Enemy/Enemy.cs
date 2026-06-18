@@ -181,8 +181,11 @@ public class Enemy : MonoBehaviour
         }
 
         // 공격할 때에 플레이어를 바라보며 공격하도록 설정
-        Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
-        _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 3.0f));
+        if (_dirToTarget != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
+            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 3.0f));
+        }
     }
 
 
