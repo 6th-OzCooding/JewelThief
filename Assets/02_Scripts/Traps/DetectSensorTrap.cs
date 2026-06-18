@@ -20,12 +20,18 @@ public class DetectionSensorTrap : MonoBehaviour
         {
             Debug.Log($"[센서 감지] ID: {_trapId} - 감지 레이더가 플레이어를 포착했습니다.");
 
-            if (GameManager.Instance != null && GameManager.Instance.AlertManager != null)     // 제한 시간 차감
+            // GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
+
+            if (GameManager.Instance != null)
             {
-                GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
+                GameManager.Instance.SendMessage("ReduceTimer", _timeReductionAmount, SendMessageOptions.DontRequireReceiver);
+            }
+            else
+            {
+                Debug.Log($"[임시 디버그] 싱글톤 매니저가 없어 임시 수치 차감: {_timeReductionAmount}초");
             }
 
-            player.SetSpeedModifier(_speedDebuffRate);     // 이동 속도 감소
+            //player.SetSpeedModifier(_speedDebuffRate);     // 이동 속도 감소
 
         }
     }
@@ -35,7 +41,7 @@ public class DetectionSensorTrap : MonoBehaviour
         PlayerController player = other.GetComponent<PlayerController>();
         if (player != null)
         {
-            player.SetSpeedModifier(1f);     // 센서 영역을 벗어나면 이동속도 원래대로 복구
+            //player.SetSpeedModifier(1f);     // 센서 영역을 벗어나면 이동속도 원래대로 복구
             Debug.Log($"[센서 이탈] ID: {_trapId} - 플레이어가 센서 범위를 벗어났습니다.");
         }
     }
