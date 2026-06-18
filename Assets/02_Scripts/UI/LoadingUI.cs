@@ -28,7 +28,6 @@ public class LoadingUI : UIBase
             await UniTask.Yield();
         }
 
-        UIManager.Instance.CloseLoadingUI();
     }
 
 
