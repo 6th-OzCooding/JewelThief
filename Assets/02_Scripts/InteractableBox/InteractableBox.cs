@@ -3,20 +3,12 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-
-public enum ItemRarity
-{
-    None,
-    Consumable,
-    Normal,
-    Rare,
-    Legendary
-}
+using TeamConvention.Interfaces;
 
 [System.Serializable]
 public class RarityWeight
 {
-    public ItemRarity Rarity;
+    public ItemGrade Rarity;
     public int Weight;
 }
 
@@ -26,43 +18,43 @@ public class BoxDropData
     public List<RarityWeight> RarityWeights = new();
 }
 
-public class InteractableBox : MonoBehaviour
+public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
 {
     [Header("컴포넌트")]
     [SerializeField] private InteractableBoxAnimeController _animController;
 
+    private string _interactableBoxDataId;
     private string _interactableBoxName;
     private string _interactableBoxComment;
     private bool _isLocking;
     private string _meshPrefabPath;
-    private Dictionary<ItemRarity, List<string>> _itemPoolByRarity = new Dictionary<ItemRarity, List<string>>();
+    private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
     private BoxDropData _rarityRateData = new BoxDropData();
+
+    public string InteractPrompt => _interactableBoxDataId;
 
     private void OnEnable()
     {
         // TODO(안우재 2026-6-17) : 테스트 코드(addresasable 연동 확인)용 추후 삭제(데이터 클래스 작성 시)
-        _meshPrefabPath = "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab";
-
-        // InitBox();
+        // _meshPrefabPath = "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab";
+        
+        InitBox("Object_03");
         SpawnMeshBox();
     }
 
-    private void Start()
-    {
 
-    }
 
     // TODO(안우재 2026-6-15) : 매개변수로 어떠한 형식으로 데이터를 받아올지 확인 및 대입 필요
-    private void InitBox(/*데이터 클래스 매개변수*/)
+    private void InitBox(string dataId)
     {
-        /*
-        _interactableBoxName = 
-        _interactableBoxComment = 
-        _isLocking = 
-        _meshPrefabPath = 
-        InitItemList(데이터 클래스의 ItemIdList를 매개변수로 함)
-        InitRarityRateData
-        */
+        InteractableObject data = GameManager.DataTable.GetPoolingInteractableObjectData(dataId);
+        _interactableBoxDataId = data.Id;
+        _interactableBoxName = data.ObjName;
+        _interactableBoxComment = data.ObjectComment;
+        _isLocking = data.IsLock;
+        _meshPrefabPath = data.ObjMeshPrefabPath;
+        // InitItemList(데이터 클래스의 ItemIdList를 매개변수로 함)
+        // InitRarityRateData
     }
 
     private void InitItemList(List<string> itemIdList)
@@ -74,7 +66,7 @@ public class InteractableBox : MonoBehaviour
     {
         for (int i = 0; i < rateList.Count; i++)
         {
-            ItemRarity rarity = (ItemRarity)(i + 1);
+            ItemGrade rarity = (ItemGrade)(i + 1);
 
             _rarityRateData.RarityWeights.Add(new RarityWeight
             {
@@ -99,13 +91,14 @@ public class InteractableBox : MonoBehaviour
         _animController.InitMeshAnime(obj);
     }
 
-    public void PopUpInteractUI()
-    {
-        // TODO(안우재 2026-6-15) : UIManager의 PopUpUI를 꺼내와 해당장비의 "이름 [F]"이 가능하도록 추가
-    }
-
     private string OpenBox()
     {
+        if(_isLocking)
+        {
+
+            return string.Empty;
+        }
+
         string itemId = PickItemId();
 
         if (string.IsNullOrEmpty(itemId))
@@ -117,11 +110,17 @@ public class InteractableBox : MonoBehaviour
         return itemId;
     }
 
+    private void OpenLockedBox()
+    {
+        // TODO(안우재 2026-6-18) : 잠겨있는경우 도구를 사용할건지 안할건지 확인하는 단계 또는 기타 행동 들어가야함
+
+    }
+
     private string PickItemId()
     {
-        ItemRarity pickedRarity = PickRarity();
+        ItemGrade pickedRarity = PickRarity();
 
-        if (pickedRarity == ItemRarity.None)
+        if (pickedRarity == ItemGrade.None)
             return null;
 
         if (!_itemPoolByRarity.TryGetValue(pickedRarity, out List<string> itemIdList))
@@ -134,13 +133,13 @@ public class InteractableBox : MonoBehaviour
         return itemIdList[randomIndex];
     }
 
-    private ItemRarity PickRarity()
+    private ItemGrade PickRarity()
     {
         if (_rarityRateData == null)
-            return ItemRarity.None;
+            return ItemGrade.None;
 
         if (_rarityRateData.RarityWeights == null || _rarityRateData.RarityWeights.Count == 0)
-            return ItemRarity.None;
+            return ItemGrade.None;
 
         int totalWeight = 0;
 
@@ -153,7 +152,7 @@ public class InteractableBox : MonoBehaviour
         }
 
         if (totalWeight <= 0)
-            return ItemRarity.None;
+            return ItemGrade.None;
 
         int randomValue = UnityEngine.Random.Range(0, totalWeight);
 
@@ -170,7 +169,7 @@ public class InteractableBox : MonoBehaviour
                 return rarityWeight.Rarity;
         }
 
-        return ItemRarity.None;
+        return ItemGrade.None;
     }
 
 
