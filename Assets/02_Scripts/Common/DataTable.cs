@@ -6,8 +6,11 @@ using UnityEngine;
 public class DataTable
 {
     public Dictionary<string, PoolingObjectData> GetPoolingObjectDataTable() => PoolingObjectDataTable;
+    public Dictionary<string, InteractableObject> GetPoolingInteractableObjectDataTable() => PoolingInteractableObjectDataTable;
 
     Dictionary<string, PoolingObjectData> PoolingObjectDataTable { get; set; } = new();
+    Dictionary<string, InteractableObject> PoolingInteractableObjectDataTable { get; set; } = new();
+
 
     [Serializable]
     class SerializationWrapper<T>
@@ -18,7 +21,8 @@ public class DataTable
     
     public void LoadAllData()
     {
-        //PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
+        // PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
+        PoolingInteractableObjectDataTable = LoadData<InteractableObject>("InteractableObject");
     }
 
     #region Getters
@@ -28,6 +32,13 @@ public class DataTable
         if (null == PoolingObjectDataTable || string.IsNullOrEmpty(id)) return null;
 
         return PoolingObjectDataTable.TryGetValue(id, out var data) ? data : null;
+    }
+
+    public InteractableObject GetPoolingInteractableObjectData(string id)
+    {
+        if (null == PoolingObjectDataTable || string.IsNullOrEmpty(id)) return null;
+
+        return PoolingInteractableObjectDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
     #endregion

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class BaseData
@@ -39,4 +41,26 @@ public class PotionData : ItemData
 public class JewelData : ItemData
 {
     
+}
+
+[Serializable]
+public class InteractableObject : BaseData
+{
+    public string ObjName;
+    public string ObjectComment;
+    public bool IsLock;
+    public List<string> ItemIdList;
+    public List<int> RateList;
+    public string ObjMeshPrefabPath;
+}
+
+[Serializable]
+public class Door : BaseData
+{
+    public string DoorName;
+    public string DoorComment;
+    public bool IsLock;
+    public List<string> ItemIdList;
+    public List<int> RateList;
+    public string DoorMeshPrefabPath;
 }

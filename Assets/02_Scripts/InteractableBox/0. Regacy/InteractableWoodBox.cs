@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InteractableWoodBox : InteractableBox
+public class InteractableWoodBox : InteractableBox_regacy
 {
     // 아이템 List에 존재하는 아이템들 낮은 아이템들 많이 나오도록 출력
     protected override string GradingItem()
