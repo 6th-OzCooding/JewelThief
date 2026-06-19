@@ -106,9 +106,11 @@ public class InteractionHoverDetector : MonoBehaviour
         switch(uiType)
         {
             case UIType.ObjectInfoPopupUI:
-                UIBase uiObj = UIManager.Instance.OpenUI(UIRootType.PopupUI, UIType.ObjectInfoPopupUI);
+                UIBase uiObj = UIManager.Instance.OpenObjectInfoPopupUI();
                 if (uiObj == null)
+                {
                     return;
+                }
                 
                 if(uiObj.TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
                 {
