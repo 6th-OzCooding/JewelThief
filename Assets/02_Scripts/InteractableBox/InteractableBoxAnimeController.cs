@@ -14,6 +14,13 @@ public class InteractableBoxAnimeController : MonoBehaviour
 
     private BoxState _currentStat;
 
+    public void InitMeshAnime(GameObject meshObject)
+    {
+        if (meshObject == null) return;
+
+        _animatorBox = meshObject.GetComponent<Animator>();
+    }
+
     public void SetStat(BoxState newStat)
     {
         if (newStat == BoxState.Idle)

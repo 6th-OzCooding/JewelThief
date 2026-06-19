@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class BaseData
@@ -41,32 +43,24 @@ public class JewelData : ItemData
     
 }
 
-/// <summary>
-/// 아이템을 플레이어가 어떤 방식으로 들고 다니는지 구분합니다.
-/// </summary>
-public enum HoldType
+[Serializable]
+public class InteractableObject : BaseData
 {
-    None = 0,
-    Pocket,
-    Hold
+    public string ObjName;
+    public string ObjectComment;
+    public bool IsLock;
+    public List<string> ItemIdList;
+    public List<int> RateList;
+    public string ObjMeshPrefabPath;
 }
 
-/// <summary>
-/// 아이템별 인벤토리 보관 타입 데이터입니다.
-/// </summary>
 [Serializable]
-public class InventoryTypeData : BaseData
+public class Door : BaseData
 {
-    public string CurrentHoldType;
-
-    /// <summary>
-    /// 문자열로 로드된 보관 타입을 HoldType enum으로 변환합니다.
-    /// </summary>
-    public HoldType GetHoldType()
-    {
-        if (Enum.TryParse(CurrentHoldType, true, out HoldType holdType))
-            return holdType;
-
-        return HoldType.None;
-    }
+    public string DoorName;
+    public string DoorComment;
+    public bool IsLock;
+    public List<string> ItemIdList;
+    public List<int> RateList;
+    public string DoorMeshPrefabPath;
 }

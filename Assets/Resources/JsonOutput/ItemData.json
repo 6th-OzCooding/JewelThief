@@ -43,35 +43,5 @@
     "CurrentBuffType": "Hp",
     "Value": 50,
     "Duration": 0
-  },
-  {
-    "Id": "Item_Test_PocketItem",
-    "Name": "작은 아이템",
-    "Description": "가방에 넣는 아이템",
-    "CurrentItemType": "Jewel",
-    "CurrentItemGrade": "Common",
-    "Weight": 1,
-    "Price": 1,
-    "IconPath": null,
-    "PrefabPath": null,
-    "Durability": null,
-    "CurrentBuffType": null,
-    "Value": null,
-    "Duration": null
-  },
-  {
-    "Id": "Item_Test_HoldItem",
-    "Name": "큰 아이템",
-    "Description": "손에 드는 아이템",
-    "CurrentItemType": "Jewel",
-    "CurrentItemGrade": "Epic",
-    "Weight": 20,
-    "Price": 100,
-    "IconPath": null,
-    "PrefabPath": null,
-    "Durability": null,
-    "CurrentBuffType": null,
-    "Value": null,
-    "Duration": null
   }
 ]
