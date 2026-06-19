@@ -6,8 +6,12 @@ using UnityEngine;
 public class DataTable
 {
     public Dictionary<string, PoolingObjectData> GetPoolingObjectDataTable() => PoolingObjectDataTable;
+    public Dictionary<string, ItemData> GetItemDataTable() => ItemDataTable;
+    public Dictionary<string, InventoryTypeData> GetInventoryTypeDataTable() => InventoryTypeDataTable;
 
-    Dictionary<string, PoolingObjectData> PoolingObjectDataTable { get; set; } = new();
+    Dictionary<string, PoolingObjectData> PoolingObjectDataTable { get; set; } = new Dictionary<string, PoolingObjectData>();
+    Dictionary<string, ItemData> ItemDataTable { get; set; } = new Dictionary<string, ItemData>();
+    Dictionary<string, InventoryTypeData> InventoryTypeDataTable { get; set; } = new Dictionary<string, InventoryTypeData>();
 
     [Serializable]
     class SerializationWrapper<T>
@@ -19,6 +23,8 @@ public class DataTable
     public void LoadAllData()
     {
         //PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
+        ItemDataTable = LoadData<ItemData>("ItemData");
+        InventoryTypeDataTable = LoadData<InventoryTypeData>("InventoryTypeData");
     }
 
     #region Getters
@@ -28,6 +34,26 @@ public class DataTable
         if (null == PoolingObjectDataTable || string.IsNullOrEmpty(id)) return null;
 
         return PoolingObjectDataTable.TryGetValue(id, out var data) ? data : null;
+    }
+
+    /// <summary>
+    /// 아이템 기본 데이터를 반환합니다.
+    /// </summary>
+    public ItemData GetItemData(string id)
+    {
+        if (null == ItemDataTable || string.IsNullOrEmpty(id)) return null;
+
+        return ItemDataTable.TryGetValue(id, out ItemData data) ? data : null;
+    }
+
+    /// <summary>
+    /// 아이템의 인벤토리 보관 타입 데이터를 반환합니다.
+    /// </summary>
+    public InventoryTypeData GetInventoryTypeData(string id)
+    {
+        if (null == InventoryTypeDataTable || string.IsNullOrEmpty(id)) return null;
+
+        return InventoryTypeDataTable.TryGetValue(id, out InventoryTypeData data) ? data : null;
     }
 
     #endregion
@@ -58,7 +84,9 @@ public class DataTable
             if (null != wrapper && null != wrapper.items)
             {
                 Debug.Log($"{typeof(T).Name} 데이터를 {wrapper.items.Count}개 로드했습니다.");
-                return wrapper.items.ToDictionary(value => value.Id.ToString());
+                return wrapper.items
+                    .Where(value => value != null && !string.IsNullOrEmpty(value.Id))
+                    .ToDictionary(value => value.Id);
             }
         }
         catch (System.Exception ex)
