@@ -1,0 +1,152 @@
+[
+  {
+    "Id": "Sound_BGM_01",
+    "Name": "BGM_01",
+    "Volumn": 100,
+    "IsLoop": true
+  },
+  {
+    "Id": "Sound_BGM_02",
+    "Name": "BGM_02",
+    "Volumn": 100,
+    "IsLoop": true
+  },
+  {
+    "Id": "Sound_SFX_001",
+    "Name": "AlertLevelUp",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_002",
+    "Name": "Click_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_003",
+    "Name": "Click_02",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_004",
+    "Name": "Error_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_005",
+    "Name": "Error_02",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_006",
+    "Name": "Explosion_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_007",
+    "Name": "Explosion_02",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_008",
+    "Name": "Explosion_03",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_009",
+    "Name": "Explosion_04",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_010",
+    "Name": "Explosion_05",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_011",
+    "Name": "Gain_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_012",
+    "Name": "GunTrap_Fire",
+    "Volumn": 100,
+    "IsLoop": true
+  },
+  {
+    "Id": "Sound_SFX_013",
+    "Name": "Lose_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_014",
+    "Name": "Lose_02",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_015",
+    "Name": "Notification_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_016",
+    "Name": "Notification_02",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_017",
+    "Name": "Open_Box_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_018",
+    "Name": "Purchase_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_019",
+    "Name": "Purchase_02",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_020",
+    "Name": "TimeUp_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_021",
+    "Name": "Win_01",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_022",
+    "Name": "Win_02",
+    "Volumn": 100,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_023",
+    "Name": "Win_03",
+    "Volumn": 100,
+    "IsLoop": false
+  }
+]
