@@ -40,7 +40,6 @@ public class InteractionHoverDetector : MonoBehaviour
 
         // _currentTarget(IInteractable이 아이템인지 Object인지 함정인지 등을 판단하는 메서드 필요
         SoltingInfoPopUpUIAndOpenPopUp(_currentTarget);
-
     }
 
     private HoverInfoTarget DetectHoverTarget()
@@ -111,7 +110,7 @@ public class InteractionHoverDetector : MonoBehaviour
                 if (uiObj == null)
                     return;
                 
-                if(TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
+                if(uiObj.TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
                 {
                     infoPopUpUI.SetObjectComentText
                         (GameManager.DataTable.GetPoolingInteractableObjectData(dataId).ObjName);

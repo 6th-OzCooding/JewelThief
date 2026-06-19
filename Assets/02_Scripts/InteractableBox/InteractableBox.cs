@@ -38,10 +38,17 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
         // TODO(안우재 2026-6-17) : 테스트 코드(addresasable 연동 확인)용 추후 삭제(데이터 클래스 작성 시)
         // _meshPrefabPath = "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab";
         
+        // 초기화 부분
+        // InitBox("Object_03");
+        // SpawnMeshBox();
+    }
+
+    private void Start()
+    {
+        // TODO(안우재 2026-6-17) : 테스트 코드 스폰 매니저 또는 게임매니저에 의해 생겨날 경우 삭제 필요
         InitBox("Object_03");
         SpawnMeshBox();
     }
-
 
 
     // TODO(안우재 2026-6-15) : 매개변수로 어떠한 형식으로 데이터를 받아올지 확인 및 대입 필요
