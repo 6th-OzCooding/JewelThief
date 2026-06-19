@@ -1,0 +1,6 @@
+C:\NRUnityprojects\JewelThief\Temp\bin\Debug\Assembly-CSharp.dll
+C:\NRUnityprojects\JewelThief\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\NRUnityprojects\JewelThief\tmp\dotnet-obj\Debug\Assembly-CSharp.csproj.AssemblyReference.cache
+C:\NRUnityprojects\JewelThief\tmp\dotnet-obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
+C:\NRUnityprojects\JewelThief\tmp\dotnet-obj\Debug\Assembly-CSharp.dll
+C:\NRUnityprojects\JewelThief\tmp\dotnet-obj\Debug\Assembly-CSharp.pdb
