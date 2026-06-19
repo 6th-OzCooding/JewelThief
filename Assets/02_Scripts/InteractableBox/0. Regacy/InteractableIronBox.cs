@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InteractableIronBox : InteractableBox
+public class InteractableIronBox : InteractableBox_regacy
 {
     // TODO(안우재 2026-6-15) : 매개변수로 어떠한 형식으로 데이터를 받아올지 확인 및 대입 필요
     public override void InitBox()

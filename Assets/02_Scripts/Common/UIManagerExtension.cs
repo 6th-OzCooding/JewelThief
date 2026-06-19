@@ -23,7 +23,8 @@ public enum UIType
     LoadingUI,
     CenterPointUI,
     TitleUI,
-    ItemInfoPopupUI
+    ItemInfoPopupUI,
+    ObjectInfoPopupUI
 }
 
 /// <summary>
@@ -100,12 +101,29 @@ public static class UIManagerExtension
         return itemInfoPopupUI;
     }
 
+    public static ObjectInfoPopupUI OpenObjectInfoPopupUI(this UIManager uiManager)
+    {
+        UIBase uiBase = uiManager.OpenPopupUI(UIType.ObjectInfoPopupUI);
+        if (uiBase == null)
+            return null;
+
+        if (!uiBase.TryGetComponent(out ObjectInfoPopupUI objectInfoPopupUI))
+        {
+            Debug.LogWarning("ObjectInfoPopupUI 프리팹에 ObjectInfoPopupUI 컴포넌트가 없습니다.");
+            return null;
+        }
+
+        objectInfoPopupUI.RestartOpenAnimation();
+        return objectInfoPopupUI;
+    }
+
     /// <summary>
     /// 화면 중앙 Hover 대상의 아이템 정보 팝업 UI를 닫습니다.
     /// </summary>
     public static void CloseItemInfoPopupUI(this UIManager uiManager)
     {
         uiManager.ClosePopupUI(UIType.ItemInfoPopupUI);
+        uiManager.ClosePopupUI(UIType.ObjectInfoPopupUI);
     }
 
     /// <summary>

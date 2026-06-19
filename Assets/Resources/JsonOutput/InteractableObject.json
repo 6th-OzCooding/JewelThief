@@ -1,0 +1,67 @@
+[
+  {
+    "Id": "Object_01",
+    "ObjName": "케비넷",
+    "ObjectComment": "케비넷이다. 안에는 소모품이 들어있다.",
+    "IsLock": false,
+    "ItemIdList": null,
+    "RateList": [
+      100,
+      0,
+      0,
+      0
+    ],
+    "ObjMeshPrefabPath": null
+  },
+  {
+    "Id": "Object_02",
+    "ObjName": "나무상자",
+    "ObjectComment": "나무상자다. 주로 값 싼 보석이 들어있지만 가끔 좋은 보석이 나오는 경우도 있다.",
+    "IsLock": false,
+    "ItemIdList": null,
+    "RateList": [
+      0,
+      80,
+      15,
+      5
+    ],
+    "ObjMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_WoodBox_Prefab.prefab"
+  },
+  {
+    "Id": "Object_03",
+    "ObjName": "잠긴금고",
+    "ObjectComment": "금고다. 잠겨있는만큼 값 비싼 보석이 담겨있다. 억지로 금고를 열려는 시도를 하는경우 안에 있는 보석이 상할 수 있다.",
+    "IsLock": true,
+    "ItemIdList": null,
+    "RateList": null,
+    "ObjMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+  },
+  {
+    "Id": "Object_04",
+    "ObjName": "열린금고(도구사용)",
+    "ObjectComment": "금고다. 잠겨있는만큼 값 비싼 보석이 담겨있다. 억지로 금고를 열려는 시도를 하는경우 안에 있는 보석이 상할 수 있다.",
+    "IsLock": false,
+    "ItemIdList": null,
+    "RateList": [
+      0,
+      10,
+      50,
+      40
+    ],
+    "ObjMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+  },
+  {
+    "Id": "Object_05",
+    "ObjName": "망가진 금고",
+    "ObjectComment": "금고다. 잠겨있는만큼 값 비싼 보석이 담겨있다. 억지로 금고를 열려는 시도를 하는경우 안에 있는 보석이 상할 수 있다.",
+    "IsLock": false,
+    "ItemIdList": null,
+    "RateList": [
+      0,
+      40,
+      50,
+      10
+    ],
+    "ObjMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+  }
+]
