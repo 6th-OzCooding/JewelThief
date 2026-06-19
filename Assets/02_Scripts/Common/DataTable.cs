@@ -7,10 +7,13 @@ public class DataTable
 {
     public Dictionary<string, PoolingObjectData> GetPoolingObjectDataTable() => PoolingObjectDataTable;
     public Dictionary<string, InteractableObject> GetPoolingInteractableObjectDataTable() => PoolingInteractableObjectDataTable;
+    public Dictionary<string, InventoryTypeData> GetPoolingInventoryTypeDataTable() => PoolingInventoryTypeDataTable;
+    public Dictionary<string, ItemData> GetPoolingItemDataTable() => PoolingItemDataTable;
 
     Dictionary<string, PoolingObjectData> PoolingObjectDataTable { get; set; } = new();
     Dictionary<string, InteractableObject> PoolingInteractableObjectDataTable { get; set; } = new();
-
+    Dictionary<string, InventoryTypeData> PoolingInventoryTypeDataTable { get; set; } = new();
+    Dictionary<string, ItemData> PoolingItemDataTable { get; set; } = new();
 
     [Serializable]
     class SerializationWrapper<T>
@@ -23,6 +26,11 @@ public class DataTable
     {
         // PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
         PoolingInteractableObjectDataTable = LoadData<InteractableObject>("InteractableObject");
+        PoolingItemDataTable = LoadData<ItemData>("ItemData");
+
+        // TODO: ItemData와 통합 후 삭제 예정
+        PoolingInventoryTypeDataTable = LoadData<InventoryTypeData>("InventoryTypeData");
+        
     }
 
     #region Getters

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 월드에 배치된 테스트용 인벤토리 획득 아이템입니다.
@@ -30,21 +30,21 @@ public class InventoryPickupItem : MonoBehaviour
             return false;
         }
 
-        ItemData itemData = GameManager.DataTable.GetItemData(_itemDataId);
+        ItemData itemData = GameManager.DataTable.GetPoolingItemDataTable().TryGetValue(_itemDataId, out var data) ? data : null;
         if (itemData == null)
         {
             Debug.LogWarning($"ItemData를 찾을 수 없습니다. Id: {_itemDataId}");
             return false;
         }
 
-        InventoryTypeData inventoryTypeData = GameManager.DataTable.GetInventoryTypeData(_itemDataId);
+        InventoryTypeData inventoryTypeData = GameManager.DataTable.GetPoolingInventoryTypeDataTable().TryGetValue(_itemDataId, out var typeData) ? typeData : null;
         if (inventoryTypeData == null)
         {
             Debug.LogWarning($"InventoryTypeData를 찾을 수 없습니다. Id: {_itemDataId}");
             return false;
         }
 
-        HoldType holdType = inventoryTypeData.GetHoldType();
+        var holdType = inventoryTypeData.CurrentHoldType;
         bool isAcquired = playerInventory.TryAcquireItem(itemData, holdType, out InventoryItem acquiredItem, out string resultMessage);
 
         if (!isAcquired)

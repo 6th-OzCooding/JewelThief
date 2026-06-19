@@ -25,6 +25,13 @@ public class ItemData : BaseData
     public string IconPath;
     public string PrefabPath;
 }
+
+public class InventoryTypeData : BaseData
+{
+    public string Name;
+    public HoldType CurrentHoldType;
+}
+
 [Serializable]
 public class ToolData : ItemData 
 {
