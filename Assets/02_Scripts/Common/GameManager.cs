@@ -1,5 +1,8 @@
 ﻿
 using Cysharp.Threading.Tasks;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -32,14 +35,40 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private async UniTaskVoid InitAsync()
     {
+        UIBase loadingUIBase = UIManager.Instance.OpenLoadingUI();
 
-        // TODO(김익환 2026-06-14): 리소스 비동기로 미리 로드하기 로딩창에서 로딩할 것임
-        // 추후 로딩 UI가 생기면 아래 Init함수의 매개변수로 로딩 진행률을 전달할 수 있도록 수정하기
-        await _resourceManager.Init();
-
+        if (loadingUIBase != null && loadingUIBase.TryGetComponent(out LoadingUI loadingUI))
+        {
+            await loadingUI.StartLoading();
+        }
+        else
+        {
+            await _resourceManager.Init();
+        }
 
         _soundManager.Init(this.gameObject);
         _poolManager.Init();
+
+        UIManager.Instance.CloseLoadingUI();
+        UIManager.Instance.ExitGameplayCursorMode();
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
 
+    public void EnterGamePlayer()
+    {
+        UIManager.Instance.CloseUI(UIType.TitleUI);
+
+        UIManager.Instance.EnterGameplayCursorMode();
+
+        // 후추
+    }
+
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
 }
