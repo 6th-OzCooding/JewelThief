@@ -51,6 +51,15 @@ public static class UIManagerExtension
     }
 
     /// <summary>
+    /// 인벤토리 시스템 테스트용 게임 플레이 UI를 엽니다.
+    /// </summary>
+    public static void ShowInventorySystemTestUI(this UIManager uiManager)
+    {
+        uiManager.CloseLoadingUI();
+        uiManager.EnterGameplayCursorMode();
+    }
+
+    /// <summary>
     /// 로딩 UI를 엽니다.
     /// </summary>
     public static UIBase OpenLoadingUI(this UIManager uiManager)
