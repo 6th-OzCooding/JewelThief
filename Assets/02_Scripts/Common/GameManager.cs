@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using System;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -7,7 +8,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public static PoolManager Pool { get { return Instance._poolManager; } }
     public static AlertManager Alert { get { return Instance._alertManager; } }
     public static DataTable DataTable { get { return Instance._dataTable; } }
-    
+    public static UIManager UI { get { return Instance._uiManager; } }
 
     #region Manager Varialbes
 
@@ -16,16 +17,20 @@ public class GameManager : SingletonBehaviour<GameManager>
     private PoolManager _poolManager = new();
     private AlertManager _alertManager = new();
     private DataTable _dataTable = new();
+    private UIManager _uiManager = new();
 
     #endregion
 
 
-
+    /// <summary>
+    /// 데이터 드리븐 초기화 -> UIManager 초기화 -> 로딩(어드레서블 불러오기) -> 사운드 및 풀 초기화
+    /// </summary>
     protected override void Init()
     {
         base.Init();
 
         _dataTable.LoadAllData();
+        _uiManager.Init();
         InitAsync().Forget();
     }
 
@@ -36,28 +41,35 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private async UniTaskVoid InitAsync()
     {
-        UIBase loadingUIBase = UIManager.Instance.OpenLoadingUI();
+        UIBase loadingUIBase = UI.OpenLoadingUI();
 
-        if (loadingUIBase != null && loadingUIBase.TryGetComponent(out LoadingUI loadingUI))
+
+        if(loadingUIBase == null)
         {
-            await loadingUI.StartLoading();
+            throw new Exception("Failed to open loading UI");
+        }
+        else if (!loadingUIBase.TryGetComponent(out LoadingUI loadingUI))
+        {
+            throw new Exception("Failed to get LoadingUI component from loading UI");
         }
         else
         {
-            await _resourceManager.Init();
+            await loadingUI.StartLoading();
         }
 
-        _soundManager.Init(this.gameObject);
-        _poolManager.Init();
-
-        UIManager.Instance.ShowStartupUIOnGameStart();
+        InitNonAsync();
     }
 
-    public void EnterGamePlayer()
+    private void InitNonAsync()
     {
-        UIManager.Instance.CloseUI(UIType.TitleUI);
+        _soundManager.Init(this.gameObject);
+        _poolManager.Init();
+    }
 
-        UIManager.Instance.EnterGameplayCursorMode();
+    public void EnterGamePlay()
+    {
+        UI.CloseUI(UIType.TitleUI);
+        UI.EnterGameplayCursorMode();
 
         // 추후 게임 플레이어 입장 시 필요한 로직 추가
         // TODO(김경훈 2026-06-20): 본부 - 선택된 스테이지 Id로 교체 필요. 현재는 테스트용 고정값.
@@ -67,6 +79,14 @@ public class GameManager : SingletonBehaviour<GameManager>
             _soundManager.PlayBGM(SoundId.BGM_PlayTheme);
             _alertManager.Init(stageData.TimeLimit - 60);   // TODO(김경훈 2026-06-20): 테스트용으로 스테이지 시작 전 60초를 제외하고 시작하도록 설정.
         }
+    }
+
+    /// <summary>
+    /// InGame 이탈 시점 호출
+    /// </summary>
+    public void ExitGamePlay()
+    {
+
     }
 
     public void QuitGame()

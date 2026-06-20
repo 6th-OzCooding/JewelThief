@@ -67,7 +67,6 @@ public class DataTable
         if (null == InventoryTypeDataTable || string.IsNullOrEmpty(id)) return null;
         return InventoryTypeDataTable.TryGetValue(id, out var data) ? data : null;
     }
-    #endregion
 
     public SoundData GetSoundData(string id)
     {
@@ -80,6 +79,8 @@ public class DataTable
         if (string.IsNullOrEmpty(id)) return null;
         return StageDataTable.TryGetValue(id, out var data) ? data : null;
     }
+
+    #endregion
 
     Dictionary<string, T> LoadData<T>(string tableNmae) where T : BaseData
     {
