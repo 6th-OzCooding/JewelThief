@@ -1,33 +1,27 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using TeamConvention.Interfaces;
 
-public class MimicItemTrap : MonoBehaviour//, IInteractable
+public class MimicItemTrap : MonoBehaviour, IInteractable, IDisarmable
 {
-    [Header("Æ®·¦ µ¥ÀÌÅÍ")]
+    [Header("íŠ¸ë© ë°ì´í„°")]
     [SerializeField] private int _trapId = 40000001;
 
-    [Header("±âº» ¼³Á¤")]
-    [SerializeField] private string _interactPrompt = "º¸¼® È¹µæ(E)";
+    [Header("ê¸°ë³¸ ì„¤ì •")]
+    [SerializeField] private string _interactPrompt = "ë³´ì„ íšë“(E)";
     [SerializeField] private float _damage = 1f;
     [SerializeField] private float _soundRadius = 1f;
-    [SerializeField] private float _timeimeReductionAmount = 1f;
+    [SerializeField] private float _timeReductionAmount = 1f;
 
-    private bool _isDisarmed = false;   //µµ±¸·Î ¹«·ÂÈ­µÆ´ÂÁö ¿©ºÎ È®ÀÎ
+    private bool _isDisarmed = false;   //ë„êµ¬ë¡œ ë¬´ë ¥í™”ëëŠ”ì§€ ì—¬ë¶€ í™•ì¸
 
     public string InteractPrompt => _interactPrompt;
+    public bool CanInteract() => !_isDisarmed;
 
-    public void Interact(MonoBehaviour player)    //ÃßÈÄ MonoBehaviour¸¦ PlayerController·Î ´ëÃ¼
+    public void Interact(IInteractor interactor)
     {
-        if (_isDisarmed)
-        {
-            Debug.Log($"[ÇÔÁ¤ ¹«·ÂÈ­ »óÅÂ] ID: {_trapId} - ÀÌ¹Ì µµ±¸·Î ÇØÁ¦µÈ ÇÔÁ¤ÀÔ´Ï´Ù.");   //µµ±¸·Î ¹«·ÂÈ­ÇÒ °æ¿ì º¸¼®À¸·Î È¹µæ
+        if (!CanInteract()) return;
 
-            Destroy(gameObject);
-            return;
-        }
-        
-
-        Debug.Log($"[ÇÔÁ¤ ¹ßµ¿] ID: {_trapId} - ÇÔÁ¤ ¹ßµ¿!");
+        Debug.Log($"[í•¨ì • ë°œë™] ID: {_trapId} - í•¨ì • ë°œë™!");
 
         //player.TakeDamage(_damage);
 
@@ -36,16 +30,17 @@ public class MimicItemTrap : MonoBehaviour//, IInteractable
            // GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
         }
 
-            TriggerNoise();   //¼ÒÀ½ ¹ß»ı
+        TriggerNoise();   //ì†ŒìŒ ë°œìƒ
 
-            Destroy(gameObject, 0.2f);   //ÆÄ±«
+        Destroy(gameObject, 0.2f);   //íŒŒê´´
      }
 
-        public void DisarmTrap()   //ÀÓ½Ã·Î ¼³Á¤ÇÑ Æ®·¦ ¹«È¿È­ ÇÔ¼ö(³ªÁß¿¡ ¸í·É¹® ÅëÀÏÇØ¾ß ÇÔ)
+    public void Disarm()
     {
         _isDisarmed = true;
-        _interactPrompt = "ÇÔÁ¤ ÇØÁ¦µÈ º¸¼® È¹µæ (E)";
-        Debug.Log($"[ÇÔÁ¤ ÇØÁ¦] ID: {_trapId} - µµ±¸¿¡ ÀÇÇØ ¹«·ÂÈ­µÈ ÇÔÁ¤ÀÔ´Ï´Ù.");
+        Debug.Log($"[í•¨ì • í•´ì œ] ID: {_trapId} - ë„êµ¬ì— ì˜í•´ ë¬´ë ¥í™”ëœ í•¨ì •ì…ë‹ˆë‹¤.");
+
+        Destroy(gameObject);
     }
 
     private void TriggerNoise()

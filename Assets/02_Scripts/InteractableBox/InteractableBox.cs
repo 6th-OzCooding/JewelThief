@@ -1,9 +1,7 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using TeamConvention.Interfaces;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using TeamConvention.Interfaces;
 
 [System.Serializable]
 public class RarityWeight
@@ -32,6 +30,7 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     private BoxDropData _rarityRateData = new BoxDropData();
 
     public string InteractPrompt => _interactableBoxDataId;
+    public bool CanInteract() => !_isLocking;
 
     private void OnEnable()
     {
@@ -180,7 +179,7 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     }
 
 
-    public void InteractCloserPlayer()
+    public void Interact(IInteractor interactor)
     {
         // TODO(안우재 2026-6-15) : Player 조준 시 띄울 HUD 제작 필요 및 적용 필요
 

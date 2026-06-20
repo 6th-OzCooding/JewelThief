@@ -1,11 +1,16 @@
-﻿namespace TeamConvention.Interfaces
+﻿using UnityEngine;
+
+namespace TeamConvention.Interfaces
 {
     public interface IInteractable
     {
         string InteractPrompt { get; }
-
-        //void Interact(PlayerController player);
+        bool CanInteract();
+        void Interact(IInteractor interactor);
     }
 
-    public interface IInteractInput { void TryInteract(); }
+    public interface IInteractor
+    {
+        public Vector3 Position { get; }
+    }
 }
