@@ -114,10 +114,10 @@ public class InteractionHoverDetector : MonoBehaviour
                 
                 if(uiObj.TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
                 {
-                    infoPopUpUI.SetObjectComentText
-                        (GameManager.DataTable.GetPoolingInteractableObjectData(dataId).ObjName);
-                    infoPopUpUI.SetObjectComentText
-                        (GameManager.DataTable.GetPoolingInteractableObjectData(dataId).ObjectComment);
+                    infoPopUpUI.SetObjectNameText
+                        (GameManager.DataTable.GetInteractableObjectData(dataId).ObjName);
+                    infoPopUpUI.SetObjectCommentText
+                        (GameManager.DataTable.GetInteractableObjectData(dataId).ObjectComment);
                 }
                 break;
         }

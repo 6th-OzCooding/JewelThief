@@ -1,0 +1,29 @@
+[
+  {
+    "Id": "Stage_01",
+    "Name": "TestMap",
+    "TimeLimit": 120,
+    "MaxObject": 12,
+    "MaxTrap": 6,
+    "ExitCount": 2,
+    "EnemyId": 0
+  },
+  {
+    "Id": "Stage_02",
+    "Name": "City",
+    "TimeLimit": 120,
+    "MaxObject": 12,
+    "MaxTrap": 8,
+    "ExitCount": 3,
+    "EnemyId": 0
+  },
+  {
+    "Id": "Stage_03",
+    "Name": "Museum",
+    "TimeLimit": 120,
+    "MaxObject": 15,
+    "MaxTrap": 10,
+    "ExitCount": 3,
+    "EnemyId": 0
+  }
+]
