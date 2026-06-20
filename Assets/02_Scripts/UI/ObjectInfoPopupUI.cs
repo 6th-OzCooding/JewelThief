@@ -64,7 +64,7 @@ public class ObjectInfoPopupUI : UIBase
         _objectName.text = name;
     }
 
-    public void SetObjectComentText(string comment)
+    public void SetObjectCommentText(string comment)
     {
         _objectComment.text = comment;
     }
