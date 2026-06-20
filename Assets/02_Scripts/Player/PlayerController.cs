@@ -1,8 +1,9 @@
-﻿using Unity.Cinemachine;
+﻿using TeamConvention.Interfaces;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IInteractInput
 {
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 8f;
@@ -18,11 +19,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;    // 지면으로 인식할 레이어 (Platforms 등)
     private bool _isGrounded = false; // 바닥에 붙어있는지 여부
 
-    [Header("카메라 회전 설정")] 
+    [Header("카메라 회전 설정")]
     [SerializeField] private Transform _tranform_cameraRig; // 플레이어 자식으로 있는 CameraRig 트랜스폼
     [SerializeField] private Camera Camera_FPS;
 
-    
+
     //카메라 회전에 사용되는 가속도 변수
 
     [Header("입력부 가져오기")]
@@ -37,6 +38,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private QueryTriggerInteraction _interactTriggerInteraction = QueryTriggerInteraction.Ignore;
 
 
+    PlayerInputBinder inputBinder;
+
     void Awake()
     {
         // 인스펙터에서 깜빡하고 할당 안 했을 때를 대비해 자동으로 리지드바디 넣기
@@ -50,7 +53,7 @@ public class PlayerController : MonoBehaviour
             _groundCheck = this.transform;
         }
 
-        if(_inputHandler == null)
+        if (_inputHandler == null)
         {
             _inputHandler = GetComponent<PlayerInputHandler>();
         }
@@ -59,6 +62,13 @@ public class PlayerController : MonoBehaviour
         {
             _playerInventory = GetComponent<PlayerInventory>();
         }
+
+        inputBinder = new(_inputHandler);
+    }
+
+    private void Start()
+    {
+        inputBinder.Init(this);
     }
 
     void Update()
@@ -81,14 +91,14 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if (_inputHandler.InteractRequested)
-        {
-            TryInteract();
-        }
+        //if (_inputHandler.InteractRequested)
+        //{
+        //    TryInteract();
+        //}
 
     }
 
-   
+
 
 
     private void Move()
@@ -134,8 +144,8 @@ public class PlayerController : MonoBehaviour
         return _overweightMoveSpeed;
     }
 
-   
-    
+
+
     private void RotatePlayer()
     {
         float cameraYaw = Camera_FPS.transform.eulerAngles.y;
@@ -157,18 +167,16 @@ public class PlayerController : MonoBehaviour
         _inputHandler.JumpRequested = false; // 플래그 초기화
     }
 
-    private void TryInteract()
+    public void TryInteract()
     {
         InventoryPickupItem pickupItem = DetectInventoryPickupItem();
         if (pickupItem == null)
         {
             Debug.Log("상호작용할 인벤토리 아이템이 없습니다.");
-            _inputHandler.InteractRequested = false;
             return;
         }
 
         pickupItem.TryPickup(_playerInventory);
-        _inputHandler.InteractRequested = false;
     }
 
     private InventoryPickupItem DetectInventoryPickupItem()
