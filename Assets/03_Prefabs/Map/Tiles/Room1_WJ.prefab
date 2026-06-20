@@ -93,8 +93,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 613968098636902403}
+  - component: {fileID: -7594386115795982021}
   m_Layer: 0
-  m_Name: Room1
+  m_Name: Room1_WJ
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,6 +118,22 @@ Transform:
   - {fileID: 5028054725343384630}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7594386115795982021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8509202331639784430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7badb89e780ab428cfbf1018d2d02a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapTile
+  _upTiles: []
+  _downTiles: []
+  _leftTiles: []
+  _rightTiles: []
 --- !u!1001 &221433089067558229
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -798,6 +798,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1865024193116757943}
+  - component: {fileID: -642271718611852707}
   m_Layer: 0
   m_Name: Demo Room1
   m_TagString: Untagged
@@ -828,6 +829,22 @@ Transform:
   - {fileID: 4132167017864503681}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-642271718611852707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6343475136440077685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7badb89e780ab428cfbf1018d2d02a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapTile
+  _upTiles: []
+  _downTiles: []
+  _leftTiles: []
+  _rightTiles: []
 --- !u!1 &7009142532378063250
 GameObject:
   m_ObjectHideFlags: 0

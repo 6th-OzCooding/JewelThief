@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WFCMapGeneration
   _gridSpacing: 10
-  _mapSize: 20
+  _mapSize: 10
   _tileObjects:
   - {fileID: 2542745913178864968, guid: 6418032b6c359c84895c1050cac754ea, type: 3}
   - {fileID: 7070255228154469395, guid: fd8ef53179fbf964e8b9c6f652a8a786, type: 3}

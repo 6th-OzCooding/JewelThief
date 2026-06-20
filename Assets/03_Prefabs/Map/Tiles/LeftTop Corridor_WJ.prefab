@@ -461,8 +461,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3166064761661997901}
+  - component: {fileID: -1724958632965242748}
   m_Layer: 0
-  m_Name: LeftTop Corridor
+  m_Name: LeftTop Corridor_WJ
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,6 +486,22 @@ Transform:
   - {fileID: 5911615255699004188}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1724958632965242748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920663115031396338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7badb89e780ab428cfbf1018d2d02a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapTile
+  _upTiles: []
+  _downTiles: []
+  _leftTiles: []
+  _rightTiles: []
 --- !u!1 &2237636944262276178
 GameObject:
   m_ObjectHideFlags: 0
