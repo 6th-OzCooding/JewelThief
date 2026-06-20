@@ -29,6 +29,11 @@ public class GameManager : SingletonBehaviour<GameManager>
         InitAsync().Forget();
     }
 
+    private void Update()
+    {
+        _alertManager.OnUpdate();
+    }
+
     private async UniTaskVoid InitAsync()
     {
         UIBase loadingUIBase = UIManager.Instance.OpenLoadingUI();
@@ -55,6 +60,13 @@ public class GameManager : SingletonBehaviour<GameManager>
         UIManager.Instance.EnterGameplayCursorMode();
 
         // 추후 게임 플레이어 입장 시 필요한 로직 추가
+        // TODO(김경훈 2026-06-20): 본부 - 선택된 스테이지 Id로 교체 필요. 현재는 테스트용 고정값.
+        StageData stageData = _dataTable.GetStageData("Stage_01");
+        if (stageData != null)
+        {
+            _soundManager.PlayBGM(SoundId.BGM_PlayTheme);
+            _alertManager.Init(stageData.TimeLimit - 60);   // TODO(김경훈 2026-06-20): 테스트용으로 스테이지 시작 전 60초를 제외하고 시작하도록 설정.
+        }
     }
 
     public void QuitGame()

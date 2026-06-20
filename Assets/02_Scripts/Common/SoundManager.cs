@@ -35,6 +35,23 @@ public class SoundManager
         Utils.LoadAndPlayAudioClip(BGMSourcePlayer, data.Name, data.IsLoop, data.Volume).Forget();
     }
 
+    public void StopBGM()
+    {
+        if (null == BGMSourcePlayer) return;
+
+        BGMSourcePlayer.Stop();
+    }
+
+    public void SetBGMVolume(string soundDataId, float volumeRatio)
+    {
+        if (null == BGMSourcePlayer) return;
+
+        SoundData data = GameManager.DataTable.GetSoundData(soundDataId);
+        float baseVolume = data != null ? data.Volume : 1f;
+
+        BGMSourcePlayer.volume = Mathf.Clamp01(volumeRatio) * baseVolume;
+    }
+
     public void SetBGMPitch(float pitch)
     {
         if (null == BGMSourcePlayer) return;

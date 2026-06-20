@@ -44,7 +44,7 @@ public class InventoryPickupItem : MonoBehaviour
             return false;
         }
 
-        var holdType = inventoryTypeData.CurrentHoldType;
+        HoldType holdType = typeData.GetHoldType();
         bool isAcquired = playerInventory.TryAcquireItem(itemData, holdType, out InventoryItem acquiredItem, out string resultMessage);
 
         if (!isAcquired)

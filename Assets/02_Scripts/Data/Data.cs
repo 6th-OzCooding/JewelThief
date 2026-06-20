@@ -32,10 +32,14 @@ public class ItemData : BaseData
     public string PrefabPath;
 }
 
+[Serializable]
 public class InventoryTypeData : BaseData
 {
     public string Name;
-    public HoldType CurrentHoldType;
+    public string CurrentHoldType;
+
+    public HoldType GetHoldType()
+        => Enum.TryParse<HoldType>(CurrentHoldType, out var result) ? result : HoldType.None;
 }
 
 [Serializable]
@@ -83,8 +87,11 @@ public class SoundData : BaseData
 {
     public string Name;
     public float Volume;
-    public SoundType SoundType;
+    public string SoundType;
     public bool IsLoop;
+
+    public global::SoundType GetSoundType()   // 추가: 사용처에서 enum으로 변환해서 사용 (필드명과 타입명이 같아 global:: 명시)
+    => Enum.TryParse<global::SoundType>(SoundType, out var result) ? result : global::SoundType.SFX;
 }
 
 [Serializable]
