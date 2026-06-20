@@ -1,6 +1,12 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+public enum SoundType
+{
+    BGM,
+    SFX,
+    Voice
+}
 
 [Serializable]
 public class BaseData
@@ -70,4 +76,24 @@ public class Door : BaseData
     public List<string> ItemIdList;
     public List<int> RateList;
     public string DoorMeshPrefabPath;
+}
+
+[Serializable]
+public class SoundData : BaseData
+{
+    public string Name;
+    public float Volume;
+    public SoundType SoundType;
+    public bool IsLoop;
+}
+
+[Serializable]
+public class StageData : BaseData
+{
+    public string Name;
+    public int TimeLimit;
+    public int MaxObject;
+    public int MaxTrap;
+    public int ExitCount;
+    public int EnemyId;
 }

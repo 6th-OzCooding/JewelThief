@@ -1,8 +1,4 @@
-﻿
-using Cysharp.Threading.Tasks;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -58,7 +54,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         UIManager.Instance.EnterGameplayCursorMode();
 
-        // 후추
+        // 추후 게임 플레이어 입장 시 필요한 로직 추가
     }
 
     public void QuitGame()

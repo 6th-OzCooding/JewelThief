@@ -6,14 +6,18 @@ using UnityEngine;
 public class DataTable
 {
     public Dictionary<string, PoolingObjectData> GetPoolingObjectDataTable() => PoolingObjectDataTable;
-    public Dictionary<string, InteractableObject> GetPoolingInteractableObjectDataTable() => PoolingInteractableObjectDataTable;
-    public Dictionary<string, InventoryTypeData> GetPoolingInventoryTypeDataTable() => PoolingInventoryTypeDataTable;
-    public Dictionary<string, ItemData> GetPoolingItemDataTable() => PoolingItemDataTable;
+    public Dictionary<string, InteractableObject> GetInteractableObjectDataTable() => InteractableObjectDataTable;
+    public Dictionary<string, InventoryTypeData> GetInventoryTypeDataTable() => InventoryTypeDataTable;
+    public Dictionary<string, ItemData> GetItemDataTable() => ItemDataTable;
+    public Dictionary<string, SoundData> GetSoundDataTable() => SoundDataTable;
+    public Dictionary<string, StageData> GetStageDataTable() => StageDataTable;
 
     Dictionary<string, PoolingObjectData> PoolingObjectDataTable { get; set; } = new();
-    Dictionary<string, InteractableObject> PoolingInteractableObjectDataTable { get; set; } = new();
-    Dictionary<string, InventoryTypeData> PoolingInventoryTypeDataTable { get; set; } = new();
-    Dictionary<string, ItemData> PoolingItemDataTable { get; set; } = new();
+    Dictionary<string, InteractableObject> InteractableObjectDataTable { get; set; } = new();
+    Dictionary<string, InventoryTypeData> InventoryTypeDataTable { get; set; } = new();
+    Dictionary<string, ItemData> ItemDataTable { get; set; } = new();
+    Dictionary<string, SoundData> SoundDataTable { get; set; } = new();
+    Dictionary<string, StageData> StageDataTable { get; set; } = new();
 
     [Serializable]
     class SerializationWrapper<T>
@@ -25,12 +29,14 @@ public class DataTable
     public void LoadAllData()
     {
         // PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
-        PoolingInteractableObjectDataTable = LoadData<InteractableObject>("InteractableObject");
-        PoolingItemDataTable = LoadData<ItemData>("ItemData");
+        InteractableObjectDataTable = LoadData<InteractableObject>("InteractableObject");
+        ItemDataTable = LoadData<ItemData>("ItemData");
 
-        // TODO: ItemData와 통합 후 삭제 예정
-        PoolingInventoryTypeDataTable = LoadData<InventoryTypeData>("InventoryTypeData");
-        
+        // TODO (김경훈 - 06.20: 아이템 데이터로 통합 후 삭제)
+        InventoryTypeDataTable = LoadData<InventoryTypeData>("InventoryTypeData");
+
+        SoundDataTable = LoadData<SoundData>("SoundData");
+        StageDataTable = LoadData<StageData>("StageData");
     }
 
     #region Getters
@@ -42,14 +48,38 @@ public class DataTable
         return PoolingObjectDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
-    public InteractableObject GetPoolingInteractableObjectData(string id)
+    public InteractableObject GetInteractableObjectData(string id)
     {
-        if (null == PoolingObjectDataTable || string.IsNullOrEmpty(id)) return null;
+        if (null == InteractableObjectDataTable || string.IsNullOrEmpty(id)) return null;
 
-        return PoolingInteractableObjectDataTable.TryGetValue(id, out var data) ? data : null;
+        return InteractableObjectDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
+    public ItemData GetItemData(string id)
+    {
+        if (null == ItemDataTable || string.IsNullOrEmpty(id)) return null;
+        return ItemDataTable.TryGetValue(id, out var data) ? data : null;
+    }
+
+    // TODO (김경훈 - 06.20: 아이템 데이터로 통합 후 삭제)
+    public InventoryTypeData GetInventoryTypeData(string id)
+    {
+        if (null == InventoryTypeDataTable || string.IsNullOrEmpty(id)) return null;
+        return InventoryTypeDataTable.TryGetValue(id, out var data) ? data : null;
+    }
     #endregion
+
+    public SoundData GetSoundData(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return null;
+        return SoundDataTable.TryGetValue(id, out var data) ? data : null;
+    }
+
+    public StageData GetStageData(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return null;
+        return StageDataTable.TryGetValue(id, out var data) ? data : null;
+    }
 
     Dictionary<string, T> LoadData<T>(string tableNmae) where T : BaseData
     {

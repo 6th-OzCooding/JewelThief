@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SoundManager
 {
@@ -13,13 +13,26 @@ public class SoundManager
 
     public void PlaySFX(string soundDataId)
     {
+        SoundData data = GameManager.DataTable.GetSoundData(soundDataId);
+        if (null == data)
+        {
+            Debug.LogError($"사운드 데이터를 찾을 수 없습니다: {soundDataId}");
+            return;
+        }
 
-        Utils.LoadAndPlayAudioClip(SFXSourcePlayer, soundDataId).Forget();
+        Utils.LoadAndPlayAudioClip(SFXSourcePlayer, data.Name, data.IsLoop, data.Volume).Forget();
     }
 
     public void PlayBGM(string soundDataId)
     {
-        Utils.LoadAndPlayAudioClip(BGMSourcePlayer, soundDataId, isLoop: true).Forget();
+        SoundData data = GameManager.DataTable.GetSoundData(soundDataId);
+        if (null == data)
+        {
+            Debug.LogError($"사운드 데이터를 찾을 수 없습니다: {soundDataId}");
+            return;
+        }
+
+        Utils.LoadAndPlayAudioClip(BGMSourcePlayer, data.Name, data.IsLoop, data.Volume).Forget();
     }
 
     public void SetBGMPitch(float pitch)
