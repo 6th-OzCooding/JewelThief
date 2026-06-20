@@ -2279,7 +2279,10 @@ MonoBehaviour:
   - {fileID: 2550080244902641972}
   - {fileID: 326103095968963883, guid: 7646425da9d02e049b0c1145f042d766, type: 3}
   - {fileID: -3202035140694518038, guid: 8f7348e7f9f2e3f4c9745fdc2361d0fb, type: 3}
-  _downTiles: []
+  _downTiles:
+  - {fileID: 2550080244902641972}
+  - {fileID: -642271718611852707, guid: 2e920f9dae272d44e8aefce90a734cdb, type: 3}
+  - {fileID: 6698724872310855212, guid: a6ce8083df4fbf7478f17bd05ce5b5d9, type: 3}
   _leftTiles: []
   _rightTiles: []
 --- !u!1 &8774074714162933201
