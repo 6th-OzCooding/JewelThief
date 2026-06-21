@@ -113,6 +113,7 @@ MonoBehaviour:
   - {fileID: -758822650666286364, guid: 55af624d731fc954ca4009254829fe4d, type: 3}
   - {fileID: -7594386115795982021, guid: 7a8f315d3806bd243a7b825be868d5ee, type: 3}
   - {fileID: 326103095968963883}
+  CeilingGO: {fileID: 966684567218886469}
 --- !u!1 &7256551856643121904
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,5 +857,10 @@ PrefabInstance:
 --- !u!4 &966684567218457445 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8307813378593426871, guid: fb3ea3ef1606cb049bcd7b783fee6ca4, type: 3}
+  m_PrefabInstance: {fileID: 9088565579260102354}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &966684567218886469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8307813378593329559, guid: fb3ea3ef1606cb049bcd7b783fee6ca4, type: 3}
   m_PrefabInstance: {fileID: 9088565579260102354}
   m_PrefabAsset: {fileID: 0}

@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 872383293}
   - component: {fileID: 872383292}
+  - component: {fileID: 872383294}
   m_Layer: 0
   m_Name: WFCMapGeneration
   m_TagString: Untagged
@@ -149,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WFCMapGeneration
   _gridSpacing: 10
-  _mapSize: 10
+  _mapSizeSetting: 10
   _tileObjects:
   - {fileID: 2550080244902641972, guid: 3254645d2b8c4574687548df1a0b30a8, type: 3}
   - {fileID: -642271718611852707, guid: 2e920f9dae272d44e8aefce90a734cdb, type: 3}
@@ -164,7 +165,9 @@ MonoBehaviour:
   - {fileID: -7594386115795982021, guid: 7a8f315d3806bd243a7b825be868d5ee, type: 3}
   - {fileID: 326103095968963883, guid: 7646425da9d02e049b0c1145f042d766, type: 3}
   _mapGridObject: {fileID: 8129356569605487877, guid: e440abf894c0e7a4da3ab9802b2b10b3, type: 3}
-  _backUpTile: {fileID: 5262577733211233567, guid: 57ed578f3fa471d45963f154cab91d01, type: 3}
+  _backUpTile: {fileID: -7594386115795982021, guid: 7a8f315d3806bd243a7b825be868d5ee, type: 3}
+  _boundaryTile: {fileID: 7944311522928850895, guid: d862b54069c446c429b9f2d57b048fba, type: 3}
+  _debugTileInspector: {fileID: 872383294}
 --- !u!4 &872383293
 Transform:
   m_ObjectHideFlags: 0
@@ -180,6 +183,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &872383294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872383291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd862652a279ab4b96e77f977555dc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebugTileInspector
+  isOnOffCeiling: 1
 --- !u!1 &1363288797
 GameObject:
   m_ObjectHideFlags: 0
