@@ -12,10 +12,18 @@ public class ConfirmPopupUI : UIBase
 
     private Action _onConfirmAction;
 
-    private void Start()
+    private void OnEnable()
     {
         _yesButton.onClick.AddListener(OnClickYes);
         _noButton.onClick.AddListener(OnClickNo);
+    }
+
+    private void OnDisable()
+    {
+        _yesButton.onClick.RemoveListener(OnClickYes);
+        _noButton.onClick.RemoveListener(OnClickNo);
+
+        _onConfirmAction = null;
     }
 
     public void SetUI(string message, Action onConfirm)

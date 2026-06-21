@@ -27,10 +27,7 @@ public class SettingPopupUI : UIBase
         _volumeSlider.value = _savedVolume;
         _controlSlider.value = _savedSensitivity;
         _displayDropdown.value = _savedDisplayMode;
-    }
 
-    private void Start()
-    {
         _volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
         _controlSlider.onValueChanged.AddListener(OnSensitivityChanged);
         _displayDropdown.onValueChanged.AddListener(OnDisplayModeChanged);
@@ -38,6 +35,17 @@ public class SettingPopupUI : UIBase
         _resetButton.Init(OnClickReset);
         _saveButton.Init(OnClickSave);
         _backButton.Init(OnClickBack);
+    }
+
+    private void OnDisable()
+    {
+        if (_volumeSlider != null) _volumeSlider.onValueChanged.RemoveListener(OnVolumeChanged);
+        if (_controlSlider != null) _controlSlider.onValueChanged.RemoveListener(OnSensitivityChanged);
+        if (_displayDropdown != null) _displayDropdown.onValueChanged.RemoveListener(OnDisplayModeChanged);
+
+        if (_resetButton != null) _resetButton.Init(null);
+        if (_saveButton != null) _saveButton.Init(null);
+        if (_backButton != null) _backButton.Init(null);
     }
 
     private void Update()
@@ -55,11 +63,12 @@ public class SettingPopupUI : UIBase
 
     private void OnSensitivityChanged(float value)
     {
+        /*
         PlayerController player = Object.FindFirstObjectByType<PlayerController>();
         if (player != null)
         {
-            // player.SetMouseSensitivity(value);
-        }
+            player.SetMouseSensitivity(value);
+        }  */
     }
 
     private void OnDisplayModeChanged(int index)
