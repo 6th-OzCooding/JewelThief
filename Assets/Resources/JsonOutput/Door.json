@@ -1,0 +1,16 @@
+[
+  {
+    "Id": "Door_01",
+    "DoorName": "문",
+    "DoorComment": "문이다. 잠금장치가 존재하지 않아 그냥 열 수 있을거 같다.",
+    "IsLock": false,
+    "DoorMeshPrefabPath": null
+  },
+  {
+    "Id": "Door_02",
+    "DoorName": "잠긴 문",
+    "DoorComment": "문이다. 잠금장치가 존재하여 도구를 사용해야 열 수 있을거 같다.",
+    "IsLock": true,
+    "DoorMeshPrefabPath": null
+  }
+]

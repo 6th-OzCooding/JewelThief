@@ -58,7 +58,7 @@ public class SettingPopupUI : UIBase
         PlayerController player = Object.FindFirstObjectByType<PlayerController>();
         if (player != null)
         {
-            player.SetMouseSensitivity(value);
+            // player.SetMouseSensitivity(value);
         }
     }
 
@@ -78,8 +78,8 @@ public class SettingPopupUI : UIBase
 
         GameManager.Sound.SetMasterVolume(1.0f);
 
-        PlayerController player = Object.FindFirstObjectByType<PlayerController>();
-        if (player != null) player.SetMouseSensitivity(50.0f);
+       /* PlayerController player = Object.FindFirstObjectByType<PlayerController>();
+        if (player != null) player.SetMouseSensitivity(50.0f);  */
     }
 
     private void OnClickSave()
@@ -100,12 +100,13 @@ public class SettingPopupUI : UIBase
     {
         GameManager.Sound.SetMasterVolume(_savedVolume);
 
+        /*
         PlayerController player = Object.FindFirstObjectByType<PlayerController>();
-        if (player != null) player.SetMouseSensitivity(_savedSensitivity);
+        if (player != null) player.SetMouseSensitivity(_savedSensitivity);  */
 
         if (_savedDisplayMode == 0) Screen.fullScreenMode = FullScreenMode.Windowed;
         else if (_savedDisplayMode == 1) Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
 
-        UIManager.Instance.ClosePopupUI(UIType.SettingPopup);
+        GameManager.UI.ClosePopupUI(UIType.SettingPopup);
     }
 }

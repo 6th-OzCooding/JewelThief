@@ -15,6 +15,6 @@ public class CreditPopupUI : UIBase
 
     private void ClosePopup()
     {
-        UIManager.Instance.ClosePopupUI(UIType.CreditPopup);
+        GameManager.UI.ClosePopupUI(UIType.CreditPopup);
     }
 }

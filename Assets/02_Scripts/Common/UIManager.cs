@@ -1,35 +1,38 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// UI 프리팹을 생성, 캐싱, 열기, 닫기 처리하는 매니저입니다.
 /// </summary>
-public class UIManager : MonoBehaviour
+public class UIManager
 {
     /// <summary>
     /// 현재 씬에서 사용하는 UIManager 인스턴스입니다.
     /// </summary>
-    public static UIManager Instance { get; private set; }
-
-    [Header("UI Root Canvases")]
-    [SerializeField] private Canvas _backgroundRoot;
-    [SerializeField] private Canvas _mainRoot;
-    [SerializeField] private Canvas _contentRoot;
-    [SerializeField] private Canvas _popupRoot;
-    [SerializeField] private Canvas _veryFrontRoot;
+    private Canvas _backgroundRoot;
+    private Canvas _mainRoot;
+    private Canvas _contentRoot;
+    private Canvas _popupRoot;
+    private Canvas _veryFrontRoot;
 
     private readonly Dictionary<UIType, UIBase> _createdUIDic = new();
     private readonly HashSet<UIType> _openedUIDic = new();
 
-    private void Awake()
+    public void Init()
     {
-        if (Instance != null && Instance != this)
+        var uiHandler = GameObject.Instantiate(Resources.Load<GameObject>("UICanvas"));
+        if(uiHandler.TryGetComponent(out UIMgrHandler handler))
         {
-            Destroy(gameObject);
-            return;
+            _backgroundRoot = handler.BackgroundRoot;
+            _mainRoot = handler.MainRoot;
+            _contentRoot = handler.ContentRoot;
+            _popupRoot = handler.PopupRoot;
+            _veryFrontRoot = handler.VeryFrontRoot;
         }
-
-        Instance = this;
+        else
+        {
+            Debug.LogWarning("UI Root Canvas Prefab에 UIMgrHandler 컴포넌트가 없습니다.");
+        }
     }
 
     /// <summary>
@@ -130,11 +133,11 @@ public class UIManager : MonoBehaviour
             return null;
         }
 
-        GameObject instance = Instantiate(prefab, root);
+        GameObject instance = GameObject.Instantiate(prefab, root);
         if (!instance.TryGetComponent(out UIBase uiBase))
         {
             Debug.LogWarning($"UI 프리팹에 UIBase 컴포넌트가 없습니다. Path: {path}");
-            Destroy(instance);
+            GameObject.Destroy(instance);
             return null;
         }
 

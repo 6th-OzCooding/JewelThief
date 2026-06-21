@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1775569944222757514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6402816207537565856}
+  - component: {fileID: 8377893701777172559}
+  - component: {fileID: 1029924257829622078}
+  m_Layer: 0
+  m_Name: WoodBox_Prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6402816207537565856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775569944222757514}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.9, z: 1.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7072060891787353412}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8377893701777172559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775569944222757514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3f60c5ecf8f994b9c45b16e70834aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableWoodBox
+  _animController: {fileID: 1029924257829622078}
+--- !u!114 &1029924257829622078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775569944222757514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e399ab83a1a10841bf2f6827d0564ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableBoxAnimeController
+  _animatorBox: {fileID: 6903582316730318915}
+--- !u!1001 &5709573303924331801
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6402816207537565856}
+    m_Modifications:
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4494390570162984158, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+      propertyPath: m_Name
+      value: Mesh_WoodBox_Prefab
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+--- !u!95 &6903582316730318915 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1221048486394828122, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+  m_PrefabInstance: {fileID: 5709573303924331801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7072060891787353412 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3249764130388461661, guid: 1dfc93650565f744080e5d530ab73da1, type: 3}
+  m_PrefabInstance: {fileID: 5709573303924331801}
+  m_PrefabAsset: {fileID: 0}

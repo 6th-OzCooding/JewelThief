@@ -20,7 +20,7 @@ public class TitleUI : UIBase
     private void OnClickNewGame()
     {
         Debug.Log("새 게임 시작!");
-        GameManager.Instance.EnterGamePlayer();
+        GameManager.Instance.EnterGamePlay();
 
         // 후추 : 인게임 진입 로직
     }
@@ -34,12 +34,12 @@ public class TitleUI : UIBase
 
     private void OnClickCredit()
     {
-        UIManager.Instance.OpenPopupUI(UIType.CreditPopup);
+        GameManager.UI.OpenPopupUI(UIType.CreditPopup);
     }
 
     private void OnClickExit()
     {
-        UIBase popupBase = UIManager.Instance.OpenPopupUI(UIType.ConfirmPopup);
+        UIBase popupBase = GameManager.UI.OpenPopupUI(UIType.ConfirmPopup);
 
         if (popupBase != null && popupBase.TryGetComponent(out ConfirmPopupUI confirmUI))
         {

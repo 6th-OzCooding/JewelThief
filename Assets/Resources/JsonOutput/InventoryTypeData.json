@@ -1,0 +1,12 @@
+[
+  {
+    "Id": "Item_Test_PocketItem",
+    "Name": "작은 아이템",
+    "CurrentHoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Test_HoldItem",
+    "Name": "큰 아이템",
+    "CurrentHoldType": "Hold"
+  }
+]

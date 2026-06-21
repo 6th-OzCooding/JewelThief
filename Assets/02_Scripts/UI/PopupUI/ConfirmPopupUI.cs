@@ -31,11 +31,11 @@ public class ConfirmPopupUI : UIBase
             _onConfirmAction.Invoke();
         }
 
-        UIManager.Instance.ClosePopupUI(UIType.ConfirmPopup);
+        GameManager.UI.ClosePopupUI(UIType.ConfirmPopup);
     }
 
     private void OnClickNo()
     {
-        UIManager.Instance.ClosePopupUI(UIType.ConfirmPopup);
+        GameManager.UI.ClosePopupUI(UIType.ConfirmPopup);
     }
 }
