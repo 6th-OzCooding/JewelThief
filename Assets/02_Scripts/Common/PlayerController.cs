@@ -42,6 +42,18 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    // 세팅 UI에서 쓰려고 추가
+    void Start()
+    {
+        _mouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 50f);
+    }
+
+    // 세팅 UI에서 쓰려고 추가
+    public void SetMouseSensitivity(float sensitivity)
+    {
+        _mouseSensitivity = sensitivity;
+    }
+
     void Update()
     {
         Vector3 forwardMovement = transform.forward * _inputVector.y;

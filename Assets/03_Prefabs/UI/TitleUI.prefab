@@ -136,6 +136,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleButtonElement
   _backgroundImage: {fileID: 8692896075555005649}
   _buttonComponent: {fileID: 3917648742068616662}
+  _buttonText: {fileID: 0}
+  _normalTextColor: {r: 1, g: 0.5, b: 0, a: 1}
+  _hoverTextColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1379557612054623764
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +150,7 @@ GameObject:
   - component: {fileID: 7333273376045133902}
   - component: {fileID: 72670004186261977}
   - component: {fileID: 1475941527380453310}
+  - component: {fileID: 4863034506759551026}
   m_Layer: 5
   m_Name: Setting
   m_TagString: Untagged
@@ -202,8 +206,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1ded814e5f5946d4fa36b3df56ae76ab, type: 3}
-  m_Type: 3
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -212,6 +216,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4863034506759551026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379557612054623764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b38a7cff8f1b444fa5de4cae4542b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TitleButtonElement
+  _backgroundImage: {fileID: 1475941527380453310}
+  _buttonComponent: {fileID: 6533947388836797247}
+  _buttonText: {fileID: 6396000142495691708}
+  _normalTextColor: {r: 1, g: 0.5, b: 0, a: 1}
+  _hoverTextColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &2512872550794945561
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,6 +593,7 @@ GameObject:
   - component: {fileID: 891870156823250849}
   - component: {fileID: 1394298230074375558}
   - component: {fileID: 5915495731718832171}
+  - component: {fileID: 7806771433179237598}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -627,8 +649,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1ded814e5f5946d4fa36b3df56ae76ab, type: 3}
-  m_Type: 3
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -637,6 +659,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7806771433179237598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968209057725752395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b38a7cff8f1b444fa5de4cae4542b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TitleButtonElement
+  _backgroundImage: {fileID: 5915495731718832171}
+  _buttonComponent: {fileID: 3252229792401000815}
+  _buttonText: {fileID: 6468207219228591334}
+  _normalTextColor: {r: 1, g: 0.5, b: 0, a: 1}
+  _hoverTextColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &4523215867539987881
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,6 +949,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleButtonElement
   _backgroundImage: {fileID: 8666626940758792257}
   _buttonComponent: {fileID: 4600893857579978612}
+  _buttonText: {fileID: 0}
+  _normalTextColor: {r: 1, g: 0.5, b: 0, a: 1}
+  _hoverTextColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &4627427354085429911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,6 +1088,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleButtonElement
   _backgroundImage: {fileID: 1475941527380453310}
   _buttonComponent: {fileID: 6533947388836797247}
+  _buttonText: {fileID: 0}
+  _normalTextColor: {r: 1, g: 0.5, b: 0, a: 1}
+  _hoverTextColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &5648103492616600243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,6 +1140,7 @@ GameObject:
   - component: {fileID: 995114265622849004}
   - component: {fileID: 8494123073849668169}
   - component: {fileID: 8692896075555005649}
+  - component: {fileID: 8329314198883810121}
   m_Layer: 5
   m_Name: NewGame
   m_TagString: Untagged
@@ -1150,8 +1196,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1ded814e5f5946d4fa36b3df56ae76ab, type: 3}
-  m_Type: 3
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1160,6 +1206,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8329314198883810121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6776324307045831361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b38a7cff8f1b444fa5de4cae4542b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TitleButtonElement
+  _backgroundImage: {fileID: 8692896075555005649}
+  _buttonComponent: {fileID: 3917648742068616662}
+  _buttonText: {fileID: 5944264525716493747}
+  _normalTextColor: {r: 1, g: 0.5, b: 0, a: 1}
+  _hoverTextColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &6926679463875851786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,6 +1359,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleButtonElement
   _backgroundImage: {fileID: 5915495731718832171}
   _buttonComponent: {fileID: 3252229792401000815}
+  _buttonText: {fileID: 0}
+  _normalTextColor: {r: 1, g: 0.5, b: 0, a: 1}
+  _hoverTextColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &7073681769004940599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,6 +1373,7 @@ GameObject:
   - component: {fileID: 500312133585626125}
   - component: {fileID: 2562003381925435971}
   - component: {fileID: 8666626940758792257}
+  - component: {fileID: 3376638792219799717}
   m_Layer: 5
   m_Name: Craddit
   m_TagString: Untagged
@@ -1362,8 +1429,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1ded814e5f5946d4fa36b3df56ae76ab, type: 3}
-  m_Type: 3
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1372,6 +1439,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3376638792219799717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7073681769004940599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b38a7cff8f1b444fa5de4cae4542b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TitleButtonElement
+  _backgroundImage: {fileID: 8666626940758792257}
+  _buttonComponent: {fileID: 4600893857579978612}
+  _buttonText: {fileID: 2645598752266391077}
+  _normalTextColor: {r: 1, g: 0.5, b: 0, a: 1}
+  _hoverTextColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &7109877694806797439
 GameObject:
   m_ObjectHideFlags: 0

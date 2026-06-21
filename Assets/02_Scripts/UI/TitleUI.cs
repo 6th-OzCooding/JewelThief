@@ -34,7 +34,7 @@ public class TitleUI : UIBase
 
     private void OnClickCredit()
     {
-        Debug.Log("크레딧 창 열기");
+        UIManager.Instance.OpenPopupUI(UIType.CreditPopup);
     }
 
     private void OnClickExit()
