@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WFCMapGeneration : MonoBehaviour
+public class WFCMapGeneration
 {
-    [Header("Map Generation Settings")]
-    [SerializeField] private float _gridSpacing = 1f;
-    [SerializeField] private int _mapSizeSetting = 10;
+    // Map Generation Settings
+    private float _gridSpacing = 10f;
+    private int _mapSizeSetting = 10;
     private int _mapSize;
+    private int _generationCount = 0;
 
-    [Header("Objects")]
-    [SerializeField] private MapTile[] _tileObjects;
-    [SerializeField] private MapGrid _mapGridObject;
-    [SerializeField] private MapTile _backUpTile;
-    [SerializeField] private MapTile _boundaryTile;
+    private SOTilePreset _soTilePreset;
 
-    [Header("Debug")]
-    [SerializeField] private DebugTileInspector _debugTileInspector;
+    // Objects
+    private List<MapTile> _tileObjects;
+    private MapGrid _mapGridObject;
+    private MapTile _backUpTile;
+    private MapTile _boundaryTile;
 
     // cache
     private List<MapGrid> _grids;
@@ -27,17 +27,29 @@ public class WFCMapGeneration : MonoBehaviour
     private readonly List<MapGrid> _lowEntropyGrids = new();
     private readonly MapGrid[] _collapsedNeighbors = new MapGrid[4];
 
-    private int _generationCount = 0;
 
-    private void Awake()
+    public async UniTask StartGenerateMap(Action<float> onProgress = null)
     {
+        _tileObjects = new();
         _grids = new();
         _mapSize = _mapSizeSetting + 2;
+        _generationCount = 0;
 
-        InitGrid();
+        onProgress?.Invoke(0.0f);
+
+        await LoadAssets();
+
+        onProgress?.Invoke(0.1f);
+
+        GenerateGrids();
+        PresetTileGenerate();
+
+        await GenerateMapAsync(onProgress);
+
+        onProgress?.Invoke(1.0f);
     }
 
-    private void InitGrid()
+    private void GenerateGrids()
     {
         int index = 0;
 
@@ -45,7 +57,7 @@ public class WFCMapGeneration : MonoBehaviour
         {
             for (int x = 0; x < _mapSize; x++)
             {
-                MapGrid newGrid = Instantiate(_mapGridObject, new Vector3(x * _gridSpacing, 0, y * _gridSpacing), Quaternion.identity);
+                MapGrid newGrid = GameObject.Instantiate(_mapGridObject, new Vector3(x * _gridSpacing, 0, y * _gridSpacing), Quaternion.identity);
 
                 if (x == 0 || y == 0 || x == _mapSize - 1 || y == _mapSize - 1)
                 {
@@ -60,11 +72,31 @@ public class WFCMapGeneration : MonoBehaviour
                 }
             }
         }
-
-        StartCoroutine(CheckEntropy());
     }
 
-    private IEnumerator CheckEntropy()
+    private async UniTask GenerateMapAsync(Action<float> onProgress)
+    {
+        float totalCount = _mapSizeSetting * _mapSizeSetting;
+
+        while(_generationCount < totalCount)
+        {
+            if(CheckEntropy())
+            {
+                float progess = _generationCount / totalCount;
+                onProgress?.Invoke(progess);
+
+                await UniTask.Yield();
+            }
+            else
+            {
+                Debug.Log("모순 발생 맵 재성성 시작!");
+                break;
+            }
+
+        }
+    }
+
+    private bool CheckEntropy()
     {
         _lowEntropyGrids.Clear();
 
@@ -100,9 +132,11 @@ public class WFCMapGeneration : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(0.01f);
+        if (_lowEntropyGrids.Count == 0)
+            return false;
 
         CollapseGrid(_lowEntropyGrids);
+        return true;
     }
 
     private void CollapseGrid(List<MapGrid> collapseCandidatetGrids)
@@ -116,11 +150,9 @@ public class WFCMapGeneration : MonoBehaviour
         MapTile selectedTile = currentGrid.TileOptions[UnityEngine.Random.Range(0, currentGrid.TileOptions.Length)];
         currentGrid.TileOptions = new MapTile[] { selectedTile };
 
-        _debugTileInspector.AddTile(
-            Instantiate(selectedTile
-            , currentGrid.transform.position + selectedTile.transform.position
-            , selectedTile.transform.rotation)
-            );
+        GameObject.Instantiate(selectedTile
+                    , currentGrid.transform.position + selectedTile.transform.position
+                    , selectedTile.transform.rotation);
 
         UpdateGeneration(currentGrid, selectedTile);
     }
@@ -132,9 +164,7 @@ public class WFCMapGeneration : MonoBehaviour
         for (int i = 0; i < _collapsedNeighbors.Length; i++)
         {
             if (_collapsedNeighbors[i] == null || _collapsedNeighbors[i].IsCollapsed)
-            {
                 continue;
-            }
 
             MapTile[] updatedOptions = null;
             if (i == 0)         // 위
@@ -158,10 +188,6 @@ public class WFCMapGeneration : MonoBehaviour
         }
 
         _generationCount++;
-        if (_generationCount < _mapSizeSetting * _mapSizeSetting)
-        {
-            StartCoroutine(CheckEntropy());
-        }
     }
 
     private void UpdateCollapsedNeighbors(MapGrid currentGrid)
@@ -219,8 +245,72 @@ public class WFCMapGeneration : MonoBehaviour
             dir = Vector3.left;
         }
 
-        newGrid.CreateMapGrid(true, new MapTile[] { _boundaryTile }, -1);
-        Instantiate(_boundaryTile, newGrid.transform.position + dir * _gridSpacing / 2, rotation);
+        newGrid.CreateMapGrid(true, new List<MapTile> { _boundaryTile }, -1);
+        GameObject.Instantiate(_boundaryTile, newGrid.transform.position + dir * _gridSpacing / 2, rotation);
+    }
 
+    private async UniTask LoadAssets()
+    {
+        _mapGridObject = GameManager.Resource.GetLoadedAsset<GameObject>("MapGrid").GetComponent<MapGrid>();
+
+        _backUpTile = GameManager.Resource.GetLoadedAsset<GameObject>("BackUpTile").GetComponent<MapTile>();
+        _boundaryTile = GameManager.Resource.GetLoadedAsset<GameObject>("BoundaryTile").GetComponent<MapTile>();
+
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Vertical Corridor").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Room1").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("RightTop Corridor").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("RightDown Corridor").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("LeftTop Corridor").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("LeftDown Corridor").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Horizontal Corridor").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room4").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room3").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room2").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room1").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("All Direction Corridor").GetComponent<MapTile>());
+
+
+        _soTilePreset = await GameManager.Resource.LoadAssetAsync<SOTilePreset>("SOTilePreset");
+        Debug.Log("맵 에셋 할당 완료!");
+    }
+
+    private void PresetTileGenerate()
+    {
+        if (null == _soTilePreset || _soTilePreset.presetTiles.Count == 0)
+            return;
+
+        foreach (TilePresetData presetTile in _soTilePreset.presetTiles)
+        {
+            Vector2Int pos = presetTile.position;
+
+            if (pos.x < 0 || pos.x >= _mapSizeSetting || pos.y < 0 || pos.y >= _mapSizeSetting)
+                continue;
+
+            if (null == presetTile.tilePrefab)
+                continue;
+
+            int gridIndex = (int)(pos.x + pos.y * _mapSizeSetting);
+            MapGrid currentGrid = _grids[gridIndex];
+            currentGrid.IsCollapsed = true;
+
+            MapTile tile = presetTile.tilePrefab;
+
+            currentGrid.SetTileOptions(new MapTile[] { tile });
+            GameObject.Instantiate(tile,
+            currentGrid.transform.position + tile.transform.position,
+            tile.transform.rotation
+            );
+
+            UpdateGeneration(currentGrid, tile);
+        }
+    }
+
+    public void Release()
+    {
+        _grids.Clear();
+        _tileObjects.Clear();
+        _lowEntropyGrids.Clear();
+
+        _generationCount = 0;
     }
 }
