@@ -151,15 +151,18 @@ MonoBehaviour:
   _gridSpacing: 10
   _mapSize: 10
   _tileObjects:
-  - {fileID: 2542745913178864968, guid: 6418032b6c359c84895c1050cac754ea, type: 3}
-  - {fileID: 7070255228154469395, guid: fd8ef53179fbf964e8b9c6f652a8a786, type: 3}
-  - {fileID: -581348072908842723, guid: ec1de2f060f352944955beb39e7db8b6, type: 3}
-  - {fileID: -5511589672289127773, guid: fff838bfd4601974cac738866af68785, type: 3}
-  - {fileID: -3867054020381659403, guid: 050a7286630d53d44beed74b0ecb5060, type: 3}
-  - {fileID: 8788762690445316507, guid: 753a53be3fa88d64997955682cb8f58f, type: 3}
-  - {fileID: 1101823609475649444, guid: c96fcc9dd375d014a9755b2cd130ae0a, type: 3}
-  - {fileID: -3255255972006171085, guid: 6c18399cbc4d10f418b08116f2387151, type: 3}
-  - {fileID: 5262577733211233567, guid: 57ed578f3fa471d45963f154cab91d01, type: 3}
+  - {fileID: 2550080244902641972, guid: 3254645d2b8c4574687548df1a0b30a8, type: 3}
+  - {fileID: -642271718611852707, guid: 2e920f9dae272d44e8aefce90a734cdb, type: 3}
+  - {fileID: 1979059380598593444, guid: 92c418d0256638d45b6411d8f96b6a01, type: 3}
+  - {fileID: 8115681778142865902, guid: 949aec4f313f8a84c82b3ee7d8d9f8a5, type: 3}
+  - {fileID: 6698724872310855212, guid: a6ce8083df4fbf7478f17bd05ce5b5d9, type: 3}
+  - {fileID: 244000010739327863, guid: d69143228653e864a9c0d9178fb8be86, type: 3}
+  - {fileID: -3202035140694518038, guid: 8f7348e7f9f2e3f4c9745fdc2361d0fb, type: 3}
+  - {fileID: -1724958632965242748, guid: 7388b6783a325464a8addb4c6e9a9265, type: 3}
+  - {fileID: -5616739648893551061, guid: f9d00a2426db1e449bcf40bb3e144dda, type: 3}
+  - {fileID: -758822650666286364, guid: 55af624d731fc954ca4009254829fe4d, type: 3}
+  - {fileID: -7594386115795982021, guid: 7a8f315d3806bd243a7b825be868d5ee, type: 3}
+  - {fileID: 326103095968963883, guid: 7646425da9d02e049b0c1145f042d766, type: 3}
   _mapGridObject: {fileID: 8129356569605487877, guid: e440abf894c0e7a4da3ab9802b2b10b3, type: 3}
   _backUpTile: {fileID: 5262577733211233567, guid: 57ed578f3fa471d45963f154cab91d01, type: 3}
 --- !u!4 &872383293
@@ -171,7 +174,7 @@ Transform:
   m_GameObject: {fileID: 872383291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.076, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

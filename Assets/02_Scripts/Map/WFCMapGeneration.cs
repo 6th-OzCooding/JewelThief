@@ -69,6 +69,7 @@ public class WFCMapGeneration : MonoBehaviour
 
             if(optionCount == 0)
             {
+                Debug.Log("백업 타일 설정!");
                 grid.SetTileOptions(new MapTile[] { _backUpTile });
                 optionCount = 1;
             }
@@ -101,7 +102,7 @@ public class WFCMapGeneration : MonoBehaviour
         MapTile selectedTile = currentGrid.TileOptions[UnityEngine.Random.Range(0, currentGrid.TileOptions.Length)];
         currentGrid.TileOptions = new MapTile[] { selectedTile };
 
-        Instantiate(selectedTile, currentGrid.transform.position, selectedTile.transform.rotation);
+        Instantiate(selectedTile, currentGrid.transform.position + selectedTile.transform.position, selectedTile.transform.rotation);
 
         UpdateGeneration(currentGrid, selectedTile);
     }
