@@ -24,6 +24,9 @@ public enum UIType
     CenterPointUI,
     TitleUI,
     ItemInfoPopupUI,
+    ConfirmPopup,
+    CreditPopup,
+    SettingPopup,
     ObjectInfoPopupUI
 }
 
