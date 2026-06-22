@@ -50,9 +50,9 @@ public static class Utils
         return null;
     }
 
-    public static async UniTaskVoid LoadAndPlayAudioClip(AudioSource audioSource, string path, bool isLoop = false, float volume = 1f)
+    public static void LoadAndPlayAudioClip(AudioSource audioSource, string path, bool isLoop = false, float volume = 1f)
     {
-        AudioClip clip = await GameManager.Resource.LoadAssetAsync<AudioClip>(path);
+        AudioClip clip = GameManager.Resource.GetLoadedAsset<AudioClip>(path);
         if (null == clip)
         {
             Debug.LogError($"오디오 클립 로드 실패: {path}");
