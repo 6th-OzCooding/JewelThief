@@ -15,9 +15,9 @@ TagManager:
   - PlayerBody
   - PlayerHand
   - 
-  - 
-  - 
-  - 
+  - Wall
+  - Floor
+  - Obstacle
   - 
   - 
   - 
