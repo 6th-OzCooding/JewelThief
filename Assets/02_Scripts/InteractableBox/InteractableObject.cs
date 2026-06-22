@@ -207,7 +207,40 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
         // TODO(안우재 2026-6-22) : _spawnedItemList에 있는 아이템들을 생성하는데 아이템들을 위로 발사(Impulse)하여 생성
         //                          아이템 갯수(_spawnedItemList.Count)에 따라 파티클이 다르게 해야함
 
+        // foreach문 들어가기 전 PlayDropItemParicle(_spawnedItemList.Count) 로 파티클 실행
+        // 아이템 풀에서 Active한 gameObject activedItem이 있다고 침
+        // 생성 로직 후 ShootItem(activedItem)을 수행, 이걸 foreach안에서 수행
 
+    }
+
+    private void ShootItem(GameObject shootingObject)
+    {
+        if(shootingObject == null) return;
+
+        // 튀어오르는 값 여기서 조절 가능
+        float minImpulsePower = 3f;
+        float maxImpulsePower = 7f;
+        float sideRandomPower = 1.5f;
+
+        shootingObject.TryGetComponent<Rigidbody>(out Rigidbody shootObjRigid);
+
+        shootObjRigid.linearVelocity = Vector3.zero;
+        shootObjRigid.angularVelocity = Vector3.zero;
+
+        Vector3 randomDir = new Vector3(
+            UnityEngine.Random.Range(-sideRandomPower, sideRandomPower),
+            1f,
+            UnityEngine.Random.Range(-sideRandomPower, sideRandomPower)
+        ).normalized;
+
+        float power = UnityEngine.Random.Range(minImpulsePower, maxImpulsePower);
+
+        shootObjRigid.AddForce(randomDir * power, ForceMode.Impulse);
+    }
+
+    private void PlayDropItemParicle(int dropItemCount)
+    {
+        // 파티클을 데이터 드리븐할지, 아니면 직접할당할지, 아니면 Addressable로 생성할지 확인 필요
     }
 
     private void OpenLockedBox()
