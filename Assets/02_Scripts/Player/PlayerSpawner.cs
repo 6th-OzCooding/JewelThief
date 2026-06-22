@@ -7,27 +7,28 @@ public class PlayerSpawner : MonoBehaviour
 
     private GameObject _spawnedPlayer;
 
-    public GameObject TrySpawnPlayer()
+    public GameObject TrySpawnPlayer(Vector3 spawnPosition, Quaternion spawnRotation)
     {
-        return SpawnPlayer();
+        if (_spawnedPlayer != null)
+        {
+            _spawnedPlayer.transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+            return _spawnedPlayer;
+        }
+
+        return SpawnPlayer(spawnPosition, spawnRotation);
     }
 
-    private GameObject SpawnPlayer()
+    private GameObject SpawnPlayer(Vector3 position, Quaternion rotation)
     {
-        if (_spawnPoint == null)
-        {
-            Debug.LogError("SpawnPoint가 연결되지 않았습니다.");
-            return null;
-        }
-
         GameObject playerPrefab = GameManager.Resource.GetLoadedAsset<GameObject>("Player");
+
         if (playerPrefab == null)
         {
-            Debug.LogError("플레이어 프리팹을 로드하지 못했습니다.");
+            Debug.LogError("플레이어 프리팹을 로드 실패.");
             return null;
         }
 
-        _spawnedPlayer = Instantiate(playerPrefab, _spawnPoint.position, _spawnPoint.rotation);
+        _spawnedPlayer = Instantiate(playerPrefab, position, rotation);
         return _spawnedPlayer;
     }
 }

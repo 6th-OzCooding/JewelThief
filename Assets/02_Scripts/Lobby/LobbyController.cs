@@ -3,6 +3,7 @@
 public class LobbyController : MonoBehaviour
 {
     [Header("로비 구성 요소 연결")]
+    [SerializeField] private Transform _lobbySpawnPoint;
     [SerializeField] private PlayerSpawner _playerSpawner;
     [SerializeField] private StageSelectController _stageSelectController;
 
@@ -14,7 +15,7 @@ public class LobbyController : MonoBehaviour
             return;
         }
 
-        GameObject spawnedPlayer = _playerSpawner.TrySpawnPlayer();
+        GameObject spawnedPlayer = _playerSpawner.TrySpawnPlayer(_lobbySpawnPoint.position, _lobbySpawnPoint.rotation);
 
         if (spawnedPlayer == null || _stageSelectController == null)
             return;
@@ -32,7 +33,7 @@ public class LobbyController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("spawnedPlayer 및 그 자식에서 PlayerController를 찾지 못했습니다.");
+            Debug.LogError("PlayerController를 찾지 못했습니다.");
         }
     }
 
