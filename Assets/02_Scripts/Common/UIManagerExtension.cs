@@ -83,6 +83,11 @@ public static class UIManagerExtension
         uiManager.CloseUI(UIType.LoadingUI);
     }
 
+    public static void CloseMainUI(this UIManager uiManager)
+    {
+        uiManager.CloseUI(UIType.TitleUI);
+    }
+
     /// <summary>
     /// 게임 플레이 중 화면 중앙 기준점을 보여주는 UI를 엽니다.
     /// </summary>

@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -59,6 +60,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
 
         InitNonAsync();
+
+        UI.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
 
     private void InitNonAsync()
@@ -67,11 +70,29 @@ public class GameManager : SingletonBehaviour<GameManager>
         _poolManager.Init();
     }
 
-    public void EnterGamePlay()
+    public void EnterLobby()
     {
         UI.CloseUI(UIType.TitleUI);
         UI.EnterGameplayCursorMode();
 
+        GameObject lobbyPrefab = _resourceManager.GetLoadedAsset<GameObject>("Lobby");
+        if (lobbyPrefab == null)
+        {
+            Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
+        }
+        else
+        {
+            GameObject lobbyInstance = Instantiate(lobbyPrefab);
+
+            if (lobbyInstance.TryGetComponent(out LobbyController lobbyController))
+                lobbyController.Enter();
+            else
+                Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+        }
+    }
+
+    public void EnterGamePlay()
+    {
         // TODO(김익환 2026-06-21): 맵 로딩 ui가 필요한지 몰라서 일단은 로딩화면 없이 바로 생성
         _wfcMapGeneration.StartGenerateMap().Forget();
 

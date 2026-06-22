@@ -68,6 +68,10 @@
     "Address": "All Direction Corridor"
   },
   {
+    "Id": "PreLoadAsset_Lobby",
+    "Address": "Lobby"
+  },
+  {
     "Id": "PreLoadAsset_Player_With_Camera",
     "Address": "Player"
   },
