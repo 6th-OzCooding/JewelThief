@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -22,6 +23,17 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     #endregion
 
+    #region Variables
+
+    private bool _isPlaying = false;
+
+    #endregion
+
+    #region Getters
+
+    public bool IsPlaying => _isPlaying;
+
+    #endregion
 
     /// <summary>
     /// 데이터 드리븐 초기화 -> UIManager 초기화 -> 로딩(어드레서블 불러오기) -> 사운드 및 풀 초기화
@@ -35,17 +47,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         InitAsync().Forget();
     }
 
-    private void Update()
-    {
-        _alertManager.OnUpdate();
-    }
-
     private async UniTaskVoid InitAsync()
     {
         UIBase loadingUIBase = UI.OpenLoadingUI();
 
 
-        if(loadingUIBase == null)
+        if (loadingUIBase == null)
         {
             throw new Exception("Failed to open loading UI");
         }
@@ -67,7 +74,16 @@ public class GameManager : SingletonBehaviour<GameManager>
         _poolManager.Init();
     }
 
-    public void EnterGamePlay()
+    private void Update()
+    {
+        if(_isPlaying)
+        {
+            _alertManager.OnUpdate();
+
+        }
+    }
+
+    public void EnterStage()
     {
         UI.CloseUI(UIType.TitleUI);
         UI.EnterGameplayCursorMode();
@@ -83,14 +99,20 @@ public class GameManager : SingletonBehaviour<GameManager>
             _soundManager.PlayBGM(SoundId.BGM_PlayTheme);
             _alertManager.Init(stageData.TimeLimit - 60);   // TODO(김경훈 2026-06-20): 테스트용으로 스테이지 시작 전 60초를 제외하고 시작하도록 설정.
         }
+
+        _isPlaying = true;
     }
 
     /// <summary>
     /// InGame 이탈 시점 호출
     /// </summary>
-    public void ExitGamePlay()
+    public void ExitStage()
     {
+        _isPlaying = false;
+
         _wfcMapGeneration.Release();
+
+        // TODO(김익환 2026-06-21): 본부로 이동
     }
 
     public void QuitGame()

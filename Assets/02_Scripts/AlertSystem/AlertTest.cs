@@ -46,7 +46,7 @@ public class AlertTest : MonoBehaviour
 
     private void OnClickEnterGameplay()
     {
-        GameManager.Instance.EnterGamePlay();
+        GameManager.Instance.EnterStage();
     }
 
     private void OnClickReset()
