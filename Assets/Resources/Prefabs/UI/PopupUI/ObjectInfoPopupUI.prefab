@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectInfoPopupUI
   _popupOffset: {x: 220, y: 0}
-  _animatedBox: {fileID: 0}
+  _animatedBox: {fileID: 3585239881962581273}
   _hiddenLayoutsDuringOpen: []
   _openDuration: 0.08
   _objectName: {fileID: 4006775258161725363}

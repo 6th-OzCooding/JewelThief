@@ -1,7 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using TeamConvention.Interfaces;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+
+public enum SpawnObjectType
+{
+    None,
+    Cabinet,
+    LockBox,
+    WoodBox
+}
 
 [System.Serializable]
 public class RarityWeight
@@ -16,30 +27,30 @@ public class BoxDropData
     public List<RarityWeight> RarityWeights = new();
 }
 
-public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
+public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
 {
     [Header("컴포넌트")]
     [SerializeField] private InteractableBoxAnimeController _animController;
 
     private string _interactableBoxDataId;
     private string _interactableName;
+    private SpawnObjectType _interactableObjectType;
     private string _interactableBoxComment;
     private bool _isLocking;
     private string _meshPrefabPath;
     private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
     private BoxDropData _rarityRateData = new BoxDropData();
+    private List<string> _ItemList = new List<string>();
+    private List<string> _spawnedList = new List<string>();
 
     public string Name => _interactableName;
     public bool CanInteract() => !_isLocking;
 
     private void OnEnable()
     {
-        // TODO(안우재 2026-6-17) : 테스트 코드(addresasable 연동 확인)용 추후 삭제(데이터 클래스 작성 시)
-        // _meshPrefabPath = "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab";
-        
-        // 초기화 부분
-        // InitBox("Object_03");
-        // SpawnMeshBox();
+        // 초기화 부분 테스트
+        InitBox("Object_03");
+        SpawnMeshBox();
     }
 
     private void Start()
@@ -50,26 +61,41 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     }
 
 
-    // TODO(안우재 2026-6-15) : 매개변수로 어떠한 형식으로 데이터를 받아올지 확인 및 대입 필요
-    private void InitBox(string dataId)
+    public void InitBox(string dataId)
     {
-        InteractableObject data = GameManager.DataTable.GetInteractableObjectData(dataId);
+        InteractableObjectData data = GameManager.DataTable.GetInteractableObjectData(dataId);
         _interactableBoxDataId = data.Id;
+        InitObjectSpawnType(data.SpawnObjectTypeData);
         _interactableName = data.ObjName;
         _interactableBoxComment = data.ObjectComment;
         _isLocking = data.IsLock;
         _meshPrefabPath = data.ObjMeshPrefabPath;
-        // InitItemList(데이터 클래스의 ItemIdList를 매개변수로 함)
-        // InitRarityRateData
+        InitItemList(data.ItemIdList);
+        InitRarityRateData(data.RateList);
     }
 
-    private void InitItemList(List<string> itemIdList)
+    private void InitObjectSpawnType(string typeStr)
     {
-        // TODO(안우재 2026-6-17) : 아이템 등급, 종류에 따라 따로 _itemPoolByRarity에 할당
+        if (Enum.TryParse<SpawnObjectType>(typeStr, out SpawnObjectType returnObjType))
+        {
+            _interactableObjectType = returnObjType;
+        }
+        else
+        {
+            Debug.LogError("잘못된 소환 형식");
+            _interactableObjectType = SpawnObjectType.None;
+        }
+    }
+
+    private void InitItemList(List<string> itemList)
+    {
+        if (itemList == null) return;
+        _ItemList = itemList;
     }
 
     private void InitRarityRateData(List<int> rateList)
     {
+        if(rateList == null) return;
         for (int i = 0; i < rateList.Count; i++)
         {
             ItemGrade rarity = (ItemGrade)(i + 1);
@@ -129,14 +155,28 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
         if (pickedRarity == ItemGrade.None)
             return null;
 
-        if (!_itemPoolByRarity.TryGetValue(pickedRarity, out List<string> itemIdList))
-            return null;
+        InitSpawnedItemList(pickedRarity);
+        if(_spawnedList.Count == 0)
+        {
+            Debug.LogError("InteratableObject.cs 스크립트의 InitSpawnedItemList메서드 문제");
+        }
 
-        if (itemIdList == null || itemIdList.Count == 0)
-            return null;
+        int randomIndex = UnityEngine.Random.Range(0, _spawnedList.Count);
+        return _spawnedList[randomIndex];
+    }
 
-        int randomIndex = UnityEngine.Random.Range(0, itemIdList.Count);
-        return itemIdList[randomIndex];
+    private void InitSpawnedItemList(ItemGrade spanwAbleItemList)
+    {
+        _spawnedList.Clear();
+        if (spanwAbleItemList == ItemGrade.None) return;
+
+        foreach(string checkItemDataId in _ItemList)
+        {
+            if(GameManager.DataTable.GetItemData(checkItemDataId).CurrentItemGrade == spanwAbleItemList)
+            {
+                _spawnedList.Add(checkItemDataId);
+            }
+        }
     }
 
     private ItemGrade PickRarity()
@@ -181,7 +221,7 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
 
     public void Interact(IInteractor interactor)
     {
-        // TODO(안우재 2026-6-15) : Player 조준 시 띄울 HUD 제작 필요 및 적용 필요
+        // TODO(안우재 2026-6-22) : Player와 상호작용 시 행동 정의 예시) OpenBox 메서드 호출 등
 
 
     }
