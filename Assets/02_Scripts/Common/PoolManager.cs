@@ -105,12 +105,12 @@ public class PoolManager
         return obj;
     }
 
-    private GameObject LoadGameObject(string poolId)
+    private GameObject LoadGameObject(string address)
     {
-        GameObject gameObject = GameManager.Resource.GetLoadedAsset<GameObject>(poolId);
+        GameObject gameObject = GameManager.Resource.GetLoadedAsset<GameObject>(address);
         if (null == gameObject)
         {
-            throw new Exception($"Pool Id({poolId})에 해당하는 프리팹이 ResourceManager에서 로드되어 있지 않습니다.");
+            throw new Exception($"Pool Address({address})에 해당하는 프리팹이 ResourceManager에서 로드되어 있지 않습니다.");
         }
         return gameObject;
     }

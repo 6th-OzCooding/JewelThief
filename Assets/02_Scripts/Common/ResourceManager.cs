@@ -6,29 +6,31 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class ResourceManager
 {
-    Dictionary<string, AsyncOperationHandle> _handles = new();
-    string[] preLoadAddresses = { };
+    private Dictionary<string, AsyncOperationHandle> _handles = new();
+
+    private int _progessCount = 0;
 
     public async UniTask Init(System.Action<float> onProgress = null)
     {
         // TODO(김익환 2026-06-14): 크기가 큰 에셋들은 미리 로드하기 - audio, material, mesh, texture 등
         // preLoadAddresses에 미리 로드될 address 넣기
-        int totalCount = preLoadAddresses.Length;
+        var dataTable = GameManager.DataTable.GetPreLoadAssetDataTable();
 
-        if(totalCount == 0)
+        int totalCount = dataTable.Count;
+
+        if (dataTable.Count == 0)
         {
             onProgress?.Invoke(1f);
             return;
         }
 
-        for(int i = 0; i < totalCount; i++)
+        foreach (PreLoadAssetData preLoadData in dataTable.Values)
         {
-            string address = preLoadAddresses[i];
+            await PreLoadAssetAsync(preLoadData.Address, _progessCount, totalCount, onProgress);
 
-            await PreLoadAssetAsync(address, i, totalCount, onProgress);
-
-            float progress = (i + 1) / (float)totalCount;
+            float progress = (_progessCount + 1) / (float)totalCount;
             onProgress?.Invoke(progress);
+            _progessCount++;
         }
 
         onProgress?.Invoke(1f);
@@ -61,27 +63,25 @@ public class ResourceManager
 
     public T GetLoadedAsset<T>(string address) where T : Object
     {
-        if(!_handles.TryGetValue(address, out AsyncOperationHandle handle))
+        if (!_handles.TryGetValue(address, out AsyncOperationHandle handle))
         {
             Debug.LogError($"로드되지 않은 에셋입니다: {address}");
             return null;
         }
 
-        if(!handle.IsValid())
+        if (!handle.IsValid())
         {
             Debug.LogError($"유효하지 않은 에셋 핸들입니다: {address}");
             return null;
         }
 
-        if(handle.Status != AsyncOperationStatus.Succeeded)
+        if (handle.Status != AsyncOperationStatus.Succeeded)
         {
             Debug.LogError($"에셋 로드가 완료되지 않았거나 실패한 에셋입니다: {address}");
             return null;
         }
 
-        T asset = handle.Result as T;
-
-        if (null == asset)
+        if (handle.Result is not T asset)
         {
             Debug.LogError($"에셋 타입이 일치하지 않습니다: {address}");
             return null;
@@ -112,12 +112,12 @@ public class ResourceManager
 
     private async UniTask PreLoadAssetAsync(string address, int loadedIndex, int totalCount, System.Action<float> onProgress)
     {
-        if(_handles.TryGetValue(address, out AsyncOperationHandle cacedHandle))
+        if (_handles.TryGetValue(address, out AsyncOperationHandle cacedHandle))
         {
             if (cacedHandle.IsValid() && cacedHandle.Status == AsyncOperationStatus.Succeeded)
                 return;
 
-            if(cacedHandle.IsValid())
+            if (cacedHandle.IsValid())
                 Addressables.Release(cacedHandle);
 
             _handles.Remove(address);
@@ -125,7 +125,7 @@ public class ResourceManager
 
         AsyncOperationHandle<Object> loadHandle = Addressables.LoadAssetAsync<Object>(address);
 
-        while(!loadHandle.IsDone)
+        while (!loadHandle.IsDone)
         {
             float currentProgress = loadHandle.PercentComplete;
             float progress = (loadedIndex + currentProgress) / totalCount;
@@ -135,9 +135,10 @@ public class ResourceManager
             await UniTask.Yield();
         }
 
-        if(loadHandle.Status == AsyncOperationStatus.Succeeded)
+        if (loadHandle.Status == AsyncOperationStatus.Succeeded)
         {
             _handles[address] = loadHandle;
+            Debug.Log($"에셋 프리로드 완료: {address}");
         }
         else
         {
