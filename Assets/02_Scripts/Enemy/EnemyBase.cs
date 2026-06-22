@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine.AI; // NavMesh 사용을 위해 추가
+using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -16,7 +16,9 @@ public class EnemyBase : MonoBehaviour
 
     public float WalkSpeed => _walkSpeed;
     public float RunSpeed => _runSpeed;
-    public GameObject TargetPlayer => _player;
+
+    // 이제 _player 변수 없이 자동 구현 프로퍼티로 사용합니다.
+    public GameObject TargetPlayer { get; private set; }
 
     public Vector3 DirToTarget { get; set; } = Vector3.zero; // 플레이어와의 방향 초기화
     public float DstToTarget { get; set; } = 0.0f; // 플레이어까지의 거리 초기화
@@ -32,8 +34,6 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float _runSpeed = 4.5f;
     // 공격 사거리 (조정 가능)
     [SerializeField] private float _attackRadius = 1.5f;
-
-    [SerializeField] private GameObject _player; // NavMesh 목적지를 위해 추가됨
 
     private float _detectTimer = 0.0f; // 탐지되고 나면 다시 초기화하기 위한 변수
     private float _detectDelay = 0.1f; // Collider로 탐지하는데 0.1초 제한을 두기 위한 변수
@@ -95,6 +95,9 @@ public class EnemyBase : MonoBehaviour
         DirToTarget = Vector3.zero;
         DstToTarget = 0.0f;
 
+        // 매 탐지마다 타겟을 초기화 (범위 밖으로 나가면 TargetPlayer가 null이 되게끔)
+        TargetPlayer = null;
+
         Collider[] targetsInDetectRadius = Physics.OverlapSphere(transform.position, _detectRadius);
 
         for (int i = 0; i < targetsInDetectRadius.Length; i++)
@@ -103,6 +106,9 @@ public class EnemyBase : MonoBehaviour
 
             if (target.CompareTag("Player"))
             {
+                // Find를 쓰지 않고, 물리 스캔 범위 내에서 Player 태그를 가진 놈을 타겟으로 저장!
+                TargetPlayer = target.gameObject;
+
                 // 플레이어가 거리안에 들어왔으므로 상태를 Track으로 변경
                 nextState = StateContext.TrackState;
 
@@ -211,7 +217,7 @@ public class EnemyBase : MonoBehaviour
         Gizmos.DrawLine(origin, origin + leftBoundary * _attackRadius);
         Gizmos.DrawLine(origin, origin + rightBoundary * _attackRadius);
 
-        Vector3 prevAttactPoint = origin + leftBoundary * _attackRadius;
+        Vector3 prevAttackPoint = origin + leftBoundary * _attackRadius;
 
         for (int i = 1; i <= segments; i++)
         {
@@ -220,8 +226,8 @@ public class EnemyBase : MonoBehaviour
             Vector3 currentDir = Quaternion.Euler(0, currentAngle, 0) * forward;
             Vector3 currentPoint = origin + currentDir * _attackRadius;
 
-            Gizmos.DrawLine(prevAttactPoint, currentPoint);
-            prevAttactPoint = currentPoint;
+            Gizmos.DrawLine(prevAttackPoint, currentPoint);
+            prevAttackPoint = currentPoint;
         }
     }
 }
