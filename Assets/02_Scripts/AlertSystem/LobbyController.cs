@@ -15,7 +15,6 @@ public class LobbyController : MonoBehaviour
 
         _playerSpawner.TrySpawnPlayer();
 
-        // TODO (김경훈 - 26.06.22): 추후 상점/스폰 위치 등 본부 진입 시 필요한 추가 초기화 로직
     }
 
     public void Exit()
