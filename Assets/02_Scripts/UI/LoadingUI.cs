@@ -19,7 +19,8 @@ public class LoadingUI : UIBase
         LoadingText.text = "로딩 완료. [Enter]";
 
         await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
-        GameManager.UI.CloseUI(UIType.LoadingUI);
+        GameManager.UI.CloseLoadingUI();
+        GameManager.UI.OpenMainUI();
     }
 
 

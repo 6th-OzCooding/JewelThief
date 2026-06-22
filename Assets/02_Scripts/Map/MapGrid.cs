@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MapGrid : MonoBehaviour
 {
@@ -6,10 +7,10 @@ public class MapGrid : MonoBehaviour
     public MapTile[] TileOptions { get; set; }
     public int Index { get; private set; }
 
-    public void CreateMapGrid(bool isCollapsed, MapTile[] tileOptions, int index)
+    public void CreateMapGrid(bool isCollapsed, List<MapTile> tileOptions, int index)
     {
         IsCollapsed = isCollapsed;
-        TileOptions = tileOptions;
+        TileOptions = tileOptions.ToArray();
         Index = index;
     }
 

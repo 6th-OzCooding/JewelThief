@@ -1,9 +1,7 @@
 ﻿using TeamConvention.Interfaces;
-using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour, IInteractInput
+public class PlayerController : MonoBehaviour, IInteractor
 {
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 8f;
@@ -23,9 +21,6 @@ public class PlayerController : MonoBehaviour, IInteractInput
     [SerializeField] private Transform _tranform_cameraRig; // 플레이어 자식으로 있는 CameraRig 트랜스폼
     [SerializeField] private Camera Camera_FPS;
 
-
-    //카메라 회전에 사용되는 가속도 변수
-
     [Header("입력부 가져오기")]
     [SerializeField] private PlayerInputHandler _inputHandler;
 
@@ -37,8 +32,7 @@ public class PlayerController : MonoBehaviour, IInteractInput
     [SerializeField] private LayerMask _interactLayerMask = ~0;
     [SerializeField] private QueryTriggerInteraction _interactTriggerInteraction = QueryTriggerInteraction.Ignore;
 
-
-    PlayerInputBinder inputBinder;
+    public Vector3 Position => this.transform.position;
 
     void Awake()
     {
@@ -62,20 +56,24 @@ public class PlayerController : MonoBehaviour, IInteractInput
         {
             _playerInventory = GetComponent<PlayerInventory>();
         }
-
-        inputBinder = new(_inputHandler);
     }
 
-    private void Start()
+    void OnEnable()
     {
-        inputBinder.Init(this);
+        if (_inputHandler != null)
+        {
+            _inputHandler.OnInteractEvent += TryInteract;
+        }
     }
 
-    void Update()
+    void OnDisable()
     {
-
-
+        if (_inputHandler != null)
+        {
+            _inputHandler.OnInteractEvent -= TryInteract;
+        }
     }
+
     void FixedUpdate()
     {
         Move();
@@ -90,19 +88,12 @@ public class PlayerController : MonoBehaviour, IInteractInput
         {
             Jump();
         }
-
-        //if (_inputHandler.InteractRequested)
-        //{
-        //    TryInteract();
-        //}
-
     }
-
-
-
 
     private void Move()
     {
+        if (_inputHandler == null) return;
+
         Vector3 input = _inputHandler.InputVector;
         _moveDirection = (transform.forward * input.z + transform.right * input.x).normalized;
         float currentMoveSpeed = GetCurrentMoveSpeed();
@@ -144,8 +135,6 @@ public class PlayerController : MonoBehaviour, IInteractInput
         return _overweightMoveSpeed;
     }
 
-
-
     private void RotatePlayer()
     {
         float cameraYaw = Camera_FPS.transform.eulerAngles.y;
@@ -164,7 +153,8 @@ public class PlayerController : MonoBehaviour, IInteractInput
             // Y축 방향으로 순간적인 힘을 빡 꽂아넣어 '딱딱하게' 뛰어오르게 합니다.
             _rigidbody_Player.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
         }
-        _inputHandler.JumpRequested = false; // 플래그 초기화
+
+        _inputHandler.JumpRequested = false;
     }
 
     public void TryInteract()
@@ -179,6 +169,13 @@ public class PlayerController : MonoBehaviour, IInteractInput
         pickupItem.TryPickup(_playerInventory);
     }
 
+    private void DetectInteractable(IInteractable interator)
+    {
+        Vector3 rayOrigin = Camera_FPS.transform.position;
+        Vector3 DstTo = Camera_FPS.transform.forward;
+    }
+
+    // 카메라 중앙에서 레이캐스트를 쏴서 InventoryPickupItem이 있는지 감지하는 함수
     private InventoryPickupItem DetectInventoryPickupItem()
     {
         if (Camera_FPS == null)

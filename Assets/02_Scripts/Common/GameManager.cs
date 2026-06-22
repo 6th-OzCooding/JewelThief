@@ -18,6 +18,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private AlertManager _alertManager = new();
     private DataTable _dataTable = new();
     private UIManager _uiManager = new();
+    private WFCMapGeneration _wfcMapGeneration = new();
 
     #endregion
 
@@ -71,6 +72,9 @@ public class GameManager : SingletonBehaviour<GameManager>
         UI.CloseUI(UIType.TitleUI);
         UI.EnterGameplayCursorMode();
 
+        // TODO(김익환 2026-06-21): 맵 로딩 ui가 필요한지 몰라서 일단은 로딩화면 없이 바로 생성
+        _wfcMapGeneration.StartGenerateMap().Forget();
+
         // 추후 게임 플레이어 입장 시 필요한 로직 추가
         // TODO(김경훈 2026-06-20): 본부 - 선택된 스테이지 Id로 교체 필요. 현재는 테스트용 고정값.
         StageData stageData = _dataTable.GetStageData("Stage_01");
@@ -86,7 +90,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     /// </summary>
     public void ExitGamePlay()
     {
-
+        _wfcMapGeneration.Release();
     }
 
     public void QuitGame()
