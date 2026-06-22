@@ -70,6 +70,11 @@ public static class UIManagerExtension
         return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
     }
 
+    public static UIBase OpenMainUI(this UIManager uiManager)
+    {
+        return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TitleUI);
+    }
+
     /// <summary>
     /// 로딩 UI를 닫습니다.
     /// </summary>

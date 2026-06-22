@@ -19,6 +19,13 @@ public class PoolingObjectData : BaseData
 {
     public int InitSize;
 }
+
+[Serializable]
+public class PreLoadAssetData : BaseData
+{
+    public string Address;
+}
+
 [Serializable]
 public class ItemData : BaseData 
 {
