@@ -73,6 +73,7 @@ public class InteractableObjectData : BaseData
     public string ObjName;
     public string ObjectComment;
     public string SpawnObjectTypeData;
+    public int MaxItemCount;
     public bool IsLock;
     public List<string> ItemIdList;
     public List<int> RateList;

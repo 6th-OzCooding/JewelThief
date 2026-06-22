@@ -33,17 +33,18 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
     [SerializeField] private InteractableBoxAnimeController _animController;
 
     private string _interactableBoxDataId;
-    private string _interactableName;
     private SpawnObjectType _interactableObjectType;
-    private string _interactableBoxComment;
     private bool _isLocking;
     private string _meshPrefabPath;
     private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
     private BoxDropData _rarityRateData = new BoxDropData();
-    private List<string> _ItemList = new List<string>();
-    private List<string> _spawnedList = new List<string>();
+    private List<string> _itemList = new List<string>();
+    private List<string> _spawnedRarityList = new List<string>();
+    private int _maxSpawnItemCount;
+    private int _spawnItemCount;
+    private List<string> _spawnedItemList = new List<string>();
 
-    public string Name => _interactableName;
+    public string Name => _interactableBoxDataId;
     public bool CanInteract() => !_isLocking;
 
     private void OnEnable()
@@ -60,14 +61,12 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
         SpawnMeshBox();
     }
 
-
     public void InitBox(string dataId)
     {
         InteractableObjectData data = GameManager.DataTable.GetInteractableObjectData(dataId);
         _interactableBoxDataId = data.Id;
+        _maxSpawnItemCount = data.MaxItemCount;
         InitObjectSpawnType(data.SpawnObjectTypeData);
-        _interactableName = data.ObjName;
-        _interactableBoxComment = data.ObjectComment;
         _isLocking = data.IsLock;
         _meshPrefabPath = data.ObjMeshPrefabPath;
         InitItemList(data.ItemIdList);
@@ -90,7 +89,7 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
     private void InitItemList(List<string> itemList)
     {
         if (itemList == null) return;
-        _ItemList = itemList;
+        _itemList = itemList;
     }
 
     private void InitRarityRateData(List<int> rateList)
@@ -123,58 +122,40 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
         _animController.InitMeshAnime(obj);
     }
 
-    private string OpenBox()
-    {
-        if(_isLocking)
-        {
-
-            return string.Empty;
-        }
-
-        string itemId = PickItemId();
-
-        if (string.IsNullOrEmpty(itemId))
-        {
-            Debug.Log("아이템 뽑기 실패");
-            return null;
-        }
-
-        return itemId;
-    }
-
-    private void OpenLockedBox()
-    {
-        // TODO(안우재 2026-6-18) : 잠겨있는경우 도구를 사용할건지 안할건지 확인하는 단계 또는 기타 행동 들어가야함
-
-    }
-
-    private string PickItemId()
+    private void PickItemId()
     {
         ItemGrade pickedRarity = PickRarity();
 
         if (pickedRarity == ItemGrade.None)
-            return null;
+            return;
 
         InitSpawnedItemList(pickedRarity);
-        if(_spawnedList.Count == 0)
+        if(_spawnedRarityList.Count == 0)
         {
             Debug.LogError("InteratableObject.cs 스크립트의 InitSpawnedItemList메서드 문제");
         }
 
-        int randomIndex = UnityEngine.Random.Range(0, _spawnedList.Count);
-        return _spawnedList[randomIndex];
+        // Random.Range 특성 상 최댓값을 포함하지 않아 +1을 추가하였음
+        int randomItemSpawnCount = UnityEngine.Random.Range(1, _maxSpawnItemCount + 1);
+        _spawnedItemList.Clear();
+
+        for (int i = 0; i < randomItemSpawnCount; i++)
+        {
+            int randomCount = UnityEngine.Random.Range(0, _spawnedRarityList.Count);
+            _spawnedItemList.Add(_spawnedRarityList[randomCount]);
+        }
     }
 
     private void InitSpawnedItemList(ItemGrade spanwAbleItemList)
     {
-        _spawnedList.Clear();
+        _spawnedRarityList.Clear();
         if (spanwAbleItemList == ItemGrade.None) return;
 
-        foreach(string checkItemDataId in _ItemList)
+        foreach(string checkItemDataId in _itemList)
         {
             if(GameManager.DataTable.GetItemData(checkItemDataId).CurrentItemGrade == spanwAbleItemList)
             {
-                _spawnedList.Add(checkItemDataId);
+                _spawnedRarityList.Add(checkItemDataId);
             }
         }
     }
@@ -219,11 +200,27 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
     }
 
 
+    private void OpenBox()
+    {
+        PickItemId();
+
+        // TODO(안우재 2026-6-22) : _spawnedItemList에 있는 아이템들을 생성하는데 아이템들을 위로 발사(Impulse)하여 생성
+        //                          아이템 갯수(_spawnedItemList.Count)에 따라 파티클이 다르게 해야함
+
+
+    }
+
+    private void OpenLockedBox()
+    {
+        // TODO(안우재 2026-6-18) : 잠겨있는 오브젝트 잠금해제에 따른 행동 정의 필요
+
+    }
+
     public void Interact(IInteractor interactor)
     {
-        // TODO(안우재 2026-6-22) : Player와 상호작용 시 행동 정의 예시) OpenBox 메서드 호출 등
-
-
+        // TODO(안우재 2026-6-22) : Player와 상호작용 시 행동 정의 예시) OpenBox 메서드 호출, 아이템 발사 관련 등
+        //                          잠겨있는지 아닌지도 판단하는 로직 추가해야함
+        OpenBox();
     }
 
 }
