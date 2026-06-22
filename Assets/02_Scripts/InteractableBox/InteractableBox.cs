@@ -1,9 +1,7 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using TeamConvention.Interfaces;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using TeamConvention.Interfaces;
 
 [System.Serializable]
 public class RarityWeight
@@ -24,14 +22,15 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     [SerializeField] private InteractableBoxAnimeController _animController;
 
     private string _interactableBoxDataId;
-    private string _interactableBoxName;
+    private string _interactableName;
     private string _interactableBoxComment;
     private bool _isLocking;
     private string _meshPrefabPath;
     private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
     private BoxDropData _rarityRateData = new BoxDropData();
 
-    public string InteractPrompt => _interactableBoxDataId;
+    public string Name => _interactableName;
+    public bool CanInteract() => !_isLocking;
 
     private void OnEnable()
     {
@@ -56,7 +55,7 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     {
         InteractableObject data = GameManager.DataTable.GetInteractableObjectData(dataId);
         _interactableBoxDataId = data.Id;
-        _interactableBoxName = data.ObjName;
+        _interactableName = data.ObjName;
         _interactableBoxComment = data.ObjectComment;
         _isLocking = data.IsLock;
         _meshPrefabPath = data.ObjMeshPrefabPath;
@@ -180,7 +179,7 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     }
 
 
-    public void InteractCloserPlayer()
+    public void Interact(IInteractor interactor)
     {
         // TODO(안우재 2026-6-15) : Player 조준 시 띄울 HUD 제작 필요 및 적용 필요
 
