@@ -4,7 +4,7 @@ namespace TeamConvention.Interfaces
 {
     public interface IInteractable
     {
-        string InteractPrompt { get; }
+        string Name { get; }
         bool CanInteract();
         void Interact(IInteractor interactor);
     }

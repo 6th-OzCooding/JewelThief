@@ -7,14 +7,14 @@ public class MimicItemTrap : MonoBehaviour, IInteractable, IDisarmable
     [SerializeField] private int _trapId = 40000001;
 
     [Header("기본 설정")]
-    [SerializeField] private string _interactPrompt = "보석 획득(E)";
+    [SerializeField] private string _name = "미믹";
     [SerializeField] private float _damage = 1f;
     [SerializeField] private float _soundRadius = 1f;
     [SerializeField] private float _timeReductionAmount = 1f;
 
     private bool _isDisarmed = false;   //도구로 무력화됐는지 여부 확인
 
-    public string InteractPrompt => _interactPrompt;
+    public string Name => _name;
     public bool CanInteract() => !_isDisarmed;
 
     public void Interact(IInteractor interactor)

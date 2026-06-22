@@ -22,14 +22,14 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     [SerializeField] private InteractableBoxAnimeController _animController;
 
     private string _interactableBoxDataId;
-    private string _interactableBoxName;
+    private string _interactableName;
     private string _interactableBoxComment;
     private bool _isLocking;
     private string _meshPrefabPath;
     private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
     private BoxDropData _rarityRateData = new BoxDropData();
 
-    public string InteractPrompt => _interactableBoxDataId;
+    public string Name => _interactableName;
     public bool CanInteract() => !_isLocking;
 
     private void OnEnable()
@@ -55,7 +55,7 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     {
         InteractableObject data = GameManager.DataTable.GetInteractableObjectData(dataId);
         _interactableBoxDataId = data.Id;
-        _interactableBoxName = data.ObjName;
+        _interactableName = data.ObjName;
         _interactableBoxComment = data.ObjectComment;
         _isLocking = data.IsLock;
         _meshPrefabPath = data.ObjMeshPrefabPath;
