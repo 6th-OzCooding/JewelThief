@@ -7,10 +7,8 @@ public class StageSelectController : MonoBehaviour
     [Header("카메라")]
     [SerializeField] private CinemachineCamera _stageSelectCamera; // 워킹용 카메라
     [SerializeField] private Transform _screenViewPoint; // 워킹이 도착하는 지점
-    [SerializeField] private float _walkDuration = 1.5f;
-
-    [Header("UI")]
-    [SerializeField] private GameObject _stageSelectUI; // TODO: 스테이지 선택 UI 구현 시 삭제, Extension메서드 호출방식으로 변경
+    [SerializeField] private float _walkDuration = 1.5f;    // 모션 시간
+    [SerializeField] private int _uiDelay = 500;     // 스테이지 UI 출력 딜레이용(ms)
 
     private const int ACTIVE_PRIORITY = 20;
     private const int INACTIVE_PRIORITY = 0;
@@ -21,9 +19,6 @@ public class StageSelectController : MonoBehaviour
     private void Awake()
     {
         SetStageSelectCameraActive(false);
-
-        if (_stageSelectUI != null)
-            _stageSelectUI.SetActive(false);
     }
 
     public void SetPlayerInputHandler(PlayerInputHandler inputHandler)
@@ -71,7 +66,8 @@ public class StageSelectController : MonoBehaviour
 
         await TweenCameraToScreenAsync(camTransform);
 
-        OpenStageSelectUI();
+        await UniTask.Delay(_uiDelay);
+        GameManager.UI.OpenStageSelectUI();
     }
 
     private async UniTask TweenCameraToScreenAsync(Transform camTransform)
@@ -96,30 +92,12 @@ public class StageSelectController : MonoBehaviour
 
     public void ExitStageSelect()
     {
-        CloseStageSelectUI();
+        GameManager.UI.CloseStageSelectUI();
 
         SetStageSelectCameraActive(false);
 
         if (_playerInputHandler != null)
             _playerInputHandler.SetMode(PlayerInputMode.Gameplay);
-    }
-
-    private void OpenStageSelectUI()
-    {
-        if (_stageSelectUI == null)
-        {
-            Debug.LogError("StageSelectUI가 연결되지 않았습니다.");
-            return;
-        }
-
-        _stageSelectUI.SetActive(true); // TODO(김경훈 - 06.22): 스테이지 선택창 구현시 Extension메서드 호출방식으로 변경
-    }
-
-    private void CloseStageSelectUI()
-    {
-        if (_stageSelectUI == null) return;
-
-        _stageSelectUI.SetActive(false); // TODO(김경훈 - 06.22): 스테이지 선택창 구현시 Extension메서드 호출방식으로 변경
     }
 
     private void SetStageSelectCameraActive(bool isActive)
