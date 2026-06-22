@@ -1,41 +1,51 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using TeamConvention.Interfaces;
 
-public class MimicItemTrap : MonoBehaviour, IInteractable, IDisarmable
+public class FakeItemTrap : MonoBehaviour, IInteractable, IDisarmable
 {
-    [Header("Æ®·¦ µ¥ÀÌÅÍ")]
+    [Header("íŠ¸ë© ë°ì´í„°")]
     [SerializeField] private int _trapId = 40000001;
 
-    [Header("±âº» ¼³Á¤")]
-    [SerializeField] private string _interactPrompt = "º¸¼® È¹µæ";
+    [Header("ê¸°ë³¸ ì„¤ì •")]
+    [SerializeField] private string _interactPrompt = "ë³´ì„ íšë“";
     [SerializeField] private float _damage = 1f;
     [SerializeField] private float _soundRadius = 1f;
     [SerializeField] private float _timeReductionAmount = 1f;
 
     private bool _isDisarmed = false;
-    public bool CanInteract => !_isDisarmed;   // µµ±¸·Î ¹«·ÂÈ­µÆ´ÂÁö ¿©ºÎ È®ÀÎ
+    private string _name = "ê°€ì§œ ë³´ì„";
+
+    public string Name => _name;
 
     public string InteractPrompt => _interactPrompt;
 
-    public void TryInteract(IInteractor interactor)
+    public bool CanInteract() => !_isDisarmed;
+
+    public void Interact(IInteractor interactor)
     {
-        if (!CanInteract) return;
+        if (!CanInteract()) return;
 
-        Debug.Log($"[ÇÔÁ¤ ¹ßµ¿] ID: {_trapId} - ÇÔÁ¤ ¹ßµ¿!");
+        Debug.Log($"[í•¨ì • ë°œë™] ID: {_trapId} - í•¨ì • ë°œë™!");
 
-        // interactor.Transform.GetComponent<PlayerController>()?.TakeDamage(_damage);
+        if (interactor != null)
+        {
+            // interactor.Transform.GetComponent<PlayerController>()?.TakeDamage(_damage);
+        }
 
-        TriggerNoise();   // ¼ÒÀ½ ¹ß»ı
-        Destroy(gameObject, 0.2f);   // ÆÄ±«
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SendMessage("ReduceTimer", _timeReductionAmount, SendMessageOptions.DontRequireReceiver);
+        }
+
+        TriggerNoise(); // ì†ŒìŒ ë°œìƒ
+        Destroy(gameObject, 0.2f); // íŒŒê´´
     }
 
     public void Disarm()
     {
-        if (_isDisarmed) return;
-
         _isDisarmed = true;
-        Debug.Log($"[ÇÔÁ¤ ¹«·ÂÈ­ »óÅÂ] ID: {_trapId} - µµ±¸·Î ÇØÁ¦µÇ¾ú½À´Ï´Ù.");
-
-        Destroy(gameObject);
+        _interactPrompt = "ë¬´ë ¥í™”ëœ í•¨ì •";
+        Debug.Log($"[í•¨ì • í•´ì œ] ID: {_trapId} - ì•ˆì „í•˜ê²Œ í•´ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
     private void TriggerNoise()
@@ -43,12 +53,8 @@ public class MimicItemTrap : MonoBehaviour, IInteractable, IDisarmable
         Collider[] caughtEnemies = Physics.OverlapSphere(transform.position, _soundRadius);
         foreach (Collider col in caughtEnemies)
         {
-            //Enemy enemy = col.GetComponent<Enemy>();
-
-            //if (enemy != null)
-            {
-                //enemy.HearNoise(transform.position);
-            }
+            // Enemy enemy = col.GetComponent<Enemy>();
+            // if (enemy != null) enemy.HearNoise(transform.position);
         }
     }
 
