@@ -59,7 +59,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         InitNonAsync();
 
-        UI.OpenUI(UIRootType.MainUI, UIType.TitleUI);
+        UI.OpenUI(UIRootType.ContentUI, UIType.TitleUI);
     }
 
     private void InitNonAsync()
