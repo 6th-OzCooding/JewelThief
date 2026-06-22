@@ -29,7 +29,7 @@ public class TitleUI : UIBase
     {
         Debug.Log("환경설정 창 열기");
 
-        // 후추 : 팝업 호출
+        GameManager.UI.OpenPopupUI(UIType.SettingPopup);
     }
 
     private void OnClickCredit()
