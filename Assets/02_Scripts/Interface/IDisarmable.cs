@@ -1,4 +1,8 @@
-public interface IDisarmable
+﻿namespace TeamConvention.Interfaces
 {
-    void Disarm();
+    public interface IDisarmable
+    {
+        void Disarm();
+    }
 }
+

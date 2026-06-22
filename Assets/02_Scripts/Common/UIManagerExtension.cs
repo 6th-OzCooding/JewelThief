@@ -22,7 +22,12 @@ public enum UIType
     MainUI,
     LoadingUI,
     CenterPointUI,
-    ItemInfoPopupUI
+    TitleUI,
+    ItemInfoPopupUI,
+    ConfirmPopup,
+    CreditPopup,
+    SettingPopup,
+    ObjectInfoPopupUI
 }
 
 /// <summary>
@@ -49,11 +54,25 @@ public static class UIManagerExtension
     }
 
     /// <summary>
+    /// 인벤토리 시스템 테스트용 게임 플레이 UI를 엽니다.
+    /// </summary>
+    public static void ShowInventorySystemTestUI(this UIManager uiManager)
+    {
+        uiManager.CloseLoadingUI();
+        uiManager.EnterGameplayCursorMode();
+    }
+
+    /// <summary>
     /// 로딩 UI를 엽니다.
     /// </summary>
     public static UIBase OpenLoadingUI(this UIManager uiManager)
     {
         return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
+    }
+
+    public static UIBase OpenMainUI(this UIManager uiManager)
+    {
+        return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TitleUI);
     }
 
     /// <summary>
@@ -99,12 +118,29 @@ public static class UIManagerExtension
         return itemInfoPopupUI;
     }
 
+    public static ObjectInfoPopupUI OpenObjectInfoPopupUI(this UIManager uiManager)
+    {
+        UIBase uiBase = uiManager.OpenPopupUI(UIType.ObjectInfoPopupUI);
+        if (uiBase == null)
+            return null;
+
+        if (!uiBase.TryGetComponent(out ObjectInfoPopupUI objectInfoPopupUI))
+        {
+            Debug.LogWarning("ObjectInfoPopupUI 프리팹에 ObjectInfoPopupUI 컴포넌트가 없습니다.");
+            return null;
+        }
+
+        objectInfoPopupUI.RestartOpenAnimation();
+        return objectInfoPopupUI;
+    }
+
     /// <summary>
     /// 화면 중앙 Hover 대상의 아이템 정보 팝업 UI를 닫습니다.
     /// </summary>
     public static void CloseItemInfoPopupUI(this UIManager uiManager)
     {
         uiManager.ClosePopupUI(UIType.ItemInfoPopupUI);
+        uiManager.ClosePopupUI(UIType.ObjectInfoPopupUI);
     }
 
     /// <summary>

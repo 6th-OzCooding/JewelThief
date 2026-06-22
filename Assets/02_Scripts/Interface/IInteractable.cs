@@ -1,13 +1,16 @@
-public interface IInteractable
+﻿using UnityEngine;
+
+namespace TeamConvention.Interfaces
 {
-    string InteractPrompt { get; }
+    public interface IInteractable
+    {
+        string Name { get; }
+        bool CanInteract();
+        void Interact(IInteractor interactor);
+    }
 
-    bool CanInteract { get; }
-
-    void TryInteract(IInteractor interactor);
-}
-
-public interface IInteractor
-{
-    UnityEngine.Transform Transform { get; }
+    public interface IInteractor
+    {
+        public Vector3 Position { get; }
+    }
 }

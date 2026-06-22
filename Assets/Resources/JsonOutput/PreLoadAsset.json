@@ -1,0 +1,70 @@
+[
+  {
+    "Id": "PreLoadAsset_Stage1_SOTilePreset",
+    "Address": "SOTilePreset"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_MapGrid",
+    "Address": "MapGrid"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_BoundaryTile",
+    "Address": "BoundaryTile"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_BackUpTile",
+    "Address": "BackUpTile"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_TestPresetTile",
+    "Address": "TestPresetTile"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Vertical Corridor",
+    "Address": "Vertical Corridor"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Room1",
+    "Address": "Room1"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_RightTop Corridor",
+    "Address": "RightTop Corridor"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_RightDown Corridor",
+    "Address": "RightDown Corridor"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_LeftTop Corridor",
+    "Address": "LeftTop Corridor"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_LeftDown Corridor",
+    "Address": "LeftDown Corridor"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Horizontal Corridor",
+    "Address": "Horizontal Corridor"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Demo Room4",
+    "Address": "Demo Room4"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Demo Room3",
+    "Address": "Demo Room3"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Demo Room2",
+    "Address": "Demo Room2"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Demo Room1",
+    "Address": "Demo Room1"
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_All Direction Corridor",
+    "Address": "All Direction Corridor"
+  }
+]
