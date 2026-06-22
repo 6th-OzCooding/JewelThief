@@ -89,4 +89,13 @@ public static class Utils
     {
         return Resources.Load<T>(path);
     }
+
+    // 타이머 표기
+    private static string UpdateTimerText()
+    {
+        if (GameManager.Instance == null) return null;
+
+        int remainingSeconds = Mathf.CeilToInt(GameManager.Alert.GetRemainingTime());
+        return remainingSeconds.ToString();
+    }
 }
