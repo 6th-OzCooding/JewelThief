@@ -7,26 +7,27 @@ public class PlayerSpawner : MonoBehaviour
 
     private GameObject _spawnedPlayer;
 
-    public void TrySpawnPlayer()
+    public GameObject TrySpawnPlayer()
     {
-        SpawnPlayer();
+        return SpawnPlayer();
     }
 
-    private void SpawnPlayer()
+    private GameObject SpawnPlayer()
     {
         if (_spawnPoint == null)
         {
             Debug.LogError("SpawnPoint가 연결되지 않았습니다.");
-            return;
+            return null;
         }
 
         GameObject playerPrefab = GameManager.Resource.GetLoadedAsset<GameObject>("Player");
         if (playerPrefab == null)
         {
             Debug.LogError("플레이어 프리팹을 로드하지 못했습니다.");
-            return;
+            return null;
         }
 
         _spawnedPlayer = Instantiate(playerPrefab, _spawnPoint.position, _spawnPoint.rotation);
+        return _spawnedPlayer;
     }
 }

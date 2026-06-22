@@ -1,10 +1,6 @@
 ﻿using TeamConvention.Interfaces;
-using Unity.VisualScripting;
 using UnityEngine;
 
-/// <summary>
-/// 카메라 화면 중앙에서 Raycast를 수행해 Hover 정보 대상 감지와 팝업 열기/닫기를 처리합니다.
-/// </summary>
 public class InteractionHoverDetector : MonoBehaviour
 {
     [Header("Raycast Settings")]
@@ -31,30 +27,11 @@ public class InteractionHoverDetector : MonoBehaviour
 
         if (_currentTarget == null)
         {
-            CloseItemInfoPopupUI();
+            CloseObjectInfoPopupUI();
             return;
         }
 
-
-        // OpenItemInfoPopupUI();
-
-        // _currentTarget(IInteractable이 아이템인지 Object인지 함정인지 등을 판단하는 메서드 필요
-        SoltingInfoPopUpUIAndOpenPopUp(_currentTarget);
-    }
-
-    private HoverInfoTarget DetectHoverTarget()
-    {
-        if (_targetCamera == null)
-            return null;
-
-        Ray ray = _targetCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        if (!Physics.Raycast(ray, out RaycastHit hit, _detectDistance, _targetLayerMask, _triggerInteraction))
-            return null;
-
-        if (hit.collider.TryGetComponent(out HoverInfoTarget target))
-            return target;
-
-        return hit.collider.GetComponentInParent<HoverInfoTarget>();
+        OpenObjectInfoPopupUI(_currentTarget);
     }
 
     private IInteractable DetectInteractableTarget()
@@ -72,54 +49,23 @@ public class InteractionHoverDetector : MonoBehaviour
         return hit.collider.GetComponentInParent<IInteractable>();
     }
 
-    private void OpenItemInfoPopupUI()
+    private void CloseObjectInfoPopupUI()
     {
-        if (GameManager.UI == null)
-            return;
-
-        GameManager.UI.OpenItemInfoPopupUI();
-    }
-
-    private void CloseItemInfoPopupUI()
-    {
-        if (GameManager.UI == null)
-            return;
-
         GameManager.UI.CloseItemInfoPopupUI();
     }
 
-    private void SoltingInfoPopUpUIAndOpenPopUp(IInteractable interactObj)
+    private void OpenObjectInfoPopupUI(IInteractable interactObj)
     {
-        if (GameManager.UI == null || interactObj == null)
+        if (interactObj == null)
             return;
 
-        string dataId = interactObj.Name;
+        UIBase uiObj = GameManager.UI.OpenObjectInfoPopupUI();
+        if (uiObj == null)
+            return;
 
-        if(dataId.Contains("Object"))
+        if (uiObj.TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
         {
-            OpenInfoPopUpUI(UIType.ObjectInfoPopupUI, dataId);
-        }
-    }
-
-    private void OpenInfoPopUpUI(UIType uiType, string dataId)
-    {
-        switch(uiType)
-        {
-            case UIType.ObjectInfoPopupUI:
-                UIBase uiObj = GameManager.UI.OpenObjectInfoPopupUI();
-                if (uiObj == null)
-                {
-                    return;
-                }
-                
-                if(uiObj.TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
-                {
-                    infoPopUpUI.SetObjectNameText
-                        (GameManager.DataTable.GetInteractableObjectData(dataId).ObjName);
-                    infoPopUpUI.SetObjectCommentText
-                        (GameManager.DataTable.GetInteractableObjectData(dataId).ObjectComment);
-                }
-                break;
+            infoPopUpUI.SetObjectNameText(interactObj.Name);
         }
     }
 }
