@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEngine.AI; // NavMesh 사용을 위해 추가
 
 public class Enemy : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class Enemy : MonoBehaviour
     // 공격 사거리 (조정 가능)
     [SerializeField] private float _attackRadius = 1.5f;
 
+    [SerializeField] private GameObject _player; // NavMesh 목적지를 위해 추가됨
+
     // 이제부터 상태를 나타내는 변수는 currentState로 지정
     private EnemyState _currentState = EnemyState.Normal;
 
@@ -41,16 +44,25 @@ public class Enemy : MonoBehaviour
     private float _detectTimer = 0.0f; // 탐지되고 나면 다시 초기화하기 위한 변수
     private float _detectDelay = 0.1f; // Collider로 탐지하는데 0.1초 제한을 두기 위한 변수
 
+    private NavMeshAgent _nav; // NavMesh 추가
+
     private void Awake()
     {
         // 토큰을 받은 오브젝트가 사라지면 받은 토큰을 없애도록
         _cancelToken = this.GetCancellationTokenOnDestroy();
+        _nav = GetComponent<NavMeshAgent>(); // NavMesh 할당
     }
 
     private void Start()
     {
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+
+        // 물리 충돌로 밀어내는 현상 방지
+        if (_rb != null) _rb.isKinematic = true;
+
+        // NavMesh 제동거리 설정: 플레이어 안으로 파고들어 밀어버리는 버그 방지
+        if (_nav != null) _nav.stoppingDistance = _attackRadius;
     }
 
     private void Update()
@@ -79,7 +91,7 @@ public class Enemy : MonoBehaviour
         // 그 외는 움직이는 상태로 이동
         else
         {
-            EnemyMovement(); // 이동 메서드 호출
+            EnemyMovement(); // 이동 메서드 호출 
         }
     }
 
@@ -147,22 +159,25 @@ public class Enemy : MonoBehaviour
         {
             case EnemyState.Chase: // 시야각에 들어왔다면 (뛰기)
                 _anim.SetBool("isRun", true);
-                Quaternion chaseRotation = Quaternion.LookRotation(_dirToTarget);
-                _rb.MoveRotation(Quaternion.Slerp(transform.rotation, chaseRotation, Time.fixedDeltaTime * 3.5f));
-                _rb.MovePosition(transform.position + transform.forward * _runSpeed * Time.fixedDeltaTime);
+                _nav.speed = _runSpeed;
+                if (_player != null) _nav.SetDestination(_player.transform.position);
                 break;
 
             case EnemyState.Track: // 거리 안에 있다면 플레이어 방향으로 걸어감
                 _anim.SetBool("isRun", false);
-                Quaternion trackRotation = Quaternion.LookRotation(_dirToTarget);
-                _rb.MoveRotation(Quaternion.Slerp(transform.rotation, trackRotation, Time.fixedDeltaTime * 2.0f));
-                _rb.MovePosition(transform.position + transform.forward * _walkSpeed * Time.fixedDeltaTime);
+                _nav.speed = _walkSpeed;
+                if (_player != null) _nav.SetDestination(_player.transform.position);
                 break;
 
             case EnemyState.Normal: // 아무것도 아닌 경우 가던 방향으로 걸어감
             default:
                 _anim.SetBool("isRun", false);
-                _rb.MovePosition(transform.position + transform.forward * _walkSpeed * Time.fixedDeltaTime);
+                _nav.speed = _walkSpeed;
+
+                // 탐지 범위를 벗어났을 때 이전 목적지(플레이어 위치)를 지워줍니다.
+                if (_nav.hasPath) _nav.ResetPath();
+
+                _nav.Move(transform.forward * _walkSpeed * Time.fixedDeltaTime);
                 break;
         }
     }
@@ -170,6 +185,10 @@ public class Enemy : MonoBehaviour
     private void EnemyAttack() // 공격하는 메서드
     {
         _anim.SetBool("isRun", false); // 공격해야 하는 애니메이션으로 뛰는 애니메이션을 멈춘다.
+
+        // 공격할 때 미끄러지지 않게 관성을 0으로 만듦
+        _nav.velocity = Vector3.zero;
+        if (_nav.hasPath) _nav.ResetPath();
 
         if (_currentState != EnemyState.Attack)
         {
@@ -184,10 +203,10 @@ public class Enemy : MonoBehaviour
         if (_dirToTarget != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(_dirToTarget);
-            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 3.0f));
+            // NavMesh와 충돌 없이 부드럽게 회전하도록 _rb 대신 transform 적용
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10.0f);
         }
     }
-
 
     private async UniTaskVoid AttackRoutine()
     {
@@ -196,11 +215,16 @@ public class Enemy : MonoBehaviour
 
         Debug.Log("Enemy가 Player를 공격했습니다!");
         _anim.SetTrigger("isAttack");
-        // 잠깐 기다리는 시간
+        // 기다리는 시간
         await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: _cancelToken);
 
         // 현재 애니메이션의 길이를 알아내어 기다림
-        float currentAnimLength = _anim.GetCurrentAnimatorStateInfo(0).length;
+        float currentAnimLength = 1.0f;
+        if (_anim != null && _anim.layerCount > 0)
+        {
+            var stateInfo = _anim.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.length > 0) currentAnimLength = stateInfo.length;
+        }
 
         // 기다린 시간 삭제
         await UniTask.Delay(TimeSpan.FromSeconds(currentAnimLength - 0.1f), cancellationToken: _cancelToken);
