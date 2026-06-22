@@ -1,7 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using static PoolManager;
 
 public static class Utils
 {
@@ -51,7 +50,7 @@ public static class Utils
         return null;
     }
 
-    public static async UniTaskVoid LoadAndPlayAudioClip(AudioSource audioSource, string path, bool isLoop = false)
+    public static async UniTaskVoid LoadAndPlayAudioClip(AudioSource audioSource, string path, bool isLoop = false, float volume = 1f)
     {
         AudioClip clip = await GameManager.Resource.LoadAssetAsync<AudioClip>(path);
         if (null == clip)
@@ -64,11 +63,12 @@ public static class Utils
         {
             audioSource.clip = clip;
             audioSource.loop = true;
+            audioSource.volume = volume;
             audioSource.Play();
         }
         else
         {
-            audioSource.PlayOneShot(clip);
+            audioSource.PlayOneShot(clip, volume);
         }
     }
 

@@ -20,7 +20,7 @@ public class TitleUI : UIBase
     private void OnClickNewGame()
     {
         Debug.Log("새 게임 시작!");
-        GameManager.Instance.EnterGamePlayer();
+        GameManager.Instance.EnterGamePlay();
 
         // 후추 : 인게임 진입 로직
     }
@@ -34,11 +34,16 @@ public class TitleUI : UIBase
 
     private void OnClickCredit()
     {
-        Debug.Log("크레딧 창 열기");
+        GameManager.UI.OpenPopupUI(UIType.CreditPopup);
     }
 
     private void OnClickExit()
     {
-        GameManager.Instance.QuitGame();
-    }
+        UIBase popupBase = GameManager.UI.OpenPopupUI(UIType.ConfirmPopup);
+
+        if (popupBase != null && popupBase.TryGetComponent(out ConfirmPopupUI confirmUI))
+        {
+            confirmUI.SetUI("정말 게임을 종료하시겠습니까?", GameManager.Instance.QuitGame);
+        }
+    } 
 }

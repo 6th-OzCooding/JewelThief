@@ -1,4 +1,4 @@
-namespace TeamConvention.Interfaces
+﻿namespace TeamConvention.Interfaces
 {
     public interface IInteractable
     {
@@ -6,4 +6,6 @@ namespace TeamConvention.Interfaces
 
         //void Interact(PlayerController player);
     }
+
+    public interface IInteractInput { void TryInteract(); }
 }

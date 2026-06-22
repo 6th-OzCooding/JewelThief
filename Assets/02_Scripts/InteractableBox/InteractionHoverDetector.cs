@@ -74,23 +74,23 @@ public class InteractionHoverDetector : MonoBehaviour
 
     private void OpenItemInfoPopupUI()
     {
-        if (UIManager.Instance == null)
+        if (GameManager.UI == null)
             return;
 
-        UIManager.Instance.OpenItemInfoPopupUI();
+        GameManager.UI.OpenItemInfoPopupUI();
     }
 
     private void CloseItemInfoPopupUI()
     {
-        if (UIManager.Instance == null)
+        if (GameManager.UI == null)
             return;
 
-        UIManager.Instance.CloseItemInfoPopupUI();
+        GameManager.UI.CloseItemInfoPopupUI();
     }
 
     private void SoltingInfoPopUpUIAndOpenPopUp(IInteractable interactObj)
     {
-        if (UIManager.Instance == null || interactObj == null)
+        if (GameManager.UI == null || interactObj == null)
             return;
 
         string dataId = interactObj.InteractPrompt;
@@ -106,7 +106,7 @@ public class InteractionHoverDetector : MonoBehaviour
         switch(uiType)
         {
             case UIType.ObjectInfoPopupUI:
-                UIBase uiObj = UIManager.Instance.OpenObjectInfoPopupUI();
+                UIBase uiObj = GameManager.UI.OpenObjectInfoPopupUI();
                 if (uiObj == null)
                 {
                     return;
@@ -114,10 +114,10 @@ public class InteractionHoverDetector : MonoBehaviour
                 
                 if(uiObj.TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
                 {
-                    infoPopUpUI.SetObjectComentText
-                        (GameManager.DataTable.GetPoolingInteractableObjectData(dataId).ObjName);
-                    infoPopUpUI.SetObjectComentText
-                        (GameManager.DataTable.GetPoolingInteractableObjectData(dataId).ObjectComment);
+                    infoPopUpUI.SetObjectNameText
+                        (GameManager.DataTable.GetInteractableObjectData(dataId).ObjName);
+                    infoPopUpUI.SetObjectCommentText
+                        (GameManager.DataTable.GetInteractableObjectData(dataId).ObjectComment);
                 }
                 break;
         }

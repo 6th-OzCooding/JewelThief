@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +9,13 @@ public enum PlayerHandType
     None = 0,
     Left,
     Right
+}
+
+public enum HoldType
+{
+    None = 0,
+    Hold,   // 손에 들고 있는 상태
+    Pocket  // 가방에 넣은 상태
 }
 
 /// <summary>

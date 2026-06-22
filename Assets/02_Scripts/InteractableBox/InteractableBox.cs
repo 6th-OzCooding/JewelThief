@@ -54,7 +54,7 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     // TODO(안우재 2026-6-15) : 매개변수로 어떠한 형식으로 데이터를 받아올지 확인 및 대입 필요
     private void InitBox(string dataId)
     {
-        InteractableObject data = GameManager.DataTable.GetPoolingInteractableObjectData(dataId);
+        InteractableObject data = GameManager.DataTable.GetInteractableObjectData(dataId);
         _interactableBoxDataId = data.Id;
         _interactableBoxName = data.ObjName;
         _interactableBoxComment = data.ObjectComment;
