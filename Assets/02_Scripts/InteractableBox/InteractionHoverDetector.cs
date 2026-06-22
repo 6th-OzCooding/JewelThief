@@ -93,7 +93,7 @@ public class InteractionHoverDetector : MonoBehaviour
         if (GameManager.UI == null || interactObj == null)
             return;
 
-        string dataId = interactObj.Name;
+        string dataId = interactObj.GetId;
 
         if(dataId.Contains("Object"))
         {
