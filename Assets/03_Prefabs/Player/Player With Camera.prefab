@@ -189,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2224699554623832276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3480393, y: -0.036058787, z: 0.013398104, w: 0.9366904}
+  m_LocalRotation: {x: 0.060990535, y: -0.7536955, z: 0.070659384, w: 0.65056175}
   m_LocalPosition: {x: 0, y: 0.4755, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
   ReferenceFrame: 0
   RecenterTarget: 1
   PanAxis:
-    Value: -4.409134
+    Value: -98.40094
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -277,7 +277,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: 40.766388
+    Value: 10.711716
     Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0
@@ -449,7 +449,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3029062730831253007}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3480393, y: -0.036058787, z: 0.013398104, w: 0.9366904}
+  m_LocalRotation: {x: 0.060990535, y: -0.7536955, z: 0.070659384, w: 0.65056175}
   m_LocalPosition: {x: 0, y: 0.4755, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -637,6 +637,7 @@ GameObject:
   - component: {fileID: 1753230588722356098}
   - component: {fileID: 8220170413300471297}
   - component: {fileID: 4512568042570907233}
+  - component: {fileID: 4721442019503126406}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -686,12 +687,8 @@ MonoBehaviour:
   _tranform_cameraRig: {fileID: 1199289281340607420}
   Camera_FPS: {fileID: 8692974156563246813}
   _inputHandler: {fileID: 5910133177189523141}
-  _playerInventory: {fileID: 0}
-  _interactDistance: 3
-  _interactLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  _interactTriggerInteraction: 1
+  _playerInventory: {fileID: 4721442019503126406}
+  _hoverDetector: {fileID: 3658483056578502361}
 --- !u!114 &5910133177189523141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,6 +781,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4721442019503126406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824055085373153065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 975a3a5e98350e748828420304d0e4e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  _bagMaxWeight: 20
 --- !u!1 &6070634622092023255
 GameObject:
   m_ObjectHideFlags: 0
