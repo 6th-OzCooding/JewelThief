@@ -1,4 +1,5 @@
-﻿using TeamConvention.Interfaces;
+﻿using System.Collections.Generic;
+using TeamConvention.Interfaces;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IInteractor
@@ -25,7 +26,6 @@ public class PlayerController : MonoBehaviour, IInteractor
     [SerializeField] private float _headCheckRadius = 0.5f;       // 체크할 구체의 반지름
     [SerializeField] private LayerMask _headLayer;
     private bool _isHeading = false; // 머리에 무언가 부딪혔는지 여부
-
 
     [Header("카메라 회전 및 위치 설정")]
     [SerializeField] private Transform _tranform_CameraRig; // 플레이어 자식으로 있는 CameraRig 트랜스폼
@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour, IInteractor
             _inputHandler.OnCrouchChanged += CrouchAndStand;
         }
 
+        MoneyLaundry.OnSellRequested += HandleSellRequested;
     }
 
     void OnDisable()
@@ -115,6 +116,54 @@ public class PlayerController : MonoBehaviour, IInteractor
         {
             _inputHandler.OnCrouchChanged -= CrouchAndStand;
         }
+
+        MoneyLaundry.OnSellRequested -= HandleSellRequested;
+    }
+
+    private void HandleSellRequested()
+    {
+        if (_playerInventory == null) return;
+
+        int totalSellPrice = 0;
+        int soldCount = 0;
+
+        var sellableBagItems = new List<InventoryItem>();
+        foreach (var bagItem in _playerInventory.BagItems)
+        {
+            if (IsSellableItem(bagItem))
+                sellableBagItems.Add(bagItem);
+        }
+
+        foreach (var sellableItem in sellableBagItems)
+        {
+            var removed = _playerInventory.RemoveBagItem(sellableItem);
+            if (removed == null) continue;
+            totalSellPrice += removed.ItemData.Price;
+            soldCount++;
+        }
+
+        if (IsSellableItem(_playerInventory.RightHandItem))
+        {
+            var removed = _playerInventory.ClearHandItem(PlayerHandType.Right);
+            if (removed != null) { totalSellPrice += removed.ItemData.Price; soldCount++; }
+        }
+
+        if (IsSellableItem(_playerInventory.LeftHandItem))
+        {
+            var removed = _playerInventory.ClearHandItem(PlayerHandType.Left);
+            if (removed != null) { totalSellPrice += removed.ItemData.Price; soldCount++; }
+        }
+
+        if (soldCount == 0) { Debug.Log("판매할 수 있는 보석을 보유하고 있지 않습니다."); return; }
+
+        GameManager.Instance.AddGold(totalSellPrice);
+        GameManager.Sound.PlaySFX(SoundId.SFX_Gain01);
+    }
+
+    private bool IsSellableItem(InventoryItem item)
+    {
+        return item != null && item.ItemData != null
+            && item.ItemData.CurrentItemType == ItemType.Jewel;
     }
 
     void FixedUpdate()
