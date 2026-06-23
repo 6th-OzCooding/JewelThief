@@ -1,59 +1,54 @@
 ﻿using UnityEngine;
 using TeamConvention.Interfaces;
 
-public class MimicItemTrap : MonoBehaviour//, IInteractable//, IDisarmable
+public class FakeItemTrap : BaseDisarmableObejct
 {
-    [Header("트랩 데이터")]
-    [SerializeField] private int _trapId = 40000001;
-
-    [Header("기본 설정")]
-    [SerializeField] private string _name = "미믹";
+    [Header("함정 패널티 설정")]
     [SerializeField] private float _damage = 1f;
-    [SerializeField] private float _soundRadius = 1f;
-    [SerializeField] private float _timeReductionAmount = 1f;
+    [SerializeField] private float _soundRadius = 20f;      // 소음이 퍼지는 범위의 반지름
 
-    private bool _isDisarmed = false;   //도구로 무력화됐는지 여부 확인
-
-    public string GetId => _name;
-    public bool CanInteract() => !_isDisarmed;
-
-    public void Interact(IInteractor interactor)
+    protected override void LoadData(string id)
     {
-        if (!CanInteract()) return;
+        Debug.Log($"[데이터 테이블 로드] 함정 ID: {id}");
+    }
 
-        Debug.Log($"[함정 발동] ID: {_trapId} - 함정 발동!");
+    protected override void OnInitalized()
+    {
+        base.OnInitalized();
+        Debug.Log($"[함정 초기화 완료] {GetName} (ID: {GetId})");
+    }
 
-        //player.TakeDamage(_damage);
+    protected override void OnDisarm()
+    {
+        Debug.LogWarning($"함정 발동. {GetName} (ID: {GetId})");
 
-        //if (GameManager.Instance != null && GameManager.Instance.AlertManager != null)
+        if (GameManager.Instance != null)
         {
-           // GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
+            float temporaryReductionAmount = 10f;
+            GameManager.Instance.SendMessage("ReduceTimer", temporaryReductionAmount, SendMessageOptions.DontRequireReceiver);
         }
 
-        TriggerNoise();   //소음 발생
+        TriggerNoise();
 
-        Destroy(gameObject, 0.2f);   //파괴
-     }
-
-    public void Disarm()
-    {
-        _isDisarmed = true;
-        Debug.Log($"[함정 해제] ID: {_trapId} - 도구에 의해 무력화된 함정입니다.");
-
-        Destroy(gameObject);
+        Destroy(gameObject, 0.3f);     // 발동 0.3초 후 삭제
     }
 
     private void TriggerNoise()
     {
         Collider[] caughtEnemies = Physics.OverlapSphere(transform.position, _soundRadius);
+
         foreach (Collider col in caughtEnemies)
         {
-            //Enemy enemy = col.GetComponent<Enemy>();
-           // if (enemy != null)
+            // 몬스터 AI 시스템 머지 완료 시 HearNoise 함수 활성화
+            /*
+            Enemy enemy = col.GetComponent<Enemy>();
+            if (enemy != null)
             {
-                //enemy.HearNoise(transform.position);
+                enemy.HearNoise(transform.position); // 몬스터에게 소음이 발생한 위치를 제보해 추적당하게 함
             }
+            */
         }
+        Debug.Log($"반지름 {_soundRadius}m 이내의 적들이 소음을 듣고 몰려옵니다.");
     }
 
     private void OnDrawGizmosSelected()

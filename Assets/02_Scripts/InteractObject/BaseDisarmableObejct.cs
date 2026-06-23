@@ -1,19 +1,20 @@
-﻿using TeamConvention.Interfaces;
+﻿using System.Collections.Generic;
+using TeamConvention.Interfaces;
 using UnityEngine;
 
 public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisarmable
 {
-    private string _trapId;
-    private string _trapName;
-    private string _requiredToolId;
+    protected string _disarmObjId;
+    protected string _disarmObjName;
+    protected List<string> _requiredToolId;
 
-    private float _timeReductionAmount; 
+    protected float _timeReductionAmount;
 
-    private bool _requiresTool;
-    private bool _isDisarmed = false;
-    private bool _isInitialized = false;
+    protected bool _requiresTool;
+    protected bool _isDisarmed = false;
+    protected bool _isInitialized = false;
 
-    private Animator _animator;
+    protected Animator _animator;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
     /// 데이터 데이블에서 정보를 활용하여 초기화 하는 작업을 여기에 작성합니다.
     /// 또한 다른 초기화도 여기서 작업합니다.
     /// </summary>
-    protected virtual void OnInitalized() 
+    protected virtual void OnInitalized()
     {
         _isDisarmed = false;
         _isInitialized = false;
@@ -62,13 +63,13 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
 
     public bool IsDisarmed => _isDisarmed;
 
-    public string GetId => _trapId;
+    public string GetId => _disarmObjId;
 
-    public string GetName => _trapName;
+    public string GetName => _disarmObjName;
 
     public void InitFromSpawner(string id)
     {
-        _trapId = id;
+        _disarmObjId = id;
         LoadData(id);
         OnInitalized();
         _isInitialized = true;
@@ -89,7 +90,7 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
         if (_isDisarmed)
             return false;
 
-        if(_requiresTool)
+        if (_requiresTool)
         {
             // 도구가 필요한 경우 도구가 있는지 체크하는 로직 작성
             // ex) inventory.HasToolForDisarming(_requiredToolId); // 이경우 _requiredToolId에 해당하는 도구가 있는지 체크
