@@ -27,7 +27,8 @@ public enum UIType
     ConfirmPopup,
     CreditPopup,
     SettingPopup,
-    ObjectInfoPopupUI
+    ObjectInfoPopupUI,
+    ScorePopupUI
 }
 
 /// <summary>
