@@ -6,6 +6,7 @@ public class FakeItemTrap : BaseDisarmableObejct
     [Header("함정 패널티 설정")]
     [SerializeField] private float _damage = 1f;
     [SerializeField] private float _soundRadius = 20f;      // 소음이 퍼지는 범위의 반지름
+    [SerializeField] private float _timeReductionAmount = 10f;
 
     private bool _hasExploded = false;
 

@@ -6,9 +6,9 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
 {
     protected string _disarmObjId;
     protected string _disarmObjName;
-    protected List<string> _requiredToolId;
+    protected List<string> _requiredToolIdList;
 
-    protected float _timeReductionAmount;
+    protected List<float> _timeReductionAmountList;
 
     protected bool _requiresTool;
     protected bool _isDisarmed = false;
