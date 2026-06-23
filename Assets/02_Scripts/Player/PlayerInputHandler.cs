@@ -8,12 +8,13 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 LookVector { get; private set; } //카메라 회전값을 받는 벡터
     public bool JumpRequested { get; set; }  // 점프 입력이 들어왔는지 확인하는 플래그
     public bool InteractRequested { get; set; } // interact입력이 들어왔는지 확인하는 플래그
-    public bool SprintRequested { get; private set; } // Sprint 입력이 들어왔느지 확인하는 플래그
-
+    public bool SprintRequested { get; private set; } // Sprint 입력이 들어왔는지 확인하는 플래그
+    public bool CrouchRequested { get; private set; }//Crouch 입력이 들어왔는지 확인하는 플래그
     public PlayerInputMode CurrentMode { get; private set; } = PlayerInputMode.Gameplay;
 
     public event Action OnInteractEvent;
 
+    public event Action OnCrouchChanged;
     // 추가: 입력 모드 전환 (이동/시선 허용 여부 + 커서 잠금 상태를 함께 제어)
     public void SetMode(PlayerInputMode mode)
     {
@@ -50,8 +51,16 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void OnSprint(InputValue value)
     {
-
-       
         SprintRequested = value.isPressed;
+    }
+
+    private void OnCrouch(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            //CrouchRequested = !CrouchRequested;
+            OnCrouchChanged?.Invoke();
+        }
+       
     }
 }
