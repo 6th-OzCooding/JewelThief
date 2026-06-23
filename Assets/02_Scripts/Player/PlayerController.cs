@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour, IInteractor
 {
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 8f;
+    [SerializeField] private float _sprintScale = 1.3f;
     [SerializeField] private float _overweightMoveSpeed = 1f;
     [SerializeField] private Rigidbody _rigidbody_Player;
     private Vector3 _moveDirection; // 플레이어 이동하는 방향
@@ -32,6 +33,15 @@ public class PlayerController : MonoBehaviour, IInteractor
     [SerializeField] private LayerMask _interactLayerMask = ~0;
     [SerializeField] private QueryTriggerInteraction _interactTriggerInteraction = QueryTriggerInteraction.Ignore;
 
+    [Header("플레이어 스탯")]
+    [SerializeField] private float _playerHp = 100;
+    [SerializeField] private float _playerSp = 100;
+    [SerializeField] private float _spintSpUsePerSecond = 5; //스프린트 시 초당 소모되는 스태미나
+    [SerializeField] private float _spintSpAddPerSecond = 3; //평소 초당 회복되는 스태미나
+
+    private float _playerMaxHp;
+    private float _playerMaxSp;
+
     public Vector3 Position => this.transform.position;
 
     void Awake()
@@ -56,6 +66,10 @@ public class PlayerController : MonoBehaviour, IInteractor
         {
             _playerInventory = GetComponent<PlayerInventory>();
         }
+
+        _playerMaxHp = _playerHp; //최대 체력 지정
+        _playerMaxSp = _playerSp; //최대 스태미나 지정
+
     }
 
     void OnEnable()
@@ -88,6 +102,23 @@ public class PlayerController : MonoBehaviour, IInteractor
         {
             Jump();
         }
+
+        bool isMoving = _moveDirection.magnitude > 0.1f;
+
+        if (_inputHandler.SprintRequested && isMoving && _playerSp > 0) //스프린트 키가 입력되고, 좌표가 변경되는 중이고, 스태미나가 0이상일 때 소모한다
+        {
+            TakePlayerSpDamagePerSecond(_spintSpUsePerSecond);
+        }
+
+        if (!_inputHandler.SprintRequested && _playerSp < _playerMaxSp) //스프린트 키가 입력되지 않고, 스태미나가 최대가 아닐 때 회복한다
+        {
+            AddPlayerSpPerSecond(_spintSpAddPerSecond);
+        }
+
+        if (_playerHp < _playerMaxHp)
+        {
+
+        }
     }
 
     private void Move()
@@ -104,16 +135,26 @@ public class PlayerController : MonoBehaviour, IInteractor
             _rigidbody_Player.linearVelocity.y,
             _moveDirection.z * currentMoveSpeed
             );
+
+
     }
 
     private float GetCurrentMoveSpeed()
     {
+        if (_inputHandler.SprintRequested && _playerSp > 0) //스프린트 키가 눌렸을 때
+        {
+            return _moveSpeed * _sprintScale;
+
+        }
+        //나중에 아래로 옮겨야 함
+
         if (_playerInventory == null)
             return _moveSpeed;
 
         float currentWeight = _playerInventory.GetTotalCarryWeight();
         float maxWeight = _playerInventory.MaxCarryWeight;
         bool isOverweight = currentWeight > maxWeight;
+
 
         if (_isOverweight != isOverweight)
         {
@@ -123,16 +164,27 @@ public class PlayerController : MonoBehaviour, IInteractor
             {
                 Debug.Log($"무게 초과 상태입니다. 이동속도를 {_overweightMoveSpeed:0.##}(으)로 조정합니다. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
             }
+
             else
             {
                 Debug.Log($"무게 초과 상태가 해제되었습니다. 이동속도를 {_moveSpeed:0.##}(으)로 되돌립니다. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
             }
         }
 
-        if (!isOverweight)
-            return _moveSpeed;
+        if (_isOverweight)
+        {
+            return _overweightMoveSpeed;
+        }
 
-        return _overweightMoveSpeed;
+        /* if (_inputHandler.SprintRequested) //스프린트 키가 눌렸을 때
+         {
+             return _moveSpeed * _sprintScale;
+
+         }*/
+        // _playerInventory이 완성되면 위에 있는 걸 지우고 여기로 옮겨야 함
+
+        return _moveSpeed;
+
     }
 
     private void RotatePlayer()
@@ -198,5 +250,58 @@ public class PlayerController : MonoBehaviour, IInteractor
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
         }
+    }
+
+    public void TakePlayerHpDamage(float damage)
+    {
+        _playerHp -= damage;
+
+        Debug.Log($"플레이어 HP: {_playerHp}");
+
+        if (_playerHp < 0)
+        {
+            // 죽음 처리를 여기서 해두고
+            PlayerDie();
+        }
+    }
+
+    public void TakePlayerSpDamage(float damage)
+    {
+        _playerSp -= damage;
+        Debug.Log($"플레이어 Sp: {_playerSp}");
+    }
+
+    public void TakePlayerSpDamagePerSecond(float damage)
+    {
+        _playerSp -= damage*Time.fixedDeltaTime;
+        Debug.Log($"플레이어 Sp: {_playerSp}");
+    }
+
+    public void AddPlayerHp(float hp)
+    {
+        _playerHp += hp;
+        Debug.Log($"플레이어 Hp: {_playerHp}");
+    }
+
+    public void AddPlayerSp(float sp)
+    {
+        _playerSp += sp;
+        Debug.Log($"플레이어 Sp: {_playerSp}");
+
+    }
+
+    public void AddPlayerSpPerSecond(float sp)
+    {
+
+        _playerSp += sp * Time.fixedDeltaTime;
+        Debug.Log($"플레이어 Sp: {_playerSp}");
+
+    }
+
+
+
+    private void PlayerDie()
+    {
+        Debug.Log("플레이어가 죽었습니다.");
     }
 }

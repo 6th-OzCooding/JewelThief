@@ -8,6 +8,7 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 LookVector { get; private set; } //카메라 회전값을 받는 벡터
     public bool JumpRequested { get; set; }  // 점프 입력이 들어왔는지 확인하는 플래그
     public bool InteractRequested { get; set; } // interact입력이 들어왔는지 확인하는 플래그
+    public bool SprintRequested { get; private set; } // Sprint 입력이 들어왔느지 확인하는 플래그
 
     public event Action OnInteractEvent;
 
@@ -32,4 +33,11 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     private void OnInteract(InputValue value) => OnInteractEvent?.Invoke();
+
+    private void OnSprint(InputValue value)
+    {
+
+       
+        SprintRequested = value.isPressed;
+    }
 }
