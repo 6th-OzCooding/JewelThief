@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     [SerializeField] private float _sprintScale = 2f; //스프린트 속도 배율
     [SerializeField] private float _crouchScale = 0.3f; //앉을 때 속도 배율
     [SerializeField] private float _overweightScale = 0.5f; //무게 초과했을 때 속도 배율 
+    [SerializeField] private float _overweightMoveSpeed = 1f;
     [SerializeField] private Rigidbody _rigidbody_Player;
     [SerializeField] private CapsuleCollider _playerCollider;
     private Vector3 _moveDirection; // 플레이어 이동하는 방향
@@ -26,7 +27,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     [SerializeField] private float _headCheckRadius = 0.5f;       // 체크할 구체의 반지름
     [SerializeField] private LayerMask _headLayer;
     private bool _isHeading = false; // 머리에 무언가 부딪혔는지 여부
-
 
     [Header("카메라 회전 및 위치 설정")]
     [SerializeField] private Transform _tranform_CameraRig; // 플레이어 자식으로 있는 CameraRig 트랜스폼
@@ -105,7 +105,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
         _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
 
-
     }
 
     void OnEnable()
@@ -145,7 +144,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
             _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
         }
 
-
         if (_inputHandler.JumpRequested)
         {
             Jump();
@@ -154,15 +152,12 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         if (_headCheck != null)
         {
             _isHeading = Physics.CheckSphere(_headCheck.position, _headCheckRadius, _headLayer);
-            Debug.Log(_isHeading);
         }
-
 
         if (!IsSprint() && _playerSp < _playerMaxSp) //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
         {
             AddPlayerSpPerSecond(_spintSpAddPerSecond);
         }
-
     }
 
     private bool IsSprint() //스프린트 입력되고, 좌표 변경되는 중, 스태미나 0이상, 앉기가 입력되지 않을때 true
@@ -190,11 +185,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
             _rigidbody_Player.linearVelocity.y,
             _moveDirection.z * currentMoveSpeed
             );
-
-
     }
-
-
 
     private float GetCurrentMoveSpeed()
     {
@@ -272,8 +263,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
             camPos.y = _tranform_CrouchCamera.localPosition.y;
 
             _isCrouching = true;
-            Debug.Log("나 앉았어!");
-
         }
         else if(_isCrouching&&!_isHeading) //머리에 부딪히지 않았다면
         {
@@ -282,13 +271,9 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
             camPos.y = _standCameraLocalY;
             _isCrouching = false;
-            Debug.Log("나 일어났어!");
-
         }
 
         _tranform_CameraRig.localPosition = camPos;
-
-        Debug.Log("일단 나 눌렸어.");
     }
 
     private void Jump()

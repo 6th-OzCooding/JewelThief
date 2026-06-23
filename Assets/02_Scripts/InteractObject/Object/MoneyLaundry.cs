@@ -35,6 +35,8 @@ public class MoneyLaundry : MonoBehaviour, IInteractable
             }
         }
 
+
+        // TODO: (김경훈 - 26.06.22) 상점 구매 스크립트로 이동
         foreach (InventoryItem sellableItem in sellableBagItems)
         {
             InventoryItem removedItem = inventoryOwner.RemoveBagItem(sellableItem);
