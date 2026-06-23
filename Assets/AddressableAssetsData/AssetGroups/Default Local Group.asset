@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1dfc93650565f744080e5d530ab73da1
+    m_Address: Assets/03_Prefabs/Object/Mesh_WoodBox_Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2e920f9dae272d44e8aefce90a734cdb
     m_Address: Demo Room1
     m_ReadOnly: 0
@@ -77,6 +82,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 60e300646305120439bf73382f2b3436
     m_Address: Lose_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60f69512f2bf64342ae986abdcb41ba4
+    m_Address: Assets/03_Prefabs/Object/Door_Mesh
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -241,7 +251,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ec9cb0d3f295dfe4486b8a1a25b84185
-    m_Address: Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab
+    m_Address: Assets/03_Prefabs/Object/Mesh_IronBox_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

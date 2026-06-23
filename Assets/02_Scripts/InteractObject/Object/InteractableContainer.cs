@@ -265,6 +265,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
     private void OpenBox()
     {
+        _animController.SetStat(BoxState.Open);
         PickItemId();
         PlayDropItemParitcle(_spawnedItemList.Count);
 

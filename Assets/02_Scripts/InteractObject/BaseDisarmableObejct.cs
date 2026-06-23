@@ -35,7 +35,7 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
     /// </summary>
     protected virtual void OnInitalized() 
     {
-        _isDisarmed = false;
+        // _isDisarmed = false;
         _isInitialized = false;
     }
 

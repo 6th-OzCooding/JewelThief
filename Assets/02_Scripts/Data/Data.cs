@@ -89,9 +89,9 @@ public class Door : BaseData
 {
     public string DoorName;
     public string DoorComment;
-    public bool IsLock;
-    public List<string> ItemIdList;
-    public List<int> RateList;
+    public List<string> DoorRequiresToolIdList;
+    public List<float> DoorTimeReductionAmountList;
+    public bool IsDisarm;
     public string DoorMeshPrefabPath;
 }
 

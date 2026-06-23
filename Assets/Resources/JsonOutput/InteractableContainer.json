@@ -45,7 +45,7 @@
       5
     ],
     "MaxItemCount": 3,
-    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_WoodBox_Prefab.prefab"
+    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_WoodBox_Prefab"
   },
   {
     "Id": "Object_03",
@@ -63,7 +63,7 @@
     "ItemIdList": null,
     "RateList": null,
     "MaxItemCount": 5,
-    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab"
   },
   {
     "Id": "Object_04",
@@ -87,7 +87,7 @@
       40
     ],
     "MaxItemCount": 5,
-    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab"
   },
   {
     "Id": "Object_05",
@@ -111,6 +111,6 @@
       10
     ],
     "MaxItemCount": 1,
-    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab"
   }
 ]
