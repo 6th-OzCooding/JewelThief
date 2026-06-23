@@ -49,6 +49,14 @@ public class InventoryPickupItem : MonoBehaviour
 
         if (!isAcquired)
         {
+            // 퍼즐 인벤 이용 추가 내용
+            var physics = gameObject.GetComponent<JewelPhysicsApplier>();
+            if (physics == null) physics = gameObject.AddComponent<JewelPhysicsApplier>();
+
+            physics.ExitPuzzleMode();
+
+            gameObject.SetActive(false); // 여까지
+
             Debug.Log(resultMessage);
             return false;
         }
