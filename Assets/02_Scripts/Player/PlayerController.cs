@@ -34,12 +34,10 @@ public class PlayerController : MonoBehaviour, IInteractor
     [SerializeField] private QueryTriggerInteraction _interactTriggerInteraction = QueryTriggerInteraction.Ignore;
 
     [Header("플레이어 스탯")]
-    [SerializeField] private float _playerHp = 100;
     [SerializeField] private float _playerSp = 100;
     [SerializeField] private float _spintSpUsePerSecond = 5; //스프린트 시 초당 소모되는 스태미나
     [SerializeField] private float _spintSpAddPerSecond = 3; //평소 초당 회복되는 스태미나
 
-    private float _playerMaxHp;
     private float _playerMaxSp;
 
     public Vector3 Position => this.transform.position;
@@ -68,7 +66,6 @@ public class PlayerController : MonoBehaviour, IInteractor
             _playerInventory = GetComponent<PlayerInventory>();
         }
 
-        _playerMaxHp = _playerHp; //최대 체력 지정
         _playerMaxSp = _playerSp; //최대 스태미나 지정
 
     }
@@ -116,10 +113,6 @@ public class PlayerController : MonoBehaviour, IInteractor
             AddPlayerSpPerSecond(_spintSpAddPerSecond);
         }
 
-        if (_playerHp < _playerMaxHp)
-        {
-
-        }
     }
 
     private void Move()
@@ -268,18 +261,6 @@ public class PlayerController : MonoBehaviour, IInteractor
         }
     }
 
-    public void TakePlayerHpDamage(float damage)
-    {
-        _playerHp -= damage;
-
-        Debug.Log($"플레이어 HP: {_playerHp}");
-
-        if (_playerHp < 0)
-        {
-            // 죽음 처리를 여기서 해두고
-            PlayerDie();
-        }
-    }
 
     public void TakePlayerSpDamage(float damage)
     {
@@ -291,12 +272,6 @@ public class PlayerController : MonoBehaviour, IInteractor
     {
         _playerSp -= damage*Time.fixedDeltaTime;
         Debug.Log($"플레이어 Sp: {_playerSp}");
-    }
-
-    public void AddPlayerHp(float hp)
-    {
-        _playerHp += hp;
-        Debug.Log($"플레이어 Hp: {_playerHp}");
     }
 
     public void AddPlayerSp(float sp)
