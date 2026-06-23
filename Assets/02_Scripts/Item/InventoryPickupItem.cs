@@ -37,6 +37,28 @@ public class InventoryPickupItem : MonoBehaviour
             return false;
         }
 
+        // 보석용 인벤토리 위해 추가 
+        if (itemData.CurrentItemType == ItemType.Jewel)
+        {
+            ItemBase itemBase = GetComponent<ItemBase>();
+            if (itemBase == null)
+            {
+                Debug.LogError($"보석 아이템[{gameObject.name}]에 ItemBase 컴포넌트가 없습니다!");
+                return false;
+            }
+
+            if (JewelPuzzleUIManager.Instance != null && JewelPuzzleUIManager.Instance.CanPickupJewel(itemData))
+            {
+                JewelPuzzleUIManager.Instance.AddJewelToTempQueue(itemBase);
+                return true;
+            }
+            else
+            {
+                Debug.Log($"{itemData.Name}을(를) 주울 수 없습니다. (공간/무게 부족)");
+                return false;
+            }
+        }
+
         InventoryTypeData inventoryTypeData = GameManager.DataTable.GetInventoryTypeDataTable().TryGetValue(_itemDataId, out var typeData) ? typeData : null;
         if (inventoryTypeData == null)
         {
@@ -49,14 +71,6 @@ public class InventoryPickupItem : MonoBehaviour
 
         if (!isAcquired)
         {
-            // 퍼즐 인벤 이용 추가 내용
-            var physics = gameObject.GetComponent<JewelPhysicsApplier>();
-            if (physics == null) physics = gameObject.AddComponent<JewelPhysicsApplier>();
-
-            physics.ExitPuzzleMode();
-
-            gameObject.SetActive(false); // 여까지
-
             Debug.Log(resultMessage);
             return false;
         }

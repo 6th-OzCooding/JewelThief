@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 public class BagOverloadDetector : MonoBehaviour
 {
     [Header("공간 설정")]
-    [SerializeField] private Transform _pickupSpace; // 파란 박스(줍기 공간)의 Transform 위치
     [SerializeField] private SpriteRenderer _boundaryLineRenderer; // 경계 선 (넘침 체크 선)
     [SerializeField] private float _returnDelay = 0.5f; // 선을 넘은 후 판정까지 버티는 시간
 
@@ -87,27 +86,18 @@ public class BagOverloadDetector : MonoBehaviour
         {
             cts.Dispose();
             _activeTrackings.Remove(gemCollider);
-
             UpdateLineColor();
         }
 
-        // 줍기 공간은 물리 상태 없음
-        if (gemCollider.TryGetComponent(out Rigidbody rb))
-        {
-            rb.useGravity = false;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-
-        gemCollider.transform.position = _pickupSpace.position;
-        gemCollider.transform.rotation = Quaternion.identity;
-
         if (JewelPuzzleUIManager.Instance != null)
         {
-            JewelPuzzleUIManager.Instance.RemoveJewelFromBag(gemCollider.GetComponent<ItemBase>());
+            ItemBase gem = gemCollider.GetComponent<ItemBase>();
+            if (gem != null)
+            {
+                JewelPuzzleUIManager.Instance.RemoveJewelFromBag(gem);
+                Debug.Log($"<color=orange>{gemCollider.name}</color>이(가) 가방 용량을 초과하여 임시 보관함으로 반환되었습니다.");
+            }
         }
-
-        Debug.Log($"<color=orange>{gemCollider.name}</color>이(가) 가방 용량을 초과하여 파란 박스로 반환되었습니다.");
     }
 
     // 경계선 색깔 변경 함수

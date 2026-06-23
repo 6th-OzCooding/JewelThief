@@ -1,24 +1,23 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class JewelPuzzleUIManager : MonoBehaviour
 {
     public static JewelPuzzleUIManager Instance { get; private set; }
 
-    [Header("UI 요소 연결")]
-    [SerializeField] private TextMeshProUGUI _totalPriceText; // 총 가치 금액
-    [SerializeField] private Button _confirmButton; // 확인 버튼
-    [SerializeField] private GameObject _operationKey; // 조작 설명
+    [Header("설정")]
+    [SerializeField] private float _maxWeight = 50f;
 
     [Header("공간 및 스폰 설정")]
     [SerializeField] private Transform _pickupSpace; // 줍기 공간의 중심 트랜스폼
     [SerializeField] private LayerMask _gemLayerMask; // 보석 오브젝트들만 감지하기 위한 레이어 설정
 
-    [Header("조종(크레인) 설정")]
+    [Header("낙하 설정")]
     [SerializeField] private Transform _dropZoneCenter; // 보석 생성 지점
-    [SerializeField] private float _moveSpeed = 5f; // 좌우 이동 속도
     [SerializeField] private float _limitX = 3f; // 움직일 수 있는 최대 거리
 
     [Header("외부 컴포넌트 연결")]
@@ -26,9 +25,14 @@ public class JewelPuzzleUIManager : MonoBehaviour
     [SerializeField] private Camera _puzzleCamera;// 카메라
 
     private PlayerInventory _playerInventory;
-    // 현재 가방 안에 들어가 연산에 포함된 보석 리스트
+    // 주울때 Queue 저장
+    private Queue<ItemBase> _tempQueue = new Queue<ItemBase>();
+    // 가방 리스트
     private List<ItemBase> _jewelsInBag = new List<ItemBase>();
-    private ItemBase _activeGem;
+    // 임시 보관함 리스트
+    private List<ItemBase> _pickupAreaGems = new List<ItemBase>();
+
+    private bool _isAutoDropping = false; // 낙하 상태 확인
 
     private void Awake()
     {
@@ -41,7 +45,7 @@ public class JewelPuzzleUIManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (_puzzleCamera == null)
+        if (_puzzleCamera != null)
         {
             _puzzleCamera.depth = 10;
         }
@@ -54,31 +58,131 @@ public class JewelPuzzleUIManager : MonoBehaviour
 
         if (_playerInventory == null)
         {
-            Debug.LogError("씬에서 PlayerInventory를 찾을 수 없습니다! 플레이어 오브젝트가 씬에 있는지 확인하세요.");
+            Debug.LogError("씬에서 PlayerInventory를 찾을 수 없습니다! 플레이어가 씬에 있는지 확인하세요.");
+        }
+
+        var input = FindAnyObjectByType<PlayerInputHandler>();
+        if (input != null)
+        {
+            input.OnInventoryToggleEvent += TogglePuzzleInventory;
         }
     }
 
-    private void Start()
+    private void TogglePuzzleInventory()
     {
-        UpdateTotalPriceDisplay();
-
-        if (_operationKey != null) _operationKey.SetActive(false);
-        if (_confirmButton != null) _confirmButton.onClick.AddListener(ConfirmBagContents);
+        if (gameObject.activeSelf)
+        {
+            ClosePuzzleInventory();
+        }
+        else
+        {
+            OpenPuzzleInventory();
+        }
     }
 
     private void Update()
     {
-        if (_activeGem == null)
+        if (!_isAutoDropping)
         {
             HandleMouseClick();
         }
-        else
+    }
+
+    // 줍기 제한
+    public bool CanPickupJewel(ItemData itemData)
+    {
+        // 공간 확인
+        if (_overflowHandler != null && !_overflowHandler.IsSpaceSafe)
         {
-            HandleActiveGemMovement();
+            Debug.Log("가방이 가득 차서 넘쳤습니다! 더 이상 보석을 주울 수 없습니다.");
+            return false;
+        }
+
+        // 무게 확인
+        float currentTotalWeight = GetTotalJewelWeight();
+        if (currentTotalWeight + itemData.Weight > _maxWeight)
+        {
+            Debug.Log($"무게 제한 초과! 현재 무게: {currentTotalWeight}/{_maxWeight}");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Queue 형태 저장
+    public void AddJewelToTempQueue(ItemBase gem)
+    {
+        if (gem == null) return;
+
+        _tempQueue.Enqueue(gem);
+        gem.gameObject.SetActive(false);
+    }
+
+    // 인벤토리 열림
+    public void OpenPuzzleInventory()
+    {
+        gameObject.SetActive(true);
+
+        if (_tempQueue.Count > 0)
+        {
+            ProcessAutoDropAsync().Forget();
         }
     }
 
-    // 마우스 클릭을 감지하고 보석 오프젝트를 판별
+    // 자동 낙하
+    private async UniTaskVoid ProcessAutoDropAsync()
+    {
+        _isAutoDropping = true;
+
+        while (_tempQueue.Count > 0)
+        {
+            ItemBase gem = _tempQueue.Dequeue();
+            gem.gameObject.SetActive(true);
+
+            DropGemAutomatically(gem);
+
+            await UniTask.Delay(System.TimeSpan.FromSeconds(0.3f));
+        }
+
+        _isAutoDropping = false;
+    }
+
+    // 인벤토리 닫힘
+    public void ClosePuzzleInventory()
+    {
+        if (_isAutoDropping)
+        {
+            Debug.LogWarning("보석들이 낙하 중입니다! 잠시만 기다려주세요.");
+            return;
+        }
+
+        if (_playerInventory == null) return;
+
+        Vector3 dropPosition = _playerInventory.transform.position;
+
+        foreach (var gem in _pickupAreaGems)
+        {
+            gem.gameObject.SetActive(true);
+            gem.transform.position = dropPosition + new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f));
+
+            var physics = gem.GetComponent<JewelPhysicsApplier>();
+            if (physics != null) physics.ExitPuzzleMode();
+
+            gem.gameObject.layer = LayerMask.NameToLayer("Default");
+
+            Rigidbody rb = gem.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.useGravity = true;
+                rb.isKinematic = false;
+            }
+        }
+
+        _pickupAreaGems.Clear();
+        gameObject.SetActive(false);
+    }
+
+    // 마우스 클릭
     private void HandleMouseClick()
     {
         if (Input.GetMouseButtonDown(0))
@@ -93,72 +197,51 @@ public class JewelPuzzleUIManager : MonoBehaviour
         }
     }
 
-    // 보석의 위치를 가방 <-> 줍기 공간으로 서로 변경
+    // 가방 <-> 임시 보관 스위칭
     private void ToggleJewelLocation(ItemBase gem)
     {
-        if (_jewelsInBag.Contains(gem)) MoveToPickupSpace(gem);
-        else StartMovingGem(gem);
+        if (_jewelsInBag.Contains(gem))
+        {
+            MoveToPickupSpace(gem);
+        }
+        else if (_pickupAreaGems.Contains(gem))
+        {
+            _pickupAreaGems.Remove(gem);
+            DropGemAutomatically(gem);
+        }
     }
 
-    // 보석 조종 위치로 이동
-    private void StartMovingGem(ItemBase gem)
+    // 실제 보석 랜덤 낙하
+    private void DropGemAutomatically(ItemBase gem)
     {
         var physics = gem.GetComponent<JewelPhysicsApplier>();
         if (physics == null) physics = gem.gameObject.AddComponent<JewelPhysicsApplier>();
         physics.EnterPuzzleMode();
 
-        _activeGem = gem;
-        gem.transform.position = _dropZoneCenter.position;
-        if (_operationKey != null) _operationKey.SetActive(true);
+        float randomX = Random.Range(-_limitX, _limitX);
+        gem.transform.position = _dropZoneCenter.position + new Vector3(randomX, 0, 0);
+
+        gem.GetComponent<Rigidbody>().useGravity = true;
+
+        _jewelsInBag.Add(gem);
     }
 
-    // 좌우 이동 및 낙하
-    private void HandleActiveGemMovement()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-
-        if (h != 0)
-        {
-            Vector3 pos = _activeGem.transform.position;
-            pos.x = Mathf.Clamp(pos.x + h * _moveSpeed * Time.deltaTime, _dropZoneCenter.position.x - _limitX, _dropZoneCenter.position.x + _limitX);
-            _activeGem.transform.position = pos;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            DropActiveGem();
-        }
-    }
-
-    // 보석 낙하 처리
-    private void DropActiveGem()
-    {
-        _activeGem.GetComponent<Rigidbody>().useGravity = true;
-        _jewelsInBag.Add(_activeGem);
-        _activeGem = null;
-        if (_operationKey != null) _operationKey.SetActive(false);
-        UpdateTotalPriceDisplay();
-    }
-
-    // 보석의 위치를 줍기공간에서 가방으로
+    // 가방 -> 임시 보관함
     private void MoveToPickupSpace(ItemBase gem)
     {
         _jewelsInBag.Remove(gem);
+
+        if (!_pickupAreaGems.Contains(gem)) _pickupAreaGems.Add(gem);
 
         Vector3 offset = new Vector3(Random.Range(-0.2f, 0.2f), 0, Random.Range(-0.2f, 0.2f));
         gem.transform.position = _pickupSpace.position + offset;
 
         var physics = gem.GetComponent<JewelPhysicsApplier>();
-
-        if (physics != null)
-        {
-            physics.ExitPuzzleMode();
-        }
+        if (physics != null) physics.ExitPuzzleMode();
 
         gem.gameObject.layer = LayerMask.NameToLayer("Default");
 
         Rigidbody rb = gem.GetComponent<Rigidbody>();
-
         if (rb != null)
         {
             rb.useGravity = false;
@@ -166,79 +249,38 @@ public class JewelPuzzleUIManager : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
-
-        UpdateTotalPriceDisplay();
     }
 
-    // 보석이 선을 넘었을때
+
+    // 선 넘은 보석 -> 임시로 이동
     public void RemoveJewelFromBag(ItemBase gem)
     {
-        if (_jewelsInBag.Contains(gem)) _jewelsInBag.Remove(gem);
-        UpdateTotalPriceDisplay();
+        MoveToPickupSpace(gem);
     }
 
-    // 가방 상황 확정
-    public void ConfirmBagContents()
+    // 무게 계산
+    public float GetTotalJewelWeight()
     {
-        if (_activeGem != null) return;
-
-        List<ItemBase> remainingJewels = new List<ItemBase>();
-
-        foreach (var gem in _jewelsInBag)
-        {
-            gem.GetComponent<JewelPhysicsApplier>()?.ExitPuzzleMode();
-
-            ItemData itemData = GameManager.DataTable.GetItemDataTable().TryGetValue(gem.Id, out var data) ? data : null;
-
-            if (itemData != null && _playerInventory.TryAcquireItem(itemData, HoldType.Pocket, out _, out _))
-            {
-                Destroy(gem.gameObject);
-            }
-            else
-            {
-                remainingJewels.Add(gem);
-            }
-        }
-        _jewelsInBag.Clear();
-
-        foreach (var gem in remainingJewels)
-        {
-            _jewelsInBag.Add(gem);
-            MoveToPickupSpace(gem);
-        }
-
-        UpdateTotalPriceDisplay();
-        ClosePuzzleUI();
+        float tempWeight = _tempQueue.Sum(g => g.Weight);
+        float bagWeight = _jewelsInBag.Sum(g => g.Weight);
+        float pickupWeight = _pickupAreaGems.Sum(g => g.Weight);
+        return tempWeight + bagWeight + pickupWeight;
     }
 
-    public void ClosePuzzleUI()
+    // 가방안 보석 가격 계산
+    public int GetTotalBagPrice()
     {
-        ItemBase[] allGems = FindObjectsByType<ItemBase>(FindObjectsSortMode.None);
-        foreach (var gem in allGems)
-        {
-            // 가방 리스트에 없는 보석(즉, 줍기 공간에 방치된 애들)만 삭제
-            if (!_jewelsInBag.Contains(gem))
-            {
-                Destroy(gem.gameObject);
-            }
-        }
-
-        gameObject.SetActive(false);
+        return _jewelsInBag.Sum(g => g.Price);
     }
 
-    // 가방안 보석 가격 총 계산 UI 갱신
-    private void UpdateTotalPriceDisplay()
+    // 가방안 가장 비싼 보석 이름 찾기
+    public string GetMostExpensiveJewelName()
     {
-        if (_totalPriceText == null) return;
-        _totalPriceText.text = $"총 가치: {CalcTotalValue():N0} Gold";
-    }
+        var bestGem = _jewelsInBag.OrderByDescending(g => g.Price).FirstOrDefault();
+        if (bestGem == null) return "없음";
 
-    // 계산액 반환
-    private int CalcTotalValue()
-    {
-        int total = 0;
-        foreach (ItemBase gem in _jewelsInBag) total += gem.Price;
-        return total;
+        var data = GameManager.DataTable.GetItemData(bestGem.Id);
+        return data != null ? data.Name : "알 수 없음";
     }
 
     private void OnDrawGizmos()
@@ -259,5 +301,20 @@ public class JewelPuzzleUIManager : MonoBehaviour
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(center, 0.1f);
         }
+    }
+
+    // 경찰에게 잡혀 강제 패배시 
+    // 후추 or 후수
+    public void ClearAllJewelsOnCaught()
+    {
+        _tempQueue.Clear();
+
+        foreach (var gem in _jewelsInBag) if (gem != null) Destroy(gem.gameObject);
+        foreach (var gem in _pickupAreaGems) if (gem != null) Destroy(gem.gameObject);
+
+        _jewelsInBag.Clear();
+        _pickupAreaGems.Clear();
+
+        Debug.Log("경찰에게 잡혔습니다! 모든 보석이 몰수되었습니다.");
     }
 }

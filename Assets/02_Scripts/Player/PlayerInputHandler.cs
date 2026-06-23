@@ -11,6 +11,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public event Action OnInteractEvent;
 
+    // 보석 인벤토리 열기 이벤트 추가
+    public event Action OnInventoryToggleEvent;
+
     private void OnMove(InputValue value)
     {
         Vector2 rawInput = value.Get<Vector2>();
@@ -32,4 +35,10 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     private void OnInteract(InputValue value) => OnInteractEvent?.Invoke();
+
+    // 보석 인벤토리 열기 호출 추가
+    private void OnInventory(InputValue value)
+    {
+        OnInventoryToggleEvent?.Invoke();
+    }
 }
