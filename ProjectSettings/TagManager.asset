@@ -15,15 +15,15 @@ TagManager:
   - PlayerBody
   - PlayerHand
   - 
-  - Wall
+  - 
+  - ground
+  - 
+  - 
+  - 
+  - 
   - Floor
-  - Obstacle
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Wall
+  - Ceiling
   - 
   - 
   - 

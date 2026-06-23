@@ -27,7 +27,8 @@ public enum UIType
     ConfirmPopup,
     CreditPopup,
     SettingPopup,
-    ObjectInfoPopupUI
+    ObjectInfoPopupUI,
+    StageSelectUI
 }
 
 /// <summary>
@@ -75,12 +76,29 @@ public static class UIManagerExtension
         return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TitleUI);
     }
 
+    // TODO: (김경훈 - 26.06.22) 임시 추가, 계층 및 루트 확정 필요
+    public static UIBase OpenStageSelectUI(this UIManager uimanager)
+    {
+        return uimanager.OpenUI(UIRootType.MainUI, UIType.StageSelectUI);
+    }
+
+    // TODO: (김경훈 - 26.06.22) 임시 추가, 계층 및 루트 확정 필요
+    public static void CloseStageSelectUI(this UIManager uimanager)
+    {
+        uimanager.CloseUI(UIType.StageSelectUI);
+    }
+
     /// <summary>
     /// 로딩 UI를 닫습니다.
     /// </summary>
     public static void CloseLoadingUI(this UIManager uiManager)
     {
         uiManager.CloseUI(UIType.LoadingUI);
+    }
+
+    public static void CloseMainUI(this UIManager uiManager)
+    {
+        uiManager.CloseUI(UIType.TitleUI);
     }
 
     /// <summary>
