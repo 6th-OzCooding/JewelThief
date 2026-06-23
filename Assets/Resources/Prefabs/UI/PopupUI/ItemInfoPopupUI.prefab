@@ -629,7 +629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: 80}
+  m_AnchoredPosition: {x: 300, y: 80}
   m_SizeDelta: {x: 280, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7746841380853763047
@@ -651,7 +651,12 @@ MonoBehaviour:
   - {fileID: 4937984518950682668}
   - {fileID: 8871084342031692994}
   - {fileID: 6493880724779931090}
-  _openDuration: 0.2
+  _openDuration: 0.1
+  _itemNameText: {fileID: 4006775258161725363}
+  _rarityText: {fileID: 6405822926781231862}
+  _weightText: {fileID: 4362246381442641672}
+  _priceText: {fileID: 1997614607650904215}
+  _promptText: {fileID: 1217298504089110904}
 --- !u!1 &3580221937886014132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,9 +1557,9 @@ MonoBehaviour:
   m_fontSize: 45
   m_fontSizeBase: 45
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 30
+  m_fontSizeMax: 45
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
