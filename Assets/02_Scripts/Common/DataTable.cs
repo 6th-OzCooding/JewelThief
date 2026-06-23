@@ -7,7 +7,7 @@ public class DataTable
 {
     public Dictionary<string, PreLoadAssetData> GetPreLoadAssetDataTable() => _preLoadAssetDataTable;
     public Dictionary<string, PoolingObjectData> GetPoolingObjectDataTable() => _poolingObjectDataTable;
-    public Dictionary<string, InteractableContainerData> GetInteractableObjectDataTable() => _interactableObjectDataTable;
+    public Dictionary<string, InteractableContainerData> GetInteractableContainerDataTable() => _interactableContainerDataTable;
     public Dictionary<string, InventoryTypeData> GetInventoryTypeDataTable() => _inventoryTypeDataTable;
     public Dictionary<string, ItemData> GetItemDataTable() => _itemDataTable;
     public Dictionary<string, SoundData> GetSoundDataTable() => _soundDataTable;
@@ -16,7 +16,7 @@ public class DataTable
 
     private Dictionary<string, PreLoadAssetData> _preLoadAssetDataTable { get; set; } = new();
     private Dictionary<string, PoolingObjectData> _poolingObjectDataTable { get; set; } = new();
-    private Dictionary<string, InteractableContainerData> _interactableObjectDataTable { get; set; } = new();
+    private Dictionary<string, InteractableContainerData> _interactableContainerDataTable { get; set; } = new();
     private Dictionary<string, InventoryTypeData> _inventoryTypeDataTable { get; set; } = new();
     private Dictionary<string, ItemData> _itemDataTable { get; set; } = new();
     private Dictionary<string, SoundData> _soundDataTable { get; set; } = new();
@@ -33,7 +33,7 @@ public class DataTable
     {
         _preLoadAssetDataTable = LoadData<PreLoadAssetData>("PreLoadAsset");
         // PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
-        _interactableObjectDataTable = LoadData<InteractableContainerData>("InteractableObject");
+        _interactableContainerDataTable = LoadData<InteractableContainerData>("InteractableContainer");
         _itemDataTable = LoadData<ItemData>("ItemData");
 
         // TODO (김경훈 - 06.20: 아이템 데이터로 통합 후 삭제)
@@ -60,9 +60,9 @@ public class DataTable
 
     public InteractableContainerData GetInteractableObjectData(string id)
     {
-        if (null == _interactableObjectDataTable || string.IsNullOrEmpty(id)) return null;
+        if (null == _interactableContainerDataTable || string.IsNullOrEmpty(id)) return null;
 
-        return _interactableObjectDataTable.TryGetValue(id, out var data) ? data : null;
+        return _interactableContainerDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
     public ItemData GetItemData(string id)

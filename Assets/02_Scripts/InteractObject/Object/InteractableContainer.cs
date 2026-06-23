@@ -41,6 +41,8 @@ public class InteractableContainer : BaseDisarmableObejct
     private int _maxSpawnItemCount;
     private List<string> _spawnedItemList = new List<string>();
 
+    private GameObject _meshObject;
+
     protected override void OnInitalized()
     {
         base.OnInitalized();
@@ -59,6 +61,8 @@ public class InteractableContainer : BaseDisarmableObejct
         InitRarityRateData(data.RateList);
         InitFloatListData(_timeReductionAmountList, data.TimeReductionAmountList);
         InitStringListData(_requiredToolIdList, data.RequiresToolIdList);
+        _isInteractable = true;
+        _hasRequiresTool = false;
     }
 
     private void InitStringListData(List<string> requierInitList, List<string> loadDataList)
@@ -117,9 +121,15 @@ public class InteractableContainer : BaseDisarmableObejct
            
         GameObject obj = await Addressables.InstantiateAsync(_meshPrefabPath).Task;
         if (obj == null) return;
-        obj.transform.SetParent(transform, false);
 
+        obj.transform.SetParent(transform, false);
+        _meshObject = obj;
         _animController.InitMeshAnime(obj);
+    }
+
+    private void DestroyMeshBox()
+    {
+        Destroy(_meshObject);
     }
 
     private void PickItemId()
@@ -224,40 +234,84 @@ public class InteractableContainer : BaseDisarmableObejct
         shootObjRigid.AddForce(randomDir * power, ForceMode.Impulse);
     }
 
-    private void PlayDropItemParicle(int dropItemCount)
+    private async void PlayDropItemParitcle(int dropItemCount)
     {
         // Addresabble로 파티클 구현 dropItemCount 1=Low, 2,3=normal / 4,5 = High
-    }
-
-    private void OpenLockedBox()
-    {
-        // TODO(안우재 2026-6-18) : 잠겨있는 오브젝트 잠금해제에 따른 행동 정의 필요
-
+        if(dropItemCount <= 1)
+        {
+            GameObject effect = await Addressables.InstantiateAsync(
+            "Prefabs/Paticle/Effect_Low",
+            transform.position,
+            Quaternion.identity
+            ).Task;
+        }
+        else if(dropItemCount >= 2 && dropItemCount <= 3)
+        {
+            GameObject effect = await Addressables.InstantiateAsync(
+            "Prefabs/Paticle/Effect_Normal",
+            transform.position,
+            Quaternion.identity
+            ).Task;
+        }
+        else if(dropItemCount >=4)
+        {
+            GameObject effect = await Addressables.InstantiateAsync(
+            "Prefabs/Paticle/Effect_High",
+            transform.position,
+            Quaternion.identity
+            ).Task;
+        }
     }
 
     private void OpenBox()
     {
         PickItemId();
+        PlayDropItemParitcle(_spawnedItemList.Count);
 
-        // TODO(안우재 2026-6-22) : _spawnedItemList에 있는 아이템들을 생성하는데 아이템들을 위로 발사(Impulse)하여 생성
-        //                          아이템 갯수(_spawnedItemList.Count)에 따라 파티클이 다르게 해야함
-
-        // foreach문 들어가기 전 PlayDropItemParicle(_spawnedItemList.Count) 로 파티클 실행
-        // 아이템 풀에서 Active한 gameObject activedItem이 있다고 침
-        // 생성 로직 후 ShootItem(activedItem)을 수행, 이걸 foreach안에서 수행
+        foreach (string spawnItemId in _spawnedItemList)
+        {
+            // TODO(안우재 2026-6-24) : GameObejct 생성(pooling 구현 후 가능) 후 ShootItem() 을이용하여 발사
+        }
     }
 
-    public void IInteractor()
+    // 안잠긴 것을 열 때 전용
+    protected override void OnDisarm()
     {
-        // TODO(안우재 2026-6-22) : Player와 상호작용 시 행동 정의 예시) OpenBox 메서드 호출, 아이템 발사 관련 등
-        //                          잠겨있는지 아닌지도 판단하는 로직 추가해야함
-
-
-        // 잠겨있지 않은 경우 
         OpenBox();
+        _isInteractable = false;
     }
-    // TODO(안우재 2026-6-22) : OnDisarm(함정 제거 시 메서드) 정의 필요
 
-    // TODO(안우재 2026-6-23) : PlayInteractionAnimation에 박스 열리는 모션 추가
+    // 잠긴것을 풀때 전용
+    protected override void OnDisarm(bool isCollectToolUse)
+    {
+        InteractableContainerData data = GameManager.DataTable.GetInteractableObjectData(_disarmObjId);
+        if (isCollectToolUse)
+        {
+            ChangeStat(data.CollectOpenDataId);
+        }
+        else
+        {
+            // TODO(안우재 2026-6-24) : 강제로 열었기에 ChangeStat 전에 차감 시간을 적용해야함
+            ChangeStat(data.ForceOpenDataId);
+        }
+    }
+
+    private void ChangeStat(string dataId)
+    {
+        InteractableContainerData data = GameManager.DataTable.GetInteractableObjectData(dataId);
+        _disarmObjId = data.Id;
+        _maxSpawnItemCount = data.MaxItemCount;
+        InitObjectSpawnType(data.SpawnContainerTypeData);
+        _isDisarmed = data.IsContainerDisarm;
+        _meshPrefabPath = data.ContainerMeshPrefabPath;
+        InitStringListData(_itemList, data.ItemIdList);
+        InitRarityRateData(data.RateList);
+        InitFloatListData(_timeReductionAmountList, data.TimeReductionAmountList);
+        InitStringListData(_requiredToolIdList, data.RequiresToolIdList);
+        _isInteractable = true;
+        _hasRequiresTool = false;
+        DestroyMeshBox();
+        SpawnMeshBox();
+    }
 }
 

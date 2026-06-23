@@ -75,6 +75,8 @@ public class InteractableContainerData : BaseData
     public string ContainerComment;
     public bool IsContainerDisarm;
     public List<string> RequiresToolIdList;
+    public string CollectOpenDataId;
+    public string ForceOpenDataId;
     public List<float> TimeReductionAmountList;
     public List<string> ItemIdList;
     public List<int> RateList;

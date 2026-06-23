@@ -1,0 +1,116 @@
+[
+  {
+    "Id": "Object_01",
+    "ContainerName": "케비넷",
+    "SpawnContainerTypeData": "Cabinet",
+    "ContainerComment": "케비넷이다. 안에는 소모품이 들어있다.",
+    "IsContainerDisarm": true,
+    "RequiresToolIdList": [
+      "None"
+    ],
+    "CollectOpenDataId": null,
+    "ForceOpenDataId": null,
+    "TimeReductionAmountList": [
+      0
+    ],
+    "ItemIdList": null,
+    "RateList": [
+      100,
+      0,
+      0,
+      0
+    ],
+    "MaxItemCount": 1,
+    "ContainerMeshPrefabPath": null
+  },
+  {
+    "Id": "Object_02",
+    "ContainerName": "나무상자",
+    "SpawnContainerTypeData": "WoodBox",
+    "ContainerComment": "나무상자다. 주로 값 싼 보석이 들어있지만 가끔 좋은 보석이 나오는 경우도 있다.",
+    "IsContainerDisarm": true,
+    "RequiresToolIdList": [
+      "None"
+    ],
+    "CollectOpenDataId": null,
+    "ForceOpenDataId": null,
+    "TimeReductionAmountList": [
+      0
+    ],
+    "ItemIdList": null,
+    "RateList": [
+      0,
+      80,
+      15,
+      5
+    ],
+    "MaxItemCount": 3,
+    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_WoodBox_Prefab.prefab"
+  },
+  {
+    "Id": "Object_03",
+    "ContainerName": "잠긴금고",
+    "SpawnContainerTypeData": "LockBox",
+    "ContainerComment": "금고다. 잠겨있는만큼 값 비싼 보석이 담겨있다. 억지로 금고를 열려는 시도를 하는경우 안에 있는 보석이 상할 수 있다.",
+    "IsContainerDisarm": false,
+    "RequiresToolIdList": null,
+    "CollectOpenDataId": "Object_04",
+    "ForceOpenDataId": "Object_05",
+    "TimeReductionAmountList": [
+      0,
+      10
+    ],
+    "ItemIdList": null,
+    "RateList": null,
+    "MaxItemCount": 5,
+    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+  },
+  {
+    "Id": "Object_04",
+    "ContainerName": "잠금해제금고",
+    "SpawnContainerTypeData": "None",
+    "ContainerComment": "금고다. 잠겨있는만큼 값 비싼 보석이 담겨있다. 억지로 금고를 열려는 시도를 하는경우 안에 있는 보석이 상할 수 있다.",
+    "IsContainerDisarm": true,
+    "RequiresToolIdList": [
+      "None"
+    ],
+    "CollectOpenDataId": null,
+    "ForceOpenDataId": null,
+    "TimeReductionAmountList": [
+      0
+    ],
+    "ItemIdList": null,
+    "RateList": [
+      0,
+      10,
+      50,
+      40
+    ],
+    "MaxItemCount": 5,
+    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+  },
+  {
+    "Id": "Object_05",
+    "ContainerName": "망가진 금고",
+    "SpawnContainerTypeData": "None",
+    "ContainerComment": "금고다. 잠겨있는만큼 값 비싼 보석이 담겨있다. 억지로 금고를 열려는 시도를 하는경우 안에 있는 보석이 상할 수 있다.",
+    "IsContainerDisarm": true,
+    "RequiresToolIdList": [
+      "None"
+    ],
+    "CollectOpenDataId": null,
+    "ForceOpenDataId": null,
+    "TimeReductionAmountList": [
+      0
+    ],
+    "ItemIdList": null,
+    "RateList": [
+      0,
+      40,
+      50,
+      10
+    ],
+    "MaxItemCount": 1,
+    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab.prefab"
+  }
+]
