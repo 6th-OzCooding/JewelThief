@@ -77,14 +77,6 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     void FixedUpdate()
     {
-        if (_inputHandler == null) return;
-
-        if (_inputHandler.CurrentMode != PlayerInputMode.Gameplay)
-        {
-            StopHorizontalMovement();   // 미끄러짐 방지용 메서드 추가
-            return;
-        }
-
         Move();
         RotatePlayer();
 
@@ -101,6 +93,9 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     private void Move()
     {
+        if (_inputHandler == null) return;
+        if (_inputHandler.CurrentMode != PlayerInputMode.Gameplay) return;
+
         Vector3 input = _inputHandler.InputVector;
         _moveDirection = (transform.forward * input.z + transform.right * input.x).normalized;
         float currentMoveSpeed = GetCurrentMoveSpeed();
@@ -211,16 +206,6 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     //    return hit.collider.GetComponentInParent<InventoryPickupItem>();
     //}
-
-    private void StopHorizontalMovement()
-    {
-        if (_rigidbody_Player == null) return;
-
-        Vector3 velocity = _rigidbody_Player.linearVelocity;
-        velocity.x = 0f;
-        velocity.z = 0f;
-        _rigidbody_Player.linearVelocity = velocity;
-    }
 
     private void OnDrawGizmos() //시각적으로 _groundCheck 그리기
     {
