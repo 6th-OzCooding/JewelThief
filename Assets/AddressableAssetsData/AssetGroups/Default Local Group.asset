@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c31387baab812741821e94cd49ec9c6
+    m_Address: Prefabs/Paticle/Effect_Low
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2e920f9dae272d44e8aefce90a734cdb
     m_Address: Demo Room1
     m_ReadOnly: 0
@@ -90,6 +95,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78fb78614443e604daae12413ee3b9f5
+    m_Address: Prefabs/Paticle/Effect_Normal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7a8f315d3806bd243a7b825be868d5ee
     m_Address: Room1
     m_ReadOnly: 0
@@ -97,6 +107,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7e2a5fd1da1725d47b4fd328ee4220f9
     m_Address: Notification_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81501d88fbc5955499b0154d9213dd07
+    m_Address: Prefabs/Paticle/Effect_High
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

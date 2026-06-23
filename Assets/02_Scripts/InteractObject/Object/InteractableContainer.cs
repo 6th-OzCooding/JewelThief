@@ -27,50 +27,56 @@ public class BoxDropData
     public List<RarityWeight> RarityWeights = new();
 }
 
-public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
+public class InteractableContainer : BaseDisarmableObejct
 {
     [Header("컴포넌트")]
-    [SerializeField] private InteractableBoxAnimeController _animController;
+    [SerializeField] private InteractableContainerAnimeController _animController;
 
-    private string _interactableBoxDataId;
     private SpawnObjectType _interactableObjectType;
-    private bool _isLocking;
     private string _meshPrefabPath;
     private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
     private BoxDropData _rarityRateData = new BoxDropData();
     private List<string> _itemList = new List<string>();
     private List<string> _spawnedRarityList = new List<string>();
     private int _maxSpawnItemCount;
-    private int _spawnItemCount;
     private List<string> _spawnedItemList = new List<string>();
 
-    public string Name => _interactableBoxDataId;
-    public bool CanInteract() => !_isLocking;
-
-    private void OnEnable()
+    protected override void OnInitalized()
     {
-        // 초기화 부분 테스트
-        InitBox("Object_03");
+        base.OnInitalized();
         SpawnMeshBox();
     }
 
-    private void Start()
+    protected override void LoadData(string dataId)
     {
-        // TODO(안우재 2026-6-17) : 테스트 코드 스폰 매니저 또는 게임매니저에 의해 생겨날 경우 삭제 필요
-        InitBox("Object_03");
-        SpawnMeshBox();
-    }
-
-    public void InitBox(string dataId)
-    {
-        InteractableObjectData data = GameManager.DataTable.GetInteractableObjectData(dataId);
-        _interactableBoxDataId = data.Id;
+        InteractableContainerData data = GameManager.DataTable.GetInteractableObjectData(dataId);
+        _disarmObjId = data.Id;
         _maxSpawnItemCount = data.MaxItemCount;
-        InitObjectSpawnType(data.SpawnObjectTypeData);
-        _isLocking = data.IsLock;
-        _meshPrefabPath = data.ObjMeshPrefabPath;
-        InitItemList(data.ItemIdList);
+        InitObjectSpawnType(data.SpawnContainerTypeData);
+        _isDisarmed = data.IsContainerDisarm;
+        _meshPrefabPath = data.ContainerMeshPrefabPath;
+        InitStringListData(_itemList, data.ItemIdList);
         InitRarityRateData(data.RateList);
+        InitFloatListData(_timeReductionAmountList, data.TimeReductionAmountList);
+        InitStringListData(_requiredToolIdList, data.RequiresToolIdList);
+    }
+
+    private void InitStringListData(List<string> requierInitList, List<string> loadDataList)
+    {
+        if (requierInitList == null || loadDataList == null) return;
+        foreach (string data in loadDataList)
+        {
+            requierInitList.Add(data);
+        }
+    }
+
+    private void InitFloatListData(List<float> requierInitList, List<float> loadDataList)
+    {
+        if (requierInitList == null || loadDataList == null) return;
+        foreach (float data in loadDataList)
+        {
+            requierInitList.Add(data);
+        }
     }
 
     private void InitObjectSpawnType(string typeStr)
@@ -84,12 +90,6 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
             Debug.LogError("잘못된 소환 형식");
             _interactableObjectType = SpawnObjectType.None;
         }
-    }
-
-    private void InitItemList(List<string> itemList)
-    {
-        if (itemList == null) return;
-        _itemList = itemList;
     }
 
     private void InitRarityRateData(List<int> rateList)
@@ -199,20 +199,6 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
         return ItemGrade.None;
     }
 
-
-    private void OpenBox()
-    {
-        PickItemId();
-
-        // TODO(안우재 2026-6-22) : _spawnedItemList에 있는 아이템들을 생성하는데 아이템들을 위로 발사(Impulse)하여 생성
-        //                          아이템 갯수(_spawnedItemList.Count)에 따라 파티클이 다르게 해야함
-
-        // foreach문 들어가기 전 PlayDropItemParicle(_spawnedItemList.Count) 로 파티클 실행
-        // 아이템 풀에서 Active한 gameObject activedItem이 있다고 침
-        // 생성 로직 후 ShootItem(activedItem)을 수행, 이걸 foreach안에서 수행
-
-    }
-
     private void ShootItem(GameObject shootingObject)
     {
         if(shootingObject == null) return;
@@ -240,7 +226,7 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
 
     private void PlayDropItemParicle(int dropItemCount)
     {
-        // 파티클을 데이터 드리븐할지, 아니면 직접할당할지, 아니면 Addressable로 생성할지 확인 필요
+        // Addresabble로 파티클 구현 dropItemCount 1=Low, 2,3=normal / 4,5 = High
     }
 
     private void OpenLockedBox()
@@ -249,12 +235,29 @@ public class InteractableObject : MonoBehaviour, IInteractable //IDisarmable
 
     }
 
-    public void Interact(IInteractor interactor)
+    private void OpenBox()
+    {
+        PickItemId();
+
+        // TODO(안우재 2026-6-22) : _spawnedItemList에 있는 아이템들을 생성하는데 아이템들을 위로 발사(Impulse)하여 생성
+        //                          아이템 갯수(_spawnedItemList.Count)에 따라 파티클이 다르게 해야함
+
+        // foreach문 들어가기 전 PlayDropItemParicle(_spawnedItemList.Count) 로 파티클 실행
+        // 아이템 풀에서 Active한 gameObject activedItem이 있다고 침
+        // 생성 로직 후 ShootItem(activedItem)을 수행, 이걸 foreach안에서 수행
+    }
+
+    public void IInteractor()
     {
         // TODO(안우재 2026-6-22) : Player와 상호작용 시 행동 정의 예시) OpenBox 메서드 호출, 아이템 발사 관련 등
         //                          잠겨있는지 아닌지도 판단하는 로직 추가해야함
+
+
+        // 잠겨있지 않은 경우 
         OpenBox();
     }
+    // TODO(안우재 2026-6-22) : OnDisarm(함정 제거 시 메서드) 정의 필요
 
+    // TODO(안우재 2026-6-23) : PlayInteractionAnimation에 박스 열리는 모션 추가
 }
 

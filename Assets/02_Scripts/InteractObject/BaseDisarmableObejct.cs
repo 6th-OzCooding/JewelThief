@@ -1,19 +1,20 @@
-﻿using TeamConvention.Interfaces;
+﻿using System.Collections.Generic;
+using TeamConvention.Interfaces;
 using UnityEngine;
 
 public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisarmable
 {
-    private string _trapId;
-    private string _trapName;
-    private string _requiredToolId;
+    protected string _disarmObjId;
+    protected string _disarmObjName;
+    protected List<string> _requiredToolIdList;
 
-    private float _timeReductionAmount; 
+    protected List<float> _timeReductionAmountList;
 
-    private bool _requiresTool;
-    private bool _isDisarmed = false;
-    private bool _isInitialized = false;
+    protected bool _requiresTool;
+    protected bool _isDisarmed = false;
+    protected bool _isInitialized = false;
 
-    private Animator _animator;
+    protected Animator _animator;
 
     private void Awake()
     {
@@ -62,13 +63,13 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
 
     public bool IsDisarmed => _isDisarmed;
 
-    public string GetId => _trapId;
+    public string GetId => _disarmObjId;
 
-    public string GetName => _trapName;
+    public string GetName => _disarmObjName;
 
     public void InitFromSpawner(string id)
     {
-        _trapId = id;
+        _disarmObjId = id;
         LoadData(id);
         OnInitalized();
         _isInitialized = true;
