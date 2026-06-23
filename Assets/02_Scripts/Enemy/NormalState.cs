@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-// 아무것도 아닌 경우 가던 방향으로 걸어감
+
 public class NormalState : IEnemyState
 {
+    // 아무것도 아닌 경우 가던 방향으로 걸어감
     private EnemyBase _enemy;
 
     public NormalState(EnemyBase enemy) { _enemy = enemy; }
