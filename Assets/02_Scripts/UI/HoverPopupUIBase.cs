@@ -1,14 +1,17 @@
-﻿using System.Threading;
+using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 화면 중앙 Hover 대상의 아이템 정보를 표시하는 팝업 UI입니다.
+/// Hover popup UIs share offset positioning and open animation behavior.
 /// </summary>
-public class ObjectInfoPopupUI : UIBase
+public abstract class HoverPopupUIBase : UIBase
 {
+    private static readonly Vector2 BaseDefaultPopupOffset = new(220f, 0f);
+
     [Header("Position")]
     [SerializeField] private Vector2 _popupOffset = new(220f, 0f);
 
@@ -17,41 +20,40 @@ public class ObjectInfoPopupUI : UIBase
     [SerializeField] private RectTransform[] _hiddenLayoutsDuringOpen;
     [SerializeField] private float _openDuration = 0.08f;
 
-    [Header("Text Assignment")]
-    [SerializeField] private TMP_Text _objectName;
-    [SerializeField] private TMP_Text _objectComment;
-
     private RectTransform _rectTransform;
     private Vector2 _defaultBoxSizeDelta;
     private float _defaultBoxHeight;
     private bool _hasDefaultBoxHeight;
     private CancellationTokenSource _openAnimationCts;
 
-    private void Awake()
+    /// <summary>
+    /// Default screen offset used when the prefab has not overridden this popup's offset.
+    /// </summary>
+    protected virtual Vector2 DefaultPopupOffset => BaseDefaultPopupOffset;
+
+    protected virtual void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
-        if (_rectTransform == null)
-            return;
-
+        CacheRectComponents();
         CacheDefaultBoxHeight();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         ApplyPopupOffset();
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         CancelOpenAnimation();
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         CancelOpenAnimation();
     }
 
-    private void OnValidate()
+    protected virtual void OnValidate()
     {
         if (!Application.isPlaying)
             return;
@@ -59,23 +61,34 @@ public class ObjectInfoPopupUI : UIBase
         ApplyPopupOffset();
     }
 
-    public void SetObjectNameText(string name)
-    {
-        _objectName.text = name;
-    }
-
-    public void SetObjectCommentText(string comment)
-    {
-        _objectComment.text = comment;
-    }
-
     /// <summary>
-    /// Hover 정보 팝업의 열림 연출을 처음부터 다시 재생합니다.
+    /// Restarts the popup opening animation from the beginning.
     /// </summary>
     public void RestartOpenAnimation()
     {
         ApplyPopupOffset();
         PlayOpenAnimationAsync().Forget();
+    }
+
+    protected TMP_Text FindTextByName(string objectName)
+    {
+        TMP_Text[] textComponents = GetComponentsInChildren<TMP_Text>(true);
+        foreach (TMP_Text textComponent in textComponents)
+        {
+            if (textComponent != null && textComponent.gameObject.name == objectName)
+                return textComponent;
+        }
+
+        Debug.LogWarning($"{GetType().Name}에서 텍스트 오브젝트를 찾지 못했습니다. Name: {objectName}");
+        return null;
+    }
+
+    protected void SetText(TMP_Text targetText, string value)
+    {
+        if (targetText == null)
+            return;
+
+        targetText.text = string.IsNullOrEmpty(value) ? string.Empty : value;
     }
 
     private void ApplyPopupOffset()
@@ -86,7 +99,49 @@ public class ObjectInfoPopupUI : UIBase
         if (_rectTransform == null)
             return;
 
-        _rectTransform.anchoredPosition = _popupOffset;
+        _rectTransform.anchoredPosition = GetEffectivePopupOffset();
+    }
+
+    private Vector2 GetEffectivePopupOffset()
+    {
+        if (DefaultPopupOffset != BaseDefaultPopupOffset && _popupOffset == BaseDefaultPopupOffset)
+            return DefaultPopupOffset;
+
+        return _popupOffset;
+    }
+
+    private void CacheRectComponents()
+    {
+        _animatedBox ??= FindRectTransformByName("Image_UIBox");
+
+        if (_hiddenLayoutsDuringOpen != null && _hiddenLayoutsDuringOpen.Length > 0)
+            return;
+
+        List<RectTransform> hiddenLayouts = new();
+        RectTransform[] rectTransforms = GetComponentsInChildren<RectTransform>(true);
+        foreach (RectTransform rectTransform in rectTransforms)
+        {
+            if (rectTransform == null || rectTransform == _rectTransform)
+                continue;
+
+            if (rectTransform.gameObject.name.StartsWith("Layout_"))
+                hiddenLayouts.Add(rectTransform);
+        }
+
+        _hiddenLayoutsDuringOpen = hiddenLayouts.ToArray();
+    }
+
+    private RectTransform FindRectTransformByName(string objectName)
+    {
+        RectTransform[] rectTransforms = GetComponentsInChildren<RectTransform>(true);
+        foreach (RectTransform rectTransform in rectTransforms)
+        {
+            if (rectTransform != null && rectTransform.gameObject.name == objectName)
+                return rectTransform;
+        }
+
+        Debug.LogWarning($"{GetType().Name}에서 RectTransform 오브젝트를 찾지 못했습니다. Name: {objectName}");
+        return null;
     }
 
     private async UniTaskVoid PlayOpenAnimationAsync()
@@ -95,6 +150,7 @@ public class ObjectInfoPopupUI : UIBase
         _openAnimationCts = new CancellationTokenSource();
         CancellationToken cancellationToken = _openAnimationCts.Token;
 
+        CacheRectComponents();
         CacheDefaultBoxHeight();
         SetContentActive(false);
 
