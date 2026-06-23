@@ -10,6 +10,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public static AlertManager Alert { get { return Instance._alertManager; } }
     public static DataTable DataTable { get { return Instance._dataTable; } }
     public static UIManager UI { get { return Instance._uiManager; } }
+    public static UserDataManager UserData { get { return Instance._userDataManager; } }
 
     #region Manager Varialbes
 
@@ -20,6 +21,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private DataTable _dataTable = new();
     private UIManager _uiManager = new();
     private WFCMapGeneration _wfcMapGeneration = new();
+    private UserDataManager _userDataManager = new();
 
     #endregion
 
@@ -47,6 +49,10 @@ public class GameManager : SingletonBehaviour<GameManager>
         base.Init();
 
         _dataTable.LoadAllData();
+
+        _userDataManager.Init();
+        _userDataManager.LoadUserData();
+
         _uiManager.Init();
         InitAsync().Forget();
     }
