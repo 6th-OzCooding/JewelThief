@@ -5,11 +5,14 @@ public class PlayerController : MonoBehaviour, IInteractor
 {
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 8f;
-    [SerializeField] private float _overweightMoveSpeed = 1f;
+    [SerializeField] private float _sprintScale = 2f; //스프린트 속도 배율
+    [SerializeField] private float _crouchScale = 0.3f; //앉을 때 속도 배율
+    [SerializeField] private float _overweightScale = 0.5f; //무게 초과했을 때 속도 배율 
     [SerializeField] private Rigidbody _rigidbody_Player;
+    [SerializeField] private CapsuleCollider _playerCollider;
     private Vector3 _moveDirection; // 플레이어 이동하는 방향
     private bool _isOverweight;
-
+    private bool _isCrouching;
     [Header("점프관련 설정")]
     [SerializeField] private float _jumpForce = 7f; // 점프 힘 (높이 조절)
     [SerializeField] private Transform _groundCheck;    // 발 밑에 배치할 빈 오브젝트
@@ -17,9 +20,19 @@ public class PlayerController : MonoBehaviour, IInteractor
     [SerializeField] private LayerMask _groundLayer;    // 지면으로 인식할 레이어 (Platforms 등)
     private bool _isGrounded = false; // 바닥에 붙어있는지 여부
 
-    [Header("카메라 회전 설정")]
-    [SerializeField] private Transform _tranform_cameraRig; // 플레이어 자식으로 있는 CameraRig 트랜스폼
+    [Header("머리 관련 체크 설정")]
+    [SerializeField] private Transform _headCheck; // 아까 만든 머리 위 빈 오브젝트 할당
+    [SerializeField] private float _headCheckRadius = 0.5f;       // 체크할 구체의 반지름
+    [SerializeField] private LayerMask _headLayer;
+    private bool _isHeading = false; // 머리에 무언가 부딪혔는지 여부
+
+
+    [Header("카메라 회전 및 위치 설정")]
+    [SerializeField] private Transform _tranform_CameraRig; // 플레이어 자식으로 있는 CameraRig 트랜스폼
     [SerializeField] private Camera Camera_FPS;
+    [SerializeField] private Transform _tranform_CrouchCamera; //앉았을 때 카메라 위치 트랜스폼
+    [SerializeField] private float _float_MoveColliderY = 0.5f; //앉았을 때 콜라이더 높이 변경값
+    private float _standCameraLocalY; //서있을 때의 카메라 높이 저장한 변수
 
     [Header("입력부 가져오기")]
     [SerializeField] private PlayerInputHandler _inputHandler;
@@ -32,8 +45,15 @@ public class PlayerController : MonoBehaviour, IInteractor
     [SerializeField] private LayerMask _interactLayerMask = ~0;
     [SerializeField] private QueryTriggerInteraction _interactTriggerInteraction = QueryTriggerInteraction.Ignore;
 
+    [Header("플레이어 스탯")]
+    [SerializeField] private float _playerSp = 100;
+    [SerializeField] private float _spintSpUsePerSecond = 5; //스프린트 시 초당 소모되는 스태미나
+    [SerializeField] private float _spintSpAddPerSecond = 3; //평소 초당 회복되는 스태미나
+    private float _playerMaxSp;
+
     public Vector3 Position => this.transform.position;
     public Transform CameraTransform => Camera_FPS != null ? Camera_FPS.transform : null;
+    public PlayerInventory Inventory => _playerInventory;
 
     void Awake()
     {
@@ -57,6 +77,17 @@ public class PlayerController : MonoBehaviour, IInteractor
         {
             _playerInventory = GetComponent<PlayerInventory>();
         }
+
+        if (_playerCollider == null)
+        {
+            _playerCollider = GetComponent<CapsuleCollider>();
+        }
+
+        _playerMaxSp = _playerSp; //최대 스태미나 지정
+
+        _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
+
+
     }
 
     void OnEnable()
@@ -65,6 +96,12 @@ public class PlayerController : MonoBehaviour, IInteractor
         {
             _inputHandler.OnInteractEvent += TryInteract;
         }
+
+        if (_inputHandler != null)
+        {
+            _inputHandler.OnCrouchChanged += CrouchAndStand;
+        }
+
     }
 
     void OnDisable()
@@ -72,6 +109,11 @@ public class PlayerController : MonoBehaviour, IInteractor
         if (_inputHandler != null)
         {
             _inputHandler.OnInteractEvent -= TryInteract;
+        }
+
+        if (_inputHandler != null)
+        {
+            _inputHandler.OnCrouchChanged -= CrouchAndStand;
         }
     }
 
@@ -85,10 +127,34 @@ public class PlayerController : MonoBehaviour, IInteractor
             _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
         }
 
+
         if (_inputHandler.JumpRequested)
         {
             Jump();
         }
+
+        if (_headCheck != null)
+        {
+            _isHeading = Physics.CheckSphere(_headCheck.position, _headCheckRadius, _headLayer);
+            Debug.Log(_isHeading);
+        }
+
+
+        if (!IsSprint() && _playerSp < _playerMaxSp) //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
+        {
+            AddPlayerSpPerSecond(_spintSpAddPerSecond);
+        }
+
+    }
+
+    private bool IsSprint() //스프린트 입력되고, 좌표 변경되는 중, 스태미나 0이상, 앉기가 입력되지 않을때 true
+    {
+        bool hasInput = _inputHandler.SprintRequested;
+        bool isMoving = _moveDirection.magnitude > 0.1f;
+        bool hasStamina = _playerSp > 0;
+        bool isNotCrouching = !_isCrouching;
+
+        return hasInput && isMoving && hasStamina && isNotCrouching;
     }
 
     private void Move()
@@ -106,10 +172,27 @@ public class PlayerController : MonoBehaviour, IInteractor
             _rigidbody_Player.linearVelocity.y,
             _moveDirection.z * currentMoveSpeed
             );
+
+
     }
+
+
 
     private float GetCurrentMoveSpeed()
     {
+        if (_isCrouching) //웅크린 상태일때
+        {
+            return _moveSpeed * _crouchScale;
+        }
+
+        if (IsSprint()) //스프린트 상태일때
+        {
+            TakePlayerSpDamagePerSecond(_spintSpUsePerSecond); //스태미나를 초당 정해진 값만큼 깎음
+            return _moveSpeed * _sprintScale;
+
+        }
+        //나중에 아래로 옮겨야 함
+
         if (_playerInventory == null)
             return _moveSpeed;
 
@@ -117,24 +200,36 @@ public class PlayerController : MonoBehaviour, IInteractor
         float maxWeight = _playerInventory.MaxCarryWeight;
         bool isOverweight = currentWeight > maxWeight;
 
+
         if (_isOverweight != isOverweight)
         {
             _isOverweight = isOverweight;
 
             if (_isOverweight)
             {
-                Debug.Log($"무게 초과 상태입니다. 이동속도를 {_overweightMoveSpeed:0.##}(으)로 조정합니다. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
+                Debug.Log($"무게 초과 상태입니다. 이동속도를 {_moveSpeed * _overweightScale:0.##}(으)로 조정합니다. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
             }
+
             else
             {
                 Debug.Log($"무게 초과 상태가 해제되었습니다. 이동속도를 {_moveSpeed:0.##}(으)로 되돌립니다. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
             }
         }
 
-        if (!isOverweight)
-            return _moveSpeed;
+        if (_isOverweight)
+        {
+            return _moveSpeed * _overweightScale;
+        }
 
-        return _overweightMoveSpeed;
+        /* if (_inputHandler.SprintRequested) //스프린트 키가 눌렸을 때
+         {
+             return _moveSpeed * _sprintScale;
+
+         }*/
+        // _playerInventory이 완성되면 위에 있는 걸 지우고 여기로 옮겨야 함
+
+        return _moveSpeed;
+
     }
 
     private void RotatePlayer()
@@ -145,6 +240,37 @@ public class PlayerController : MonoBehaviour, IInteractor
 
         // _rigidbody_Player.MoveRotation(targetRotation); //리지드바디로 회전시키기
         this.transform.rotation = targetRotation; //트랜스폼으로 회전시키기
+    }
+    private void CrouchAndStand()
+    {
+        Vector3 camPos = _tranform_CameraRig.localPosition;
+
+        if (!_isCrouching)
+        {
+            _playerCollider.height -= _float_MoveColliderY; //콜라이더의 길이 감소
+            _playerCollider.center = new Vector3(_playerCollider.center.x, _playerCollider.center.y - _float_MoveColliderY / 2f, _playerCollider.center.z);
+            //콜라이더 위치를 길이 감소값의 절반만큼 감소
+            //이렇게 해야 바닥이 그대로 유지된다
+            camPos.y = _tranform_CrouchCamera.localPosition.y;
+
+            _isCrouching = true;
+            Debug.Log("나 앉았어!");
+
+        }
+        else if(_isCrouching&&!_isHeading) //머리에 부딪히지 않았다면
+        {
+            _playerCollider.height += _float_MoveColliderY;
+            _playerCollider.center = new Vector3(_playerCollider.center.x, _playerCollider.center.y + _float_MoveColliderY / 2f, _playerCollider.center.z);
+
+            camPos.y = _standCameraLocalY;
+            _isCrouching = false;
+            Debug.Log("나 일어났어!");
+
+        }
+
+        _tranform_CameraRig.localPosition = camPos;
+
+        Debug.Log("일단 나 눌렸어.");
     }
 
     private void Jump()
@@ -169,7 +295,7 @@ public class PlayerController : MonoBehaviour, IInteractor
         }
 
         interactable.Interact(this);
-        
+
     }
 
     // 카메라 중앙에서 레이캐스트를 쏴서 IInteractable이 있는지 감지하는 함수
@@ -187,7 +313,7 @@ public class PlayerController : MonoBehaviour, IInteractor
         {
             return interactable;
         }
-            
+
         return hit.collider.GetComponentInParent<IInteractable>();
     }
 
@@ -214,5 +340,55 @@ public class PlayerController : MonoBehaviour, IInteractor
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
         }
+
+        if (_headCheck != null)
+        {
+            Gizmos.DrawWireSphere(_headCheck.position, _headCheckRadius);
+        }
+    }
+
+
+    public void TakePlayerSpDamage(float damage)
+    {
+        _playerSp -= damage;
+        Debug.Log($"플레이어 Sp: {_playerSp}");
+    }
+
+    public void TakePlayerSpDamagePerSecond(float damage)
+    {
+        _playerSp -= damage * Time.fixedDeltaTime;
+        Debug.Log($"플레이어 Sp: {_playerSp}");
+    }
+
+    public void AddPlayerSp(float sp)
+    {
+        _playerSp += sp;
+        Debug.Log($"플레이어 Sp: {_playerSp}");
+
+    }
+
+    public void AddPlayerSpPerSecond(float sp)
+    {
+
+        _playerSp += sp * Time.fixedDeltaTime;
+        Debug.Log($"플레이어 Sp: {_playerSp}");
+
+    }
+
+    public void TakePlayerMoveSpeedDamage(float damage)
+    {
+        _moveSpeed -= damage;
+        Debug.Log($"플레이어 속도: {_moveSpeed}");
+    }
+
+    public void AddPlayerMoveSpeed(float speed)
+    {
+        _moveSpeed += speed;
+        Debug.Log($"플레이어 속도: {_moveSpeed}");
+    }
+
+    private void PlayerDie()
+    {
+        Debug.Log("플레이어가 죽었습니다.");
     }
 }
