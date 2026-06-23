@@ -6,7 +6,9 @@ public class StageSelectChair : MonoBehaviour, IInteractable
     [SerializeField] private string _name = "스테이지 선택";
     [SerializeField] private StageSelectController _stageSelectController;
 
-    public string Name => _name;
+    public string GetId => _name;
+
+    public string GetName => _name;
 
     public bool CanInteract() => true;
 

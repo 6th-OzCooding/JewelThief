@@ -65,7 +65,7 @@ public class InteractionHoverDetector : MonoBehaviour
 
         if (uiObj.TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
         {
-            infoPopUpUI.SetObjectNameText(interactObj.Name);
+            infoPopUpUI.SetObjectNameText(interactObj.GetName);
         }
     }
 }

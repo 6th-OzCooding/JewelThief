@@ -23,6 +23,17 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     #endregion
 
+    #region Variables
+
+    private bool _isPlaying = false;
+
+    #endregion
+
+    #region Getters
+
+    public bool IsPlaying => _isPlaying;
+
+    #endregion
 
     // 전역 데이터 추가
     public int _gold;
@@ -40,17 +51,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         InitAsync().Forget();
     }
 
-    private void Update()
-    {
-        _alertManager.OnUpdate();
-    }
-
     private async UniTaskVoid InitAsync()
     {
         UIBase loadingUIBase = UI.OpenLoadingUI();
 
 
-        if(loadingUIBase == null)
+        if (loadingUIBase == null)
         {
             throw new Exception("Failed to open loading UI");
         }
@@ -72,6 +78,15 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         _soundManager.Init(this.gameObject);
         _poolManager.Init();
+    }
+
+    private void Update()
+    {
+        if(_isPlaying)
+        {
+            _alertManager.OnUpdate();
+
+        }
     }
 
     public void EnterLobby()
@@ -106,14 +121,20 @@ public class GameManager : SingletonBehaviour<GameManager>
             _soundManager.PlayBGM(SoundId.BGM_PlayTheme);
             _alertManager.Init(stageData.TimeLimit);
         }
+
+        _isPlaying = true;
     }
 
     /// <summary>
     /// InGame 이탈 시점 호출
     /// </summary>
-    public void ExitGamePlay()
+    public void ExitStage()
     {
+        _isPlaying = false;
+
         _wfcMapGeneration.Release();
+
+        // TODO(김익환 2026-06-21): 본부로 이동
     }
 
     public void QuitGame()
