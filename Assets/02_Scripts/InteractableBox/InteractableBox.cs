@@ -16,7 +16,7 @@ public class BoxDropData
     public List<RarityWeight> RarityWeights = new();
 }
 
-public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
+public class InteractableBox : MonoBehaviour//, IInteractable //IDisarmable
 {
     [Header("컴포넌트")]
     [SerializeField] private InteractableBoxAnimeController _animController;
@@ -29,7 +29,7 @@ public class InteractableBox : MonoBehaviour, IInteractable //IDisarmable
     private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
     private BoxDropData _rarityRateData = new BoxDropData();
 
-    public string Name => _interactableName;
+    public string GetId => _interactableName;
     public bool CanInteract() => !_isLocking;
 
     private void OnEnable()

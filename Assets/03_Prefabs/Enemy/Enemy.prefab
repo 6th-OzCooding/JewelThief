@@ -2249,9 +2249,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4085711896285193530}
   - component: {fileID: 6761651812816497216}
-  - component: {fileID: 2285059380392545503}
   - component: {fileID: 4535526360965078789}
   - component: {fileID: 4642550054264443979}
+  - component: {fileID: 4763601653493968023}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -2298,24 +2298,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2285059380392545503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8266060151830099065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bb52685f63eee46a3cf7c97fa4cb8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  _viewRadius: 6
-  _viewAngle: 120
-  _detectRadius: 12
-  _walkSpeed: 2.5
-  _runSpeed: 4.5
-  _attackRadius: 1.5
 --- !u!54 &4535526360965078789
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2366,6 +2348,25 @@ CapsuleCollider:
   m_Height: 1.8121573
   m_Direction: 1
   m_Center: {x: 0.0048079193, y: 0.89338106, z: -0.017047971}
+--- !u!114 &4763601653493968023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8266060151830099065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17f2cb75ad54114abe33bc1022985bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
+  _viewRadius: 6
+  _viewAngle: 120
+  _detectRadius: 12
+  _walkSpeed: 2.5
+  _runSpeed: 4.5
+  _attackRadius: 1.5
+  _player: {fileID: 0}
 --- !u!1 &8391438393625980023
 GameObject:
   m_ObjectHideFlags: 0

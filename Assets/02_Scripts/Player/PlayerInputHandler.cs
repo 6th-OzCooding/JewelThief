@@ -10,7 +10,19 @@ public class PlayerInputHandler : MonoBehaviour
     public bool InteractRequested { get; set; } // interact입력이 들어왔는지 확인하는 플래그
     public bool SprintRequested { get; private set; } // Sprint 입력이 들어왔느지 확인하는 플래그
 
+    public PlayerInputMode CurrentMode { get; private set; } = PlayerInputMode.Gameplay;
+
     public event Action OnInteractEvent;
+
+    // 추가: 입력 모드 전환 (이동/시선 허용 여부 + 커서 잠금 상태를 함께 제어)
+    public void SetMode(PlayerInputMode mode)
+    {
+        CurrentMode = mode;
+
+        bool isCursorVisible = mode != PlayerInputMode.Gameplay;
+        Cursor.lockState = isCursorVisible ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = isCursorVisible;
+    }
 
     private void OnMove(InputValue value)
     {
@@ -21,11 +33,13 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void OnLook(InputValue value)
     {
+        if (CurrentMode == PlayerInputMode.UIOnly) return;
         LookVector = value.Get<Vector2>();
     }
     private void OnJump(InputValue value)
     {
-        // 버튼을 누른 순간에 호출됩니다.
+        if (CurrentMode != PlayerInputMode.Gameplay) return;
+
         if (value.isPressed)
         {
             JumpRequested = true;

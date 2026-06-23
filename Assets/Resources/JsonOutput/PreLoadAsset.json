@@ -66,5 +66,109 @@
   {
     "Id": "PreLoadAsset_Stage1_All Direction Corridor",
     "Address": "All Direction Corridor"
+  },
+  {
+    "Id": "PreLoadAsset_Lobby",
+    "Address": "Lobby"
+  },
+  {
+    "Id": "PreLoadAsset_Player_With_Camera",
+    "Address": "Player"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_BGM_01",
+    "Address": "PlayTheme"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_001",
+    "Address": "AlertUp_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_002",
+    "Address": "Click_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_003",
+    "Address": "Click_02"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_004",
+    "Address": "Error_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_005",
+    "Address": "Error_02"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_006",
+    "Address": "Explosion_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_007",
+    "Address": "Explosion_02"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_008",
+    "Address": "Explosion_03"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_009",
+    "Address": "Explosion_04"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_010",
+    "Address": "Explosion_05"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_011",
+    "Address": "Gain_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_012",
+    "Address": "GunTrap_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_013",
+    "Address": "Lose_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_014",
+    "Address": "Lose_02"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_015",
+    "Address": "Notification_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_016",
+    "Address": "Notification_02"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_017",
+    "Address": "Open_Box_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_018",
+    "Address": "Purchase_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_019",
+    "Address": "Purchase_02"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_020",
+    "Address": "TimeUp_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_021",
+    "Address": "Win_01"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_022",
+    "Address": "Win_02"
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_023",
+    "Address": "Win_03"
   }
 ]

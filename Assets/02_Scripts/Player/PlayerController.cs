@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour, IInteractor
     private float _playerMaxSp;
 
     public Vector3 Position => this.transform.position;
+    public Transform CameraTransform => Camera_FPS != null ? Camera_FPS.transform : null;
 
     void Awake()
     {
@@ -124,6 +125,7 @@ public class PlayerController : MonoBehaviour, IInteractor
     private void Move()
     {
         if (_inputHandler == null) return;
+        if (_inputHandler.CurrentMode != PlayerInputMode.Gameplay) return;
 
         Vector3 input = _inputHandler.InputVector;
         _moveDirection = (transform.forward * input.z + transform.right * input.x).normalized;
@@ -211,24 +213,20 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     public void TryInteract()
     {
-        InventoryPickupItem pickupItem = DetectInventoryPickupItem();
-        if (pickupItem == null)
+        var interactable = DetectInteractable();
+        if (interactable == null)
         {
-            Debug.Log("상호작용할 인벤토리 아이템이 없습니다.");
+            Debug.Log("상호작용할 대상이 없습니다.");
             return;
         }
 
-        pickupItem.TryPickup(_playerInventory);
+        interactable.Interact(this);
+        
     }
 
-    private void DetectInteractable(IInteractable interator)
-    {
-        Vector3 rayOrigin = Camera_FPS.transform.position;
-        Vector3 DstTo = Camera_FPS.transform.forward;
-    }
-
-    // 카메라 중앙에서 레이캐스트를 쏴서 InventoryPickupItem이 있는지 감지하는 함수
-    private InventoryPickupItem DetectInventoryPickupItem()
+    // 카메라 중앙에서 레이캐스트를 쏴서 IInteractable이 있는지 감지하는 함수
+    // TODO(김경훈 2026-06-22): InventoryPickupItem도 IInteractable로 통합해야함.
+    private IInteractable DetectInteractable()
     {
         if (Camera_FPS == null)
             return null;
@@ -237,11 +235,29 @@ public class PlayerController : MonoBehaviour, IInteractor
         if (!Physics.Raycast(ray, out RaycastHit hit, _interactDistance, _interactLayerMask, _interactTriggerInteraction))
             return null;
 
-        if (hit.collider.TryGetComponent(out InventoryPickupItem pickupItem))
-            return pickupItem;
-
-        return hit.collider.GetComponentInParent<InventoryPickupItem>();
+        if (hit.collider.TryGetComponent(out IInteractable interactable))
+        {
+            return interactable;
+        }
+            
+        return hit.collider.GetComponentInParent<IInteractable>();
     }
+
+    //// 카메라 중앙에서 레이캐스트를 쏴서 InventoryPickupItem이 있는지 감지하는 함수
+    //private InventoryPickupItem DetectInventoryPickupItem()
+    //{
+    //    if (Camera_FPS == null)
+    //        return null;
+
+    //    Ray ray = Camera_FPS.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+    //    if (!Physics.Raycast(ray, out RaycastHit hit, _interactDistance, _interactLayerMask, _interactTriggerInteraction))
+    //        return null;
+
+    //    if (hit.collider.TryGetComponent(out InventoryPickupItem pickupItem))
+    //        return pickupItem;
+
+    //    return hit.collider.GetComponentInParent<InventoryPickupItem>();
+    //}
 
     private void OnDrawGizmos() //시각적으로 _groundCheck 그리기
     {

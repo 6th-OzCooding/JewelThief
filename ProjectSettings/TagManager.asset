@@ -16,14 +16,14 @@ TagManager:
   - PlayerHand
   - 
   - 
+  - ground
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Floor
+  - Wall
+  - Ceiling
   - 
   - 
   - 
