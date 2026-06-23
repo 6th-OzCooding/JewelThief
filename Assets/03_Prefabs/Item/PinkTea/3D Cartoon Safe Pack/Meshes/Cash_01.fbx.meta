@@ -1,9 +1,36 @@
 fileFormatVersion: 2
-guid: db2583b456d5bba40ae4f1447803e4f3
+guid: c75cbaaeb42319341b291f474b31fa89
+AssetOrigin:
+  serializedVersion: 1
+  productId: 297716
+  packageName: 3D Cartoon Cute Safe Pack
+  packageVersion: 1.0
+  assetPath: Assets/PinkTea/3D Cartoon Safe Pack/Meshes/Cash_01.fbx
+  uploadId: 703600
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Cash_Around
+    second: {fileID: 2100000, guid: 922f6cdcc5d7a5643ba8e4254f3e7010, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Cash_Base
+    second: {fileID: 2100000, guid: 8a53b7414a87e9e488cc91c60d395248, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Cash_Circle
+    second: {fileID: 2100000, guid: 0740977cd0615fc41a3e88a926a2ba9a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Cash_Tape
+    second: {fileID: 2100000, guid: 9dc053a0afa5137488db3857a46b1c1a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -33,7 +60,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 5
+    globalScale: 3
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -91,7 +118,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.049999997
+    globalScale: 0.03
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
