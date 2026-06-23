@@ -37,6 +37,8 @@ public class ItemData : BaseData
     public int Price;
     public string IconPath;
     public string PrefabPath;
+    public string MeshPath;
+    public List<string> MaterialPaths = new List<string>();
 }
 
 [Serializable]
