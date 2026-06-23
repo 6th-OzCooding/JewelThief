@@ -36,7 +36,7 @@ public class StageSelectUI : UIBase
     {
         Debug.Log($"선택한 스테이지: {stageData.Name} / Id: {stageData.Id}");
 
-        GameManager.Instance._selectedStageId = stageData.Id;
+        GameManager.Instance.SetStageId(stageData.Id);  // 저장 데이터용
         GameManager.UI.CloseStageSelectUI();
         GameManager.Instance.EnterGamePlay(stageData.Id);
 

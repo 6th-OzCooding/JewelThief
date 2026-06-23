@@ -36,8 +36,36 @@ public class GameManager : SingletonBehaviour<GameManager>
     #endregion
 
     // 전역 데이터 추가
-    public int _gold;
-    public string _selectedStageId;
+    // TODO (김경훈 - 26.06.23) 전역 데이터 관리 클래스로 분리 필요
+    private int _gold;
+    private string _selectedStageId;
+
+    public int Gold => _gold;
+    public string SelectedStageId => _selectedStageId;
+
+    public void SetStageId(string id)
+    {
+        _selectedStageId = id;
+    }
+
+    // 골드 증가
+    public void AddGold(int amount)
+    {
+        if (amount <= 0) return;
+
+        _gold += amount;
+    }
+
+    // 골드 차감 시도
+    public bool TrySpendGold(int amount)
+    {
+        if (amount <= 0 || _gold < amount)
+            return false;
+
+        _gold -= amount;
+        return true;
+    }
+
 
     /// <summary>
     /// 데이터 드리븐 초기화 -> UIManager 초기화 -> 로딩(어드레서블 불러오기) -> 사운드 및 풀 초기화
