@@ -27,6 +27,9 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     #region Variables
 
+    [Header("Test Options")]
+    [SerializeField] private bool _skipStartupUIForTest;
+
     private bool _isPlaying = false;
 
     #endregion
@@ -59,6 +62,14 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private async UniTaskVoid InitAsync()
     {
+        if (_skipStartupUIForTest)
+        {
+            await Resource.Init();
+            InitNonAsync();
+            UI.ShowInventorySystemTestUI();
+            return;
+        }
+
         UIBase loadingUIBase = UI.OpenLoadingUI();
 
 
