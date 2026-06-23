@@ -50,9 +50,9 @@ public static class Utils
         return null;
     }
 
-    public static async UniTaskVoid LoadAndPlayAudioClip(AudioSource audioSource, string path, bool isLoop = false, float volume = 1f)
+    public static void LoadAndPlayAudioClip(AudioSource audioSource, string path, bool isLoop = false, float volume = 1f)
     {
-        AudioClip clip = await GameManager.Resource.LoadAssetAsync<AudioClip>(path);
+        AudioClip clip = GameManager.Resource.GetLoadedAsset<AudioClip>(path);
         if (null == clip)
         {
             Debug.LogError($"오디오 클립 로드 실패: {path}");
@@ -88,5 +88,14 @@ public static class Utils
     public static T ResourcesLoad<T>(string path) where T : Object
     {
         return Resources.Load<T>(path);
+    }
+
+    // 타이머 표기
+    private static string UpdateTimerText()
+    {
+        if (GameManager.Instance == null) return null;
+
+        int remainingSeconds = Mathf.CeilToInt(GameManager.Alert.GetRemainingTime());
+        return remainingSeconds.ToString();
     }
 }

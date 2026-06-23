@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -9,6 +10,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public static AlertManager Alert { get { return Instance._alertManager; } }
     public static DataTable DataTable { get { return Instance._dataTable; } }
     public static UIManager UI { get { return Instance._uiManager; } }
+    public static UserDataManager UserData { get { return Instance._userDataManager; } }
 
     #region Manager Varialbes
 
@@ -19,9 +21,25 @@ public class GameManager : SingletonBehaviour<GameManager>
     private DataTable _dataTable = new();
     private UIManager _uiManager = new();
     private WFCMapGeneration _wfcMapGeneration = new();
+    private UserDataManager _userDataManager = new();
 
     #endregion
 
+    #region Variables
+
+    private bool _isPlaying = false;
+
+    #endregion
+
+    #region Getters
+
+    public bool IsPlaying => _isPlaying;
+
+    #endregion
+
+    // 전역 데이터 추가
+    public int _gold;
+    public string _selectedStageId;
 
     /// <summary>
     /// 데이터 드리븐 초기화 -> UIManager 초기화 -> 로딩(어드레서블 불러오기) -> 사운드 및 풀 초기화
@@ -31,13 +49,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         base.Init();
 
         _dataTable.LoadAllData();
+
+        _userDataManager.Init();
+        _userDataManager.LoadUserData();
+
         _uiManager.Init();
         InitAsync().Forget();
-    }
-
-    private void Update()
-    {
-        _alertManager.OnUpdate();
     }
 
     private async UniTaskVoid InitAsync()
@@ -45,7 +62,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         UIBase loadingUIBase = UI.OpenLoadingUI();
 
 
-        if(loadingUIBase == null)
+        if (loadingUIBase == null)
         {
             throw new Exception("Failed to open loading UI");
         }
@@ -69,30 +86,61 @@ public class GameManager : SingletonBehaviour<GameManager>
         _poolManager.Init();
     }
 
-    public void EnterGamePlay()
+    private void Update()
+    {
+        if(_isPlaying)
+        {
+            _alertManager.OnUpdate();
+
+        }
+    }
+
+    public void EnterLobby()
     {
         UI.CloseUI(UIType.TitleUI);
         UI.EnterGameplayCursorMode();
 
+        GameObject lobbyPrefab = _resourceManager.GetLoadedAsset<GameObject>("Lobby");
+        if (lobbyPrefab == null)
+        {
+            Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
+        }
+        else
+        {
+            GameObject lobbyInstance = Instantiate(lobbyPrefab);
+
+            if (lobbyInstance.TryGetComponent(out LobbyController lobbyController))
+                lobbyController.Enter();
+            else
+                Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+        }
+    }
+
+    public void EnterGamePlay(string StageId)
+    {
         // TODO(김익환 2026-06-21): 맵 로딩 ui가 필요한지 몰라서 일단은 로딩화면 없이 바로 생성
         _wfcMapGeneration.StartGenerateMap().Forget();
 
-        // 추후 게임 플레이어 입장 시 필요한 로직 추가
-        // TODO(김경훈 2026-06-20): 본부 - 선택된 스테이지 Id로 교체 필요. 현재는 테스트용 고정값.
-        StageData stageData = _dataTable.GetStageData("Stage_01");
+        StageData stageData = _dataTable.GetStageData(StageId);
         if (stageData != null)
         {
             _soundManager.PlayBGM(SoundId.BGM_PlayTheme);
-            _alertManager.Init(stageData.TimeLimit - 60);   // TODO(김경훈 2026-06-20): 테스트용으로 스테이지 시작 전 60초를 제외하고 시작하도록 설정.
+            _alertManager.Init(stageData.TimeLimit);
         }
+
+        _isPlaying = true;
     }
 
     /// <summary>
     /// InGame 이탈 시점 호출
     /// </summary>
-    public void ExitGamePlay()
+    public void ExitStage()
     {
+        _isPlaying = false;
+
         _wfcMapGeneration.Release();
+
+        // TODO(김익환 2026-06-21): 본부로 이동
     }
 
     public void QuitGame()
