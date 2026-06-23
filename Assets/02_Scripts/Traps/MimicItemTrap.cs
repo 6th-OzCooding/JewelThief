@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TeamConvention.Interfaces;
 
-public class MimicItemTrap : MonoBehaviour, IInteractable, IDisarmable
+public class MimicItemTrap : MonoBehaviour//, IInteractable//, IDisarmable
 {
     [Header("트랩 데이터")]
     [SerializeField] private int _trapId = 40000001;
@@ -14,7 +14,7 @@ public class MimicItemTrap : MonoBehaviour, IInteractable, IDisarmable
 
     private bool _isDisarmed = false;   //도구로 무력화됐는지 여부 확인
 
-    public string Name => _name;
+    public string GetId => _name;
     public bool CanInteract() => !_isDisarmed;
 
     public void Interact(IInteractor interactor)
