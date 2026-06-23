@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     public Vector3 Position => this.transform.position;
     public Transform CameraTransform => Camera_FPS != null ? Camera_FPS.transform : null;
+    public PlayerInventory Inventory => _playerInventory;
 
     void Awake()
     {
