@@ -39,6 +39,27 @@ public class GameManager : SingletonBehaviour<GameManager>
     public int _gold;
     public string _selectedStageId;
 
+    public int Gold => _gold;
+
+    // 골드 증가 (판매소 등)
+    public void AddGold(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        _gold += amount;
+    }
+
+    // 골드 차감 시도 (상점 등)
+    public bool TrySpendGold(int amount)
+    {
+        if (amount <= 0 || _gold < amount)
+            return false;
+
+        _gold -= amount;
+        return true;
+    }
+
     /// <summary>
     /// 데이터 드리븐 초기화 -> UIManager 초기화 -> 로딩(어드레서블 불러오기) -> 사운드 및 풀 초기화
     /// </summary>
