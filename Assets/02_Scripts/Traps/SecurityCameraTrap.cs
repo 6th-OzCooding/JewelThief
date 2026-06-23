@@ -1,76 +1,84 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-public class SecurityCameraTrap : MonoBehaviour
+public class SecurityCameraTrap : BaseDisarmableObejct
 {
-    [Header("µ¥ÀÌÅÍ Á¤º¸")]
-    [SerializeField] private int _trapId = 40000002;
-
-    [Header("Ä«¸Ş¶ó È¸Àü ¼³Á¤")]
+    [Header("ì¹´ë©”ë¼ íšŒì „ ì„¤ì •")]
     [SerializeField] private Transform _cameraHead;
-    [SerializeField] private float _rotationAngle = 1f;   //ÁÂ¿ì È¸Àü°¢
-    [SerializeField] private float _rotationSpeed = 1f;   //È¸Àü ¼Óµµ
+    [SerializeField] private float _rotationAngle = 60f;
+    [SerializeField] private float _rotationSpeed = 2f;
 
-    [Header("°¨½Ã ½Ã¾ß ¼³Á¤")]
-    [SerializeField] private float _viewDistance = 1f;   //Å½Áö ¹üÀ§
-    [SerializeField] private float _viewAngle = 1f;   // ½Ã¾ß°¢
+    [Header("ê°ì‹œ ì‹œì•¼ ì„¤ì •")]
+    [SerializeField] private float _viewDistance = 10f;
+    [SerializeField] private float _viewAngle = 40f;
     [SerializeField] private LayerMask _targetLayer;
 
-    [Header("°¨Áö ÆĞ³ÎÆ¼ ¼³Á¤")]
-    [SerializeField] private float _detectionRequiredTime = 1f;  // °¨Áö ¿Ï·á±îÁö ¹öÅß¾ß ÇÏ´Â ½Ã°£ (ÃÊ)
-    [SerializeField] private float _timeReductionAmount = 1f;   // °É·ÈÀ» ¶§ Â÷°¨µÇ´Â Á¦ÇÑ½Ã°£
+    [Header("ê°ì§€ íŒ¨ë„í‹° ì„¤ì •")]
+    [SerializeField] private float _detectionRequiredTime = 1.5f;
+    [SerializeField] private float _myTimeReductionAmount = 15f;
 
     private float _detectionTimer = 0f;
-    private bool _isDisarmed = false;
+
+    protected override void LoadData(string id)
+    {
+        _disarmObjName = "ë³´ì•ˆ ì¹´ë©”ë¼";
+
+        if (_timeReductionAmountList == null)
+        {
+            _timeReductionAmountList = new System.Collections.Generic.List<float>();
+        }
+
+        _timeReductionAmountList.Clear();
+        _timeReductionAmountList.Add(_myTimeReductionAmount);
+    }
+
+    protected override void OnInitalized()
+    {
+        base.OnInitalized();
+        _detectionTimer = 0f;
+    }
 
     private void Update()
     {
         if (_isDisarmed) return;
 
-        RotateCameraHead();   // Ä«¸Ş¶ó ¸Ó¸® È¸Àü
+        RotateCameraHead();
 
-        if (CheckPlayerInView())   // Ä«¸Ş¶ó¿¡ ÇÃ·¹ÀÌ¾î°¡ Å½ÁöµÉ °æ¿ì
+        if (CheckPlayerInView())
         {
-            _detectionTimer += Time.deltaTime;   // °¨Áö Å¸ÀÌ¸Ó »ó½Â
-            Debug.Log($"[Ä«¸Ş¶ó °æ°í] ÇÃ·¹ÀÌ¾î °¨Áö.  ({_detectionTimer:F1}/{_detectionRequiredTime}ÃÊ)");
-
-            // Ä«¸Ş¶ó °æ°í »ç¿îµå ¹× »¡°£ ºÒºû ÀÌÆåÆ® ÄÑ±â
-
+            _detectionTimer += Time.deltaTime;
             if (_detectionTimer >= _detectionRequiredTime)
             {
                 TriggerCameraAlert();
-                _detectionTimer = 0f; // ¹ßµ¿ ÈÄ Å¸ÀÌ¸Ó ÃÊ±âÈ­
+                _detectionTimer = 0f;
             }
         }
         else
         {
-            _detectionTimer = Mathf.Max(0f, _detectionTimer - Time.deltaTime);   // ÇÃ·¹ÀÌ¾î°¡ °¨Áö ¹üÀ§¸¦ ¹ş¾î³ª¸é Å¸ÀÌ¸Ó °¨¼Ò
+            _detectionTimer = Mathf.Max(0f, _detectionTimer - Time.deltaTime);
         }
     }
 
     private void RotateCameraHead()
     {
         if (_cameraHead == null) return;
-
-        float angle = Mathf.Sin(Time.time * _rotationSpeed) * (_rotationAngle / 2f);   // Áö¼ÓÀûÀ¸·Î ÁÂ¿ì·Î Èçµé¸²
+        float angle = Mathf.Sin(Time.time * _rotationSpeed) * (_rotationAngle / 2f);
         _cameraHead.localRotation = Quaternion.Euler(0f, angle, 0f);
     }
 
     private bool CheckPlayerInView()
     {
-        Collider[] targets = Physics.OverlapSphere(transform.position, _viewDistance, _targetLayer);   // ÁÖº¯¿¡ ÀÖ´Â Äİ¶óÀÌ´õ Å½»ö
-
+        Collider[] targets = Physics.OverlapSphere(transform.position, _viewDistance, _targetLayer);
         if (targets.Length > 0)
         {
             Transform playerTransform = targets[0].transform;
             Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
+            float angleToPlayer = Vector3.Angle(_cameraHead.forward, directionToPlayer);
 
-            float angleToPlayer = Vector3.Angle(_cameraHead.forward, directionToPlayer);   // Ä«¸Ş¶ó Á¤¸é°ú ÇÃ·¹ÀÌ¾î ¹æÇâ »çÀÌÀÇ °¢µµ °è»ê
-
-            if (angleToPlayer < _viewAngle / 2f)   // ½Ã¾ß°¢ Àı¹İ ³»¿¡ ÀÖ°í, ·¹ÀÌÄ³½ºÆ®·Î º®¿¡ °¡·ÁÁöÁö ¾Ê¾Ò´ÂÁö °Ë»ç
+            if (angleToPlayer < _viewAngle / 2f)
             {
                 if (!Physics.Raycast(transform.position, directionToPlayer, _viewDistance, LayerMask.GetMask("Obstacle")))
                 {
-                    return true;   // °¨Áö ¼º°ø
+                    return true;
                 }
             }
         }
@@ -79,38 +87,24 @@ public class SecurityCameraTrap : MonoBehaviour
 
     private void TriggerCameraAlert()
     {
-        Debug.LogWarning($"[Ä«¸Ş¶ó ¹ßµ¿] ID: {_trapId} - Ä§ÀÔÀÚ°¡ ¿ÏÀüÈ÷ °¨ÁöµÇ¾ú½À´Ï´Ù. »çÀÌ·» È°¼ºÈ­.");
+        Debug.LogWarning($"[ê²½ë³´ ë°œë™] {_disarmObjName} (ID: {_disarmObjId}) ì— ì¹¨ì…ì í¬ì°©. ì œí•œ ì‹œê°„ ì°¨ê°.");
 
-        // Ä«¸Ş¶ó °æ°í »ç¿îµå ¹× »¡°£ ºÒºû ÀÌÆåÆ® ÄÑ±â
-
-        //if (GameManager.Instance != null && GameManager.Instance.AlertManager != null)   // °æ°è ·¹º§ Å¸ÀÌ¸Ó °¨¼Ò
+        if (GameManager.Instance != null)
         {
-            //GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
+            float finalReduction = (_timeReductionAmountList != null && _timeReductionAmountList.Count > 0)
+                ? _timeReductionAmountList[0]
+                : _myTimeReductionAmount;
+
+            GameManager.Instance.SendMessage("ReduceTimer", finalReduction, SendMessageOptions.DontRequireReceiver);
         }
     }
 
-    // µµ±¸·Î ¹«·ÂÈ­ÇÒ ¶§ È£ÃâµÉ ÇÔ¼ö
-    public void DisarmTrap()
+    protected override void OnDisarm()
     {
-        _isDisarmed = true;
-        Debug.Log($"[ÇÔÁ¤ ÇØÁ¦] ID: {_trapId} - ¹«·ÂÈ­ µµ±¸¿¡ ÀÇÇØ Ä«¸Ş¶ó Àü¿øÀÌ Â÷´ÜµÇ¾ú½À´Ï´Ù.");
-    }
-
-    private void OnDrawGizmos()
-    {
-        // ¿¡µğÅÍ ºä¿¡¼­ Ä«¸Ş¶ó ½Ã¾ß°¢ ±âÁî¸ğ·Î Ç¥ÇöÇØÁÖ¼¼¿ä
-        if (_cameraHead == null) return;
-
-        Gizmos.color = Color.blue;
-        Vector3 origin = transform.position;
-        Gizmos.DrawWireSphere(origin, _viewDistance);
-
-        Vector3 forward = _cameraHead.forward;
-        Vector3 leftBoundary = Quaternion.Euler(0, -_viewAngle / 2, 0) * forward;
-        Vector3 rightBoundary = Quaternion.Euler(0, _viewAngle / 2, 0) * forward;
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(origin, origin + leftBoundary * _viewDistance);
-        Gizmos.DrawLine(origin, origin + rightBoundary * _viewDistance);
+        Debug.Log($"[ì¹´ë©”ë¼ ë¬´ë ¥í™”] ID: {_disarmObjId} - ë³´ì•ˆ ê°ì‹œê°€ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+        if (_cameraHead != null)
+        {
+            _cameraHead.localRotation = Quaternion.Euler(45f, 0f, 0f);
+        }
     }
 }
