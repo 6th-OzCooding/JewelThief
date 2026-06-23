@@ -2,14 +2,11 @@
 using UnityEngine;
 
 /// <summary>
-/// 손에 든 아이템을 돈으로 변환하는 판매소(돈 세탁기)
+/// 손에 든 아이템을 즉시 골드로 환전하는 판매소(돈 세탁기)
 /// 데이터 테이블 의존 없이 로비에 고정 배치되는 독립 오브젝트
 /// </summary>
 public class MoneyLaundry : MonoBehaviour, IInteractable
 {
-    [Header("스폰 위치")]
-    [SerializeField] private Transform _moneySpawnPoint;
-
     public string GetId => "MoneyLaundry";
     public string GetName => "돈 세탁기";
 
@@ -39,11 +36,11 @@ public class MoneyLaundry : MonoBehaviour, IInteractable
         // 현재 ItemData 구조 미확정이라 임시 고정값 사용.
         int sellPrice = 0; // 임시
 
-        // TODO(김경훈 2026-06-23): 손에서 아이템 제거 메서드 확정 필요
+        // TODO(김경훈 2026-06-23): 손에서 아이템 제거 메서드 확정 필요. 제거 성공 시에만 골드 지급해야 함 (순서 중요).
 
-        Vector3 spawnPosition = _moneySpawnPoint != null ? _moneySpawnPoint.position : transform.position;
-        Quaternion spawnRotation = _moneySpawnPoint != null ? _moneySpawnPoint.rotation : transform.rotation;
+        GameManager.Instance.AddGold(sellPrice);
 
-        MoneySpawner.SpawnMoney(sellPrice, spawnPosition, spawnRotation);
+        // TODO(김경훈 2026-06-23): 재화 표시 UI 갱신 트리거 필요.
+
     }
 }
