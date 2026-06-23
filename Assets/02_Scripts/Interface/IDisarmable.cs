@@ -2,7 +2,10 @@
 {
     public interface IDisarmable
     {
-        void Disarm();
+        
+        bool IsDisarmed { get; }
+        bool CanDisarm();
+        void Disarm(IInteractor interactor);
     }
 }
 
