@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: be8d15f0c8cf30e4ca7e0a93622c918e
   m_SerializeEntries:
+  - m_GUID: 112e8d9504911bc489e9aa50f674c139
+    m_Address: Player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2e920f9dae272d44e8aefce90a734cdb
     m_Address: Demo Room1
     m_ReadOnly: 0
@@ -212,6 +217,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e4d2962e5b2ade84094bc8c840c31645
     m_Address: AlertUp_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5cb026216ebc5640b60e2b6f744a356
+    m_Address: Lobby
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
