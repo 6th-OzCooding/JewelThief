@@ -7,6 +7,8 @@ public class FakeItemTrap : BaseDisarmableObejct
     [SerializeField] private float _damage = 1f;
     [SerializeField] private float _soundRadius = 20f;      // 소음이 퍼지는 범위의 반지름
 
+    private bool _hasExploded = false;
+
     protected override void LoadData(string id)
     {
         Debug.Log($"[데이터 테이블 로드] 함정 ID: {id}");
@@ -20,17 +22,21 @@ public class FakeItemTrap : BaseDisarmableObejct
 
     protected override void OnDisarm()
     {
-        Debug.LogWarning($"함정 발동. {GetName} (ID: {GetId})");
+        if (_hasExploded) return;
+        _hasExploded = true;
+
+        if (IsDisarmed == false) return;
+
+        Debug.LogWarning($"가짜 아이템 작동. {_disarmObjName} (ID: {_disarmObjId})");
 
         if (GameManager.Instance != null)
         {
-            float temporaryReductionAmount = 10f;
-            GameManager.Instance.SendMessage("ReduceTimer", temporaryReductionAmount, SendMessageOptions.DontRequireReceiver);
+            GameManager.Instance.SendMessage("ReduceTimer", _timeReductionAmount, SendMessageOptions.DontRequireReceiver);
         }
 
-        TriggerNoise();
+        TriggerNoise();     // 소음 발생
 
-        Destroy(gameObject, 0.3f);     // 발동 0.3초 후 삭제
+        Destroy(gameObject, 0.3f);     // 발동 0.3초 후 오브젝트 삭제
     }
 
     private void TriggerNoise()
