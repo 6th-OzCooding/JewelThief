@@ -17,7 +17,6 @@ public class EnemyBase : MonoBehaviour
     public float WalkSpeed => _walkSpeed;
     public float RunSpeed => _runSpeed;
 
-    // 이제 _player 변수 없이 자동 구현 프로퍼티로 사용합니다.
     public GameObject TargetPlayer { get; private set; }
 
     public Vector3 DirToTarget { get; set; } = Vector3.zero; // 플레이어와의 방향 초기화
@@ -26,7 +25,7 @@ public class EnemyBase : MonoBehaviour
     // 시야각 생성 (조정 가능)
     [SerializeField] private float _viewRadius = 6.0f;
     [SerializeField] private float _viewAngle = 120.0f;
-
+    [SerializeField] private float _viewHeight = 0.5f;
     // 플레이어를 '인지'하는 거리 (조정 가능)
     [SerializeField] private float _detectRadius = 12.0f;
     // 거리안에 없을 시 (걷는 속도), 거리 안에 있으면서 시야각 안에 플레이어가 있다면 (뛰는 속도)
@@ -106,7 +105,6 @@ public class EnemyBase : MonoBehaviour
 
             if (target.CompareTag("Player"))
             {
-                // Find를 쓰지 않고, 물리 스캔 범위 내에서 Player 태그를 가진 놈을 타겟으로 저장!
                 TargetPlayer = target.gameObject;
 
                 // 플레이어가 거리안에 들어왔으므로 상태를 Track으로 변경
@@ -129,7 +127,7 @@ public class EnemyBase : MonoBehaviour
                     if (angle <= _viewAngle / 2)
                     {
                         // 살짝 띄워서 RayCast를 쏜다.
-                        Vector3 rayOrigin = transform.position + Vector3.up * 0.5f;
+                        Vector3 rayOrigin = transform.position + Vector3.up * _viewHeight;
 
                         if (Physics.Raycast(rayOrigin, DirToTarget, out RaycastHit hit, DstToTarget))
                         {
@@ -182,7 +180,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (Anim == null && !Application.isPlaying) return;
 
-        Vector3 origin = transform.position + Vector3.up * 0.3f;
+        Vector3 origin = transform.position + Vector3.up * _viewHeight;
         Vector3 forward = transform.forward;
 
         // 거리 안에 있는 걸 확인하기 위한 기즈모 (노란색)
