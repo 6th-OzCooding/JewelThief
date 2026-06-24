@@ -10,6 +10,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public static AlertManager Alert { get { return Instance._alertManager; } }
     public static DataTable DataTable { get { return Instance._dataTable; } }
     public static UIManager UI { get { return Instance._uiManager; } }
+    public static UserDataManager UserData { get { return Instance._userDataManager; } }
 
     #region Manager Varialbes
 
@@ -20,10 +21,14 @@ public class GameManager : SingletonBehaviour<GameManager>
     private DataTable _dataTable = new();
     private UIManager _uiManager = new();
     private WFCMapGeneration _wfcMapGeneration = new();
+    private UserDataManager _userDataManager = new();
 
     #endregion
 
     #region Variables
+
+    [Header("Test Options")]
+    [SerializeField] private bool _skipStartupUIForTest;
 
     private bool _isPlaying = false;
 
@@ -39,6 +44,27 @@ public class GameManager : SingletonBehaviour<GameManager>
     public int _gold;
     public string _selectedStageId;
 
+    public int Gold => _gold;
+
+    // 골드 증가 (판매소 등)
+    public void AddGold(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        _gold += amount;
+    }
+
+    // 골드 차감 시도 (상점 등)
+    public bool TrySpendGold(int amount)
+    {
+        if (amount <= 0 || _gold < amount)
+            return false;
+
+        _gold -= amount;
+        return true;
+    }
+
     /// <summary>
     /// 데이터 드리븐 초기화 -> UIManager 초기화 -> 로딩(어드레서블 불러오기) -> 사운드 및 풀 초기화
     /// </summary>
@@ -47,12 +73,24 @@ public class GameManager : SingletonBehaviour<GameManager>
         base.Init();
 
         _dataTable.LoadAllData();
+
+        _userDataManager.Init();
+        _userDataManager.LoadUserData();
+
         _uiManager.Init();
         InitAsync().Forget();
     }
 
     private async UniTaskVoid InitAsync()
     {
+        if (_skipStartupUIForTest)
+        {
+            await Resource.Init();
+            InitNonAsync();
+            UI.ShowInventorySystemTestUI();
+            return;
+        }
+
         UIBase loadingUIBase = UI.OpenLoadingUI();
 
 
