@@ -15,6 +15,8 @@ public class InteractionHoverDetector : MonoBehaviour
     private IInteractable _currentTarget;
     private PopupType _currentPopupType = PopupType.None;
 
+    public IInteractable CurrentTarget => _currentTarget;
+
     private void Awake()
     {
         if (_targetCamera == null)

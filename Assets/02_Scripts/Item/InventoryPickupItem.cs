@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using TeamConvention.Interfaces;
+using UnityEngine;
 
 /// <summary>
-/// 월드에 배치된 테스트용 인벤토리 획득 아이템입니다.
+/// 월드에 배치된 인벤토리 획득 아이템입니다.
 /// </summary>
-public class InventoryPickupItem : MonoBehaviour
+public class InventoryPickupItem : MonoBehaviour, IInteractable
 {
     [Header("Item Data")]
     [SerializeField] private string _itemDataId;
@@ -13,14 +14,30 @@ public class InventoryPickupItem : MonoBehaviour
     /// </summary>
     public string ItemDataId => _itemDataId;
 
+    public string GetId => _itemDataId;
+    public string GetName => GetCachedItemData()?.Name ?? "알 수 없는 아이템";
+
+    public bool CanInteract() => !string.IsNullOrEmpty(_itemDataId);
+
+    public void Interact(IInteractor interactor)
+    {
+        if (interactor is not IInventoryOwner inventoryOwner)
+        {
+            Debug.LogWarning("인벤토리 정보를 가져올 수 없어 아이템을 획득할 수 없습니다.");
+            return;
+        }
+
+        TryPickup(inventoryOwner);
+    }
+
     /// <summary>
     /// 플레이어 인벤토리에 이 아이템을 획득시킵니다.
     /// </summary>
-    public bool TryPickup(PlayerInventory playerInventory)
+    public bool TryPickup(IInventoryOwner inventoryOwner)
     {
-        if (playerInventory == null)
+        if (inventoryOwner == null)
         {
-            Debug.LogWarning("PlayerInventory가 없어 아이템을 획득할 수 없습니다.");
+            Debug.LogWarning("IInventoryOwner가 없어 아이템을 획득할 수 없습니다.");
             return false;
         }
 
@@ -45,7 +62,7 @@ public class InventoryPickupItem : MonoBehaviour
         }
 
         HoldType holdType = typeData.GetHoldType();
-        bool isAcquired = playerInventory.TryAcquireItem(itemData, holdType, out InventoryItem acquiredItem, out string resultMessage);
+        bool isAcquired = inventoryOwner.TryAcquireItem(itemData, holdType, out InventoryItem acquiredItem, out string resultMessage);
 
         if (!isAcquired)
         {
@@ -55,5 +72,19 @@ public class InventoryPickupItem : MonoBehaviour
 
         gameObject.SetActive(false);
         return true;
+    }
+
+    // GetName에서 ItemData 조회 시 매번 DataTable을 타지 않도록 캐시
+    private ItemData _cachedItemData;
+    private ItemData GetCachedItemData()
+    {
+        if (_cachedItemData != null)
+            return _cachedItemData;
+
+        if (GameManager.Instance == null || GameManager.DataTable == null)
+            return null;
+
+        _cachedItemData = GameManager.DataTable.GetItemDataTable().TryGetValue(_itemDataId, out var data) ? data : null;
+        return _cachedItemData;
     }
 }

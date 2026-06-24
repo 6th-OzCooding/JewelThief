@@ -7,10 +7,10 @@ public class DataTable
 {
     public Dictionary<string, PreLoadAssetData> GetPreLoadAssetDataTable() => _preLoadAssetDataTable;
     public Dictionary<string, PoolingObjectData> GetPoolingObjectDataTable() => _poolingObjectDataTable;
-    public Dictionary<string, InteractableObject> GetInteractableObjectDataTable() => _interactableObjectDataTable;
+    public Dictionary<string, InteractableContainerData> GetInteractableContainerDataTable() => _interactableContainerDataTable;
+    public Dictionary<string, Door> GetDoorDataTable() => _doorDataTable;
     public Dictionary<string, InventoryTypeData> GetInventoryTypeDataTable() => _inventoryTypeDataTable;
     public Dictionary<string, ItemData> GetItemDataTable() => _itemDataTable;
-    public Dictionary<string, Door> GetDoorDataTable() => _doorDataTable;
     public Dictionary<string, PopupViewData> GetPopupViewDataTable() => _popupViewDataTable;
     public Dictionary<string, SoundData> GetSoundDataTable() => _soundDataTable;
     public Dictionary<string, StageData> GetStageDataTable() => _stageDataTable;
@@ -18,7 +18,7 @@ public class DataTable
 
     private Dictionary<string, PreLoadAssetData> _preLoadAssetDataTable { get; set; } = new();
     private Dictionary<string, PoolingObjectData> _poolingObjectDataTable { get; set; } = new();
-    private Dictionary<string, InteractableObject> _interactableObjectDataTable { get; set; } = new();
+    private Dictionary<string, InteractableContainerData> _interactableContainerDataTable { get; set; } = new();
     private Dictionary<string, InventoryTypeData> _inventoryTypeDataTable { get; set; } = new();
     private Dictionary<string, ItemData> _itemDataTable { get; set; } = new();
     private Dictionary<string, Door> _doorDataTable { get; set; } = new();
@@ -37,7 +37,8 @@ public class DataTable
     {
         _preLoadAssetDataTable = LoadData<PreLoadAssetData>("PreLoadAsset");
         // PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
-        _interactableObjectDataTable = LoadData<InteractableObject>("InteractableObject");
+        _interactableContainerDataTable = LoadData<InteractableContainerData>("InteractableContainer");
+        _interactableContainerDataTable = LoadData<InteractableContainerData>("Door");
         _itemDataTable = LoadData<ItemData>("ItemData");
 
         // TODO (김경훈 - 06.20: 아이템 데이터로 통합 후 삭제)
@@ -64,11 +65,18 @@ public class DataTable
         return _poolingObjectDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
-    public InteractableObject GetInteractableObjectData(string id)
+    public InteractableContainerData GetInteractableObjectData(string id)
     {
-        if (null == _interactableObjectDataTable || string.IsNullOrEmpty(id)) return null;
+        if (null == _interactableContainerDataTable || string.IsNullOrEmpty(id)) return null;
 
-        return _interactableObjectDataTable.TryGetValue(id, out var data) ? data : null;
+        return _interactableContainerDataTable.TryGetValue(id, out var data) ? data : null;
+    }
+
+    public Door GetDoorData(string id)
+    {
+        if (null == _doorDataTable || string.IsNullOrEmpty(id)) return null;
+
+        return _doorDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
     public ItemData GetItemData(string id)
@@ -82,12 +90,6 @@ public class DataTable
     {
         if (null == _inventoryTypeDataTable || string.IsNullOrEmpty(id)) return null;
         return _inventoryTypeDataTable.TryGetValue(id, out var data) ? data : null;
-    }
-
-    public Door GetDoorData(string id)
-    {
-        if (null == _doorDataTable || string.IsNullOrEmpty(id)) return null;
-        return _doorDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
     public PopupViewData GetPopupViewData(string id)

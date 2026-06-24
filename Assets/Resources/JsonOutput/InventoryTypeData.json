@@ -1,27 +1,17 @@
 [
   {
-    "Id": "Item_Test_LargeRuby",
-    "Name": "큰 루비",
+    "Id": "Item_Test_PocketItem",
+    "Name": "작은 아이템",
+    "CurrentHoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Test_HoldItem",
+    "Name": "큰 아이템",
     "CurrentHoldType": "Hold"
   },
   {
-    "Id": "Item_Test_HeavyJewel",
-    "Name": "무거운 보석",
-    "CurrentHoldType": "Pocket"
-  },
-  {
-    "Id": "Item_Test_LargeDiamond",
-    "Name": "큰 다이아몬드",
+    "Id": "Item_Jewel_Diamond",
+    "Name": "다이아몬드",
     "CurrentHoldType": "Hold"
-  },
-  {
-    "Id": "Item_Test_SmallRuby",
-    "Name": "루비",
-    "CurrentHoldType": "Pocket"
-  },
-  {
-    "Id": "Item_Test_SmallSappire",
-    "Name": "사파이어",
-    "CurrentHoldType": "Pocket"
   }
 ]

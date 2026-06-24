@@ -7,7 +7,7 @@ public enum BoxState
     Open
 }
 
-public class InteractableBoxAnimeController : MonoBehaviour
+public class InteractableContainerAnimeController : MonoBehaviour
 {
     [Header("애니메이터")]
     [SerializeField] private Animator _animatorBox;
