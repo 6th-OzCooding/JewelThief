@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TeamConvention.Interfaces;
+using UnityEngine;
 
 public struct SellResult
 {
@@ -15,6 +16,7 @@ public class ShopManager
     //   "검사 먼저 -> 골드 차감 -> 습득" 순서로 변경할 것.
     public bool TryBuyItem(IInventoryOwner inventoryOwner, string itemId)
     {
+
         if (inventoryOwner == null)
         {
             return false;
@@ -28,12 +30,14 @@ public class ShopManager
 
         if (!GameManager.Instance.TrySpendGold(itemData.Price))
         {
+            Debug.LogWarning($"골드 부족. 필요={itemData.Price}, 보유={GameManager.Instance.Gold}"); // 확인용 로그
             return false;
         }
 
         bool isAcquired = inventoryOwner.TryAcquireItem(itemData, HoldType.Hold);
         if (!isAcquired)
         {
+            Debug.LogWarning("습득 실패 -> 골드 환불"); // 확인용 로그
             GameManager.Instance.AddGold(itemData.Price);
             return false;
         }

@@ -8,7 +8,6 @@ public class MoneyLaundry : MonoBehaviour, IInteractable
     public string GetName => "돈 세탁기";
 
     public bool CanInteract() => true;
-    // TODO(김경훈 2026-06-23): CanInteract 단계에서 가방·손 내 보석 보유 여부를 미리 검증하기 어려움 (interactor 인자 없음).
 
     public void Interact(IInteractor interactor)
     {
