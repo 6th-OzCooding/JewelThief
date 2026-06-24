@@ -132,14 +132,11 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// 아이템 보관 타입에 맞춰 가방 또는 빈 손에 아이템을 추가합니다.
     /// </summary>
-    public bool TryAcquireItem(ItemData itemData, HoldType holdType, out InventoryItem acquiredItem, out string resultMessage)
+    public bool TryAcquireItem(ItemData itemData, HoldType holdType)
     {
-        acquiredItem = null;
-        resultMessage = string.Empty;
-
         if (itemData == null)
         {
-            resultMessage = "아이템 데이터가 없습니다.";
+            Debug.LogError("아이템 데이터가 없습니다.");
             return false;
         }
 
@@ -147,43 +144,42 @@ public class PlayerInventory : MonoBehaviour
         {
             if (!TryAddBagItem(itemData, holdType))
             {
-                resultMessage = $"{itemData.Name}을(를) 가방에 넣을 수 없습니다. 현재 가방 무게: {GetCurrentBagWeight():0.##}/{BagMaxWeight:0.##}";
+                Debug.Log($"{itemData.Name}을(를) 가방에 넣을 수 없습니다. 현재 가방 무게: {GetCurrentBagWeight():0.##}/{BagMaxWeight:0.##}");
                 return false;
             }
 
-            acquiredItem = _bagItems[_bagItems.Count - 1];
-            resultMessage = $"{itemData.Name}을(를) 가방에 넣었습니다. 현재 가방 무게: {GetCurrentBagWeight():0.##}/{BagMaxWeight:0.##}, 현재 보유 아이템 무게: {GetTotalCarryWeight():0.##}/{MaxCarryWeight:0.##}";
+            Debug.Log(_bagItems[_bagItems.Count - 1]);
+            Debug.Log($"{itemData.Name}을(를) 가방에 넣었습니다. 현재 가방 무게: {GetCurrentBagWeight():0.##}/{BagMaxWeight:0.##}, 현재 보유 아이템 무게: {GetTotalCarryWeight():0.##}/{MaxCarryWeight:0.##}");
             return true;
         }
 
         if (holdType == HoldType.Hold)
         {
-            if (TryEquipOrReplaceHoldItem(itemData, holdType, out acquiredItem, out PlayerHandType equippedHandType, out InventoryItem replacedItem))
+            if (TryEquipOrReplaceHoldItem(itemData, holdType, out PlayerHandType equippedHandType, out InventoryItem replacedItem))
             {
                 string handName = equippedHandType == PlayerHandType.Left ? "왼손" : "오른손";
                 if (replacedItem == null)
                 {
-                    resultMessage = $"{itemData.Name}을(를) {handName}에 들었습니다. 현재 보유 아이템 무게: {GetTotalCarryWeight():0.##}/{MaxCarryWeight:0.##}";
+                    Debug.Log($"{itemData.Name}을(를) {handName}에 들었습니다. 현재 보유 아이템 무게: {GetTotalCarryWeight():0.##}/{MaxCarryWeight:0.##}");
                 }
                 else
                 {
-                    resultMessage = $"{handName}의 {replacedItem.ItemData.Name}을(를) {itemData.Name}(으)로 교체했습니다. 현재 보유 아이템 무게: {GetTotalCarryWeight():0.##}/{MaxCarryWeight:0.##}";
+                    Debug.Log($"{handName}의 {replacedItem.ItemData.Name}을(를) {itemData.Name}(으)로 교체했습니다. 현재 보유 아이템 무게: {GetTotalCarryWeight():0.##}/{MaxCarryWeight:0.##}");
                 }
 
                 return true;
             }
 
-            resultMessage = $"{itemData.Name}을(를) 들 수 없습니다.";
+            Debug.Log($"{itemData.Name}을(를) 들 수 없습니다.");
             return false;
         }
 
-        resultMessage = $"{itemData.Name}의 보관 타입이 올바르지 않습니다. HoldType: {holdType}";
+        Debug.Log($"{itemData.Name}의 보관 타입이 올바르지 않습니다. HoldType: {holdType}");
         return false;
     }
 
-    private bool TryEquipOrReplaceHoldItem(ItemData itemData, HoldType holdType, out InventoryItem equippedItem, out PlayerHandType equippedHandType, out InventoryItem replacedItem)
+    private bool TryEquipOrReplaceHoldItem(ItemData itemData, HoldType holdType, out PlayerHandType equippedHandType, out InventoryItem replacedItem)
     {
-        equippedItem = null;
         equippedHandType = PlayerHandType.None;
         replacedItem = null;
 
@@ -192,8 +188,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (LeftHandItem == null)
         {
-            equippedItem = new InventoryItem(itemData, holdType);
-            LeftHandItem = equippedItem;
+            LeftHandItem = new InventoryItem(itemData, holdType);
             equippedHandType = PlayerHandType.Left;
             LogHandEquip(itemData, equippedHandType);
             return true;
@@ -201,16 +196,14 @@ public class PlayerInventory : MonoBehaviour
 
         if (RightHandItem == null)
         {
-            equippedItem = new InventoryItem(itemData, holdType);
-            RightHandItem = equippedItem;
+            RightHandItem = new InventoryItem(itemData, holdType);
             equippedHandType = PlayerHandType.Right;
             LogHandEquip(itemData, equippedHandType);
             return true;
         }
 
         replacedItem = LeftHandItem;
-        equippedItem = new InventoryItem(itemData, holdType);
-        LeftHandItem = equippedItem;
+        LeftHandItem = new InventoryItem(itemData, holdType);
         equippedHandType = PlayerHandType.Left;
         LogHandReplace(itemData, replacedItem, equippedHandType);
         return true;
