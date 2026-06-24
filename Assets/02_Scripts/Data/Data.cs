@@ -67,14 +67,20 @@ public class ItemData : BaseData
 {
     public string Name;
     public string Description;
-    public ItemType ItemType;
-    public ItemGrade ItemGrade;
+    public string StringItemType;
+    public string StringItemGrade;
     public float Weight;
     public int Price;
     public string IconPath;
     public string MeshPath;
     public List<string> MaterialPaths = new List<string>();
     public int ChargeCount;
+
+    public ItemType GetItemType()
+       => Enum.TryParse<ItemType>(StringItemType, out var result) ? result : ItemType.None;
+
+    public ItemGrade GetItemGrade()
+        => Enum.TryParse<ItemGrade>(StringItemGrade, out var result) ? result : ItemGrade.None;
 }
 
 [Serializable]
@@ -130,7 +136,7 @@ public class Door : BaseData
 [Serializable]
 public class PopupViewData : BaseData
 {
-    public string PopupType;
+    public string StringPopupType;
     public string DefaultPrompt;
     public string LockedPrompt;
     public string MasterKeyPrompt;
@@ -139,8 +145,8 @@ public class PopupViewData : BaseData
     public string NotEnoughMoneyPrompt;
     public string PurchaseSuccessPrompt;
 
-    public global::PopupType GetPopupType()
-        => Enum.TryParse<global::PopupType>(PopupType, out var result) ? result : global::PopupType.Simple;
+    public PopupType GetPopupType()
+        => Enum.TryParse<PopupType>(StringPopupType, out var result) ? result : PopupType.Simple;
 }
 
 [Serializable]
@@ -148,11 +154,11 @@ public class SoundData : BaseData
 {
     public string Name;
     public float Volume;
-    public string SoundType;
+    public string StringSoundType;
     public bool IsLoop;
 
-    public global::SoundType GetSoundType()   // 추가: 사용처에서 enum으로 변환해서 사용 (필드명과 타입명이 같아 global:: 명시)
-    => Enum.TryParse<global::SoundType>(SoundType, out var result) ? result : global::SoundType.SFX;
+    public SoundType GetSoundType()
+    => Enum.TryParse<SoundType>(StringSoundType, out var result) ? result : SoundType.SFX;
 }
 
 [Serializable]

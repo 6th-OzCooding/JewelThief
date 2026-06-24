@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TeamConvention.Interfaces;
 using UnityEngine;
 
@@ -156,46 +155,7 @@ public static class PopupViewDataBuilder
         if (itemData == null)
             return string.Empty;
 
-        if (itemData.ItemGrade != ItemGrade.None)
-            return itemData.ItemGrade.ToString();
-
-        RawItemPopupData rawData = GetRawItemPopupData(itemData.Id);
-        if (rawData != null && !string.IsNullOrEmpty(rawData.CurrentItemGrade))
-            return rawData.CurrentItemGrade;
-
-        return ItemGrade.None.ToString();
-    }
-
-    private static RawItemPopupData GetRawItemPopupData(string itemId)
-    {
-        if (string.IsNullOrEmpty(itemId))
-            return null;
-
-        _rawItemPopupDataTable ??= LoadRawItemPopupDataTable();
-        return _rawItemPopupDataTable.TryGetValue(itemId, out RawItemPopupData rawData) ? rawData : null;
-    }
-
-    private static Dictionary<string, RawItemPopupData> LoadRawItemPopupDataTable()
-    {
-        TextAsset textAsset = Utils.ResourcesLoad<TextAsset>("JsonOutput/ItemData");
-        if (textAsset == null)
-            return new Dictionary<string, RawItemPopupData>();
-
-        try
-        {
-            RawItemPopupDataWrapper wrapper = JsonUtility.FromJson<RawItemPopupDataWrapper>($"{{\"items\":{textAsset.text}}}");
-            if (wrapper == null || wrapper.items == null)
-                return new Dictionary<string, RawItemPopupData>();
-
-            return wrapper.items
-                .Where(item => item != null && !string.IsNullOrEmpty(item.Id))
-                .ToDictionary(item => item.Id);
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"[PopupViewDataBuilder] ItemData 원본 레어도 로드 오류: {ex.Message}");
-            return new Dictionary<string, RawItemPopupData>();
-        }
+        return itemData.GetItemGrade().ToString();
     }
 
     [Serializable]
