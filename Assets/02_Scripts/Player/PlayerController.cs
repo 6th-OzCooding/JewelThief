@@ -48,16 +48,14 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     public InventoryItem RemoveBagItem(InventoryItem inventoryItem) => _playerInventory?.RemoveBagItem(inventoryItem);
     public InventoryItem ClearHandItem(PlayerHandType handType) => _playerInventory?.ClearHandItem(handType);
    
-    public bool TryAcquireItem(ItemData itemData, HoldType holdType, out InventoryItem acquiredItem, out string resultMessage)
+    public bool TryAcquireItem(ItemData itemData, HoldType holdType)
     {
         if (_playerInventory == null)
         {
-            acquiredItem = null;
-            resultMessage = "PlayerInventory가 연결되지 않았습니다.";
             return false;
         }
 
-        return _playerInventory.TryAcquireItem(itemData, holdType, out acquiredItem, out resultMessage);
+        return _playerInventory.TryAcquireItem(itemData, holdType);
     }
 
     [Header("상호작용")]

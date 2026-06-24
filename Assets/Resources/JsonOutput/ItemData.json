@@ -1,47 +1,138 @@
 [
   {
-    "Id": "Item_Jewel_Diamond",
-    "Name": "다이아몬드",
-    "Description": "다이아몬드",
-    "CurrentItemType": "Jewel",
-    "CurrentItemGrade": "Legendary",
-    "Weight": 1,
-    "Price": 100,
+    "Id": "Item_Tool_MasterKey",
+    "Name": "만능 열쇠",
+    "Description": "잠겨있는 무언가를 열 수 있다.\n여러 번 사용할 수 있다.",
+    "ItemType": "Tool",
+    "Weight": 2,
+    "Price": 100000,
     "IconPath": null,
-    "PrefabPath": null,
-    "Durability": null,
-    "CurrentBuffType": null,
-    "Value": null,
-    "Duration": null
+    "ChargeCount": -1,
+    "MaterialPaths": [
+      "Yellow"
+    ],
+    "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
+    "Husks": "ToolObject"
   },
   {
-    "Id": "Item_Tool_Bat",
-    "Name": "방망이",
-    "Description": "방망이",
-    "CurrentItemType": "Tool",
-    "CurrentItemGrade": "Epic",
-    "Weight": 10,
+    "Id": "Item_Tool_Key",
+    "Name": "열쇠",
+    "Description": "잠겨있는 무언가를 열 수 있다.\n한 번만 사용 할 수 있다.",
+    "ItemType": "Tool",
+    "Weight": 1,
     "Price": 30,
     "IconPath": null,
-    "PrefabPath": null,
-    "Durability": 100,
-    "CurrentBuffType": null,
-    "Value": null,
-    "Duration": null
+    "ChargeCount": 1,
+    "MaterialPaths": [
+      "Black"
+    ],
+    "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
+    "Husks": "ToolObject"
   },
   {
-    "Id": "Item_Potion_HealPotion",
-    "Name": "체력 포션",
-    "Description": "체력 포션",
-    "CurrentItemType": "Potion",
-    "CurrentItemGrade": "Rare",
-    "Weight": 2,
-    "Price": 20,
+    "Id": "Item_Jewel_Diamond",
+    "Name": "다이아몬드",
+    "Description": "다이아몬드다.",
+    "ItemType": "Jewel",
+    "Weight": 10,
+    "Price": 1000,
     "IconPath": null,
-    "PrefabPath": null,
-    "Durability": null,
-    "CurrentBuffType": "Hp",
-    "Value": 50,
-    "Duration": 0
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "M_Gemstone_Diamond",
+      "Lit"
+    ],
+    "MeshPath": "Jewel_Cone[Cone]",
+    "Husks": "JewelObject"
+  },
+  {
+    "Id": "Item_Jewel_Amethyst",
+    "Name": "자수정",
+    "Description": "자수정이다.",
+    "ItemType": "Jewel",
+    "Weight": 8,
+    "Price": 800,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "M_Gemstone_Amethyst"
+    ],
+    "MeshPath": "Jewel_Cone[Cone]",
+    "Husks": "JewelObject"
+  },
+  {
+    "Id": "Item_Jewel_Aquamarine",
+    "Name": "아쿠아마린",
+    "Description": "아쿠아마린이다.",
+    "ItemType": "Jewel",
+    "Weight": 7,
+    "Price": 700,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "M_Gemstone_Aquamarine"
+    ],
+    "MeshPath": "Jewel_Cone[Cone]",
+    "Husks": "JewelObject"
+  },
+  {
+    "Id": "Item_Jewel_Emerald",
+    "Name": "에메랄드",
+    "Description": "에메랄드다.",
+    "ItemType": "Jewel",
+    "Weight": 6,
+    "Price": 600,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "M_Gemstone_Emerald"
+    ],
+    "MeshPath": "Jewel_Cone[Cone]",
+    "Husks": "JewelObject"
+  },
+  {
+    "Id": "Item_Jewel_Ruby",
+    "Name": "루비",
+    "Description": "루비다.",
+    "ItemType": "Jewel",
+    "Weight": 5,
+    "Price": 500,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "M_Gemstone_Ruby"
+    ],
+    "MeshPath": "Jewel_Cone[Cone]",
+    "Husks": "JewelObject"
+  },
+  {
+    "Id": "Item_Jewel_Sapphire",
+    "Name": "사피이어",
+    "Description": "사파이어다.",
+    "ItemType": "Jewel",
+    "Weight": 4,
+    "Price": 400,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "M_Gemstone_Sapphire"
+    ],
+    "MeshPath": "Jewel_Cone[Cone]",
+    "Husks": "JewelObject"
+  },
+  {
+    "Id": "Item_Jewel_Topaz",
+    "Name": "토파즈",
+    "Description": "토파즈다.",
+    "ItemType": "Jewel",
+    "Weight": 3,
+    "Price": 300,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "M_Gemstone_Topaz"
+    ],
+    "MeshPath": "Jewel_Cone[Cone]",
+    "Husks": "JewelObject"
   }
 ]
