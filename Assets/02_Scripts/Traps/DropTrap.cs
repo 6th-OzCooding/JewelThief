@@ -1,29 +1,29 @@
 ﻿using UnityEngine;
 
-public class SlimeTrap : BaseDisarmableObejct
+public class DropTrap : BaseDisarmableObejct
 {
     [SerializeField] private float detectionRange = 10f;
-    
+
     void Update()
     {
         if (IsDisarmed) return;
         CheckPlayerTrapped();
     }
-    
-    private void CheckPlayerTrapped() 
+
+    private void CheckPlayerTrapped()
     {
         RaycastHit hit;
-        
+
         if (Physics.Raycast(transform.position, Vector3.down, out hit, detectionRange))
         {
             if (hit.collider.CompareTag("Player"))
             {
                 Debug.Log("플레이어 감지 ");
-                
-                if (hit.collider.TryGetComponent(out IDebuffable debuffableTarget))
+
+                if (hit.collider.TryGetComponent(out IItemDropable DropableTarget))
                 {
-                    Debug.Log("플레이어 감지 디버프 발동");
-                    debuffableTarget.ApplyDebuff(DebuffType.MoveSpeed, 0.1f, 5f);
+                    Debug.Log("트랩 발동");
+                    DropableTarget.ForceDropItem(10);
                 }
             }
         }
@@ -67,4 +67,5 @@ public class SlimeTrap : BaseDisarmableObejct
         base.OnDisarm();
         _isDisarmed = true;
     }
+    
 }
