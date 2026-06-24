@@ -734,10 +734,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17f2cb75ad54114abe33bc1022985bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  _viewRadius: 6
+  _viewRadius: 5
   _viewAngle: 120
-  _detectRadius: 12
-  _walkSpeed: 2.5
+  _viewHeight: 0.8
+  _detectRadius: 10
+  _walkSpeed: 3
   _runSpeed: 4.5
   _attackRadius: 1.5
 --- !u!195 &5228809722326151580

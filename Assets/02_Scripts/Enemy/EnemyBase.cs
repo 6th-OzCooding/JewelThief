@@ -158,6 +158,19 @@ public class EnemyBase : MonoBehaviour
         Debug.Log("Enemy가 Player를 공격했습니다!");
         Anim.SetTrigger("isAttack");
 
+        // 곤봉을 던지는 Enemy 때문에 추가
+        ThrowEnemy throwScript = GetComponent<ThrowEnemy>();
+        if (throwScript != null)
+        {
+            throwScript.ThrowWeapon(); // 정상적으로 찾았으면 실행!
+        }
+
+        else
+        {
+            // 못 찾았으면 콘솔창에 빨간색 에러를 띄웁니다!
+            Debug.LogError("삐빅! EnemyBase와 같은 오브젝트에 ThrowEnemy 스크립트가 없습니다!");
+        }
+
         // 잠깐 기다리는 시간
         await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: CancelToken);
 
