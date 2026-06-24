@@ -8,25 +8,6 @@ public enum SoundType
     Voice
 }
 
-public enum PopupType
-{
-    None = 0,
-    Simple,
-    ItemInfo,
-    ShopInfo
-}
-
-public enum PopupTargetType
-{
-    None = 0,
-    Item,
-    Box,
-    Trap,
-    EscapePath,
-    Door,
-    Tool
-}
-
 [Serializable]
 public class BaseData
 {
@@ -135,20 +116,4 @@ public class StageData : BaseData
     public int MaxTrap;
     public int ExitCount;
     public int EnemyId;
-}
-
-[Serializable]
-public class PopupViewData : BaseData
-{
-    public string PopupType;
-    public string DefaultPrompt;
-    public string LockedPrompt;
-    public string MasterKeyPrompt;
-    public string MasterKeyLimitPrompt;
-    public string OverweightPrompt;
-    public string NotEnoughMoneyPrompt;
-    public string PurchaseSuccessPrompt;
-
-    public global::PopupType GetPopupType()
-        => Enum.TryParse<global::PopupType>(PopupType, out var result) ? result : global::PopupType.Simple;
 }
