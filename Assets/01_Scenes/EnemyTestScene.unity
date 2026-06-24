@@ -2379,6 +2379,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Police_Dog
       objectReference: {fileID: 0}
+    - target: {fileID: 6540444796050121763, guid: f637edc10bfaad24f9233e31f6e96b40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7725988601653213581, guid: f637edc10bfaad24f9233e31f6e96b40, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.2
