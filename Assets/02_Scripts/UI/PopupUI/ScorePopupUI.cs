@@ -31,18 +31,11 @@ public class ScorePopupUI : UIBase
 
     // 경찰에게 잡협을때는 유죄로 뛰움 
     // 후추 or 후수
-    public void DisplayScore(bool isCaught = false)
+    public void DisplayScore(int totalValue, string bestGemName, bool isCaught = false)
     {
-        if (JewelPuzzleUIManager.Instance == null) return;
-
-        int totalValue = isCaught ? 0 : JewelPuzzleUIManager.Instance.GetTotalBagPrice();
-        string bestGemName = isCaught ? "없음" : JewelPuzzleUIManager.Instance.GetMostExpensiveJewelName();
-
         _arrestText.text = isCaught ? "절도 : 유죄" : "절도 : 무죄";
-
         _sumText.text = $"총액: {totalValue:N0} Gold";
         _expensiveText.text = $"최고 보석: {bestGemName}";
-
         _ratingText.text = $"등급: {CalculateRating(isCaught, totalValue)}";
     }
 

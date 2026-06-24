@@ -15,6 +15,9 @@ public class PlayerInputHandler : MonoBehaviour
     public event Action OnInteractEvent;
 
     public event Action OnCrouchChanged;
+
+    public event Action OnInventoryToggleEvent; // B키 (보석 인벤토리 열기/ 닫기)
+
     // 추가: 입력 모드 전환 (이동/시선 허용 여부 + 커서 잠금 상태를 함께 제어)
     public void SetMode(PlayerInputMode mode)
     {
@@ -62,5 +65,14 @@ public class PlayerInputHandler : MonoBehaviour
             OnCrouchChanged?.Invoke();
         }
        
+    }
+
+    // B키 보석 인벤토리
+    private void OnInventory(InputValue value)
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ToggleJewelPuzzleUI();
+        }
     }
 }

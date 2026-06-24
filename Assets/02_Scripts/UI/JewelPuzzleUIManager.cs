@@ -1,13 +1,14 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class JewelPuzzleUIManager : MonoBehaviour
 {
     public static JewelPuzzleUIManager Instance { get; private set; }
+
+    [Header("시각적 관리")]
+    [SerializeField] private GameObject _puzzleVisualRoot; // 시각적 대상
 
     [Header("설정")]
     [SerializeField] private float _maxWeight = 50f;
@@ -22,9 +23,10 @@ public class JewelPuzzleUIManager : MonoBehaviour
 
     [Header("외부 컴포넌트 연결")]
     [SerializeField] private BagOverloadDetector _overflowHandler; // 유효성 검사용
-    [SerializeField] private Camera _puzzleCamera;// 카메라
+    [SerializeField] private Camera _puzzleCamera; // 카메라
 
     private PlayerInventory _playerInventory;
+
     // 주울때 Queue 저장
     private Queue<ItemBase> _tempQueue = new Queue<ItemBase>();
     // 가방 리스트
@@ -33,6 +35,14 @@ public class JewelPuzzleUIManager : MonoBehaviour
     private List<ItemBase> _pickupAreaGems = new List<ItemBase>();
 
     private bool _isAutoDropping = false; // 낙하 상태 확인
+
+    public bool IsPuzzleActive
+    {
+        get
+        {
+            return _puzzleVisualRoot != null && _puzzleVisualRoot.activeSelf;
+        }
+    }
 
     private void Awake()
     {
@@ -45,15 +55,6 @@ public class JewelPuzzleUIManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (_puzzleCamera != null)
-        {
-            _puzzleCamera.depth = 10;
-        }
-        else
-        {
-            Debug.LogError("퍼즐 전용 카메라(_puzzleCamera)가 연결되지 않았습니다!");
-        }
-
         _playerInventory = FindAnyObjectByType<PlayerInventory>();
 
         if (_playerInventory == null)
@@ -61,31 +62,35 @@ public class JewelPuzzleUIManager : MonoBehaviour
             Debug.LogError("씬에서 PlayerInventory를 찾을 수 없습니다! 플레이어가 씬에 있는지 확인하세요.");
         }
 
-        var input = FindAnyObjectByType<PlayerInputHandler>();
-        if (input != null)
+        if (_puzzleVisualRoot != null)
         {
-            input.OnInventoryToggleEvent += TogglePuzzleInventory;
+            _puzzleVisualRoot.SetActive(false);
+        }
+
+        if (_puzzleCamera != null)
+        {
+            _puzzleCamera.depth = 10;
+            _puzzleCamera.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("퍼즐 전용 카메라(_puzzleCamera)가 연결되지 않았습니다!");
+        }
+    }
+
+
+    private void Update()
+    {
+        if (IsPuzzleActive && !_isAutoDropping)
+        {
+            HandleMouseClick();
         }
     }
 
     private void TogglePuzzleInventory()
     {
-        if (gameObject.activeSelf)
-        {
-            ClosePuzzleInventory();
-        }
-        else
-        {
-            OpenPuzzleInventory();
-        }
-    }
-
-    private void Update()
-    {
-        if (!_isAutoDropping)
-        {
-            HandleMouseClick();
-        }
+        if (IsPuzzleActive) ClosePuzzleInventory();
+        else OpenPuzzleInventory();
     }
 
     // 줍기 제한
@@ -121,7 +126,10 @@ public class JewelPuzzleUIManager : MonoBehaviour
     // 인벤토리 열림
     public void OpenPuzzleInventory()
     {
-        gameObject.SetActive(true);
+        if (_puzzleVisualRoot != null) _puzzleVisualRoot.SetActive(true);
+        if (_puzzleCamera != null) _puzzleCamera.gameObject.SetActive(true);
+
+        GameManager.Instance.PauseGameForPuzzle();
 
         if (_tempQueue.Count > 0)
         {
@@ -179,7 +187,11 @@ public class JewelPuzzleUIManager : MonoBehaviour
         }
 
         _pickupAreaGems.Clear();
-        gameObject.SetActive(false);
+
+        if (_puzzleVisualRoot != null) _puzzleVisualRoot.SetActive(false);
+        if (_puzzleCamera != null) _puzzleCamera.gameObject.SetActive(false);
+
+        GameManager.Instance.ResumeGameFromPuzzle();
     }
 
     // 마우스 클릭
@@ -261,26 +273,63 @@ public class JewelPuzzleUIManager : MonoBehaviour
     // 무게 계산
     public float GetTotalJewelWeight()
     {
-        float tempWeight = _tempQueue.Sum(g => g.Weight);
-        float bagWeight = _jewelsInBag.Sum(g => g.Weight);
-        float pickupWeight = _pickupAreaGems.Sum(g => g.Weight);
-        return tempWeight + bagWeight + pickupWeight;
+        float totalWeight = 0f;
+
+        foreach (var gem in _tempQueue)
+        {
+            totalWeight += gem.Weight;
+        }
+        foreach (var gem in _jewelsInBag)
+        {
+            totalWeight += gem.Weight;
+        }
+        foreach (var gem in _pickupAreaGems)
+        {
+            totalWeight += gem.Weight;
+        }
+
+        return totalWeight;
     }
 
     // 가방안 보석 가격 계산
     public int GetTotalBagPrice()
     {
-        return _jewelsInBag.Sum(g => g.Price);
+        int totalPrice = 0;
+
+        foreach (var gem in _jewelsInBag)
+        {
+            totalPrice += gem.Price;
+        }
+
+        return totalPrice;
     }
 
     // 가방안 가장 비싼 보석 이름 찾기
     public string GetMostExpensiveJewelName()
     {
-        var bestGem = _jewelsInBag.OrderByDescending(g => g.Price).FirstOrDefault();
+        if (_jewelsInBag.Count == 0) return "없음";
+
+        ItemBase bestGem = null;
+        int maxPrice = -1;
+
+        foreach (var gem in _jewelsInBag)
+        {
+            if (gem.Price > maxPrice)
+            {
+                maxPrice = gem.Price;
+                bestGem = gem;
+            }
+        }
+
         if (bestGem == null) return "없음";
 
         var data = GameManager.DataTable.GetItemData(bestGem.Id);
-        return data != null ? data.Name : "알 수 없음";
+        if (data != null)
+        {
+            return data.Name;
+        }
+
+        return "알 수 없음";
     }
 
     private void OnDrawGizmos()
@@ -309,8 +358,14 @@ public class JewelPuzzleUIManager : MonoBehaviour
     {
         _tempQueue.Clear();
 
-        foreach (var gem in _jewelsInBag) if (gem != null) Destroy(gem.gameObject);
-        foreach (var gem in _pickupAreaGems) if (gem != null) Destroy(gem.gameObject);
+        foreach (var gem in _jewelsInBag)
+        {
+            if (gem != null) Destroy(gem.gameObject);
+        }
+        foreach (var gem in _pickupAreaGems)
+        {
+            if (gem != null) Destroy(gem.gameObject);
+        }
 
         _jewelsInBag.Clear();
         _pickupAreaGems.Clear();

@@ -172,7 +172,30 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         _wfcMapGeneration.Release();
 
+        // 점수 계산
+        int finalScore = JewelPuzzleUIManager.Instance.GetTotalBagPrice();
+        string bestName = JewelPuzzleUIManager.Instance.GetMostExpensiveJewelName();
+         // 경찰에 잡혔는지 안잡혔는지를 나중에 확인하는 것을 보안 해서 후추
+
+        // 보석 인벤토리 열려있다면 닫기
+        if (JewelPuzzleUIManager.Instance != null && JewelPuzzleUIManager.Instance.IsPuzzleActive)
+        {
+            JewelPuzzleUIManager.Instance.ClosePuzzleInventory();
+        }
+
         // TODO(김익환 2026-06-21): 본부로 이동
+
+        UI.ExitGameplayCursorMode();
+
+        // 스코어 팝업 UI 열기
+        UIBase uiBase = UI.OpenPopupUI(UIType.ScorePopupUI);
+        if (uiBase != null && uiBase.TryGetComponent(out ScorePopupUI scoreUI))
+        {
+            scoreUI.DisplayScore(finalScore, bestName, false);
+        }
+
+        // 인벤토리 보석 비우기
+        JewelPuzzleUIManager.Instance.ClearAllJewelsOnCaught();
     }
 
     public void QuitGame()
@@ -182,5 +205,55 @@ public class GameManager : SingletonBehaviour<GameManager>
         #else
             Application.Quit();
         #endif
+    }
+
+    // 보석 인벤토리 열고 닫기 관리
+    public void ToggleJewelPuzzleUI()
+    {
+        Debug.Log("ToggleJewelPuzzleUI 호출됨!");
+
+        if (JewelPuzzleUIManager.Instance == null)
+        {
+            Debug.LogError("JewelPuzzleUIManager.Instance가 null입니다!");
+            return;
+        }
+
+        if (JewelPuzzleUIManager.Instance.IsPuzzleActive)
+        {
+            JewelPuzzleUIManager.Instance.ClosePuzzleInventory();
+        }
+        else
+        {
+            JewelPuzzleUIManager.Instance.OpenPuzzleInventory();
+        }
+    }
+
+    // 보석 인벤토리 열려있는 동안 게임 진행관련 관리
+    public void PauseGameForPuzzle()
+    {
+        // 보석 인벤토리를 플레리어가 보고 있는 동안
+        // 실제 플레이어와 게임에 영향이 가지 않도록 조치 필요
+        // 1. 스테이지 타이머 일시 정지
+        // 2. 플레이어 무적 및 이동 불가 처리
+        // 3. 씬 내의 몬스터들 행동 정지
+        // 후추 필요
+
+        PlayerInputHandler input = FindAnyObjectByType<PlayerInputHandler>();
+        if (input != null) input.SetMode(PlayerInputMode.UIOnly);
+
+        Debug.Log("퍼즐 룸에 진입하여 게임 진행이 일시 정지되었습니다. (물리는 정상 작동)");
+    }
+
+    // 보석 인벤토리 닫힐때 게임 진행관련 관리
+    public void ResumeGameFromPuzzle()
+    {
+        // 보석 인벤토리를 닫았으니 조치 했던 것들 
+        // 정지 처리등 해제 필요
+        // 후추 필요
+
+        PlayerInputHandler input = FindAnyObjectByType<PlayerInputHandler>();
+        if (input != null) input.SetMode(PlayerInputMode.Gameplay);
+
+        Debug.Log("퍼즐 룸에서 나와 게임이 재개되었습니다.");
     }
 }
