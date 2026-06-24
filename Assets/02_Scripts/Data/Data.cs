@@ -89,14 +89,20 @@ public class JewelData : ItemData
 }
 
 [Serializable]
-public class InteractableObject : BaseData
+public class InteractableContainerData : BaseData
 {
-    public string ObjName;
-    public string ObjectComment;
-    public bool IsLock;
+    public string ContainerName;
+    public string SpawnContainerTypeData;
+    public string ContainerComment;
+    public bool IsContainerDisarm;
+    public List<string> RequiresToolIdList;
+    public string CollectOpenDataId;
+    public string ForceOpenDataId;
+    public List<float> TimeReductionAmountList;
     public List<string> ItemIdList;
     public List<int> RateList;
-    public string ObjMeshPrefabPath;
+    public int MaxItemCount;
+    public string ContainerMeshPrefabPath;
 }
 
 [Serializable]
@@ -104,9 +110,9 @@ public class Door : BaseData
 {
     public string DoorName;
     public string DoorComment;
-    public bool IsLock;
-    public List<string> ItemIdList;
-    public List<int> RateList;
+    public List<string> DoorRequiresToolIdList;
+    public List<float> DoorTimeReductionAmountList;
+    public bool IsDisarm;
     public string DoorMeshPrefabPath;
 }
 

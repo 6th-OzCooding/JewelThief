@@ -1,13 +1,15 @@
-﻿using TeamConvention.Interfaces;
+﻿using System.Collections.Generic;
+using TeamConvention.Interfaces;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IInteractor
+public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 {
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 8f;
     [SerializeField] private float _sprintScale = 2f; //스프린트 속도 배율
     [SerializeField] private float _crouchScale = 0.3f; //앉을 때 속도 배율
     [SerializeField] private float _overweightScale = 0.5f; //무게 초과했을 때 속도 배율 
+    [SerializeField] private float _overweightMoveSpeed = 1f;
     [SerializeField] private Rigidbody _rigidbody_Player;
     [SerializeField] private CapsuleCollider _playerCollider;
     private Vector3 _moveDirection; // 플레이어 이동하는 방향
@@ -26,7 +28,6 @@ public class PlayerController : MonoBehaviour, IInteractor
     [SerializeField] private LayerMask _headLayer;
     private bool _isHeading = false; // 머리에 무언가 부딪혔는지 여부
 
-
     [Header("카메라 회전 및 위치 설정")]
     [SerializeField] private Transform _tranform_CameraRig; // 플레이어 자식으로 있는 CameraRig 트랜스폼
     [SerializeField] private Camera Camera_FPS;
@@ -40,10 +41,27 @@ public class PlayerController : MonoBehaviour, IInteractor
     [Header("인벤토리")]
     [SerializeField] private PlayerInventory _playerInventory;
 
+    public IReadOnlyList<InventoryItem> BagItems => _playerInventory != null ? _playerInventory.BagItems : null;
+    public InventoryItem LeftHandItem => _playerInventory != null ? _playerInventory.LeftHandItem : null;
+    public InventoryItem RightHandItem => _playerInventory != null ? _playerInventory.RightHandItem : null;
+
+    public InventoryItem RemoveBagItem(InventoryItem inventoryItem) => _playerInventory?.RemoveBagItem(inventoryItem);
+    public InventoryItem ClearHandItem(PlayerHandType handType) => _playerInventory?.ClearHandItem(handType);
+   
+    public bool TryAcquireItem(ItemData itemData, HoldType holdType, out InventoryItem acquiredItem, out string resultMessage)
+    {
+        if (_playerInventory == null)
+        {
+            acquiredItem = null;
+            resultMessage = "PlayerInventory가 연결되지 않았습니다.";
+            return false;
+        }
+
+        return _playerInventory.TryAcquireItem(itemData, holdType, out acquiredItem, out resultMessage);
+    }
+
     [Header("상호작용")]
-    [SerializeField] private float _interactDistance = 3f;
-    [SerializeField] private LayerMask _interactLayerMask = ~0;
-    [SerializeField] private QueryTriggerInteraction _interactTriggerInteraction = QueryTriggerInteraction.Ignore;
+    [SerializeField] private InteractionHoverDetector _hoverDetector;
 
     [Header("플레이어 스탯")]
     [SerializeField] private float _playerSp = 100;
@@ -73,9 +91,9 @@ public class PlayerController : MonoBehaviour, IInteractor
             _inputHandler = GetComponent<PlayerInputHandler>();
         }
 
-        if (_playerInventory == null)
+        if (_hoverDetector == null)
         {
-            _playerInventory = GetComponent<PlayerInventory>();
+            _hoverDetector = GetComponentInParent<InteractionHoverDetector>();
         }
 
         if (_playerCollider == null)
@@ -86,7 +104,6 @@ public class PlayerController : MonoBehaviour, IInteractor
         _playerMaxSp = _playerSp; //최대 스태미나 지정
 
         _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
-
 
     }
 
@@ -127,7 +144,6 @@ public class PlayerController : MonoBehaviour, IInteractor
             _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
         }
 
-
         if (_inputHandler.JumpRequested)
         {
             Jump();
@@ -136,15 +152,12 @@ public class PlayerController : MonoBehaviour, IInteractor
         if (_headCheck != null)
         {
             _isHeading = Physics.CheckSphere(_headCheck.position, _headCheckRadius, _headLayer);
-            Debug.Log(_isHeading);
         }
-
 
         if (!IsSprint() && _playerSp < _playerMaxSp) //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
         {
             AddPlayerSpPerSecond(_spintSpAddPerSecond);
         }
-
     }
 
     private bool IsSprint() //스프린트 입력되고, 좌표 변경되는 중, 스태미나 0이상, 앉기가 입력되지 않을때 true
@@ -172,11 +185,7 @@ public class PlayerController : MonoBehaviour, IInteractor
             _rigidbody_Player.linearVelocity.y,
             _moveDirection.z * currentMoveSpeed
             );
-
-
     }
-
-
 
     private float GetCurrentMoveSpeed()
     {
@@ -207,12 +216,12 @@ public class PlayerController : MonoBehaviour, IInteractor
 
             if (_isOverweight)
             {
-                Debug.Log($"무게 초과 상태입니다. 이동속도를 {_moveSpeed * _overweightScale:0.##}(으)로 조정합니다. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
+                Debug.Log($"무게 초과 상태. 이동속도를 {_overweightMoveSpeed:0.##}. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
             }
 
             else
             {
-                Debug.Log($"무게 초과 상태가 해제되었습니다. 이동속도를 {_moveSpeed:0.##}(으)로 되돌립니다. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
+                Debug.Log($"무게 초과 상태가 해제. 이동속도를 {_moveSpeed:0.##}. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
             }
         }
 
@@ -254,8 +263,6 @@ public class PlayerController : MonoBehaviour, IInteractor
             camPos.y = _tranform_CrouchCamera.localPosition.y;
 
             _isCrouching = true;
-            Debug.Log("나 앉았어!");
-
         }
         else if(_isCrouching&&!_isHeading) //머리에 부딪히지 않았다면
         {
@@ -264,13 +271,9 @@ public class PlayerController : MonoBehaviour, IInteractor
 
             camPos.y = _standCameraLocalY;
             _isCrouching = false;
-            Debug.Log("나 일어났어!");
-
         }
 
         _tranform_CameraRig.localPosition = camPos;
-
-        Debug.Log("일단 나 눌렸어.");
     }
 
     private void Jump()
@@ -287,7 +290,13 @@ public class PlayerController : MonoBehaviour, IInteractor
 
     public void TryInteract()
     {
-        var interactable = DetectInteractable();
+        if (_hoverDetector == null)
+        {
+            Debug.LogWarning("InteractionHoverDetector가 연결되지 않았습니다.");
+            return;
+        }
+
+        var interactable = _hoverDetector.CurrentTarget;
         if (interactable == null)
         {
             Debug.Log("상호작용할 대상이 없습니다.");
@@ -295,43 +304,7 @@ public class PlayerController : MonoBehaviour, IInteractor
         }
 
         interactable.Interact(this);
-
     }
-
-    // 카메라 중앙에서 레이캐스트를 쏴서 IInteractable이 있는지 감지하는 함수
-    // TODO(김경훈 2026-06-22): InventoryPickupItem도 IInteractable로 통합해야함.
-    private IInteractable DetectInteractable()
-    {
-        if (Camera_FPS == null)
-            return null;
-
-        Ray ray = Camera_FPS.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        if (!Physics.Raycast(ray, out RaycastHit hit, _interactDistance, _interactLayerMask, _interactTriggerInteraction))
-            return null;
-
-        if (hit.collider.TryGetComponent(out IInteractable interactable))
-        {
-            return interactable;
-        }
-
-        return hit.collider.GetComponentInParent<IInteractable>();
-    }
-
-    //// 카메라 중앙에서 레이캐스트를 쏴서 InventoryPickupItem이 있는지 감지하는 함수
-    //private InventoryPickupItem DetectInventoryPickupItem()
-    //{
-    //    if (Camera_FPS == null)
-    //        return null;
-
-    //    Ray ray = Camera_FPS.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-    //    if (!Physics.Raycast(ray, out RaycastHit hit, _interactDistance, _interactLayerMask, _interactTriggerInteraction))
-    //        return null;
-
-    //    if (hit.collider.TryGetComponent(out InventoryPickupItem pickupItem))
-    //        return pickupItem;
-
-    //    return hit.collider.GetComponentInParent<InventoryPickupItem>();
-    //}
 
     private void OnDrawGizmos() //시각적으로 _groundCheck 그리기
     {
