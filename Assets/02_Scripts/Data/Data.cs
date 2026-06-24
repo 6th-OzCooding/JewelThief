@@ -132,7 +132,6 @@ public class Door : BaseData
 [Serializable]
 public class PopupViewData : BaseData
 {
-    public string PopupType;
     public string StringPopupType;
     public string DefaultPrompt;
     public string LockedPrompt;
@@ -143,10 +142,7 @@ public class PopupViewData : BaseData
     public string PurchaseSuccessPrompt;
 
     public global::PopupType GetPopupType()
-    {
-        string popupType = !string.IsNullOrEmpty(StringPopupType) ? StringPopupType : PopupType;
-        return Enum.TryParse<global::PopupType>(popupType, out var result) ? result : global::PopupType.Simple;
-    }
+        => Enum.TryParse<global::PopupType>(StringPopupType, out var result) ? result : global::PopupType.Simple;
 }
 
 [Serializable]
