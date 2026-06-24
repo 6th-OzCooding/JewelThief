@@ -1,28 +1,54 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class WallSpawner : MonoBehaviour
+public class WallSpawner
 {
-    [SerializeField] private int _spawnCount = 3;
-    [SerializeField] private int _spawnTryCount = 30;
-    [SerializeField] private SpawnArea[] _spawnArea;
-    [SerializeField] private GameObject _tempPrefab;
-    [SerializeField] private LayerMask _wallLayer;
-    [SerializeField] private LayerMask _obstacleLayer;
-    [SerializeField] private float _rayDistance = 20f;
-    [SerializeField] private Vector3 _checkHalfExtents = new Vector3(0.5f, 0.5f, 0.5f);
+    private int _spawnCount = 3;
+    private int _spawnTryCount = 30;
 
-    private int _spawnedCount = 0;
+    private float _rayDistance = 20f;
 
-    public void SpawnObjectFromWall()
+    private LayerMask _wallLayer;
+    private LayerMask _obstacleLayer;
+
+    private Vector3 _checkHalfExtents = new Vector3(0.5f, 0.5f, 0.5f);
+    private Vector3[] _directions = { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
+
+
+    public int SpawnObjectFromWall(IReadOnlyList<SpawnArea> spawnAreas)
     {
-        Vector3[] directions = { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
+        if (null == spawnAreas)
+        {
+            Debug.LogWarning("Wall SpawnArea가 없습니다.");
+            return 0;
+        }
+        
+        if (spawnAreas.Count == 0)
+        {
+            Debug.LogWarning("Wall SpawnArea에 스폰할 수 있는 영역이 없습니다.");
+            return 0;
+        }
+        int spawnedCount = 0;
 
+        for (int j = 0; j < _spawnCount; j++)
+        {
+            bool result = TrySpawn(spawnAreas);
+
+            if (result)
+                spawnedCount++;
+        }
+
+        return spawnedCount;
+    }
+
+    private bool TrySpawn(IReadOnlyList<SpawnArea> spawnAreas)
+    {
         for (int i = 0; i < _spawnTryCount; i++)
         {
-            SpawnArea volume = _spawnArea[Random.Range(0, _spawnArea.Length)];
-            Vector3 randomPoint = volume.GetRandomPosition();
+            SpawnArea area = spawnAreas[Random.Range(0, spawnAreas.Count)];
+            Vector3 randomPoint = area.GetRandomPosition();
 
-            Vector3 dir = directions[Random.Range(0, directions.Length)];
+            Vector3 dir = _directions[Random.Range(0, _directions.Length)];
 
             if (!Physics.Raycast(randomPoint, dir, out RaycastHit hit, _rayDistance, _wallLayer))
                 continue;
@@ -33,9 +59,11 @@ public class WallSpawner : MonoBehaviour
             if (Physics.CheckBox(spawnPos, _checkHalfExtents, spawnRot, _obstacleLayer))
                 continue;
 
-            Instantiate(_tempPrefab, spawnPos, spawnRot);
-            //_spawnedCount++;
-            return;
+            // TODO 네번째 매개변수에 mapRoot 넣기
+            GameObject.Instantiate(Utils.ResourcesLoad<GameObject>("TestMapObject"), spawnPos, spawnRot);
+            return true;
         }
+
+        return false;
     }
 }
