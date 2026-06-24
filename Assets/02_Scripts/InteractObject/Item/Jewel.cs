@@ -44,8 +44,7 @@ public class Jewel : BaseInteractableObject
     {
         if(interactor is IInventoryOwner inventoryOwner)
         {
-            inventoryOwner.TryAcquireItem(_itemData, HoldType.Pocket, out InventoryItem acquiredItem, out string resultMessage);
-            Debug.Log($"[{GetType()}] 보석 상호작용 결과: {resultMessage}");
+            inventoryOwner.TryAcquireItem(_itemData, HoldType.Pocket);
         }
     }
 }
