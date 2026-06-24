@@ -19,7 +19,7 @@ public enum UIRootType
 public enum UIType
 {
     None = 0,
-    MainUI,
+    MainHUD,
     LoadingUI,
     CenterPointUI,
     TitleUI,
@@ -51,7 +51,7 @@ public static class UIManagerExtension
     public static void ShowStartupUIOnGameStart(this UIManager uiManager)
     {
         uiManager.OpenLoadingUI();
-        uiManager.OpenUI(UIRootType.MainUI, UIType.MainUI);
+        uiManager.OpenUI(UIRootType.MainUI, UIType.MainHUD);
         uiManager.EnterGameplayCursorMode();
     }
 
@@ -61,6 +61,7 @@ public static class UIManagerExtension
     public static void ShowInventorySystemTestUI(this UIManager uiManager)
     {
         uiManager.CloseLoadingUI();
+        uiManager.OpenUI(UIRootType.MainUI, UIType.MainHUD);
         uiManager.EnterGameplayCursorMode();
     }
 
