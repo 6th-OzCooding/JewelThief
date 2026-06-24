@@ -1,7 +1,7 @@
 [
   {
     "Id": "TargetType_Item",
-    "PopupType": "ItemInfo",
+    "StringPopupType": "ItemInfo",
     "DefaultPrompt": "[E] : 훔치기",
     "LockedPrompt": null,
     "MasterKeyPrompt": null,
@@ -12,7 +12,7 @@
   },
   {
     "Id": "TargetType_Box",
-    "PopupType": "Simple",
+    "StringPopupType": "Simple",
     "DefaultPrompt": "[E] : 열기",
     "LockedPrompt": "[E] : 강제 개봉",
     "MasterKeyPrompt": "[E] : 만능열쇠 사용",
@@ -23,7 +23,7 @@
   },
   {
     "Id": "TargetType_Trap",
-    "PopupType": "Simple",
+    "StringPopupType": "Simple",
     "DefaultPrompt": "[E] : 해제",
     "LockedPrompt": null,
     "MasterKeyPrompt": null,
@@ -34,7 +34,7 @@
   },
   {
     "Id": "TargetType_EscapePath",
-    "PopupType": "Simple",
+    "StringPopupType": "Simple",
     "DefaultPrompt": "[E] : 탈출하기",
     "LockedPrompt": null,
     "MasterKeyPrompt": null,
@@ -45,7 +45,7 @@
   },
   {
     "Id": "TargetType_Door",
-    "PopupType": "Simple",
+    "StringPopupType": "Simple",
     "DefaultPrompt": "[E] : 문 열기",
     "LockedPrompt": "[E] : 문 따기",
     "MasterKeyPrompt": "[E] : 만능열쇠 사용",
@@ -56,7 +56,7 @@
   },
   {
     "Id": "TargetType_Tool",
-    "PopupType": "ShopInfo",
+    "StringPopupType": "ShopInfo",
     "DefaultPrompt": "[E] : 구매",
     "LockedPrompt": null,
     "MasterKeyPrompt": null,
@@ -67,7 +67,7 @@
   },
   {
     "Id": "TargetType_StageSelectChair",
-    "PopupType": "Simple",
+    "StringPopupType": "Simple",
     "DefaultPrompt": "[E] : 지역 선택",
     "LockedPrompt": null,
     "MasterKeyPrompt": null,
@@ -78,7 +78,7 @@
   },
   {
     "Id": "TargetType_Washer",
-    "PopupType": "Simple",
+    "StringPopupType": "Simple",
     "DefaultPrompt": "[E] : 돈 세탁",
     "LockedPrompt": null,
     "MasterKeyPrompt": null,
