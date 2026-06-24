@@ -38,7 +38,7 @@ public class StageSelectUI : UIBase
 
         GameManager.Instance._selectedStageId = stageData.Id;
         GameManager.UI.CloseStageSelectUI();
-        GameManager.Instance.EnterGamePlay(stageData.Id);
+        GameManager.Instance.EnterInGame(stageData.Id);
 
     }
 }

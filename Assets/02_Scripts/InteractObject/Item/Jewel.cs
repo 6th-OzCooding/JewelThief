@@ -42,6 +42,10 @@ public class Jewel : BaseInteractableObject
 
     protected override void OnInteract(IInteractor interactor)
     {
-        // TODO(김익환 2024-06-23): 인벤토리에 아이템 추가하는 로직 구현
+        if(interactor is IInventoryOwner inventoryOwner)
+        {
+            inventoryOwner.TryAcquireItem(_itemData, HoldType.Pocket, out InventoryItem acquiredItem, out string resultMessage);
+            Debug.Log($"[{GetType()}] 보석 상호작용 결과: {resultMessage}");
+        }
     }
 }

@@ -369,4 +369,17 @@ public class PlayerInventory : MonoBehaviour
 
         return inventoryItem.ItemData.Weight;
     }
+
+    public void FindToolAndRemove(string[] toolIds)
+    {
+        foreach (string toolId in toolIds)
+        {
+            if (LeftHandItem.ItemData.Id == toolId)
+                LeftHandItem = null;
+            else if (RightHandItem.ItemData.Id == toolId)
+                RightHandItem = null;
+
+            // TODO(김익환, 26.06.22): 가방에 들어 있는 Tool 아이템 제거 로직 추가 필요
+        }
+    }
 }

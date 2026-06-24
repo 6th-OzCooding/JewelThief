@@ -112,13 +112,9 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         if (_inputHandler != null)
         {
             _inputHandler.OnInteractEvent += TryInteract;
-        }
-
-        if (_inputHandler != null)
-        {
             _inputHandler.OnCrouchChanged += CrouchAndStand;
+            GameManager.Instance.OnExitInGame += _playerInventory.FindToolAndRemove;
         }
-
     }
 
     void OnDisable()
@@ -126,11 +122,9 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         if (_inputHandler != null)
         {
             _inputHandler.OnInteractEvent -= TryInteract;
-        }
-
-        if (_inputHandler != null)
-        {
             _inputHandler.OnCrouchChanged -= CrouchAndStand;
+            GameManager.Instance.OnExitInGame -= _playerInventory.FindToolAndRemove;
+
         }
     }
 

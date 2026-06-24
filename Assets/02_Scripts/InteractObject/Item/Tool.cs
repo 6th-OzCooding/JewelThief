@@ -43,7 +43,13 @@ public class Tool : BaseInteractableObject
 
     protected override void OnInteract(IInteractor interactor)
     {
-        // 무언가를 해제하는 용도인데, 이는 사용부에서 조건 처리를 하고 있음.
-        // 만약 그렇지 않다면 추가 작업 필요
+        ChargeCount--;
+        if(ChargeCount <= 0)
+        {
+            if(interactor is IInventoryOwner inventoryOwner)
+            {
+                inventoryOwner.ClearHandItem(PlayerHandType.Right);
+            }
+        }
     }
 }
