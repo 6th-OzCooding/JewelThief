@@ -1,12 +1,13 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
 /// 화면 중앙 Hover 대상의 아이템 정보를 표시하는 팝업 UI입니다.
 /// </summary>
-public class ItemInfoPopupUI : UIBase
+public class ObjectInfoPopupUI : UIBase
 {
     [Header("Position")]
     [SerializeField] private Vector2 _popupOffset = new(220f, 0f);
@@ -15,6 +16,10 @@ public class ItemInfoPopupUI : UIBase
     [SerializeField] private RectTransform _animatedBox;
     [SerializeField] private RectTransform[] _hiddenLayoutsDuringOpen;
     [SerializeField] private float _openDuration = 0.08f;
+
+    [Header("Text Assignment")]
+    [SerializeField] private TMP_Text _objectName;
+    [SerializeField] private TMP_Text _objectComment;
 
     private RectTransform _rectTransform;
     private Vector2 _defaultBoxSizeDelta;
@@ -52,6 +57,16 @@ public class ItemInfoPopupUI : UIBase
             return;
 
         ApplyPopupOffset();
+    }
+
+    public void SetObjectNameText(string name)
+    {
+        _objectName.text = name;
+    }
+
+    public void SetObjectCommentText(string comment)
+    {
+        _objectComment.text = comment;
     }
 
     /// <summary>
