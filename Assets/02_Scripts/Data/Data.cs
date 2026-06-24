@@ -103,6 +103,9 @@ public class InteractableContainerData : BaseData
     public List<int> RateList;
     public int MaxItemCount;
     public string ContainerMeshPrefabPath;
+
+    public SpawnObjectType GetPopupType()
+        => Enum.TryParse<SpawnObjectType>(SpawnContainerTypeData, out var result) ? result : SpawnObjectType.None;
 }
 
 [Serializable]

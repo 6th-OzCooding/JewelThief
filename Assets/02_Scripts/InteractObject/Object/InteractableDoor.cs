@@ -43,7 +43,7 @@ public class InteractableDoor : BaseDisarmableObejct
 
     protected override void OnDisarm(bool isCollectToolUse)
     {
-        InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(_disarmObjId);
+        Door data = GameManager.DataTable.GetDoorData(_disarmObjId);
         if (isCollectToolUse)
         {
             Destroy(this.gameObject);

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using TeamConvention.Interfaces;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -59,7 +56,7 @@ public class InteractableContainer : BaseDisarmableObejct
         if (data == null) return;
         _disarmObjId = data.Id;
         _maxSpawnItemCount = data.MaxItemCount;
-        InitObjectSpawnType(data.SpawnContainerTypeData);
+        _interactableObjectType = data.GetPopupType();
         _isDisarmed = data.IsContainerDisarm;
         _meshPrefabPath = data.ContainerMeshPrefabPath;
         InitStringListData(_itemList, data.ItemIdList);
@@ -91,19 +88,6 @@ public class InteractableContainer : BaseDisarmableObejct
         foreach (float data in loadDataList)
         {
             requierInitList.Add(data);
-        }
-    }
-
-    private void InitObjectSpawnType(string typeStr)
-    {
-        if (Enum.TryParse<SpawnObjectType>(typeStr, out SpawnObjectType returnObjType))
-        {
-            _interactableObjectType = returnObjType;
-        }
-        else
-        {
-            Debug.LogError("잘못된 소환 형식");
-            _interactableObjectType = SpawnObjectType.None;
         }
     }
 
@@ -174,6 +158,10 @@ public class InteractableContainer : BaseDisarmableObejct
     {
         _spawnedRarityList.Clear();
         if (spanwAbleItemList == ItemGrade.None) return;
+        if(_itemList.Count == 0)
+        {
+            Debug.LogError("할당된 데이터 아이템 Id가 없습니다.");
+        }
 
         foreach(string checkItemDataId in _itemList)
         {
@@ -225,7 +213,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
     private void ShootItem(GameObject shootingObject)
     {
-        if(shootingObject == null) return;
+        if(shootingObject == null || shootingObject.GetComponent<Rigidbody>() == null) return;
 
         // 튀어오르는 값 여기서 조절 가능
         float minImpulsePower = 3f;
