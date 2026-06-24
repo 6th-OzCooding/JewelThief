@@ -21,7 +21,7 @@ public class TitleUI : UIBase
     {
         Debug.Log("새 게임 시작!");
         GameManager.UI.CloseMainUI();
-        GameManager.Instance.EnterLobby();
+        GameManager.Instance.EnterLobby(true);
 
         // 후추 : 인게임 진입 로직
     }

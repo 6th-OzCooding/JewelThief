@@ -1,174 +1,292 @@
 [
   {
     "Id": "PreLoadAsset_Stage1_SOTilePreset",
-    "Address": "SOTilePreset"
+    "Address": "SOTilePreset",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_MapGrid",
-    "Address": "MapGrid"
+    "Address": "MapGrid",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_BoundaryTile",
-    "Address": "BoundaryTile"
+    "Address": "BoundaryTile",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_BackUpTile",
-    "Address": "BackUpTile"
+    "Address": "BackUpTile",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_TestPresetTile",
-    "Address": "TestPresetTile"
+    "Address": "TestPresetTile",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_Vertical Corridor",
-    "Address": "Vertical Corridor"
+    "Address": "Vertical Corridor",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_Room1",
-    "Address": "Room1"
+    "Address": "Room1",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_RightTop Corridor",
-    "Address": "RightTop Corridor"
+    "Address": "RightTop Corridor",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_RightDown Corridor",
-    "Address": "RightDown Corridor"
+    "Address": "RightDown Corridor",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_LeftTop Corridor",
-    "Address": "LeftTop Corridor"
+    "Address": "LeftTop Corridor",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_LeftDown Corridor",
-    "Address": "LeftDown Corridor"
+    "Address": "LeftDown Corridor",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_Horizontal Corridor",
-    "Address": "Horizontal Corridor"
+    "Address": "Horizontal Corridor",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_Demo Room4",
-    "Address": "Demo Room4"
+    "Address": "Demo Room4",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_Demo Room3",
-    "Address": "Demo Room3"
+    "Address": "Demo Room3",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_Demo Room2",
-    "Address": "Demo Room2"
+    "Address": "Demo Room2",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_Demo Room1",
-    "Address": "Demo Room1"
+    "Address": "Demo Room1",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Stage1_All Direction Corridor",
-    "Address": "All Direction Corridor"
+    "Address": "All Direction Corridor",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Lobby",
-    "Address": "Lobby"
+    "Address": "Lobby",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Player_With_Camera",
-    "Address": "Player"
+    "Address": "Player",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_BGM_01",
-    "Address": "PlayTheme"
+    "Address": "PlayTheme",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_001",
-    "Address": "AlertUp_01"
+    "Address": "AlertUp_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_002",
-    "Address": "Click_01"
+    "Address": "Click_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_003",
-    "Address": "Click_02"
+    "Address": "Click_02",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_004",
-    "Address": "Error_01"
+    "Address": "Error_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_005",
-    "Address": "Error_02"
+    "Address": "Error_02",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_006",
-    "Address": "Explosion_01"
+    "Address": "Explosion_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_007",
-    "Address": "Explosion_02"
+    "Address": "Explosion_02",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_008",
-    "Address": "Explosion_03"
+    "Address": "Explosion_03",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_009",
-    "Address": "Explosion_04"
+    "Address": "Explosion_04",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_010",
-    "Address": "Explosion_05"
+    "Address": "Explosion_05",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_011",
-    "Address": "Gain_01"
+    "Address": "Gain_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_012",
-    "Address": "GunTrap_01"
+    "Address": "GunTrap_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_013",
-    "Address": "Lose_01"
+    "Address": "Lose_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_014",
-    "Address": "Lose_02"
+    "Address": "Lose_02",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_015",
-    "Address": "Notification_01"
+    "Address": "Notification_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_016",
-    "Address": "Notification_02"
+    "Address": "Notification_02",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_017",
-    "Address": "Open_Box_01"
+    "Address": "Open_Box_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_018",
-    "Address": "Purchase_01"
+    "Address": "Purchase_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_019",
-    "Address": "Purchase_02"
+    "Address": "Purchase_02",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_020",
-    "Address": "TimeUp_01"
+    "Address": "TimeUp_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_021",
-    "Address": "Win_01"
+    "Address": "Win_01",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_022",
-    "Address": "Win_02"
+    "Address": "Win_02",
+    "AssetType": null
   },
   {
     "Id": "PreLoadAsset_Sound_SFX_023",
-    "Address": "Win_03"
+    "Address": "Win_03",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_FBX_KeyFBX",
+    "Address": "KeyFBX",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Black",
+    "Address": "Black",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Yellow",
+    "Address": "Yellow",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_KeyMesh[SM_Gen_Prop_Key_01]",
+    "Address": "KeyFBX[SM_Gen_Prop_Key_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_M_Gemstone_Diamond,Lit",
+    "Address": "M_Gemstone_Diamond",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_M_Gemstone_Amethyst",
+    "Address": "M_Gemstone_Amethyst",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_M_Gemstone_Aquamarine",
+    "Address": "M_Gemstone_Aquamarine",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_M_Gemstone_Emerald",
+    "Address": "M_Gemstone_Emerald",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_M_Gemstone_Ruby",
+    "Address": "M_Gemstone_Ruby",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_M_Gemstone_Sapphire",
+    "Address": "M_Gemstone_Sapphire",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_M_Gemstone_Topaz",
+    "Address": "M_Gemstone_Topaz",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_ToolObject",
+    "Address": "ToolObject",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_JewelObject",
+    "Address": "JewelObject",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Jewel_Cone[Cone]",
+    "Address": "Jewel_Cone[Cone]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_Lit",
+    "Address": "Lit",
+    "AssetType": null
   }
 ]
