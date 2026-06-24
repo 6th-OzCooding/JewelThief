@@ -1,24 +1,57 @@
-﻿using TeamConvention.Interfaces;
+﻿using NUnit.Framework;
+using TeamConvention.Interfaces;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
-public class InteractableDoor : BaseInteractableObject
+public class InteractableDoor : BaseDisarmableObejct
 {
-    private bool _isOpen;
-
-    protected override bool CheckCanInteract()
-    {
-        return !_isOpen;
-    }
-
-    protected override void OnInteract(IInteractor interactor)
-    {
-        _isOpen = true;
-
-        // 문 열 때 수행하는 로직을 넣으세요
-    }
+    private string _doorMeshPrefabPath;
+    private GameObject _doorMeshObject;
 
     protected override void LoadData(string id)
     {
-        // data = GameManager.DataTalbe.GetDoorData(id); 문 관련 데이터 테이블 어딘지 모르겠네요.
+        Door data = GameManager.DataTable.GetDoorData(id);
+        _disarmObjId = data.Id;
+        _isDisarmed = data.IsDisarm;
+        _doorMeshPrefabPath = data.DoorMeshPrefabPath;
+        _requiredToolIdList = data.DoorRequiresToolIdList;
+        _timeReductionAmountList = data.DoorTimeReductionAmountList;
+        SpawnMeshBox();
+    }
+
+    private async void SpawnMeshBox()
+    {
+        if (_doorMeshPrefabPath == null || _doorMeshPrefabPath == "")
+        {
+            Debug.LogError("Mesh 프리팹 경로 없음");
+            return;
+        }
+
+        GameObject obj = await Addressables.InstantiateAsync(_doorMeshPrefabPath).Task;
+        if (obj == null) return;
+
+        obj.transform.SetParent(transform, false);
+        _doorMeshObject = obj;
+        // 현재 애니메이션 없음
+        // _animController.InitMeshAnime(obj);
+    }
+
+    private void DestroyMeshBox()
+    {
+        Destroy(_doorMeshObject);
+    }
+
+    protected override void OnDisarm(bool isCollectToolUse)
+    {
+        InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(_disarmObjId);
+        if (isCollectToolUse)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            // TODO(안우재 2026-6-24) : 강제로 열었기에 ChangeStat 전에 차감 시간을 적용해야함
+            Destroy(this.gameObject);
+        }
     }
 }
