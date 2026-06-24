@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     private Vector3 _moveDirection; // 플레이어 이동하는 방향
     private bool _isOverweight;
     private bool _isCrouching;
+    private bool _isStaminaCooling = false; //스태미나 고갈을 표현하는 상태변수
+
     [Header("점프관련 설정")]
     [SerializeField] private float _jumpForce = 7f; // 점프 힘 (높이 조절)
     [SerializeField] private Transform _groundCheck;    // 발 밑에 배치할 빈 오브젝트
@@ -47,7 +49,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
     public InventoryItem RemoveBagItem(InventoryItem inventoryItem) => _playerInventory?.RemoveBagItem(inventoryItem);
     public InventoryItem ClearHandItem(PlayerHandType handType) => _playerInventory?.ClearHandItem(handType);
-   
+
     public bool TryAcquireItem(ItemData itemData, HoldType holdType, out InventoryItem acquiredItem, out string resultMessage)
     {
         if (_playerInventory == null)
@@ -152,19 +154,42 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         if (_headCheck != null)
         {
             _isHeading = Physics.CheckSphere(_headCheck.position, _headCheckRadius, _headLayer);
+          
         }
 
-        if (!IsSprint() && _playerSp < _playerMaxSp) //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
+        if (IsSprint())
         {
-            AddPlayerSpPerSecond(_spintSpAddPerSecond);
+            //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
+            TakePlayerSpDamagePerSecond(_spintSpUsePerSecond); //스태미나를 초당 정해진 값만큼 깎음
+            if (_playerSp < 0f) {
+
+                _playerSp = 0f;
+                _isStaminaCooling = true;
+            }
         }
+        else  //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
+        {
+            if(_playerSp < _playerMaxSp)
+            {
+                AddPlayerSpPerSecond(_spintSpAddPerSecond);
+
+                if (_playerSp > _playerMaxSp)
+                    _playerSp = _playerMaxSp;
+            }
+
+            if (_isStaminaCooling && _playerSp >= _playerMaxSp)
+            {
+                _isStaminaCooling = false;
+            }
+        }
+
     }
 
     private bool IsSprint() //스프린트 입력되고, 좌표 변경되는 중, 스태미나 0이상, 앉기가 입력되지 않을때 true
     {
         bool hasInput = _inputHandler.SprintRequested;
         bool isMoving = _moveDirection.magnitude > 0.1f;
-        bool hasStamina = _playerSp > 0;
+        bool hasStamina = _playerSp > 0f&& !_isStaminaCooling; ;
         bool isNotCrouching = !_isCrouching;
 
         return hasInput && isMoving && hasStamina && isNotCrouching;
@@ -196,7 +221,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
         if (IsSprint()) //스프린트 상태일때
         {
-            TakePlayerSpDamagePerSecond(_spintSpUsePerSecond); //스태미나를 초당 정해진 값만큼 깎음
             return _moveSpeed * _sprintScale;
 
         }
@@ -264,7 +288,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
             _isCrouching = true;
         }
-        else if(_isCrouching&&!_isHeading) //머리에 부딪히지 않았다면
+        else if (_isCrouching && !_isHeading) //머리에 부딪히지 않았다면
         {
             _playerCollider.height += _float_MoveColliderY;
             _playerCollider.center = new Vector3(_playerCollider.center.x, _playerCollider.center.y + _float_MoveColliderY / 2f, _playerCollider.center.z);

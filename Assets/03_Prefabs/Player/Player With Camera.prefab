@@ -189,8 +189,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2224699554623832276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0499439, y: -0.9233931, z: 0.3581477, w: 0.12876768}
-  m_LocalPosition: {x: 0, y: 0.4755, z: 0}
+  m_LocalRotation: {x: -0.12838644, y: 0.65636224, z: 0.11472265, w: 0.7345368}
+  m_LocalPosition: {x: 0, y: 0.317, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -267,7 +267,7 @@ MonoBehaviour:
   ReferenceFrame: 0
   RecenterTarget: 1
   PanAxis:
-    Value: -164.12253
+    Value: 83.56622
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -277,7 +277,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: 42.398613
+    Value: -19.828651
     Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0
@@ -359,7 +359,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 1, z: 0.7}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1365269815429759443}
@@ -371,7 +371,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2525355484719166377}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &695598879643062243
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -449,8 +449,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3029062730831253007}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0499439, y: -0.9233931, z: 0.3581477, w: 0.12876768}
-  m_LocalPosition: {x: 0, y: 0.4755, z: 0}
+  m_LocalRotation: {x: -0.12838644, y: 0.65636224, z: 0.11472265, w: 0.7345368}
+  m_LocalPosition: {x: 0, y: 0.317, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -495,7 +495,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 230455
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -648,7 +648,7 @@ Transform:
   m_GameObject: {fileID: 4800618025369142651}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.268, z: 0}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -685,7 +685,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1199289281340607420}
@@ -711,6 +711,7 @@ MonoBehaviour:
   _sprintScale: 2
   _crouchScale: 0.3
   _overweightScale: 0.5
+  _overweightMoveSpeed: 1
   _rigidbody_Player: {fileID: 8220170413300471297}
   _playerCollider: {fileID: 1753230588722356098}
   _jumpForce: 5
@@ -720,7 +721,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _headCheck: {fileID: 2864941268612226769}
-  _headCheckRadius: 0.48
+  _headCheckRadius: 0.4
   _headLayer:
     serializedVersion: 2
     m_Bits: 65536
@@ -730,14 +731,10 @@ MonoBehaviour:
   _float_MoveColliderY: 0.5
   _inputHandler: {fileID: 5910133177189523141}
   _playerInventory: {fileID: 0}
-  _interactDistance: 3
-  _interactLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  _interactTriggerInteraction: 1
+  _hoverDetector: {fileID: 0}
   _playerSp: 100
-  _spintSpUsePerSecond: 5
-  _spintSpAddPerSecond: 3
+  _spintSpUsePerSecond: 20
+  _spintSpAddPerSecond: 6
 --- !u!114 &5910133177189523141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,7 +766,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -857,7 +854,7 @@ Transform:
   m_GameObject: {fileID: 6070634622092023255}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0.621, y: -0.806, z: 0.437}
+  m_LocalPosition: {x: 0.621, y: -0.84, z: 0.437}
   m_LocalScale: {x: 0.2, y: 1, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -973,6 +970,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _triggerInteraction: 1
+  _playerController: {fileID: 0}
 --- !u!1 &6695857516601343959
 GameObject:
   m_ObjectHideFlags: 0
