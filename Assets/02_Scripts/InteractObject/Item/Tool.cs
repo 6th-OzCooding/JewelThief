@@ -9,6 +9,7 @@ public class Tool : BaseInteractableObject
 
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private MeshFilter _meshFilter;
+    [SerializeField] private MeshCollider _meshCollider;
 
     protected override void OnInitalized()
     {
@@ -17,6 +18,7 @@ public class Tool : BaseInteractableObject
         ChargeCount = _itemData.ChargeCount;
 
         _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
+        _meshCollider.sharedMesh = _meshFilter.sharedMesh;
 
         var materialPath = _itemData.MaterialPaths;
         Material[] materials = new Material[materialPath.Count];

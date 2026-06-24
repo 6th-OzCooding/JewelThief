@@ -156,8 +156,8 @@ public static class PopupViewDataBuilder
         if (itemData == null)
             return string.Empty;
 
-        if (itemData.CurrentItemGrade != ItemGrade.None)
-            return itemData.CurrentItemGrade.ToString();
+        if (itemData.ItemGrade != ItemGrade.None)
+            return itemData.ItemGrade.ToString();
 
         RawItemPopupData rawData = GetRawItemPopupData(itemData.Id);
         if (rawData != null && !string.IsNullOrEmpty(rawData.CurrentItemGrade))
