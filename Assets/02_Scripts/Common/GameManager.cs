@@ -135,7 +135,6 @@ public class GameManager : SingletonBehaviour<GameManager>
         if(_isPlaying)
         {
             _alertManager.OnUpdate();
-
         }
     }
 
