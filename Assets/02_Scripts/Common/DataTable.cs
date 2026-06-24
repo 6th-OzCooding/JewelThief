@@ -8,9 +8,10 @@ public class DataTable
     public Dictionary<string, PreLoadAssetData> GetPreLoadAssetDataTable() => _preLoadAssetDataTable;
     public Dictionary<string, PoolingObjectData> GetPoolingObjectDataTable() => _poolingObjectDataTable;
     public Dictionary<string, InteractableContainerData> GetInteractableContainerDataTable() => _interactableContainerDataTable;
-    public Dictionary<string, Door> GetDoorDataTable() => _DoorDataTable;
+    public Dictionary<string, Door> GetDoorDataTable() => _doorDataTable;
     public Dictionary<string, InventoryTypeData> GetInventoryTypeDataTable() => _inventoryTypeDataTable;
     public Dictionary<string, ItemData> GetItemDataTable() => _itemDataTable;
+    public Dictionary<string, PopupViewData> GetPopupViewDataTable() => _popupViewDataTable;
     public Dictionary<string, SoundData> GetSoundDataTable() => _soundDataTable;
     public Dictionary<string, StageData> GetStageDataTable() => _stageDataTable;
 
@@ -18,9 +19,10 @@ public class DataTable
     private Dictionary<string, PreLoadAssetData> _preLoadAssetDataTable { get; set; } = new();
     private Dictionary<string, PoolingObjectData> _poolingObjectDataTable { get; set; } = new();
     private Dictionary<string, InteractableContainerData> _interactableContainerDataTable { get; set; } = new();
-    private Dictionary<string, Door> _DoorDataTable { get; set; } = new();
     private Dictionary<string, InventoryTypeData> _inventoryTypeDataTable { get; set; } = new();
     private Dictionary<string, ItemData> _itemDataTable { get; set; } = new();
+    private Dictionary<string, Door> _doorDataTable { get; set; } = new();
+    private Dictionary<string, PopupViewData> _popupViewDataTable { get; set; } = new();
     private Dictionary<string, SoundData> _soundDataTable { get; set; } = new();
     private Dictionary<string, StageData> _stageDataTable { get; set; } = new();
 
@@ -42,6 +44,8 @@ public class DataTable
         // TODO (김경훈 - 06.20: 아이템 데이터로 통합 후 삭제)
         _inventoryTypeDataTable = LoadData<InventoryTypeData>("InventoryTypeData");
 
+        _doorDataTable = LoadData<Door>("Door");
+        _popupViewDataTable = LoadData<PopupViewData>("PopupViewData");
         _soundDataTable = LoadData<SoundData>("SoundData");
         _stageDataTable = LoadData<StageData>("StageData");
     }
@@ -70,9 +74,9 @@ public class DataTable
 
     public Door GetDoorData(string id)
     {
-        if (null == _DoorDataTable || string.IsNullOrEmpty(id)) return null;
+        if (null == _doorDataTable || string.IsNullOrEmpty(id)) return null;
 
-        return _DoorDataTable.TryGetValue(id, out var data) ? data : null;
+        return _doorDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
     public ItemData GetItemData(string id)
@@ -86,6 +90,12 @@ public class DataTable
     {
         if (null == _inventoryTypeDataTable || string.IsNullOrEmpty(id)) return null;
         return _inventoryTypeDataTable.TryGetValue(id, out var data) ? data : null;
+    }
+
+    public PopupViewData GetPopupViewData(string id)
+    {
+        if (null == _popupViewDataTable || string.IsNullOrEmpty(id)) return null;
+        return _popupViewDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
     public SoundData GetSoundData(string id)
