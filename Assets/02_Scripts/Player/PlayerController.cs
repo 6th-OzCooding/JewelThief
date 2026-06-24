@@ -55,6 +55,16 @@ public class PlayerController : MonoBehaviour, IInteractor
     public Transform CameraTransform => Camera_FPS != null ? Camera_FPS.transform : null;
     public PlayerInventory Inventory => _playerInventory;
 
+    /// <summary>
+    /// 현재 플레이어 스태미나 값입니다.
+    /// </summary>
+    public float CurrentStamina => _playerSp;
+
+    /// <summary>
+    /// 최대 플레이어 스태미나 값입니다.
+    /// </summary>
+    public float MaxStamina => _playerMaxSp;
+
     void Awake()
     {
         // 인스펙터에서 깜빡하고 할당 안 했을 때를 대비해 자동으로 리지드바디 넣기
