@@ -162,13 +162,14 @@ public class EnemyBase : MonoBehaviour
         ThrowEnemy throwScript = GetComponent<ThrowEnemy>();
         if (throwScript != null)
         {
-            throwScript.ThrowWeapon(); // 정상적으로 찾았으면 실행!
+            throwScript.ThrowWeapon();
         }
-
-        else
+        
+        // 테이저 건을 쏘는 Enemy 때문에 추가
+        ShootEnemy shootScript = GetComponent<ShootEnemy>();
+        if (shootScript != null)
         {
-            // 못 찾았으면 콘솔창에 빨간색 에러를 띄웁니다!
-            Debug.LogError("삐빅! EnemyBase와 같은 오브젝트에 ThrowEnemy 스크립트가 없습니다!");
+            shootScript.Shoot(); // 쏘기 실행!
         }
 
         // 잠깐 기다리는 시간

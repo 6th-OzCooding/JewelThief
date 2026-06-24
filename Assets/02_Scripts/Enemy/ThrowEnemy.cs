@@ -29,14 +29,12 @@ public class ThrowEnemy : MonoBehaviour
 
             // 기다린 후 곤봉 비활성화
             _policeBar.SetActive(false);
-            Debug.Log("곤봉을 비활성화 합니다!");
 
             // 1초 정도 대기
             await UniTask.Delay(TimeSpan.FromSeconds(_respawnTime), cancellationToken: token);
 
             // 곤봉 다시 활성화
             _policeBar.SetActive(true);
-            Debug.Log("곤봉이 다시 나타났습니다!");
         }
         catch (OperationCanceledException)
         {
