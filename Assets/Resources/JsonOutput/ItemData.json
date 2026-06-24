@@ -30,7 +30,7 @@
     "Husks": "ToolObject"
   },
   {
-    "Id": "Item_Jewel_Diamond",
+    "Id": "Item_Jewel__Diamond",
     "Name": "다이아몬드",
     "Description": "다이아몬드다.",
     "ItemType": "Jewel",
