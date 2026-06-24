@@ -33,7 +33,12 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float _runSpeed = 4.5f;
     // 공격 사거리 (조정 가능)
     [SerializeField] private float _attackRadius = 1.5f;
-
+    // 테이저와 곤봉을 위한 딜레이 변수
+    [SerializeField] private float _attackDelay = 0f;
+   
+    // 기본값은 0초로 잡음
+    private float _attackTimer = 0f; 
+    
     private float _detectTimer = 0.0f; // 탐지되고 나면 다시 초기화하기 위한 변수
     private float _detectDelay = 0.1f; // Collider로 탐지하는데 0.1초 제한을 두기 위한 변수
 
@@ -78,11 +83,28 @@ public class EnemyBase : MonoBehaviour
         // 시야각에 들어오면서 공격사거리에 들어온 경우
         if (StateContext.CurrentState == StateContext.ChaseState && DstToTarget <= _attackRadius)
         {
-            StateContext.TransitionTo(StateContext.AttackState);
-        }
-        // 이미 공격중인 상태이면 공격 메서드 계속 호출 -> StateContext.Update()가 대신 처리함
 
-        // 그 외는 움직이는 상태로 이동
+            if (DirToTarget != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(DirToTarget);
+                // AttackState와 동일한 속도(5.0f)로 부드럽게 회전
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 5.0f);
+            }
+
+            _attackTimer += Time.fixedDeltaTime;
+            // 근접은 바로 0초 원거리만 1.5초로 해놓기 (수정 가능)
+            if (_attackTimer >= _attackDelay)
+            {
+                StateContext.TransitionTo(StateContext.AttackState);
+                _attackTimer = 0f; // 초기화
+            }
+        }
+
+        else
+        {
+            _attackTimer = 0f; // 범위에서 벗어나면 초기화
+        }
+        // 이미 공격중인 상태이면 공격 메서드 계속 호출 -> StateContext.Update()가 대신 처리함, 그 외는 움직이는 상태로 이동
         StateContext.Update();
     }
 

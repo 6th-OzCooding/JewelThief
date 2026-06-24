@@ -2448,6 +2448,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2033557931072281016, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+      propertyPath: _taserEnd
+      value: 
+      objectReference: {fileID: 400813120}
+    - target: {fileID: 2033557931072281016, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+      propertyPath: _shootDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2033557931072281016, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: _taserEffect
       value: 
       objectReference: {fileID: 400813120}
@@ -2490,6 +2498,10 @@ PrefabInstance:
     - target: {fileID: 6197218086365554291, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7346867247242109029, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+      propertyPath: _attackDelay
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8311518898016239993, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: m_Name
@@ -2622,7 +2634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2773212651188420240, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3498540443863148337, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2666,6 +2678,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3549333635649237776, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5251132332096177741, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
+      propertyPath: _attackDelay
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
