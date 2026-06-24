@@ -47,17 +47,16 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
     public InventoryItem RemoveBagItem(InventoryItem inventoryItem) => _playerInventory?.RemoveBagItem(inventoryItem);
     public InventoryItem ClearHandItem(PlayerHandType handType) => _playerInventory?.ClearHandItem(handType);
-   
-    public bool TryAcquireItem(ItemData itemData, HoldType holdType, out InventoryItem acquiredItem, out string resultMessage)
+
+    public bool TryAcquireItem(ItemData itemData, HoldType holdType)
     {
         if (_playerInventory == null)
         {
-            acquiredItem = null;
-            resultMessage = "PlayerInventory가 연결되지 않았습니다.";
+            Debug.LogError("PlayerInventory가 연결되지 않았습니다.");
             return false;
         }
 
-        return _playerInventory.TryAcquireItem(itemData, holdType, out acquiredItem, out resultMessage);
+        return _playerInventory.TryAcquireItem(itemData, holdType);
     }
 
     [Header("상호작용")]
@@ -104,6 +103,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         _playerMaxSp = _playerSp; //최대 스태미나 지정
 
         _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
+        _playerInventory = GetComponent<PlayerInventory>();
 
     }
 
@@ -112,13 +112,14 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         if (_inputHandler != null)
         {
             _inputHandler.OnInteractEvent += TryInteract;
-        }
-
-        if (_inputHandler != null)
-        {
             _inputHandler.OnCrouchChanged += CrouchAndStand;
+            if (_playerInventory != null)
+                GameManager.Instance.OnExitInGame += _playerInventory.FindToolAndRemove;
+            else
+            {
+                Debug.LogError("PlayerInventory가 연결되지 않았습니다. OnExitInGame 이벤트에 등록할 수 없습니다.");
+            }
         }
-
     }
 
     void OnDisable()
@@ -126,11 +127,9 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         if (_inputHandler != null)
         {
             _inputHandler.OnInteractEvent -= TryInteract;
-        }
-
-        if (_inputHandler != null)
-        {
             _inputHandler.OnCrouchChanged -= CrouchAndStand;
+            GameManager.Instance.OnExitInGame -= _playerInventory.FindToolAndRemove;
+
         }
     }
 
@@ -264,7 +263,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
             _isCrouching = true;
         }
-        else if(_isCrouching&&!_isHeading) //머리에 부딪히지 않았다면
+        else if (_isCrouching && !_isHeading) //머리에 부딪히지 않았다면
         {
             _playerCollider.height += _float_MoveColliderY;
             _playerCollider.center = new Vector3(_playerCollider.center.x, _playerCollider.center.y + _float_MoveColliderY / 2f, _playerCollider.center.z);

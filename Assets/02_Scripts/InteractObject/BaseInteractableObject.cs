@@ -3,10 +3,9 @@ using UnityEngine;
 
 public abstract class BaseInteractableObject : MonoBehaviour, IInteractable
 {
-    private string _objectId;
-    private string _objectName;
-    private string _objectComment;
-    private string _meshPrefabPath;
+    protected string _objectId;
+    protected string _objectName;
+    protected string _objectComment;
 
     private bool _isInitialized = false;
 
