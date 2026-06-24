@@ -24,7 +24,9 @@ public enum PopupTargetType
     Trap,
     EscapePath,
     Door,
-    Tool
+    Tool,
+    StageSelectChair,
+    Washer
 }
 
 public enum ItemType
