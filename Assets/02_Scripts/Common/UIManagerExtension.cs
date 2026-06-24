@@ -19,7 +19,7 @@ public enum UIRootType
 public enum UIType
 {
     None = 0,
-    MainUI,
+    MainHUD,
     LoadingUI,
     CenterPointUI,
     TitleUI,
@@ -27,8 +27,9 @@ public enum UIType
     ConfirmPopup,
     CreditPopup,
     SettingPopup,
-    ObjectInfoPopupUI,
-    StageSelectUI
+    StageSelectUI,
+    SimplePopupUI,
+    ShopInfoPopupUI
 }
 
 /// <summary>
@@ -50,7 +51,7 @@ public static class UIManagerExtension
     public static void ShowStartupUIOnGameStart(this UIManager uiManager)
     {
         uiManager.OpenLoadingUI();
-        uiManager.OpenUI(UIRootType.MainUI, UIType.MainUI);
+        uiManager.OpenUI(UIRootType.MainUI, UIType.MainHUD);
         uiManager.EnterGameplayCursorMode();
     }
 
@@ -60,6 +61,7 @@ public static class UIManagerExtension
     public static void ShowInventorySystemTestUI(this UIManager uiManager)
     {
         uiManager.CloseLoadingUI();
+        uiManager.OpenUI(UIRootType.MainUI, UIType.MainHUD);
         uiManager.EnterGameplayCursorMode();
     }
 
@@ -136,20 +138,40 @@ public static class UIManagerExtension
         return itemInfoPopupUI;
     }
 
-    public static ObjectInfoPopupUI OpenObjectInfoPopupUI(this UIManager uiManager)
+    /// <summary>
+    /// 이름과 상호작용 문구만 표시하는 간단한 Hover 팝업 UI를 엽니다.
+    /// </summary>
+    public static SimplePopupUI OpenSimplePopupUI(this UIManager uiManager)
     {
-        UIBase uiBase = uiManager.OpenPopupUI(UIType.ObjectInfoPopupUI);
+        UIBase uiBase = uiManager.OpenPopupUI(UIType.SimplePopupUI);
         if (uiBase == null)
             return null;
 
-        if (!uiBase.TryGetComponent(out ObjectInfoPopupUI objectInfoPopupUI))
+        if (!uiBase.TryGetComponent(out SimplePopupUI simplePopupUI))
         {
-            Debug.LogWarning("ObjectInfoPopupUI 프리팹에 ObjectInfoPopupUI 컴포넌트가 없습니다.");
+            Debug.LogWarning("SimplePopupUI 프리팹에 SimplePopupUI 컴포넌트가 없습니다.");
             return null;
         }
 
-        objectInfoPopupUI.RestartOpenAnimation();
-        return objectInfoPopupUI;
+        return simplePopupUI;
+    }
+
+    /// <summary>
+    /// 상점용 Hover 팝업 UI를 엽니다.
+    /// </summary>
+    public static ShopInfoPopupUI OpenShopInfoPopupUI(this UIManager uiManager)
+    {
+        UIBase uiBase = uiManager.OpenPopupUI(UIType.ShopInfoPopupUI);
+        if (uiBase == null)
+            return null;
+
+        if (!uiBase.TryGetComponent(out ShopInfoPopupUI shopInfoPopupUI))
+        {
+            Debug.LogWarning("ShopInfoPopupUI 프리팹에 ShopInfoPopupUI 컴포넌트가 없습니다.");
+            return null;
+        }
+
+        return shopInfoPopupUI;
     }
 
     /// <summary>
@@ -158,7 +180,16 @@ public static class UIManagerExtension
     public static void CloseItemInfoPopupUI(this UIManager uiManager)
     {
         uiManager.ClosePopupUI(UIType.ItemInfoPopupUI);
-        uiManager.ClosePopupUI(UIType.ObjectInfoPopupUI);
+    }
+
+    /// <summary>
+    /// 화면 중앙 Hover 대상 정보 팝업을 모두 닫습니다.
+    /// </summary>
+    public static void CloseHoverPopupUI(this UIManager uiManager)
+    {
+        uiManager.ClosePopupUI(UIType.ItemInfoPopupUI);
+        uiManager.ClosePopupUI(UIType.SimplePopupUI);
+        uiManager.ClosePopupUI(UIType.ShopInfoPopupUI);
     }
 
     /// <summary>
