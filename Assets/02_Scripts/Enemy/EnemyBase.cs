@@ -60,9 +60,6 @@ public class EnemyBase : MonoBehaviour
         // 물리 충돌로 밀어내는 현상 방지
         if (Rb != null) Rb.isKinematic = true;
 
-        // NavMesh 제동거리 설정: 플레이어 안으로 파고들어 밀어버리는 버그 방지
-        if (Nav != null) Nav.stoppingDistance = _attackRadius;
-
         // 시작 상태를 Normal로 지정
         StateContext.Initialize(StateContext.NormalState);
     }
@@ -80,6 +77,18 @@ public class EnemyBase : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Nav != null)
+        {
+            if (StateContext.CurrentState == StateContext.ChaseState)
+            {
+                Nav.stoppingDistance = _attackRadius;
+            }
+            else
+            {
+                Nav.stoppingDistance = 0.5f;
+            }
+        }
+
         // 시야각에 들어오면서 공격사거리에 들어온 경우
         if (StateContext.CurrentState == StateContext.ChaseState && DstToTarget <= _attackRadius)
         {
