@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TeamConvention.Interfaces;
@@ -83,11 +83,11 @@ public static class PopupViewDataBuilder
             return;
         }
 
-        InteractableObject objectData = GameManager.DataTable.GetInteractableObjectData(dataId);
-        if (objectData != null)
+        InteractableContainerData containerData = GameManager.DataTable.GetInteractableContainerData(dataId);
+        if (containerData != null)
         {
-            displayData.Title = objectData.ObjName;
-            displayData.Description = objectData.ObjectComment;
+            displayData.Title = containerData.ContainerName;
+            displayData.Description = containerData.ContainerComment;
             return;
         }
 
@@ -124,13 +124,13 @@ public static class PopupViewDataBuilder
 
     private static bool IsLocked(string dataId)
     {
-        InteractableObject objectData = GameManager.DataTable.GetInteractableObjectData(dataId);
-        if (objectData != null)
-            return objectData.IsLock;
+        InteractableContainerData containerData = GameManager.DataTable.GetInteractableContainerData(dataId);
+        if (containerData != null)
+            return containerData.IsContainerDisarm;
 
         Door doorData = GameManager.DataTable.GetDoorData(dataId);
         if (doorData != null)
-            return doorData.IsLock;
+            return doorData.IsDisarm;
 
         return false;
     }
