@@ -8,10 +8,5 @@
     "Id": "Item_Test_HoldItem",
     "Name": "큰 아이템",
     "CurrentHoldType": "Hold"
-  },
-  {
-    "Id": "Item_Jewel_Diamond",
-    "Name": "다이아몬드",
-    "CurrentHoldType": "Hold"
   }
 ]
