@@ -16,10 +16,10 @@ public class InteractableDoor : BaseDisarmableObejct
         _doorMeshPrefabPath = data.DoorMeshPrefabPath;
         _requiredToolIdList = data.DoorRequiresToolIdList;
         _timeReductionAmountList = data.DoorTimeReductionAmountList;
-        SpawnMeshBox();
+        SpawnMeshDoor();
     }
 
-    private async void SpawnMeshBox()
+    private async void SpawnMeshDoor()
     {
         if (_doorMeshPrefabPath == null || _doorMeshPrefabPath == "")
         {
@@ -36,7 +36,7 @@ public class InteractableDoor : BaseDisarmableObejct
         // _animController.InitMeshAnime(obj);
     }
 
-    private void DestroyMeshBox()
+    private void DestroyMeshDoor()
     {
         Destroy(_doorMeshObject);
     }
@@ -51,6 +51,7 @@ public class InteractableDoor : BaseDisarmableObejct
         else
         {
             // TODO(안우재 2026-6-24) : 강제로 열었기에 ChangeStat 전에 차감 시간을 적용해야함
+            //                          시간 차감 로직 성준님께 여쭤보기
             Destroy(this.gameObject);
         }
     }

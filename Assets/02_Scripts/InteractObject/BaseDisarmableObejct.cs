@@ -6,9 +6,9 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
 {
     protected string _disarmObjId;
     protected string _disarmObjName;
-    protected List<string> _requiredToolIdList;
+    protected List<string> _requiredToolIdList = new();
 
-    protected List<float> _timeReductionAmountList;
+    protected List<float> _timeReductionAmountList = new();
 
     protected bool _hasRequiresTool;
     protected bool _isDisarmed = false;
@@ -73,7 +73,6 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
         _isInitialized = true;
     }
 
-
     /// <summary>
     /// 상호작용 가능여부 체크 멤버변수 _isInteractable를 반환
     /// 상호작용이 불가능해지는 경우 _isInteractable를 false로 변환
@@ -85,6 +84,11 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
 
     public void Interact(IInteractor interactor)
     {
+        if (!CanInteract())
+            return;
+        
+        CheckRequireTools(interactor);
+        
         Disarm(interactor);
     }
 
@@ -93,12 +97,11 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
         if (_isDisarmed)
             return false;
 
-        CheckRequireTools();
 
         return true;
     }
 
-    private void CheckRequireTools()
+    private void CheckRequireTools(IInteractor interactor)
     {
         // TODO(안우재 2026-6-23)
         // 플레이어에 Player가 들고 있다면 매개변수로 받아오도록 처리
@@ -107,6 +110,31 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
         // 그거에 따라서 _hasRequiresTool 값 할당
         // 예상안) LeftHandItem, RightHandItem과 _requiredToolIdList를 비교해서 있다면 사용하여
         // 해제하는 것으로 예상중. 오른손, 왼손 둘 다 들고 있는경우 오른손을 먼저 비교 사용
+        if (interactor == null) return;
+        if (_requiredToolIdList.Contains("None")) return;
+
+        if(interactor is PlayerController player)
+        {
+            string leftHandItemDataId = player.LeftHandItem.ItemData.Id;
+            string rightHandItemDataId = player.RightHandItem.ItemData.Id;
+
+            foreach(string dataId in _requiredToolIdList)
+            {
+                // key가 사라지거나 하므로 오른손 왼손 구별하여 if문 작성
+                if(dataId == rightHandItemDataId)
+                {
+                    _hasRequiresTool = true;
+                    // key에 따른 사용로직 추가 필요
+                    return;
+                }
+                else if(dataId == leftHandItemDataId)
+                {
+                    _hasRequiresTool = true;
+                    // key에 따른 사용로직 추가 필요
+                    return;
+                }
+            }
+        }
     }
 
     public void Disarm(IInteractor interactor)
@@ -114,6 +142,7 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
         if (CanDisarm())
         {
             OnDisarm(_hasRequiresTool);
+            return;
         }
 
         PlayInteractionAnimation();

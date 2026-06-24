@@ -34,7 +34,6 @@ public class InteractableContainer : BaseDisarmableObejct
 
     private SpawnObjectType _interactableObjectType;
     private string _meshPrefabPath;
-    private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
     private BoxDropData _rarityRateData = new BoxDropData();
     private List<string> _itemList = new List<string>();
     private List<string> _spawnedRarityList = new List<string>();
@@ -52,6 +51,12 @@ public class InteractableContainer : BaseDisarmableObejct
     protected override void LoadData(string dataId)
     {
         InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(dataId);
+        ApplyData(data);
+    }
+
+    private void ApplyData(InteractableContainerData data)
+    {
+        if (data == null) return;
         _disarmObjId = data.Id;
         _maxSpawnItemCount = data.MaxItemCount;
         InitObjectSpawnType(data.SpawnContainerTypeData);
@@ -68,6 +73,9 @@ public class InteractableContainer : BaseDisarmableObejct
     private void InitStringListData(List<string> requierInitList, List<string> loadDataList)
     {
         if (requierInitList == null || loadDataList == null) return;
+
+        requierInitList.Clear();
+
         foreach (string data in loadDataList)
         {
             requierInitList.Add(data);
@@ -77,6 +85,9 @@ public class InteractableContainer : BaseDisarmableObejct
     private void InitFloatListData(List<float> requierInitList, List<float> loadDataList)
     {
         if (requierInitList == null || loadDataList == null) return;
+
+        requierInitList.Clear();
+
         foreach (float data in loadDataList)
         {
             requierInitList.Add(data);
@@ -99,6 +110,9 @@ public class InteractableContainer : BaseDisarmableObejct
     private void InitRarityRateData(List<int> rateList)
     {
         if(rateList == null) return;
+
+        _rarityRateData.RarityWeights.Clear();
+
         for (int i = 0; i < rateList.Count; i++)
         {
             ItemGrade rarity = (ItemGrade)(i + 1);
@@ -293,6 +307,7 @@ public class InteractableContainer : BaseDisarmableObejct
         else
         {
             // TODO(안우재 2026-6-24) : 강제로 열었기에 ChangeStat 전에 차감 시간을 적용해야함
+            //                          시간 차감 로직 성준님께 여쭤보기
             ChangeStat(data.ForceOpenDataId);
         }
     }
@@ -300,17 +315,7 @@ public class InteractableContainer : BaseDisarmableObejct
     private void ChangeStat(string dataId)
     {
         InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(dataId);
-        _disarmObjId = data.Id;
-        _maxSpawnItemCount = data.MaxItemCount;
-        InitObjectSpawnType(data.SpawnContainerTypeData);
-        _isDisarmed = data.IsContainerDisarm;
-        _meshPrefabPath = data.ContainerMeshPrefabPath;
-        InitStringListData(_itemList, data.ItemIdList);
-        InitRarityRateData(data.RateList);
-        InitFloatListData(_timeReductionAmountList, data.TimeReductionAmountList);
-        InitStringListData(_requiredToolIdList, data.RequiresToolIdList);
-        _isInteractable = true;
-        _hasRequiresTool = false;
+        ApplyData(data);
         DestroyMeshBox();
         SpawnMeshBox();
     }
