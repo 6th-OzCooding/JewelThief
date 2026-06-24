@@ -38,13 +38,11 @@ public class DataTable
         _preLoadAssetDataTable = LoadData<PreLoadAssetData>("PreLoadAsset");
         // PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
         _interactableContainerDataTable = LoadData<InteractableContainerData>("InteractableContainer");
-        _interactableContainerDataTable = LoadData<InteractableContainerData>("Door");
+        _doorDataTable = LoadData<Door>("Door");
         _itemDataTable = LoadData<ItemData>("ItemData");
 
         // TODO (김경훈 - 06.20: 아이템 데이터로 통합 후 삭제)
         _inventoryTypeDataTable = LoadData<InventoryTypeData>("InventoryTypeData");
-
-        _doorDataTable = LoadData<Door>("Door");
         _popupViewDataTable = LoadData<PopupViewData>("PopupViewData");
         _soundDataTable = LoadData<SoundData>("SoundData");
         _stageDataTable = LoadData<StageData>("StageData");
@@ -65,7 +63,7 @@ public class DataTable
         return _poolingObjectDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
-    public InteractableContainerData GetInteractableObjectData(string id)
+    public InteractableContainerData GetInteractableContainerData(string id)
     {
         if (null == _interactableContainerDataTable || string.IsNullOrEmpty(id)) return null;
 

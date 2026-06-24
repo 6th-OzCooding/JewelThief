@@ -51,7 +51,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
     protected override void LoadData(string dataId)
     {
-        InteractableContainerData data = GameManager.DataTable.GetInteractableObjectData(dataId);
+        InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(dataId);
         _disarmObjId = data.Id;
         _maxSpawnItemCount = data.MaxItemCount;
         InitObjectSpawnType(data.SpawnContainerTypeData);
@@ -285,7 +285,7 @@ public class InteractableContainer : BaseDisarmableObejct
     // 잠긴것을 풀때 전용
     protected override void OnDisarm(bool isCollectToolUse)
     {
-        InteractableContainerData data = GameManager.DataTable.GetInteractableObjectData(_disarmObjId);
+        InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(_disarmObjId);
         if (isCollectToolUse)
         {
             ChangeStat(data.CollectOpenDataId);
@@ -299,7 +299,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
     private void ChangeStat(string dataId)
     {
-        InteractableContainerData data = GameManager.DataTable.GetInteractableObjectData(dataId);
+        InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(dataId);
         _disarmObjId = data.Id;
         _maxSpawnItemCount = data.MaxItemCount;
         InitObjectSpawnType(data.SpawnContainerTypeData);

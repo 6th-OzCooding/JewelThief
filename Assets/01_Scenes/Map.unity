@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &234115260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
+  _areaType: 0
 --- !u!65 &234115261
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -711,7 +712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1491155432
 AudioListener:
   m_ObjectHideFlags: 0
@@ -848,7 +849,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1514992925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -961,6 +962,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3ab0dd56b4e1774ca13b75de047635d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  _gold: 0
+  _selectedStageId: 
 --- !u!4 &2044133021
 Transform:
   m_ObjectHideFlags: 0
