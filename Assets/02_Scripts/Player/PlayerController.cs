@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     [SerializeField] private float _sprintScale = 2f; //스프린트 속도 배율
     [SerializeField] private float _crouchScale = 0.3f; //앉을 때 속도 배율
     [SerializeField] private float _overweightScale = 0.5f; //무게 초과했을 때 속도 배율 
-    [SerializeField] private float _overweightMoveSpeed = 1f;
+    [SerializeField] private float _minMoveSpeed = 1f; //최소한의 속도
     [SerializeField] private Rigidbody _rigidbody_Player;
     [SerializeField] private CapsuleCollider _playerCollider;
     private Vector3 _moveDirection; // 플레이어 이동하는 방향
@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
             if (_isOverweight)
             {
-                Debug.Log($"무게 초과 상태. 이동속도를 {_overweightMoveSpeed:0.##}. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
+                Debug.Log($"무게 초과 상태. 이동속도를 {_moveSpeed * _overweightScale:0.##}. 현재 보유 아이템 무게: {currentWeight:0.##}/{maxWeight:0.##}");
             }
 
             else
@@ -375,6 +375,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     public void TakePlayerMoveSpeedDamage(float damage)
     {
         _moveSpeed -= damage;
+        _moveSpeed = Mathf.Max(_moveSpeed, _minMoveSpeed);
         Debug.Log($"플레이어 속도: {_moveSpeed}");
     }
 

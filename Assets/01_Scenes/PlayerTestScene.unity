@@ -177,18 +177,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2715140737836513056, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2715140737836513056, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.317
-      objectReference: {fileID: 0}
-    - target: {fileID: 2715140737836513056, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2715140737836513056, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7345368
       objectReference: {fileID: 0}
@@ -203,10 +191,6 @@ PrefabInstance:
     - target: {fileID: 2715140737836513056, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.11472265
-      objectReference: {fileID: 0}
-    - target: {fileID: 3045159327829300784, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
-      propertyPath: _spintSpUsePerSecond
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6604843207609298866, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
       propertyPath: m_Name
@@ -251,10 +235,6 @@ PrefabInstance:
     - target: {fileID: 7798460377754654876, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8692974156563246813, guid: 112e8d9504911bc489e9aa50f674c139, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 230455
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

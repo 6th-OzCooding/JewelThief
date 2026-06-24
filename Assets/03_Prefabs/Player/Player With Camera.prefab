@@ -707,11 +707,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab8406a27da89f458cbe8ca59e0b33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _moveSpeed: 5.2
+  _moveSpeed: 5
   _sprintScale: 2
   _crouchScale: 0.3
   _overweightScale: 0.5
-  _overweightMoveSpeed: 1
+  _minMoveSpeed: 1
   _rigidbody_Player: {fileID: 8220170413300471297}
   _playerCollider: {fileID: 1753230588722356098}
   _jumpForce: 5
@@ -721,7 +721,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _headCheck: {fileID: 2864941268612226769}
-  _headCheckRadius: 0.4
+  _headCheckRadius: 0.3
   _headLayer:
     serializedVersion: 2
     m_Bits: 65536
