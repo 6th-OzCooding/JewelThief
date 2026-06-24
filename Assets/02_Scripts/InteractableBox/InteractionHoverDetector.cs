@@ -1,10 +1,6 @@
-﻿using TeamConvention.Interfaces;
-using Unity.VisualScripting;
+using TeamConvention.Interfaces;
 using UnityEngine;
 
-/// <summary>
-/// 카메라 화면 중앙에서 Raycast를 수행해 Hover 정보 대상 감지와 팝업 열기/닫기를 처리합니다.
-/// </summary>
 public class InteractionHoverDetector : MonoBehaviour
 {
     [Header("Raycast Settings")]
@@ -13,48 +9,45 @@ public class InteractionHoverDetector : MonoBehaviour
     [SerializeField] private LayerMask _targetLayerMask = ~0;
     [SerializeField] private QueryTriggerInteraction _triggerInteraction = QueryTriggerInteraction.Ignore;
 
+    [Header("Player Context")]
+    [SerializeField] private PlayerController _playerController;
+
     private IInteractable _currentTarget;
+    private PopupType _currentPopupType = PopupType.None;
 
     private void Awake()
     {
         if (_targetCamera == null)
             _targetCamera = Camera.main;
+
+        if (_playerController == null)
+            _playerController = GetComponentInParent<PlayerController>();
     }
 
     private void Update()
     {
         IInteractable detectedTarget = DetectInteractableTarget();
-        if (detectedTarget == _currentTarget)
-            return;
-
-        _currentTarget = detectedTarget;
-
-        if (_currentTarget == null)
+        if (detectedTarget == null)
         {
-            CloseItemInfoPopupUI();
+            ClearCurrentPopup();
             return;
         }
 
+        PopupInfoTarget popupInfoTarget = FindPopupInfoTarget(detectedTarget);
+        if (!PopupViewDataBuilder.TryBuild(detectedTarget, popupInfoTarget, _playerController, out PopupDisplayData displayData))
+        {
+            ClearCurrentPopup();
+            return;
+        }
 
-        // OpenItemInfoPopupUI();
+        bool shouldRestartAnimation = detectedTarget != _currentTarget || displayData.PopupType != _currentPopupType;
+        if (displayData.PopupType != _currentPopupType)
+            GameManager.UI.CloseHoverPopupUI();
 
-        // _currentTarget(IInteractable이 아이템인지 Object인지 함정인지 등을 판단하는 메서드 필요
-        SoltingInfoPopUpUIAndOpenPopUp(_currentTarget);
-    }
+        OpenPopup(displayData, shouldRestartAnimation);
 
-    private HoverInfoTarget DetectHoverTarget()
-    {
-        if (_targetCamera == null)
-            return null;
-
-        Ray ray = _targetCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        if (!Physics.Raycast(ray, out RaycastHit hit, _detectDistance, _targetLayerMask, _triggerInteraction))
-            return null;
-
-        if (hit.collider.TryGetComponent(out HoverInfoTarget target))
-            return target;
-
-        return hit.collider.GetComponentInParent<HoverInfoTarget>();
+        _currentTarget = detectedTarget;
+        _currentPopupType = displayData.PopupType;
     }
 
     private IInteractable DetectInteractableTarget()
@@ -72,54 +65,93 @@ public class InteractionHoverDetector : MonoBehaviour
         return hit.collider.GetComponentInParent<IInteractable>();
     }
 
-    private void OpenItemInfoPopupUI()
+    private PopupInfoTarget FindPopupInfoTarget(IInteractable interactable)
     {
-        if (GameManager.UI == null)
-            return;
+        if (interactable is not Component component)
+            return null;
 
-        GameManager.UI.OpenItemInfoPopupUI();
+        if (component.TryGetComponent(out PopupInfoTarget popupInfoTarget))
+            return popupInfoTarget;
+
+        return component.GetComponentInParent<PopupInfoTarget>();
     }
 
-    private void CloseItemInfoPopupUI()
+    private void OpenPopup(PopupDisplayData displayData, bool shouldRestartAnimation)
     {
-        if (GameManager.UI == null)
+        if (GameManager.UI == null || displayData == null)
             return;
 
-        GameManager.UI.CloseItemInfoPopupUI();
-    }
-
-    private void SoltingInfoPopUpUIAndOpenPopUp(IInteractable interactObj)
-    {
-        if (GameManager.UI == null || interactObj == null)
-            return;
-
-        string dataId = interactObj.Name;
-
-        if(dataId.Contains("Object"))
+        switch (displayData.PopupType)
         {
-            OpenInfoPopUpUI(UIType.ObjectInfoPopupUI, dataId);
-        }
-    }
+            case PopupType.Simple:
+                OpenSimplePopup(displayData, shouldRestartAnimation);
+                break;
 
-    private void OpenInfoPopUpUI(UIType uiType, string dataId)
-    {
-        switch(uiType)
-        {
-            case UIType.ObjectInfoPopupUI:
-                UIBase uiObj = GameManager.UI.OpenObjectInfoPopupUI();
-                if (uiObj == null)
-                {
-                    return;
-                }
-                
-                if(uiObj.TryGetComponent<ObjectInfoPopupUI>(out ObjectInfoPopupUI infoPopUpUI))
-                {
-                    infoPopUpUI.SetObjectNameText
-                        (GameManager.DataTable.GetInteractableObjectData(dataId).ObjName);
-                    infoPopUpUI.SetObjectCommentText
-                        (GameManager.DataTable.GetInteractableObjectData(dataId).ObjectComment);
-                }
+            case PopupType.ItemInfo:
+                OpenItemInfoPopup(displayData, shouldRestartAnimation);
+                break;
+
+            case PopupType.ShopInfo:
+                OpenShopInfoPopup(displayData, shouldRestartAnimation);
+                break;
+
+            default:
+                ClearCurrentPopup();
                 break;
         }
+    }
+
+    private void OpenSimplePopup(PopupDisplayData displayData, bool shouldRestartAnimation)
+    {
+        UIBase uiBase = GameManager.UI.OpenPopupUI(UIType.SimplePopupUI);
+        if (uiBase == null)
+            return;
+
+        if (!uiBase.TryGetComponent(out SimplePopupUI simplePopupUI))
+            return;
+
+        simplePopupUI.SetInfo(displayData);
+        if (shouldRestartAnimation)
+            simplePopupUI.RestartOpenAnimation();
+    }
+
+    private void OpenItemInfoPopup(PopupDisplayData displayData, bool shouldRestartAnimation)
+    {
+        UIBase uiBase = GameManager.UI.OpenPopupUI(UIType.ItemInfoPopupUI);
+        if (uiBase == null)
+            return;
+
+        if (!uiBase.TryGetComponent(out ItemInfoPopupUI itemInfoPopupUI))
+            return;
+
+        itemInfoPopupUI.SetInfo(displayData);
+        if (shouldRestartAnimation)
+            itemInfoPopupUI.RestartOpenAnimation();
+    }
+
+    private void OpenShopInfoPopup(PopupDisplayData displayData, bool shouldRestartAnimation)
+    {
+        UIBase uiBase = GameManager.UI.OpenPopupUI(UIType.ShopInfoPopupUI);
+        if (uiBase == null)
+            return;
+
+        if (!uiBase.TryGetComponent(out ShopInfoPopupUI shopInfoPopupUI))
+            return;
+
+        shopInfoPopupUI.SetInfo(displayData);
+        if (shouldRestartAnimation)
+            shopInfoPopupUI.RestartOpenAnimation();
+    }
+
+    private void ClearCurrentPopup()
+    {
+        if (_currentTarget == null && _currentPopupType == PopupType.None)
+            return;
+
+        if (GameManager.UI != null)
+            GameManager.UI.CloseHoverPopupUI();
+
+        _currentTarget = null;
+        _currentPopupType = PopupType.None;
     }
 }

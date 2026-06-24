@@ -31,7 +31,7 @@ public class SoundManager
             return;
         }
 
-        Utils.LoadAndPlayAudioClip(SFXSourcePlayer, data.Name, data.IsLoop, data.Volume).Forget();
+        Utils.LoadAndPlayAudioClip(SFXSourcePlayer, data.Name, data.IsLoop, data.Volume);
     }
 
     public void PlayBGM(string soundDataId)
@@ -43,7 +43,7 @@ public class SoundManager
             return;
         }
 
-        Utils.LoadAndPlayAudioClip(BGMSourcePlayer, data.Name, data.IsLoop, data.Volume).Forget();
+        Utils.LoadAndPlayAudioClip(BGMSourcePlayer, data.Name, data.IsLoop, data.Volume);
     }
 
     public void StopBGM()

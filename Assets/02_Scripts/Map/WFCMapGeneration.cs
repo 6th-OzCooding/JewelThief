@@ -22,6 +22,7 @@ public class WFCMapGeneration
 
     // cache
     private List<MapGrid> _grids;
+    private List<MapTile> _generatedTiles;
 
     // Buffer를 만들어 재활용
     private readonly List<MapGrid> _lowEntropyGrids = new();
@@ -31,6 +32,7 @@ public class WFCMapGeneration
     public async UniTask StartGenerateMap(Action<float> onProgress = null)
     {
         _tileObjects = new();
+        _generatedTiles = new();
         _grids = new();
         _mapSize = _mapSizeSetting + 2;
         _generationCount = 0;
@@ -150,10 +152,11 @@ public class WFCMapGeneration
         MapTile selectedTile = currentGrid.TileOptions[UnityEngine.Random.Range(0, currentGrid.TileOptions.Length)];
         currentGrid.TileOptions = new MapTile[] { selectedTile };
 
-        GameObject.Instantiate(selectedTile
+        var newTile = GameObject.Instantiate(selectedTile
                     , currentGrid.transform.position + selectedTile.transform.position
                     , selectedTile.transform.rotation);
 
+        _generatedTiles.Add(newTile);
         UpdateGeneration(currentGrid, selectedTile);
     }
 
@@ -246,7 +249,8 @@ public class WFCMapGeneration
         }
 
         newGrid.CreateMapGrid(true, new List<MapTile> { _boundaryTile }, -1);
-        GameObject.Instantiate(_boundaryTile, newGrid.transform.position + dir * _gridSpacing / 2, rotation);
+        var newBoundaryTile = GameObject.Instantiate(_boundaryTile, newGrid.transform.position + dir * _gridSpacing / 2, rotation);
+        _generatedTiles.Add(newBoundaryTile);
     }
 
     private async UniTask LoadAssets()
@@ -296,10 +300,13 @@ public class WFCMapGeneration
             MapTile tile = presetTile.tilePrefab;
 
             currentGrid.SetTileOptions(new MapTile[] { tile });
-            GameObject.Instantiate(tile,
+
+            var newTile = GameObject.Instantiate(tile,
             currentGrid.transform.position + tile.transform.position,
             tile.transform.rotation
             );
+
+            _generatedTiles.Add(newTile);
 
             UpdateGeneration(currentGrid, tile);
         }
@@ -307,10 +314,30 @@ public class WFCMapGeneration
 
     public void Release()
     {
-        _grids.Clear();
+        DestroyGrid();
+        DestroyTile();
+
         _tileObjects.Clear();
         _lowEntropyGrids.Clear();
 
         _generationCount = 0;
+    }
+
+    private void DestroyGrid()
+    {
+        foreach(var grid in _grids)
+        {
+            GameObject.Destroy(grid.gameObject);
+        }
+        _grids.Clear();
+    }
+
+    private void DestroyTile()
+    {
+        foreach(var tile in _generatedTiles)
+        {
+            GameObject.Destroy(tile.gameObject);
+        }
+        _generatedTiles.Clear();
     }
 }

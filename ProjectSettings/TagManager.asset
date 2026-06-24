@@ -16,14 +16,14 @@ TagManager:
   - PlayerHand
   - Gem
   - 
+  - ground
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Floor
+  - Wall
+  - Ceiling
   - 
   - 
   - 
