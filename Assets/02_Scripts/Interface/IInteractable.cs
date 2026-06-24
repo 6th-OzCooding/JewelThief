@@ -23,7 +23,7 @@ namespace TeamConvention.Interfaces
         InventoryItem LeftHandItem { get; }
         InventoryItem RightHandItem { get; }
 
-        bool TryAcquireItem(ItemData itemData, HoldType holdType, out InventoryItem acquiredItem, out string resultMessage);
+        bool TryAcquireItem(ItemData itemData, HoldType holdType);
         InventoryItem RemoveBagItem(InventoryItem inventoryItem);
         InventoryItem ClearHandItem(PlayerHandType handType);
     }
