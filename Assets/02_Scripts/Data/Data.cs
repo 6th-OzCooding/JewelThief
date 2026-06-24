@@ -27,6 +27,22 @@ public enum PopupTargetType
     Tool
 }
 
+public enum ItemType
+{
+    None = 0,
+    Potion,
+    Tool,
+    Jewel
+}
+public enum ItemGrade
+{
+    None = 0,
+    Rare,
+    Epic,
+    Unique,
+    Legendary
+}
+
 [Serializable]
 public class BaseData
 {
@@ -43,6 +59,7 @@ public class PoolingObjectData : BaseData
 public class PreLoadAssetData : BaseData
 {
     public string Address;
+    public string AssetType;
 }
 
 [Serializable]
@@ -50,14 +67,14 @@ public class ItemData : BaseData
 {
     public string Name;
     public string Description;
-    public ItemType CurrentItemType;
-    public ItemGrade CurrentItemGrade;
+    public ItemType ItemType;
+    public ItemGrade ItemGrade;
     public float Weight;
     public int Price;
     public string IconPath;
-    public string PrefabPath;
     public string MeshPath;
     public List<string> MaterialPaths = new List<string>();
+    public int ChargeCount;
 }
 
 [Serializable]
@@ -75,13 +92,7 @@ public class ToolData : ItemData
 {
     public int Durability;
 }
-[Serializable]
-public class PotionData : ItemData
-{
-    public BuffType CurrentBuffType;
-    public float Value;
-    public float Duration;
-}
+
 [Serializable]
 public class JewelData : ItemData
 {
@@ -89,14 +100,20 @@ public class JewelData : ItemData
 }
 
 [Serializable]
-public class InteractableObject : BaseData
+public class InteractableContainerData : BaseData
 {
-    public string ObjName;
-    public string ObjectComment;
-    public bool IsLock;
+    public string ContainerName;
+    public string SpawnContainerTypeData;
+    public string ContainerComment;
+    public bool IsContainerDisarm;
+    public List<string> RequiresToolIdList;
+    public string CollectOpenDataId;
+    public string ForceOpenDataId;
+    public List<float> TimeReductionAmountList;
     public List<string> ItemIdList;
     public List<int> RateList;
-    public string ObjMeshPrefabPath;
+    public int MaxItemCount;
+    public string ContainerMeshPrefabPath;
 }
 
 [Serializable]
@@ -104,9 +121,9 @@ public class Door : BaseData
 {
     public string DoorName;
     public string DoorComment;
-    public bool IsLock;
-    public List<string> ItemIdList;
-    public List<int> RateList;
+    public List<string> DoorRequiresToolIdList;
+    public List<float> DoorTimeReductionAmountList;
+    public bool IsDisarm;
     public string DoorMeshPrefabPath;
 }
 
