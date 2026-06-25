@@ -30,7 +30,8 @@ public enum UIType
     StageSelectUI,
     SimplePopupUI,
     ShopInfoPopupUI,
-    ScorePopupUI
+    ScorePopupUI,
+    JewelInventoryUI
 }
 
 /// <summary>

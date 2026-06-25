@@ -36,7 +36,7 @@ public class BagOverloadDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<ItemBase>() != null)
+        if (other.GetComponent<Jewel>() != null)
         {
             if (!_activeTrackings.ContainsKey(other))
             {
@@ -89,12 +89,12 @@ public class BagOverloadDetector : MonoBehaviour
             UpdateLineColor();
         }
 
-        if (JewelPuzzleUIManager.Instance != null)
+        if (JewelInventoryManager.Instance != null)
         {
-            ItemBase gem = gemCollider.GetComponent<ItemBase>();
+            Jewel gem = gemCollider.GetComponent<Jewel>();
             if (gem != null)
             {
-                JewelPuzzleUIManager.Instance.RemoveJewelFromBag(gem);
+                JewelInventoryManager.Instance.RemoveJewelFromBag(gem);
                 Debug.Log($"<color=orange>{gemCollider.name}</color>이(가) 가방 용량을 초과하여 임시 보관함으로 반환되었습니다.");
             }
         }

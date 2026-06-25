@@ -37,6 +37,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private GameObject _lobbyPrefab;
     private GameObject _lobbyInstance;
     private LobbyController _lobbyController;
+    private GameObject _jewelPuzzleInstance;
 
     private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
 
@@ -153,15 +154,30 @@ public class GameManager : SingletonBehaviour<GameManager>
                 Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
                 return null;
             }
+
+            _lobbyInstance = Instantiate(_lobbyPrefab);
+            _lobbyInstance.SetActive(true);
+
+            GameObject puzzlePrefab = _resourceManager.GetLoadedAsset<GameObject>("JewelInventory");
+            if (puzzlePrefab == null)
+            {
+                Debug.LogError("JewelInventory 프리팹을 로드하지 못했습니다.");
+            }
             else
             {
-                _lobbyInstance = Instantiate(_lobbyPrefab);
-                _lobbyInstance.SetActive(true);
+                Vector3 spawnPosition = new Vector3(10000f, 10000f, 10000f);
+                _jewelPuzzleInstance = Instantiate(puzzlePrefab, spawnPosition, Quaternion.identity);
 
-                if (_lobbyInstance.TryGetComponent(out _lobbyController))
-                    return _lobbyController.Enter();
-                else
-                    Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+                _jewelPuzzleInstance.SetActive(true);
+            }
+
+            if (_lobbyInstance.TryGetComponent(out _lobbyController))
+            {
+                return _lobbyController.Enter();
+            }
+            else
+            {
+                Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
             }
         }
         else
@@ -228,5 +244,17 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
 
         _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
+    }
+
+    // 보석 인벤토리 열림
+    public void PauseGameForPuzzle()
+    {
+        _isPlaying = false;
+    }
+
+    // 보석 이벤토리 닫힘
+    public void ResumeGameFromPuzzle()
+    {
+        _isPlaying = true;
     }
 }

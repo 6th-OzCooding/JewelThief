@@ -34,7 +34,11 @@ public class JewelPhysicsApplier : MonoBehaviour
     private void SetupPhysics()
     {
         _rb = gameObject.AddComponent<Rigidbody>();
+        if (_rb == null) _rb = gameObject.AddComponent<Rigidbody>();
+
         _mc = gameObject.AddComponent<MeshCollider>();
+        if (_mc == null) _mc = gameObject.AddComponent<MeshCollider>();
+
         _mc.convex = true;
 
         // 실제 모양 콜라이더 자동 연결

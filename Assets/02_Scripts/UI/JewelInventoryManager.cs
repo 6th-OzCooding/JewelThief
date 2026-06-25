@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class JewelPuzzleUIManager : MonoBehaviour
+public class JewelInventoryManager : MonoBehaviour
 {
-    public static JewelPuzzleUIManager Instance { get; private set; }
+    public static JewelInventoryManager Instance { get; private set; }
 
     [Header("시각적 관리")]
     [SerializeField] private GameObject _puzzleVisualRoot; // 시각적 대상
@@ -26,21 +26,26 @@ public class JewelPuzzleUIManager : MonoBehaviour
     [SerializeField] private Camera _puzzleCamera; // 카메라
 
     private PlayerInventory _playerInventory;
+    private PlayerInputHandler _playerInput;
 
     // 주울때 Queue 저장
-    private Queue<ItemBase> _tempQueue = new Queue<ItemBase>();
+    private Queue<Jewel> _tempQueue = new Queue<Jewel>();
     // 가방 리스트
-    private List<ItemBase> _jewelsInBag = new List<ItemBase>();
+    private List<Jewel> _jewelsInBag = new List<Jewel>();
     // 임시 보관함 리스트
-    private List<ItemBase> _pickupAreaGems = new List<ItemBase>();
+    private List<Jewel> _pickupAreaGems = new List<Jewel>();
 
     private bool _isAutoDropping = false; // 낙하 상태 확인
+
+    private int _stageStartBagPrice = 0;
+    private int _stageStartJewelCount = 0;
 
     public bool IsPuzzleActive
     {
         get
         {
-            return _puzzleVisualRoot != null && _puzzleVisualRoot.activeSelf;
+            if (_puzzleVisualRoot != null) return _puzzleVisualRoot.activeSelf;
+            return false;
         }
     }
 
@@ -56,11 +61,12 @@ public class JewelPuzzleUIManager : MonoBehaviour
         }
 
         _playerInventory = FindAnyObjectByType<PlayerInventory>();
-
+        _playerInput = FindAnyObjectByType<PlayerInputHandler>();
+        /*
         if (_playerInventory == null)
         {
             Debug.LogError("씬에서 PlayerInventory를 찾을 수 없습니다! 플레이어가 씬에 있는지 확인하세요.");
-        }
+        }*/
 
         if (_puzzleVisualRoot != null)
         {
@@ -78,6 +84,21 @@ public class JewelPuzzleUIManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (_playerInput != null)
+        {
+            _playerInput.OnJewelryInventoryToggleEvent += TogglePuzzleInventory;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_playerInput != null)
+        {
+            _playerInput.OnJewelryInventoryToggleEvent -= TogglePuzzleInventory;
+        }
+    }
 
     private void Update()
     {
@@ -92,6 +113,26 @@ public class JewelPuzzleUIManager : MonoBehaviour
         if (IsPuzzleActive) ClosePuzzleInventory();
         else OpenPuzzleInventory();
     }
+
+    public void InitStageStartPrice()
+    {
+        _stageStartBagPrice = GetTotalBagPrice();
+        _stageStartJewelCount = _jewelsInBag.Count;
+    }
+
+    public int GetCurrentStageScore()
+    {
+        int currentTotal = GetTotalBagPrice();
+        int earnedScore = currentTotal - _stageStartBagPrice;
+
+        if (earnedScore < 0)
+        {
+            earnedScore = 0;
+        }
+
+        return earnedScore;
+    }
+
 
     // 줍기 제한
     public bool CanPickupJewel(ItemData itemData)
@@ -115,7 +156,7 @@ public class JewelPuzzleUIManager : MonoBehaviour
     }
 
     // Queue 형태 저장
-    public void AddJewelToTempQueue(ItemBase gem)
+    public void AddJewelToTempQueue(Jewel gem)
     {
         if (gem == null) return;
 
@@ -129,7 +170,25 @@ public class JewelPuzzleUIManager : MonoBehaviour
         if (_puzzleVisualRoot != null) _puzzleVisualRoot.SetActive(true);
         if (_puzzleCamera != null) _puzzleCamera.gameObject.SetActive(true);
 
-        GameManager.Instance.PauseGameForPuzzle();
+        if (GameManager.UI != null)
+        {
+            GameManager.UI.OpenUI(UIRootType.ContentUI, UIType.JewelInventoryUI);
+        }
+
+        if (GameManager.UI != null)
+        {
+            GameManager.UI.CloseUI(UIType.MainHUD);
+        }
+
+        if (_playerInput != null)
+        {
+            _playerInput.SetMode(PlayerInputMode.UIOnly);
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.PauseGameForPuzzle();
+        }
 
         if (_tempQueue.Count > 0)
         {
@@ -144,7 +203,7 @@ public class JewelPuzzleUIManager : MonoBehaviour
 
         while (_tempQueue.Count > 0)
         {
-            ItemBase gem = _tempQueue.Dequeue();
+            Jewel gem = _tempQueue.Dequeue();
             gem.gameObject.SetActive(true);
 
             DropGemAutomatically(gem);
@@ -162,6 +221,16 @@ public class JewelPuzzleUIManager : MonoBehaviour
         {
             Debug.LogWarning("보석들이 낙하 중입니다! 잠시만 기다려주세요.");
             return;
+        }
+
+        if (GameManager.UI != null)
+        {
+            GameManager.UI.CloseUI(UIType.JewelInventoryUI);
+        }
+
+        if (GameManager.UI != null)
+        {
+            GameManager.UI.OpenUI(UIRootType.MainUI, UIType.MainHUD);
         }
 
         if (_playerInventory == null) return;
@@ -191,7 +260,15 @@ public class JewelPuzzleUIManager : MonoBehaviour
         if (_puzzleVisualRoot != null) _puzzleVisualRoot.SetActive(false);
         if (_puzzleCamera != null) _puzzleCamera.gameObject.SetActive(false);
 
-        GameManager.Instance.ResumeGameFromPuzzle();
+        if (_playerInput != null)
+        {
+            _playerInput.SetMode(PlayerInputMode.Gameplay);
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResumeGameFromPuzzle();
+        }
     }
 
     // 마우스 클릭
@@ -203,14 +280,14 @@ public class JewelPuzzleUIManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gemLayerMask))
             {
-                ItemBase gem = hit.collider.GetComponent<ItemBase>();
+                Jewel gem = hit.collider.GetComponent<Jewel>();
                 if (gem != null) ToggleJewelLocation(gem);
             }
         }
     }
 
     // 가방 <-> 임시 보관 스위칭
-    private void ToggleJewelLocation(ItemBase gem)
+    private void ToggleJewelLocation(Jewel gem)
     {
         if (_jewelsInBag.Contains(gem))
         {
@@ -224,7 +301,7 @@ public class JewelPuzzleUIManager : MonoBehaviour
     }
 
     // 실제 보석 랜덤 낙하
-    private void DropGemAutomatically(ItemBase gem)
+    private void DropGemAutomatically(Jewel gem)
     {
         var physics = gem.GetComponent<JewelPhysicsApplier>();
         if (physics == null) physics = gem.gameObject.AddComponent<JewelPhysicsApplier>();
@@ -239,7 +316,7 @@ public class JewelPuzzleUIManager : MonoBehaviour
     }
 
     // 가방 -> 임시 보관함
-    private void MoveToPickupSpace(ItemBase gem)
+    private void MoveToPickupSpace(Jewel gem)
     {
         _jewelsInBag.Remove(gem);
 
@@ -265,7 +342,7 @@ public class JewelPuzzleUIManager : MonoBehaviour
 
 
     // 선 넘은 보석 -> 임시로 이동
-    public void RemoveJewelFromBag(ItemBase gem)
+    public void RemoveJewelFromBag(Jewel gem)
     {
         MoveToPickupSpace(gem);
     }
@@ -307,13 +384,14 @@ public class JewelPuzzleUIManager : MonoBehaviour
     // 가방안 가장 비싼 보석 이름 찾기
     public string GetMostExpensiveJewelName()
     {
-        if (_jewelsInBag.Count == 0) return "없음";
+        if (_jewelsInBag.Count <= _stageStartJewelCount) return "없음";
 
-        ItemBase bestGem = null;
+        Jewel bestGem = null;
         int maxPrice = -1;
 
-        foreach (var gem in _jewelsInBag)
+        for (int i = _stageStartJewelCount; i < _jewelsInBag.Count; i++)
         {
+            Jewel gem = _jewelsInBag[i];
             if (gem.Price > maxPrice)
             {
                 maxPrice = gem.Price;
@@ -323,11 +401,7 @@ public class JewelPuzzleUIManager : MonoBehaviour
 
         if (bestGem == null) return "없음";
 
-        var data = GameManager.DataTable.GetItemData(bestGem.Id);
-        if (data != null)
-        {
-            return data.Name;
-        }
+        if (bestGem.Data != null) return bestGem.Data.Name;
 
         return "알 수 없음";
     }
@@ -352,8 +426,19 @@ public class JewelPuzzleUIManager : MonoBehaviour
         }
     }
 
-    // 경찰에게 잡혀 강제 패배시 
-    // 후추 or 후수
+    public int GetStageScoreAndFinalize()
+    {
+        _tempQueue.Clear();
+        _pickupAreaGems.Clear();
+
+        int stageScore = GetCurrentStageScore();
+
+        Debug.Log("스테이지 정산 완료! 이번 판 점수: " + stageScore);
+
+        return stageScore;
+    }
+
+    // 경찰에게 잡혀 보석 몰수
     public void ClearAllJewelsOnCaught()
     {
         _tempQueue.Clear();
@@ -372,4 +457,30 @@ public class JewelPuzzleUIManager : MonoBehaviour
 
         Debug.Log("경찰에게 잡혔습니다! 모든 보석이 몰수되었습니다.");
     }
+
+    /*  // 경찰에게 잡혔을때 이번 판에서 얻은 보석만 압수되는 경우
+    public void ClearAllJewelsOnCaught()
+    {
+        _tempQueue.Clear();
+
+        foreach (var gem in _pickupAreaGems)
+        {
+            if (gem != null) Destroy(gem.gameObject);
+        }
+        _pickupAreaGems.Clear();
+
+        for (int i = _stageStartJewelCount; i < _jewelsInBag.Count; i++)
+        {
+            Jewel gem = _jewelsInBag[i];
+            if (gem != null) Destroy(gem.gameObject);
+        }
+
+        int newGemCount = _jewelsInBag.Count - _stageStartJewelCount;
+        if (newGemCount > 0)
+        {
+            _jewelsInBag.RemoveRange(_stageStartJewelCount, newGemCount);
+        }
+
+        Debug.Log("경찰에게 잡혔습니다! 이번 스테이지에서 얻은 보석만 몰수되었습니다.");
+    }  */
 }

@@ -102,9 +102,9 @@ public class PlayerInventory : MonoBehaviour
         float normalItemWeight = GetCurrentBagWeight() + GetItemWeight(LeftHandItem) + GetItemWeight(RightHandItem);
 
         float jewelWeight = 0f;
-        if (JewelPuzzleUIManager.Instance != null)
+        if (JewelInventoryManager.Instance != null)
         {
-            jewelWeight = JewelPuzzleUIManager.Instance.GetTotalJewelWeight();
+            jewelWeight = JewelInventoryManager.Instance.GetTotalJewelWeight();
         }
 
         return normalItemWeight + jewelWeight;
