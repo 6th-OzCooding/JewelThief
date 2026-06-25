@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4380829559424611187}
   - component: {fileID: 7294526665215651437}
   - component: {fileID: 9135755630489067158}
+  - component: {fileID: 3702101025387404248}
   m_Layer: 16
   m_Name: WallFloor1_09 (1)
   m_TagString: Untagged
@@ -113,6 +114,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a30534bd8738fbf40927daee6e6d70b3, type: 3}
+--- !u!208 &3702101025387404248
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37973386046683517}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &205784608042261554
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 368772258751697849}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Floor Area Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +174,7 @@ GameObject:
   - component: {fileID: 2158482526913631344}
   - component: {fileID: 5702364272051166242}
   - component: {fileID: 8211234998541516899}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,6 +242,7 @@ GameObject:
   - component: {fileID: 4200213855434813474}
   - component: {fileID: 5284679704146489283}
   - component: {fileID: 7980084452325725650}
+  - component: {fileID: 3213551451090238752}
   m_Layer: 16
   m_Name: WallFloor1_09 (4)
   m_TagString: Untagged
@@ -326,6 +344,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a30534bd8738fbf40927daee6e6d70b3, type: 3}
+--- !u!208 &3213551451090238752
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683725274726067079}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &934374674893342394
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +372,7 @@ GameObject:
   - component: {fileID: 6031282146449109426}
   - component: {fileID: 6124208608353248615}
   - component: {fileID: 8064293874083315811}
+  - component: {fileID: 8246493821961696893}
   m_Layer: 16
   m_Name: WallFloor1_09 (2)
   m_TagString: Untagged
@@ -439,6 +474,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a30534bd8738fbf40927daee6e6d70b3, type: 3}
+--- !u!208 &8246493821961696893
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934374674893342394}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1503472073166878776
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,7 +867,7 @@ GameObject:
   - component: {fileID: 849524423503960993}
   - component: {fileID: 2499365367515781513}
   - component: {fileID: 7336247265985457359}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Area (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1820,6 +1871,7 @@ GameObject:
   - component: {fileID: 8438844170224665884}
   - component: {fileID: 5640768776919669966}
   - component: {fileID: 1947408232353449441}
+  - component: {fileID: 2209072801465098058}
   m_Layer: 16
   m_Name: WallFloor1_09 (3)
   m_TagString: Untagged
@@ -1921,6 +1973,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a30534bd8738fbf40927daee6e6d70b3, type: 3}
+--- !u!208 &2209072801465098058
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7613056748976648521}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7774695560219292584
 GameObject:
   m_ObjectHideFlags: 0

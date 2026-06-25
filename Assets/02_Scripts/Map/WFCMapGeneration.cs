@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class WFCMapGeneration
@@ -31,15 +32,17 @@ public class WFCMapGeneration
     // 그거 여기 네이밍 뭐 하지?
     private MapObjectSpawner _mapObjectSpawner = new();
     private Transform _mapRoot;
+    private RunTimeBakeNavMesh _runTimeBakeNavMesh = new();
 
-
-    public async UniTask StartGenerateMap(Transform mapRoot, Action<float> onProgress = null)
+    public async UniTask StartGenerateMap(NavMeshSurface navMeshSurface, Transform mapRoot, Action<float> onProgress = null)
     {
+        _mapRoot = mapRoot;
+        _runTimeBakeNavMesh.Init(navMeshSurface);
+
         _tileObjects = new();
         _generatedTiles = new();
         _grids = new();
         _mapSize = _mapSizeSetting + 2;
-        _mapRoot = mapRoot;
         _generationCount = 0;
 
         onProgress?.Invoke(0.0f);
@@ -103,6 +106,8 @@ public class WFCMapGeneration
         }
 
         _mapObjectSpawner.ObjectSpawnAfterMapGenerated(_mapRoot);
+
+        await _runTimeBakeNavMesh.BakeAfterMapGeneratedAsync();
     }
 
     private bool CheckEntropy()
