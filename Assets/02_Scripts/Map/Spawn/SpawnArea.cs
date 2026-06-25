@@ -18,6 +18,7 @@ public class SpawnArea : MonoBehaviour
     private void Awake()
     {
         _collider = GetComponent<BoxCollider>();
+        _collider.isTrigger = true;
     }
 
     public Vector3 GetRandomPosition()
