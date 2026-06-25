@@ -24,7 +24,9 @@ public enum PopupTargetType
     Trap,
     EscapePath,
     Door,
-    Tool
+    Tool,
+    StageSelectChair,
+    Washer
 }
 
 public enum ItemType
@@ -130,7 +132,7 @@ public class Door : BaseData
 [Serializable]
 public class PopupViewData : BaseData
 {
-    public string PopupType;
+    public string StringPopupType;
     public string DefaultPrompt;
     public string LockedPrompt;
     public string MasterKeyPrompt;
@@ -140,7 +142,7 @@ public class PopupViewData : BaseData
     public string PurchaseSuccessPrompt;
 
     public global::PopupType GetPopupType()
-        => Enum.TryParse<global::PopupType>(PopupType, out var result) ? result : global::PopupType.Simple;
+        => Enum.TryParse<global::PopupType>(StringPopupType, out var result) ? result : global::PopupType.Simple;
 }
 
 [Serializable]
