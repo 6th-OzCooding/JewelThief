@@ -1,32 +1,68 @@
-﻿using UnityEngine;
+﻿using TeamConvention.Interfaces;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 public class StoneTrap : BaseDisarmableObejct
 {
     [SerializeField] private float detectionRange = 10f;
     ItemData stoneData;
+    private bool _isWorked = false;
     void Update()
     {
         if (IsDisarmed) return;
+        if (_isWorked) return;
         CheckPlayerTrapped();
     }
 
     private void CheckPlayerTrapped()
     {
         RaycastHit hit;
-
+        ItemData stoneData = GameManager.DataTable.GetItemData("Item_Jewel_Emerald");
         if (Physics.Raycast(transform.position, Vector3.down, out hit, detectionRange))
         {
             if (hit.collider.CompareTag("Player"))
             {
                 Debug.Log("플레이어 감지 ");
 
-                if (hit.collider.TryGetComponent(out IItemInsertable InsertableTarget))
+                if (hit.collider.TryGetComponent(out IInventoryOwner inventoryOwner))
                 {
-                    Debug.Log("플레이어 감지 트랩 발동");
-                    InsertableTarget.ForceInsertItem(stoneData,10);
+                    Debug.Log("트랩 발동 - 인벤토리 채우기 시작");
+
+                    if (stoneData == null)
+                    {
+                        Debug.LogError("stoneData가 등록되지 않았습니다!");
+                        return;
+                    }
+
+                    int dropCount = 10;
+
+                    
+                    for (int i = 0; i < dropCount; i++)
+                    {
+                        // 가방에 넣기
+                        if (inventoryOwner.TryAcquireItem(stoneData, HoldType.Pocket))
+                        {
+                            Debug.Log($"[함정] {stoneData.Name}을(를) 강제로 넣었습니다. ({i + 1}/{dropCount})");
+                        }
+                        // 가방이 꽉 차서 실패했다면 바닥에 생성
+                        else
+                        {
+                            Debug.Log($"[함정] 가방이 가득 찼습니다! {stoneData.Name}을(를) 플레이어 주변 바닥에 생성합니다. ({i + 1}/{dropCount})");
+                            SpawnRemainItem(stoneData.Id, hit.collider.transform.position);
+                        }
+                    }
+                    _isWorked = true;
                 }
             }
         }
+    }
+    private void SpawnRemainItem(string itemId, Vector3 playerPos) 
+    {
+        string poolPrefab = GameManager.DataTable.GetItemData(itemId).Husks;
+        var stoneObject = GameManager.Pool.SpawnFromPool("Pool_Jewel", playerPos);
+        stoneObject.GetComponent<Jewel>().InitFromSpawner(itemId);
+    
+    
     }
     private void OnDrawGizmos()
     {
