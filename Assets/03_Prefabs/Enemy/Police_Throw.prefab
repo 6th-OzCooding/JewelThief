@@ -339,6 +339,8 @@ MonoBehaviour:
   _walkSpeed: 2
   _runSpeed: 2
   _attackRadius: 10
+  _attackDelay: 0
+  _attackDamage: 0
 --- !u!114 &489262831058007622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +354,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowEnemy
   _policeBar: {fileID: 3549333635649237776}
+  _barProjectilePrefab: {fileID: 0}
+  _firePoint: {fileID: 0}
   _throwDelay: 0.1
   _respawnTime: 1.5
 --- !u!54 &5435599904437611857
@@ -1232,6 +1236,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5726474841645727193}
+  - {fileID: 3031908000504742353}
   m_Father: {fileID: 5365849156876479004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6748431584086785986
@@ -1660,6 +1665,37 @@ Transform:
   m_Children:
   - {fileID: 1991272415849042608}
   m_Father: {fileID: 1186206109013795785}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8431433791735046588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3031908000504742353}
+  m_Layer: 0
+  m_Name: ProjectileLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3031908000504742353
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8431433791735046588}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.14, y: 0.21, z: 0.26}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1665927995544664858}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8605423719325542074
 GameObject:

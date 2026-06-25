@@ -517,6 +517,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &291733344 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3031908000504742353, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
+  m_PrefabInstance: {fileID: 8722102776652008436}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &326944053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,7 +2454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 947173085386962384, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2033557931072281016, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: _taserEnd
@@ -2633,11 +2638,23 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 489262831058007622, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
+      propertyPath: _firePoint
+      value: 
+      objectReference: {fileID: 291733344}
+    - target: {fileID: 489262831058007622, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
       propertyPath: _throwDelay
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 489262831058007622, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
       propertyPath: _respawnTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 489262831058007622, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
+      propertyPath: _barProjectilePrefab
+      value: 
+      objectReference: {fileID: 590264075299352562, guid: bf1ec8a4d5fb1db4787a5e1d5fd38c42, type: 3}
+    - target: {fileID: 2415117148024701470, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2773212651188420240, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
