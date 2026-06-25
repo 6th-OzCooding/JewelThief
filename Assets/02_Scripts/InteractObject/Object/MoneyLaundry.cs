@@ -81,6 +81,6 @@ public class MoneyLaundry : MonoBehaviour, IInteractable
     // 가방/손 공통 - 판매 가능 여부(보석 종류) 판정
     private bool IsSellableItem(InventoryItem item)
     {
-        return item != null && item.ItemData != null && item.ItemData.CurrentItemType == ItemType.Jewel;
+        return item != null && item.ItemData != null && item.ItemData.ItemType == ItemType.Jewel;
     }
 }
