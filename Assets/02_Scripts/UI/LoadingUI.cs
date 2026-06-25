@@ -20,6 +20,7 @@ public class LoadingUI : UIBase
 
         await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         GameManager.UI.CloseLoadingUI();
+        GameManager.UI.OpenMainUI();
     }
 
 

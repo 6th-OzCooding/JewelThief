@@ -34,7 +34,6 @@ public class GameManager : SingletonBehaviour<GameManager>
     private bool _isPlaying = false;
 
     private GameObject _lobbyPrefab;
-    private GameObject _lobbyInstance;
     private LobbyController _lobbyController;
 
     private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
@@ -139,10 +138,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
     }
 
-    public PlayerController EnterLobby(bool isFirstEnter = false)
+    public void EnterLobby(bool isFirstEnter = false)
     {
         if(isFirstEnter)
             UI.CloseUI(UIType.TitleUI);
+
+        UI.EnterGameplayCursorMode();
 
         if(isFirstEnter)
         {
@@ -150,41 +151,29 @@ public class GameManager : SingletonBehaviour<GameManager>
             if (_lobbyPrefab == null)
             {
                 Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
-                return null;
             }
             else
             {
-                _lobbyInstance = Instantiate(_lobbyPrefab);
-                _lobbyInstance.SetActive(true);
+                GameObject lobbyInstance = Instantiate(_lobbyPrefab);
 
-                if (_lobbyInstance.TryGetComponent(out _lobbyController))
-                    return _lobbyController.Enter();
+                if (lobbyInstance.TryGetComponent(out LobbyController _lobbyController))
+                    _lobbyController.Enter();
                 else
                     Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
             }
         }
         else
         {
-            if (_lobbyInstance == null || _lobbyController == null)
-            {
-                Debug.LogError("Lobby 인스턴스가 생성되지 않았습니다.");
-                return null;
-            }
-
-            _lobbyInstance.SetActive(true);
-            return _lobbyController.Enter();
+            _lobbyPrefab.SetActive(true);
+            _lobbyController.Enter();
         }
-
-        return null;
     }
 
     public void EnterInGame(string StageId)
     {
         // TODO(김익환 2026-06-21): 맵 로딩 ui가 필요한지 몰라서 일단은 로딩화면 없이 바로 생성
         _wfcMapGeneration.StartGenerateMap().Forget();
-
-        if (_lobbyInstance != null)
-            _lobbyInstance.SetActive(false);
+        _lobbyPrefab.SetActive(false);
 
         StageData stageData = _dataTable.GetStageData(StageId);
         if (stageData != null)
