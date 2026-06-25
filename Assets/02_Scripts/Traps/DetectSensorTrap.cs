@@ -1,58 +1,75 @@
 ﻿using UnityEngine;
 
-public class DetectionSensorTrap : MonoBehaviour
+public class DetectSensorTrap : BaseDisarmableObejct
 {
-    [Header("데이터 정보")]
-    [SerializeField] private int _trapId = 40000004;
-
     [Header("센서 패널티 설정")]
-    [SerializeField] private float _speedDebuffRate = 0.99f;   // 진입 시 이동 속도 저하 (이하 수치 미설정)
-    [SerializeField] private float _timeReductionAmount = 1f; // 진입 시 차감되는 제한 시간
+    [SerializeField] private float _speedDamageAmount = 3f;     // 발판을 밝을 경우 속도 차감
+    [SerializeField] private float _myTimeReductionAmount = 10f;     // 제한 시간 차감
 
-    private bool _isDisarmed = false;
+    protected override void LoadData(string id)
+    {
+        _disarmObjName = "적외선 감지 센서";
+
+        if (_timeReductionAmountList == null)
+        {
+            _timeReductionAmountList = new System.Collections.Generic.List<float>();
+        }
+
+        _timeReductionAmountList.Clear();
+        _timeReductionAmountList.Add(_myTimeReductionAmount);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_isDisarmed) return;
+        if (_isDisarmed || !_isInitialized) return;
 
         PlayerController player = other.GetComponent<PlayerController>();
         if (player != null)
         {
-            Debug.Log($"[센서 감지] ID: {_trapId} - 감지 레이더가 플레이어를 포착했습니다.");
-
-            // GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
+            Debug.LogWarning($"{_disarmObjName} (ID: {_disarmObjId}) 발동.");
 
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.SendMessage("ReduceTimer", _timeReductionAmount, SendMessageOptions.DontRequireReceiver);
-            }
-            else
-            {
-                Debug.Log($"[임시 디버그] 싱글톤 매니저가 없어 임시 수치 차감: {_timeReductionAmount}초");
+                float finalReduction = (_timeReductionAmountList != null && _timeReductionAmountList.Count > 0)
+                    ? _timeReductionAmountList[0]
+                    : _myTimeReductionAmount;
+
+                GameManager.Instance.SendMessage("ReduceTimer", finalReduction, SendMessageOptions.DontRequireReceiver);
             }
 
-            //player.SetSpeedModifier(_speedDebuffRate);     // 이동 속도 감소
-
+            player.TakePlayerMoveSpeedDamage(_speedDamageAmount);
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
-        PlayerController player = other.GetComponent<PlayerController>();
+        PlayerController player = other.GetComponent<Collider>().GetComponent<PlayerController>();
         if (player != null)
         {
-            //player.SetSpeedModifier(1f);     // 센서 영역을 벗어나면 이동속도 원래대로 복구
-            Debug.Log($"[센서 이탈] ID: {_trapId} - 플레이어가 센서 범위를 벗어났습니다.");
+            Debug.Log($"플레이어가 {_disarmObjName}를 벗어나 이동 속도를 ({_speedDamageAmount})만큼 돌려받습니다.");
+
+            player.AddPlayerMoveSpeed(_speedDamageAmount);
         }
     }
 
-    public void DisarmTrap()
+    protected override void OnDisarm()
     {
-        _isDisarmed = true;
+        Debug.Log($"ID: {_disarmObjId} - {_disarmObjName}가 무력화됩니다.");
 
         Collider col = GetComponent<Collider>();
-        if (col != null) col.enabled = false;
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+    }
 
-        Debug.Log($"[함정 해제] ID: {_trapId} - 감지 센서 전원 차단 완료.");
+    protected override void OnInitalized()
+    {
+        base.OnInitalized();
+
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = true;
+        }
     }
 }

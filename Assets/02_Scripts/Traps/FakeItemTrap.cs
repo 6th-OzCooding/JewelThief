@@ -1,66 +1,58 @@
 ﻿using UnityEngine;
-using TeamConvention.Interfaces;
 
 public class FakeItemTrap : BaseDisarmableObejct
 {
-    [Header("함정 패널티 설정")]
-    [SerializeField] private float _damage = 1f;
-    [SerializeField] private float _soundRadius = 20f;      // 소음이 퍼지는 범위의 반지름
-    [SerializeField] private float _timeReductionAmount = 10f;
+    [Header("가짜 보석 패널티 설정")]
+    [SerializeField] private float _spDamage = 20f;        // 플레이어 sp 차감
+    [SerializeField] private float _soundRadius = 15f;      // 소음 범위
 
     private bool _hasExploded = false;
 
     protected override void LoadData(string id)
     {
-        Debug.Log($"[데이터 테이블 로드] 함정 ID: {id}");
-    }
+        _disarmObjName = "가짜 보석";
 
-    protected override void OnInitalized()
-    {
-        base.OnInitalized();
-        Debug.Log($"[함정 초기화 완료] {GetName} (ID: {GetId})");
+        if (_timeReductionAmountList == null)
+        {
+            _timeReductionAmountList = new System.Collections.Generic.List<float>();
+        }
+        _timeReductionAmountList.Clear();
+        _timeReductionAmountList.Add(10f);
     }
 
     protected override void OnDisarm()
     {
-        if (_hasExploded) return;
+        if (_hasExploded) return;     // 중복 키입력 방지 로직
         _hasExploded = true;
 
-        if (IsDisarmed == false) return;
-
-        Debug.LogWarning($"가짜 아이템 작동. {_disarmObjName} (ID: {_disarmObjId})");
+        Debug.LogWarning($"{_disarmObjName} 보석인 줄 알고 열어봤지만 내용물은 (ID: {_disarmObjId})였습니다.");
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.SendMessage("ReduceTimer", _timeReductionAmount, SendMessageOptions.DontRequireReceiver);
+            float finalReduction = (_timeReductionAmountList != null && _timeReductionAmountList.Count > 0)
+                ? _timeReductionAmountList[0]
+                : 10f;
+            GameManager.Instance.SendMessage("ReduceTimer", finalReduction, SendMessageOptions.DontRequireReceiver);
         }
 
-        TriggerNoise();     // 소음 발생
+        Collider[] caughtPlayers = Physics.OverlapSphere(transform.position, 2f);     // 함정 주변 2m 탐색
+        foreach (Collider col in caughtPlayers)
+        {
+            PlayerController player = col.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.TakePlayerSpDamage(_spDamage);
+                break;
+            }
+        }
 
-        Destroy(gameObject, 0.3f);     // 발동 0.3초 후 오브젝트 삭제
+        TriggerNoise();
+        Destroy(gameObject, 0.3f);
     }
 
     private void TriggerNoise()
     {
-        Collider[] caughtEnemies = Physics.OverlapSphere(transform.position, _soundRadius);
-
-        foreach (Collider col in caughtEnemies)
-        {
-            // 몬스터 AI 시스템 머지 완료 시 HearNoise 함수 활성화
-            /*
-            Enemy enemy = col.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.HearNoise(transform.position); // 몬스터에게 소음이 발생한 위치를 제보해 추적당하게 함
-            }
-            */
-        }
-        Debug.Log($"반지름 {_soundRadius}m 이내의 적들이 소음을 듣고 몰려옵니다.");
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _soundRadius);
+        Physics.OverlapSphere(transform.position, _soundRadius);
+        Debug.Log($"함정이 발동되어 반지름 {_soundRadius}m 범위의 적들이 소음을 확인합니다.");
     }
 }

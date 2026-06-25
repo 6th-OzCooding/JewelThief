@@ -1,123 +1,126 @@
-﻿using UnityEngine;
+﻿// 파일명: SpyDroneTrap.cs
+using UnityEngine;
 
-public class SpyDroneTrap : MonoBehaviour
+public class SpyDroneTrap : BaseDisarmableObejct
 {
-    [Header("데이터 정보")]
-    [SerializeField] private int _trapId = 40000003;
-
     [Header("드론 비행 설정")]
-    [SerializeField] private Transform[] _waypoints;      // 드론이 순찰할 경로점
-    [SerializeField] private float _moveSpeed = 1f;        // 비행 속도 (이하 수치는 전부 임시 수치)
-    [SerializeField] private float _rotationSpeed = 1f;    // 회전 속도
+    [SerializeField] private Transform[] _waypoints;     // 순찰할 경로 지점들
+    [SerializeField] private float _moveSpeed = 3f;     // 드론 이동 속도
+    [SerializeField] private float _rotationSpeed = 5f;     // 회전 속도
 
     [Header("감시 시야 설정")]
-    [SerializeField] private float _viewDistance = 1f;     // 감지 거리
-    [SerializeField] private float _viewAngle = 1f;        // 시야각
-    [SerializeField] private LayerMask _targetLayer;        // 플레이어 레이어와 연동
+    [SerializeField] private float _viewDistance = 8f;     // 시야 거리
+    [SerializeField] private float _viewAngle = 60f;     // 시야각
+    [SerializeField] private LayerMask _targetLayer;     // 플레이어를 감지 타겟으로 둠
 
     [Header("감지 패널티 설정")]
-    [SerializeField] private float _timeReductionAmount = 1f; // 차감 시간
+    [SerializeField] private float _spImmediateDamage = 10f;    // 드론에 플레이어가 감지될 경우 sp 차감
+    [SerializeField] private float _myTimeReductionAmount = 20f;
 
     private int _currentWaypointIndex = 0;
-    private bool _isDisarmed = false;
+    private float _alertCooldown = 2f;     // 경보 중복 발동 방지 쿨타임
+    private float _cooldownTimer = 0f;
+
+    protected override void LoadData(string id)
+    {
+        _disarmObjName = "감시 드론";
+
+        if (_timeReductionAmountList == null)
+        {
+            _timeReductionAmountList = new System.Collections.Generic.List<float>();
+        }
+        _timeReductionAmountList.Clear();
+        _timeReductionAmountList.Add(_myTimeReductionAmount);
+    }
+
+    protected override void OnInitalized()
+    {
+        base.OnInitalized();
+        _currentWaypointIndex = 0;
+        _cooldownTimer = 0f;
+    }
 
     private void Update()
     {
         if (_isDisarmed) return;
 
-        Patrol();    // 순찰 경로 이동 로직
+        Patrol();
 
-        if (CheckPlayerInView())     // 플레이어 시야 감지 로직
+        if (_cooldownTimer > 0f) _cooldownTimer -= Time.deltaTime;
+
+        PlayerController targetPlayer = GetPlayerInViewComponent();
+        if (targetPlayer != null && _cooldownTimer <= 0f)
         {
-            TriggerDroneAlert();
+            TriggerDroneAlert(targetPlayer);
+            _cooldownTimer = _alertCooldown;     // 쿨타임 가동
         }
     }
 
     private void Patrol()
     {
         if (_waypoints == null || _waypoints.Length == 0) return;
+        Transform targetWaypoint = _waypoints[_currentWaypointIndex];
+        transform.position = Vector3.MoveTowards(transform.position, targetWaypoint.position, _moveSpeed * Time.deltaTime);
 
-        Transform targetPoint = _waypoints[_currentWaypointIndex];
-
-        transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, _moveSpeed * Time.deltaTime);    // 목표(웨이포인트)를 향해 이동하도록
-
-        Vector3 direction = (targetPoint.position - transform.position).normalized;     // 드론이 이동 방향을 부드럽게 바라보도록 회전
+        Vector3 direction = (targetWaypoint.position - transform.position).normalized;
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
         }
 
-        if (Vector3.Distance(transform.position, targetPoint.position) < 0.2f)     // 웨이포인트에 거의 도달했다면 다음 웨이포인트로 목표 인덱스 교체
+        if (Vector3.Distance(transform.position, targetWaypoint.position) < 0.2f)
         {
             _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
         }
     }
 
-    private bool CheckPlayerInView()
+    private PlayerController GetPlayerInViewComponent()
     {
         Collider[] targets = Physics.OverlapSphere(transform.position, _viewDistance, _targetLayer);
-
         if (targets.Length > 0)
         {
-            Transform playerTransform = targets[0].transform;
-            Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
-
-            float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);     // 드론의 정면(transform.forward) 기준 각도 계산
-
-            if (angleToPlayer < _viewAngle / 2f)
+            PlayerController player = targets[0].GetComponent<PlayerController>();
+            if (player != null)
             {
-                if (!Physics.Raycast(transform.position, directionToPlayer, _viewDistance, LayerMask.GetMask("Obstacle")))     // 장애물(벽)에 가려졌는지 체크
+                Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+
+                if (angleToPlayer < _viewAngle / 2f)
                 {
-                    return true;
+                    if (!Physics.Raycast(transform.position, directionToPlayer, _viewDistance, LayerMask.GetMask("Obstacle")))
+                    {
+                        return player;
+                    }
                 }
             }
         }
-        return false;
+        return null;
     }
 
-    private void TriggerDroneAlert()
+    private void TriggerDroneAlert(PlayerController player)
     {
-        Debug.LogWarning($"[드론 경보] ID: {_trapId} - 드론이 플레이어를 탐지했습니다.");
+        Debug.LogWarning($"{_disarmObjName} (ID: {_disarmObjId})이 플레이어를 감지했습니다.");
 
-        // GameManager.Instance.AlertManager.ReduceTimer(_timeReductionAmount);
+        player.TakePlayerSpDamage(_spImmediateDamage);
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.SendMessage("ReduceTimer", _timeReductionAmount, SendMessageOptions.DontRequireReceiver);
-        }
-        else
-        {
-            Debug.Log($"[임시 디버그] 싱글톤 매니저가 없어 임시 수치 차감: {_timeReductionAmount}초");
+            float finalReduction = (_timeReductionAmountList != null && _timeReductionAmountList.Count > 0)
+                ? _timeReductionAmountList[0]
+                : _myTimeReductionAmount;
+            GameManager.Instance.SendMessage("ReduceTimer", finalReduction, SendMessageOptions.DontRequireReceiver);
         }
     }
 
-    public void DisarmTrap()
+    protected override void OnDisarm()
     {
-        _isDisarmed = true;
-
-        Rigidbody rb = GetComponent<Rigidbody>();     // 드론이 무력화되면 비활성화돼 추락하도록 Rigidbody 제거
+        Debug.Log($"ID: {_disarmObjId} - 무력화되어 더이상 플레이어를 감지하지 않습니다.");
+        Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.useGravity = true;
+            rb.useGravity = true;     // 무력화될 경우 리지드바디 비활성화 (땅에 추락)
             rb.isKinematic = false;
         }
-
-        Debug.Log($"[함정 해제] ID: {_trapId} - 드론 무력화.");
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Vector3 origin = transform.position;
-        Gizmos.DrawWireSphere(origin, _viewDistance);
-
-        Vector3 forward = transform.forward;
-        Vector3 leftBoundary = Quaternion.Euler(0, -_viewAngle / 2, 0) * forward;
-        Vector3 rightBoundary = Quaternion.Euler(0, _viewAngle / 2, 0) * forward;
-
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(origin, origin + leftBoundary * _viewDistance);
-        Gizmos.DrawLine(origin, origin + rightBoundary * _viewDistance);
     }
 }

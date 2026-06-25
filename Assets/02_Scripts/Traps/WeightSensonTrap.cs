@@ -1,65 +1,108 @@
 ﻿using UnityEngine;
 
-public class PressurePlateTrap : MonoBehaviour
+public class WeightSensorTrap : BaseDisarmableObejct
 {
-    [Header("데이터 정보")]
-    [SerializeField] private int _trapId = 40000005;
+    [Header("압력 센서 무게 설정")]
+    [SerializeField] private float _activationRequiredWeight = 10f;    // 압력판이 작동하기 위해 필요한 최소 무게
+    [SerializeField] private float _myTimeReductionAmount = 15f;     // 제한 시간 차감
 
-    [Header("압력판 작동 조건")]
-    [SerializeField] private float _triggerWeightThreshold = 5.0f;    // 작동 기준 무게 (예: 5kg)
+    [Header("발판 시각 연출")]
+    [SerializeField] private Transform _pressurePlateMesh;      // 밟았을 때 발판이 살짝 아래로 내려가도록 설정
+    [SerializeField] private float _pressedYOffset = -0.05f;         // 밟혔을 때 내려갈 높이
 
-    [Header("감지 패널티 설정")]
-    [SerializeField] private float _timeReductionAmount = 20f;     // 작동 시 차감할 제한시간 (초)
+    private Vector3 _initialPlateLocalPosition;
 
-    private bool _isDisarmed = false;
+    protected override void LoadData(string id)
+    {
+        _disarmObjName = "무게 감지 압력판";
 
+        if (_timeReductionAmountList == null)
+        {
+            _timeReductionAmountList = new System.Collections.Generic.List<float>();
+        }
+
+        _timeReductionAmountList.Clear();
+        _timeReductionAmountList.Add(_myTimeReductionAmount);
+    }
+
+    protected override void OnInitalized()
+    {
+        base.OnInitalized();
+
+        if (_pressurePlateMesh != null)     // 발판의 초기 위치 기억
+        {
+            _initialPlateLocalPosition = _pressurePlateMesh.localPosition;
+        }
+
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = true;
+    }
     private void OnTriggerEnter(Collider other)
     {
-        if (_isDisarmed) return;
+        if (_isDisarmed || !_isInitialized) return;
 
         PlayerController player = other.GetComponent<PlayerController>();
-        if (player != null)
+        if (player != null && player.Inventory != null)
         {
-            float currentPayloadWeight = GetPlayerTotalWeight(player);    // 플레이어의 인벤토리 무게를 받아옴
+            float playerCurrentWeight = player.Inventory.GetTotalCarryWeight();
 
-            Debug.Log($"[압력판 밟음] ID: {_trapId} - 현재 플레이어가 소지한 보석의 무게: {currentPayloadWeight}kg (기준: {_triggerWeightThreshold}kg)");
+            Debug.Log($"현재 플레이어 무게: {playerCurrentWeight}kg / 작동 요구 무게: {_activationRequiredWeight}kg");
 
-            if (currentPayloadWeight >= _triggerWeightThreshold)    // 작동 기준 무게 이하일 경우 작동하지 않음
+            if (playerCurrentWeight >= _activationRequiredWeight)     // 플레이어의 가방 무게가 작동 기준 수치 이상인지 확인
             {
-                TriggerPressurePlateAlert();
+                TriggerWeightPlateAlert();
             }
             else
             {
-                Debug.Log("[압력판 통과] 플레이어가 가벼워서 센서가 작동하지 않았습니다.");
+                Debug.Log($"작동 기준 중량 미만입니다.");
             }
         }
     }
 
-    private float GetPlayerTotalWeight(PlayerController player)
+    private void OnTriggerExit(Collider other)
     {
-        // 나중에 가방/인벤토리 함수로 대체할 것.
-        // 예시 구조: return player.GetComponent<Inventory>().GetTotalWeight();
-
-        // 컴파일에러 방지용 임시코드
-        // 7kg 들고 있다고 가정
-        float temporaryTestWeight = 7.0f;
-        return temporaryTestWeight;
-    }
-
-    private void TriggerPressurePlateAlert()
-    {
-        Debug.LogWarning($"[압력판 발동] 중량 초과. ID: {_trapId} - 제한시간이 {_timeReductionAmount}초 차감됩니다.");
-
-        if (GameManager.Instance != null)
+        PlayerController player = other.GetComponent<PlayerController>();
+        if (player != null)
         {
-            GameManager.Instance.SendMessage("ReduceTimer", _timeReductionAmount, SendMessageOptions.DontRequireReceiver);
+            if (_pressurePlateMesh != null)
+            {
+                _pressurePlateMesh.localPosition = _initialPlateLocalPosition;
+            }
         }
     }
 
-    public void DisarmTrap()
+    private void TriggerWeightPlateAlert()
     {
-        _isDisarmed = true;
+        Debug.LogWarning($"{_disarmObjName} (ID: {_disarmObjId})가 작동 기준 중량 이상의 무게를 감지했습니다.");
 
-        Debug.Log($"[함정 해제] ID: {_trapId} - 압력판 센서 고정 장치가 무력화되어 밟아도 안전합니다.");
+        if (_pressurePlateMesh != null)
+        {
+            _pressurePlateMesh.localPosition = _initialPlateLocalPosition + new Vector3(0f, _pressedYOffset, 0f);
+        }
+
+        if (GameManager.Instance != null)
+        {
+            float finalReduction = (_timeReductionAmountList != null && _timeReductionAmountList.Count > 0)
+                ? _timeReductionAmountList[0]
+                : _myTimeReductionAmount;
+
+            GameManager.Instance.SendMessage("ReduceTimer", finalReduction, SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
+    protected override void OnDisarm()
+    {
+        Debug.Log($"ID: {_disarmObjId} - 무력화되어 더이상 작동하지 않습니다.");
+
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        if (_pressurePlateMesh != null)
+        {
+            _pressurePlateMesh.localPosition = _initialPlateLocalPosition;
+        }
     }
 }
