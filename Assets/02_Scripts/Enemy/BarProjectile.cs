@@ -4,21 +4,26 @@ public class BarProjectile : MonoBehaviour
 {
     [SerializeField] private float _speed = 7f;
     [SerializeField] private float _lifeTime = 3f;
+    [SerializeField] private float _spinSpeed = 1000f; // 회전 속도
 
     private float _damage;
-
+    // 날아가는 방향 기억 변수
+    private Vector3 _flyDirection;
     public void Initialize(Vector3 direction, float damage)
     {
         _damage = damage;
-        transform.forward = direction;
+        _flyDirection = direction.normalized;
+
+        transform.forward = _flyDirection;
 
         Destroy(gameObject, _lifeTime);
     }
 
     private void Update()
     {
+
+        transform.Rotate(Vector3.right * _spinSpeed * Time.deltaTime, Space.Self);
         float moveDistance = _speed * Time.deltaTime;
-        Vector3 nextPosition = transform.position + transform.forward * moveDistance;
 
         // 이동하기 전에 현재 위치에서 앞방향으로 이동할 거리(moveDistance)만큼 레이저를 쏴서 막히는 게 있는지 검사합니다.
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, moveDistance))
@@ -51,7 +56,7 @@ public class BarProjectile : MonoBehaviour
             }
         }
 
-        transform.position = nextPosition;
+        transform.position += _flyDirection * moveDistance;
     }
 
     private void OnTriggerEnter(Collider other)
