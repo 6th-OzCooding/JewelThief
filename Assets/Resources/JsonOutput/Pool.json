@@ -22,5 +22,9 @@
   {
     "Id": "Effect_Normal",
     "InitSize": 1
+  },
+  {
+    "Id": "Door_Prefab",
+    "InitSize": 5
   }
 ]
