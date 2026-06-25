@@ -10,5 +10,17 @@
   {
     "Id": "InteractableContainer_Prefab",
     "InitSize": 5
+  },
+  {
+    "Id": "Effect_High",
+    "InitSize": 1
+  },
+  {
+    "Id": "Effect_Low",
+    "InitSize": 1
+  },
+  {
+    "Id": "Effect_Normal",
+    "InitSize": 1
   }
 ]

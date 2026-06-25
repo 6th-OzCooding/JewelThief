@@ -193,7 +193,7 @@ public class InteractableContainer : BaseDisarmableObejct
                 continue;
             }
 
-            if (itemData.ItemGrade == spanwAbleItemList)
+            if (itemData.GetItemGrade() == spanwAbleItemList)
             {
                 _spawnedRarityList.Add(checkItemDataId);
             }
@@ -283,12 +283,12 @@ public class InteractableContainer : BaseDisarmableObejct
     private string GetDropParticlePoolId(int dropItemCount)
     {
         if (dropItemCount <= 1)
-            return "Pool_Effect_Low";
+            return "Effect_Low";
 
         if (dropItemCount <= 3)
-            return "Pool_Effect_Normal";
+            return "Effect_Normal";
 
-        return "Pool_Effect_High";
+        return "Effect_High";
     }
 
     private void OpenBox()
@@ -299,7 +299,6 @@ public class InteractableContainer : BaseDisarmableObejct
 
         foreach (string spawnItemId in _spawnedItemList)
         {
-            // TODO(안우재 2026-6-24) : GameObejct 생성(pooling 구현 후 가능) 후 ShootItem() 을이용하여 발사
             ItemData itemData = GameManager.DataTable.GetItemData(spawnItemId);
 
             if (itemData == null)
@@ -370,7 +369,7 @@ public class InteractableContainer : BaseDisarmableObejct
     //                          AI생성
     private string GetItemPoolId(ItemData itemData)
     {
-        switch (itemData.ItemType) // 실제 필드명에 맞게 수정
+        switch (itemData.GetItemType()) // 실제 필드명에 맞게 수정
         {
             case ItemType.Jewel:
                 return "Pool_Jewel";
