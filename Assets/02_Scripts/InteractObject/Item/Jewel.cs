@@ -47,6 +47,7 @@ public class Jewel : BaseInteractableObject
         if(interactor is IInventoryOwner inventoryOwner)
         {
             inventoryOwner.TryAcquireItem(_itemData, HoldType.Pocket);
+            GameManager.Pool.DespawnToPool(this.gameObject);
         }
     }
 }
