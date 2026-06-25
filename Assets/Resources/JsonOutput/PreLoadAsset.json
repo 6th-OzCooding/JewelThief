@@ -288,5 +288,10 @@
     "Id": "PreLoadAsset_Material_Lit",
     "Address": "Lit",
     "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_PoliceThrow_Object",
+    "Address": "Pool_Throw",
+    "AssetType": null
   }
 ]

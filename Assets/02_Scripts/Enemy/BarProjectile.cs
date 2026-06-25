@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
+using UnityEngine;
 
 public class BarProjectile : MonoBehaviour
 {
@@ -9,6 +12,9 @@ public class BarProjectile : MonoBehaviour
     private float _damage;
     // 날아가는 방향 기억 변수
     private Vector3 _flyDirection;
+    // 자동 반납 토큰 변수
+    private CancellationTokenSource _cts;
+
     public void Initialize(Vector3 direction, float damage)
     {
         _damage = damage;
@@ -16,7 +22,20 @@ public class BarProjectile : MonoBehaviour
 
         transform.forward = _flyDirection;
 
-        Destroy(gameObject, _lifeTime);
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        AutoDespawnRoutine(_cts.Token).Forget();
+    }
+
+    private async UniTaskVoid AutoDespawnRoutine(CancellationToken token)
+    {
+        bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(5f), cancellationToken: token).SuppressCancellationThrow();
+        if (isCanceled) return; // 중간에 다른 곳에 부딪혀서 토큰이 취소되면 무시
+
+        if (gameObject.activeInHierarchy)
+        {
+            GameManager.Pool.DespawnToPool(gameObject);
+        }
     }
 
     private void Update()
@@ -32,7 +51,7 @@ public class BarProjectile : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 Debug.Log("적 맞고 파괴됨");
-                Destroy(gameObject);
+                ReturnToPool();
                 return;
             }
             // 부딪힌 대상이 플레이어라면 데미지!
@@ -44,19 +63,25 @@ public class BarProjectile : MonoBehaviour
                     player.TakePlayerSpDamage(_damage);
                     Debug.Log($"플레이어에게 곤봉 적중! 데미지: {_damage}");
                 }
-                Destroy(gameObject); // 맞췄으니 파괴
+                ReturnToPool(); ; // 맞췄으니 반납
                 return; // 더 이상 이동하지 않도록 함수 종료
             }
-            // 부딪힌 대상이 그 외의 것(벽, 바닥, 장애물 등)이라면 무조건 파괴!
+            // 부딪힌 대상이 그 외의 것(벽, 바닥, 장애물 등)이라면 무조건 반납!
             else
             {
                 Debug.Log("벽 맞고 파괴됨");
-                Destroy(gameObject);
+                ReturnToPool();
                 return;
             }
         }
 
         transform.position += _flyDirection * moveDistance;
+    }
+
+    private void ReturnToPool()
+    {
+        _cts?.Cancel();
+        GameManager.Pool.DespawnToPool(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
