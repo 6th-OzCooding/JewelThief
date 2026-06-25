@@ -35,6 +35,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private Transform _mapRoot = null;
     private GameObject _lobbyPrefab;
+    private GameObject _lobbyInstance;
     private LobbyController _lobbyController;
 
     private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
@@ -139,12 +140,10 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
     }
 
-    public void EnterLobby(bool isFirstEnter = false)
+    public PlayerController EnterLobby(bool isFirstEnter = false)
     {
         if(isFirstEnter)
             UI.CloseUI(UIType.TitleUI);
-
-        UI.EnterGameplayCursorMode();
 
         if(isFirstEnter)
         {
@@ -152,28 +151,40 @@ public class GameManager : SingletonBehaviour<GameManager>
             if (_lobbyPrefab == null)
             {
                 Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
+                return null;
             }
             else
             {
-                GameObject lobbyInstance = Instantiate(_lobbyPrefab);
+                _lobbyInstance = Instantiate(_lobbyPrefab);
+                _lobbyInstance.SetActive(true);
 
-                if (lobbyInstance.TryGetComponent(out LobbyController _lobbyController))
-                    _lobbyController.Enter();
+                if (_lobbyInstance.TryGetComponent(out _lobbyController))
+                    return _lobbyController.Enter();
                 else
                     Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
             }
         }
         else
         {
-            _lobbyPrefab.SetActive(true);
-            _lobbyController.Enter();
+            if (_lobbyInstance == null || _lobbyController == null)
+            {
+                Debug.LogError("Lobby 인스턴스가 생성되지 않았습니다.");
+                return null;
+            }
+
+            _lobbyInstance.SetActive(true);
+            return _lobbyController.Enter();
         }
+
+        return null;
     }
 
     public void EnterInGame(string StageId)
     {
         GenerateMap();
-        _lobbyPrefab.SetActive(false);
+
+        if (_lobbyInstance != null)
+            _lobbyInstance.SetActive(false);
 
         StageData stageData = _dataTable.GetStageData(StageId);
         if (stageData != null)
