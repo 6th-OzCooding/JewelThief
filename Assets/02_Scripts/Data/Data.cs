@@ -36,6 +36,7 @@ public enum ItemType
     Tool,
     Jewel
 }
+
 public enum ItemGrade
 {
     None = 0,
@@ -52,7 +53,7 @@ public class BaseData
 }
 
 [Serializable]
-public class PoolingObjectData : BaseData
+public class PoolData : BaseData
 {
     public int InitSize;
 }

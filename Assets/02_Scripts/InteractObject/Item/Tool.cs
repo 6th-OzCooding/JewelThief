@@ -49,6 +49,8 @@ public class Tool : BaseInteractableObject
             if(interactor is IInventoryOwner inventoryOwner)
             {
                 inventoryOwner.ClearHandItem(PlayerHandType.Right);
+                GameManager.Pool.DespawnToPool(this.gameObject);
+
             }
         }
     }
