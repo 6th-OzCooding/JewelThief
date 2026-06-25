@@ -71,12 +71,14 @@ public class ItemData : BaseData
     public string Description;
     public ItemType ItemType;
     public ItemGrade ItemGrade;
+    public string StringHoldType;
     public float Weight;
     public int Price;
     public string IconPath;
     public string MeshPath;
     public List<string> MaterialPaths = new List<string>();
     public int ChargeCount;
+    public string Husks;
 }
 
 [Serializable]

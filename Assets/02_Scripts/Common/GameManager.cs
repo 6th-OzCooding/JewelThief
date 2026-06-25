@@ -33,6 +33,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private bool _isPlaying = false;
 
+    private Transform _mapRoot = null;
     private GameObject _lobbyPrefab;
     private GameObject _lobbyInstance;
     private LobbyController _lobbyController;
@@ -180,8 +181,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public void EnterInGame(string StageId)
     {
-        // TODO(김익환 2026-06-21): 맵 로딩 ui가 필요한지 몰라서 일단은 로딩화면 없이 바로 생성
-        _wfcMapGeneration.StartGenerateMap().Forget();
+        GenerateMap();
 
         if (_lobbyInstance != null)
             _lobbyInstance.SetActive(false);
@@ -217,5 +217,16 @@ public class GameManager : SingletonBehaviour<GameManager>
         #else
             Application.Quit();
         #endif
+    }
+
+    private void GenerateMap()
+    {
+        // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
+        if(null == _mapRoot)
+        {
+            _mapRoot = Utils.CreateEmptyGameObject("MapRoot", this.gameObject.transform).transform;
+        }
+
+        _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
     }
 }

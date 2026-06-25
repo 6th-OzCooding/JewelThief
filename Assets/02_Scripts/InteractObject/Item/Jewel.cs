@@ -10,11 +10,13 @@ public class Jewel : BaseInteractableObject
     [SerializeField] private MeshFilter _meshFilter;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private MeshCollider _meshCollider;
+    public ItemGrade ItemGrade { get; private set; }
 
     protected override void OnInitalized()
     {
         _objectId = _itemData.Id;
         _objectName = _itemData.Name;
+        ItemGrade = _itemData.ItemGrade;
 
         _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
         _meshCollider.sharedMesh = _meshFilter.sharedMesh;

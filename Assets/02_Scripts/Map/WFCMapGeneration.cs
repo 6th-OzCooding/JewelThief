@@ -28,13 +28,18 @@ public class WFCMapGeneration
     private readonly List<MapGrid> _lowEntropyGrids = new();
     private readonly MapGrid[] _collapsedNeighbors = new MapGrid[4];
 
+    // 그거 여기 네이밍 뭐 하지?
+    private MapObjectSpawner _mapObjectSpawner = new();
+    private Transform _mapRoot;
 
-    public async UniTask StartGenerateMap(Action<float> onProgress = null)
+
+    public async UniTask StartGenerateMap(Transform mapRoot, Action<float> onProgress = null)
     {
         _tileObjects = new();
         _generatedTiles = new();
         _grids = new();
         _mapSize = _mapSizeSetting + 2;
+        _mapRoot = mapRoot;
         _generationCount = 0;
 
         onProgress?.Invoke(0.0f);
@@ -59,7 +64,7 @@ public class WFCMapGeneration
         {
             for (int x = 0; x < _mapSize; x++)
             {
-                MapGrid newGrid = GameObject.Instantiate(_mapGridObject, new Vector3(x * _gridSpacing, 0, y * _gridSpacing), Quaternion.identity);
+                MapGrid newGrid = GameObject.Instantiate(_mapGridObject, new Vector3(x * _gridSpacing, 0, y * _gridSpacing), Quaternion.identity, _mapRoot);
 
                 if (x == 0 || y == 0 || x == _mapSize - 1 || y == _mapSize - 1)
                 {
@@ -96,6 +101,8 @@ public class WFCMapGeneration
             }
 
         }
+
+        _mapObjectSpawner.ObjectSpawnAfterMapGenerated(_mapRoot);
     }
 
     private bool CheckEntropy()
@@ -154,7 +161,8 @@ public class WFCMapGeneration
 
         var newTile = GameObject.Instantiate(selectedTile
                     , currentGrid.transform.position + selectedTile.transform.position
-                    , selectedTile.transform.rotation);
+                    , selectedTile.transform.rotation
+                    , _mapRoot);
 
         _generatedTiles.Add(newTile);
         UpdateGeneration(currentGrid, selectedTile);
@@ -249,7 +257,7 @@ public class WFCMapGeneration
         }
 
         newGrid.CreateMapGrid(true, new List<MapTile> { _boundaryTile }, -1);
-        var newBoundaryTile = GameObject.Instantiate(_boundaryTile, newGrid.transform.position + dir * _gridSpacing / 2, rotation);
+        var newBoundaryTile = GameObject.Instantiate(_boundaryTile, newGrid.transform.position + dir * _gridSpacing / 2, rotation, _mapRoot);
         _generatedTiles.Add(newBoundaryTile);
     }
 
@@ -257,9 +265,11 @@ public class WFCMapGeneration
     {
         _mapGridObject = GameManager.Resource.GetLoadedAsset<GameObject>("MapGrid").GetComponent<MapGrid>();
 
+
+
+        // TODO(김익환, 26-06-24): 어떤 스테이지에 따라 아래 하드 코딩된 것을 등록 하면 될 듯 - 그건 데이터 드리븐으로 가져오고.
         _backUpTile = GameManager.Resource.GetLoadedAsset<GameObject>("BackUpTile").GetComponent<MapTile>();
         _boundaryTile = GameManager.Resource.GetLoadedAsset<GameObject>("BoundaryTile").GetComponent<MapTile>();
-
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Vertical Corridor").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Room1").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("RightTop Corridor").GetComponent<MapTile>());
@@ -272,6 +282,8 @@ public class WFCMapGeneration
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room2").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room1").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("All Direction Corridor").GetComponent<MapTile>());
+
+
 
 
         _soTilePreset = await GameManager.Resource.LoadAssetAsync<SOTilePreset>("SOTilePreset");
@@ -304,7 +316,7 @@ public class WFCMapGeneration
             var newTile = GameObject.Instantiate(tile,
             currentGrid.transform.position + tile.transform.position,
             tile.transform.rotation
-            );
+            , _mapRoot);
 
             _generatedTiles.Add(newTile);
 
