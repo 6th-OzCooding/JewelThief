@@ -7,28 +7,29 @@ public class PoolManager
 {
     Dictionary<string, Queue<GameObject>> objectPools = new();
     Dictionary<string, List<GameObject>> activedObjects = new();
+    private Transform _poolRoot;
 
-
-    public void Init()
+    public void Init(Transform poolRoot)
     {
-        var poolDatas = GameManager.DataTable.GetPoolingObjectDataTable();
+        _poolRoot = poolRoot;
+        var poolDataTable = GameManager.DataTable.GetPoolDataTable();
 
-        foreach (string poolId in poolDatas.Keys)
+        foreach (string poolId in poolDataTable.Keys)
         {
             objectPools.Add(poolId, new Queue<GameObject>());
 
             var gameObject = LoadGameObject(poolId);
 
-            for (int i = 0; i < poolDatas[poolId].InitSize; i++)
+            for (int i = 0; i < poolDataTable[poolId].InitSize; i++)
             {
                 CreateNewObject(poolId, gameObject);
             }
         }
     }
 
-    public void SpawnFromPool(string poolId, Vector3 position)
+    public GameObject SpawnFromPool(string poolId, Vector3 position)
         => GetFromPool(poolId, position, Quaternion.identity);
-    public void SpawnFromPool(string poolId, Vector3 position, Quaternion rotation)
+    public GameObject SpawnFromPool(string poolId, Vector3 position, Quaternion rotation)
         => GetFromPool(poolId, position, rotation);
 
     public T SpawnFromPool<T>(string poolId, Vector3 position) where T : Component
@@ -97,7 +98,7 @@ public class PoolManager
 
     private GameObject CreateNewObject(string poolId, GameObject gameObject)
     {
-        var obj = GameObject.Instantiate(gameObject);
+        var obj = GameObject.Instantiate(gameObject, _poolRoot);
         obj.name = poolId;
         objectPools[poolId].Enqueue(obj);
         obj.SetActive(false);

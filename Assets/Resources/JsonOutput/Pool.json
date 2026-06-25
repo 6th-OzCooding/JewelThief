@@ -1,0 +1,10 @@
+[
+  {
+    "Id": "Pool_Jewel",
+    "InitSize": 10
+  },
+  {
+    "Id": "Pool_Tool",
+    "InitSize": 5
+  }
+]

@@ -24,6 +24,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     private WFCMapGeneration _wfcMapGeneration = new();
     private UserDataManager _userDataManager = new();
 
+    private LobbyController _lobbyController;
+
     #endregion
 
     #region Variables
@@ -34,9 +36,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     private bool _isPlaying = false;
 
     private Transform _mapRoot = null;
+    private Transform _poolRoot = null;
+
     private GameObject _lobbyPrefab;
     private GameObject _lobbyInstance;
-    private LobbyController _lobbyController;
 
     private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
 
@@ -129,7 +132,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void InitNonAsync()
     {
         _soundManager.Init(this.gameObject);
-        _poolManager.Init();
+        PoolInit();
     }
 
     private void Update()
@@ -228,5 +231,15 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
 
         _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
+    }
+
+    private void PoolInit()
+    {
+        if (null == _poolRoot)
+        {
+            _poolRoot = Utils.CreateEmptyGameObject("PoolRoot", this.gameObject.transform).transform;
+        }
+
+        _poolManager.Init(_poolRoot);
     }
 }
