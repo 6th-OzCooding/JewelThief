@@ -84,11 +84,10 @@ public class InventoryPickupItem : MonoBehaviour, IInteractable
         }
 
         HoldType holdType = typeData.GetHoldType();
-        bool isAcquired = inventoryOwner.TryAcquireItem(itemData, holdType, out InventoryItem acquiredItem, out string resultMessage);
+        bool isAcquired = inventoryOwner.TryAcquireItem(itemData, holdType);
 
         if (!isAcquired)
         {
-            Debug.Log(resultMessage);
             return false;
         }
 

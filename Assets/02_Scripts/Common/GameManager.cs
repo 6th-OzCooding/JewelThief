@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using NUnit.Framework;
 using System;
 using UnityEngine;
 
@@ -31,6 +32,19 @@ public class GameManager : SingletonBehaviour<GameManager>
     [SerializeField] private bool _skipStartupUIForTest;
 
     private bool _isPlaying = false;
+
+    private Transform _mapRoot = null;
+    private GameObject _lobbyPrefab;
+    private GameObject _lobbyInstance;
+    private LobbyController _lobbyController;
+
+    private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
+
+    #endregion
+
+    #region Events
+
+    public event Action<string[]> OnExitInGame;
 
     #endregion
 
@@ -123,35 +137,54 @@ public class GameManager : SingletonBehaviour<GameManager>
         if(_isPlaying)
         {
             _alertManager.OnUpdate();
-
         }
     }
 
-    public void EnterLobby()
+    public PlayerController EnterLobby(bool isFirstEnter = false)
     {
-        UI.CloseUI(UIType.TitleUI);
-        UI.EnterGameplayCursorMode();
+        if(isFirstEnter)
+            UI.CloseUI(UIType.TitleUI);
 
-        GameObject lobbyPrefab = _resourceManager.GetLoadedAsset<GameObject>("Lobby");
-        if (lobbyPrefab == null)
+        if(isFirstEnter)
         {
-            Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
+            _lobbyPrefab = _resourceManager.GetLoadedAsset<GameObject>("Lobby");
+            if (_lobbyPrefab == null)
+            {
+                Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
+                return null;
+            }
+            else
+            {
+                _lobbyInstance = Instantiate(_lobbyPrefab);
+                _lobbyInstance.SetActive(true);
+
+                if (_lobbyInstance.TryGetComponent(out _lobbyController))
+                    return _lobbyController.Enter();
+                else
+                    Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+            }
         }
         else
         {
-            GameObject lobbyInstance = Instantiate(lobbyPrefab);
+            if (_lobbyInstance == null || _lobbyController == null)
+            {
+                Debug.LogError("Lobby 인스턴스가 생성되지 않았습니다.");
+                return null;
+            }
 
-            if (lobbyInstance.TryGetComponent(out LobbyController lobbyController))
-                lobbyController.Enter();
-            else
-                Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+            _lobbyInstance.SetActive(true);
+            return _lobbyController.Enter();
         }
+
+        return null;
     }
 
-    public void EnterGamePlay(string StageId)
+    public void EnterInGame(string StageId)
     {
-        // TODO(김익환 2026-06-21): 맵 로딩 ui가 필요한지 몰라서 일단은 로딩화면 없이 바로 생성
-        _wfcMapGeneration.StartGenerateMap().Forget();
+        GenerateMap();
+
+        if (_lobbyInstance != null)
+            _lobbyInstance.SetActive(false);
 
         StageData stageData = _dataTable.GetStageData(StageId);
         if (stageData != null)
@@ -166,36 +199,15 @@ public class GameManager : SingletonBehaviour<GameManager>
     /// <summary>
     /// InGame 이탈 시점 호출
     /// </summary>
-    public void ExitStage()
+    public void ExitInGame()
     {
         _isPlaying = false;
 
         _wfcMapGeneration.Release();
 
-        // 점수 계산
-        int finalScore = JewelPuzzleUIManager.Instance.GetTotalBagPrice();
-        string bestName = JewelPuzzleUIManager.Instance.GetMostExpensiveJewelName();
-         // 경찰에 잡혔는지 안잡혔는지를 나중에 확인하는 것을 보안 해서 후추
+        OnExitInGame?.Invoke(_removeToolIdsWhenInGameExit);
 
-        // 보석 인벤토리 열려있다면 닫기
-        if (JewelPuzzleUIManager.Instance != null && JewelPuzzleUIManager.Instance.IsPuzzleActive)
-        {
-            JewelPuzzleUIManager.Instance.ClosePuzzleInventory();
-        }
-
-        // TODO(김익환 2026-06-21): 본부로 이동
-
-        UI.ExitGameplayCursorMode();
-
-        // 스코어 팝업 UI 열기
-        UIBase uiBase = UI.OpenPopupUI(UIType.ScorePopupUI);
-        if (uiBase != null && uiBase.TryGetComponent(out ScorePopupUI scoreUI))
-        {
-            scoreUI.DisplayScore(finalScore, bestName, false);
-        }
-
-        // 인벤토리 보석 비우기
-        JewelPuzzleUIManager.Instance.ClearAllJewelsOnCaught();
+        EnterLobby();
     }
 
     public void QuitGame()
@@ -207,53 +219,14 @@ public class GameManager : SingletonBehaviour<GameManager>
         #endif
     }
 
-    // 보석 인벤토리 열고 닫기 관리
-    public void ToggleJewelPuzzleUI()
+    private void GenerateMap()
     {
-        Debug.Log("ToggleJewelPuzzleUI 호출됨!");
-
-        if (JewelPuzzleUIManager.Instance == null)
+        // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
+        if(null == _mapRoot)
         {
-            Debug.LogError("JewelPuzzleUIManager.Instance가 null입니다!");
-            return;
+            _mapRoot = Utils.CreateEmptyGameObject("MapRoot", this.gameObject.transform).transform;
         }
 
-        if (JewelPuzzleUIManager.Instance.IsPuzzleActive)
-        {
-            JewelPuzzleUIManager.Instance.ClosePuzzleInventory();
-        }
-        else
-        {
-            JewelPuzzleUIManager.Instance.OpenPuzzleInventory();
-        }
-    }
-
-    // 보석 인벤토리 열려있는 동안 게임 진행관련 관리
-    public void PauseGameForPuzzle()
-    {
-        // 보석 인벤토리를 플레리어가 보고 있는 동안
-        // 실제 플레이어와 게임에 영향이 가지 않도록 조치 필요
-        // 1. 스테이지 타이머 일시 정지
-        // 2. 플레이어 무적 및 이동 불가 처리
-        // 3. 씬 내의 몬스터들 행동 정지
-        // 후추 필요
-
-        PlayerInputHandler input = FindAnyObjectByType<PlayerInputHandler>();
-        if (input != null) input.SetMode(PlayerInputMode.UIOnly);
-
-        Debug.Log("퍼즐 룸에 진입하여 게임 진행이 일시 정지되었습니다. (물리는 정상 작동)");
-    }
-
-    // 보석 인벤토리 닫힐때 게임 진행관련 관리
-    public void ResumeGameFromPuzzle()
-    {
-        // 보석 인벤토리를 닫았으니 조치 했던 것들 
-        // 정지 처리등 해제 필요
-        // 후추 필요
-
-        PlayerInputHandler input = FindAnyObjectByType<PlayerInputHandler>();
-        if (input != null) input.SetMode(PlayerInputMode.Gameplay);
-
-        Debug.Log("퍼즐 룸에서 나와 게임이 재개되었습니다.");
+        _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
     }
 }

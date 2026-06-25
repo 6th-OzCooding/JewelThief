@@ -15,8 +15,18 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: be8d15f0c8cf30e4ca7e0a93622c918e
   m_SerializeEntries:
+  - m_GUID: 04933c45a0a5dfe44bb714276bc692e0
+    m_Address: KeyFBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 112e8d9504911bc489e9aa50f674c139
     m_Address: Player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 165bac9ae1d95234581f89826d2bb64a
+    m_Address: ToolObject
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -55,6 +65,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4078261080fb44a4e953d55f9d0d70e7
+    m_Address: M_Gemstone_Emerald
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 455d6f49b2f92ef4f819067f6dab8cce
     m_Address: PlayTheme
     m_ReadOnly: 0
@@ -62,6 +77,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 489c8ad605b8c7f4ea1adbadc48adbfd
     m_Address: Click_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4deebf0b960164241b321322ebeb4078
+    m_Address: ToolObject
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -80,6 +100,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f46445aa0e4c904b91761c807ceab42
+    m_Address: M_Gemstone_Diamond
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 60e300646305120439bf73382f2b3436
     m_Address: Lose_02
     m_ReadOnly: 0
@@ -95,8 +120,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66e1f300cb059014a98502e0d2032a5d
+    m_Address: Lit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 735e97775f5a9c343aa66cf11e64c26c
+    m_Address: M_Gemstone_Amethyst
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7388b6783a325464a8addb4c6e9a9265
     m_Address: LeftTop Corridor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74ce85aaf4afc164d811a55edf417c44
+    m_Address: Jewel_Cone
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -170,6 +210,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 92edc06a6c5c141469ae1179b1f690f4
+    m_Address: M_Gemstone_Aquamarine
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 949aec4f313f8a84c82b3ee7d8d9f8a5
     m_Address: Demo Room3
     m_ReadOnly: 0
@@ -190,6 +235,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7c8682b5b22fa549b6a0796e7259611
+    m_Address: M_Gemstone_Sapphire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b1fda2122b30bd94caab8565edd73ca9
     m_Address: GunTrap_01
     m_ReadOnly: 0
@@ -207,6 +257,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cb625715e98149146914b9f5f0415f00
     m_Address: Error_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccff500a80b00084e9553c58463ca4fe
+    m_Address: JewelObject
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cdde25d2baf76704b830d75b51155ae4
+    m_Address: M_Gemstone_Topaz
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -235,6 +295,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db56d1ee0639e504bb557eda71f1052f
+    m_Address: Yellow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df1de575ade9c63428426b98128e5d44
+    m_Address: Black
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e440abf894c0e7a4da3ab9802b2b10b3
     m_Address: MapGrid
     m_ReadOnly: 0
@@ -252,6 +322,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ec9cb0d3f295dfe4486b8a1a25b84185
     m_Address: Assets/03_Prefabs/Object/Mesh_IronBox_Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: efd7e3faa313b6648b6230a9a2de8dce
+    m_Address: M_Gemstone_Ruby
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -19,7 +19,7 @@ public enum UIRootType
 public enum UIType
 {
     None = 0,
-    MainUI,
+    MainHUD,
     LoadingUI,
     CenterPointUI,
     TitleUI,
@@ -49,20 +49,43 @@ public static class UIManagerExtension
     /// <summary>
     /// 게임 시작 시 기본으로 필요한 UI를 여는 진입점입니다.
     /// </summary>
-    public static void ShowStartupUIOnGameStart(this UIManager uiManager)
+    public static MainHUD ShowStartupUIOnGameStart(this UIManager uiManager, PlayerController playerController = null)
     {
-        uiManager.OpenLoadingUI();
-        uiManager.OpenUI(UIRootType.MainUI, UIType.MainUI);
+        MainHUD mainHUD = uiManager.OpenMainHUD();
+        mainHUD?.SetPlayerController(playerController);
         uiManager.EnterGameplayCursorMode();
+
+        return mainHUD;
     }
 
     /// <summary>
     /// 인벤토리 시스템 테스트용 게임 플레이 UI를 엽니다.
     /// </summary>
-    public static void ShowInventorySystemTestUI(this UIManager uiManager)
+    public static MainHUD ShowInventorySystemTestUI(this UIManager uiManager)
     {
         uiManager.CloseLoadingUI();
+        MainHUD mainHUD = uiManager.OpenMainHUD();
         uiManager.EnterGameplayCursorMode();
+
+        return mainHUD;
+    }
+
+    /// <summary>
+    /// 게임 플레이 중 표시되는 MainHUD를 엽니다.
+    /// </summary>
+    public static MainHUD OpenMainHUD(this UIManager uiManager)
+    {
+        UIBase uiBase = uiManager.OpenUI(UIRootType.MainUI, UIType.MainHUD);
+        if (uiBase == null)
+            return null;
+
+        if (!uiBase.TryGetComponent(out MainHUD mainHUD))
+        {
+            Debug.LogWarning("MainHUD 프리팹에 MainHUD 컴포넌트가 없습니다.");
+            return null;
+        }
+
+        return mainHUD;
     }
 
     /// <summary>

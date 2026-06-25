@@ -7,18 +7,18 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private PlayerSpawner _playerSpawner;
     [SerializeField] private StageSelectController _stageSelectController;
 
-    public void Enter()
+    public PlayerController Enter()
     {
         if (_playerSpawner == null)
         {
             Debug.LogError("PlayerSpawner가 연결되지 않았습니다.");
-            return;
+            return null;
         }
 
         GameObject spawnedPlayer = _playerSpawner.TrySpawnPlayer(_lobbySpawnPoint.position, _lobbySpawnPoint.rotation);
 
         if (spawnedPlayer == null || _stageSelectController == null)
-            return;
+            return null;
 
         PlayerInputHandler inputHandler = spawnedPlayer.GetComponentInChildren<PlayerInputHandler>();
         if (inputHandler != null)
@@ -30,10 +30,12 @@ public class LobbyController : MonoBehaviour
         if (playerController != null)
         {
             _stageSelectController.SetPlayerCameraTransform(playerController.CameraTransform);
+            return playerController;
         }
         else
         {
             Debug.LogError("PlayerController를 찾지 못했습니다.");
+            return null;
         }
     }
 
