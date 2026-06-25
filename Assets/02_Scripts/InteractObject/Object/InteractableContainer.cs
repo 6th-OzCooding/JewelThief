@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -30,7 +29,7 @@ public class InteractableContainer : BaseDisarmableObejct
     [SerializeField] private InteractableContainerAnimeController _animController;
 
     private SpawnObjectType _interactableObjectType;
-    private string _meshPrefabPath;
+    private string _visualPrefabPath;
     private BoxDropData _rarityRateData = new BoxDropData();
     private List<string> _itemList = new List<string>();
     private List<string> _spawnedRarityList = new List<string>();
@@ -58,7 +57,7 @@ public class InteractableContainer : BaseDisarmableObejct
         _maxSpawnItemCount = data.MaxItemCount;
         _interactableObjectType = data.GetPopupType();
         _isDisarmed = data.IsContainerDisarm;
-        _meshPrefabPath = data.ContainerMeshPrefabPath;
+        _visualPrefabPath = data.ContainerMeshPrefabPath;
         InitStringListData(_itemList, data.ItemIdList);
         InitRarityRateData(data.RateList);
         InitFloatListData(_timeReductionAmountList, data.TimeReductionAmountList);
@@ -111,13 +110,13 @@ public class InteractableContainer : BaseDisarmableObejct
 
     private async void SpawnMeshBox()
     {
-        if (_meshPrefabPath == null || _meshPrefabPath == "")
+        if (_visualPrefabPath == null || _visualPrefabPath == "")
         {
             Debug.LogError("Mesh 프리팹 경로 없음");
             return;
         }
            
-        GameObject obj = await Addressables.InstantiateAsync(_meshPrefabPath).Task;
+        GameObject obj = await Addressables.InstantiateAsync(_visualPrefabPath).Task;
         if (obj == null) return;
 
         obj.transform.SetParent(transform, false);
@@ -274,6 +273,33 @@ public class InteractableContainer : BaseDisarmableObejct
         foreach (string spawnItemId in _spawnedItemList)
         {
             // TODO(안우재 2026-6-24) : GameObejct 생성(pooling 구현 후 가능) 후 ShootItem() 을이용하여 발사
+            /*
+            ItemData itemData = GameManager.DataTable.GetItemData(spawnItemId);
+
+            if (itemData == null)
+            {
+                Debug.LogError($"아이템 데이터 없음: {spawnItemId}");
+                continue;
+            }
+
+            GameObject itemPrefab = GameManager.Resource.GetLoadedAsset<GameObject>(
+                itemData.ItemPrefabPath // 실제 필드명으로 수정
+            );
+
+            if (itemPrefab == null)
+            {
+                Debug.LogError($"아이템 프리팹 로드 안 됨: {spawnItemId}");
+                continue;
+            }
+
+            GameObject itemObj = Instantiate(
+                itemPrefab,
+                spawnPos,
+                Quaternion.identity
+            );
+
+            ShootItem(itemObj);
+            */
         }
     }
 

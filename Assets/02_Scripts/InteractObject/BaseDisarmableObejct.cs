@@ -115,23 +115,26 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
 
         if(interactor is PlayerController player)
         {
-            string leftHandItemDataId = player.LeftHandItem.ItemData.Id;
-            string rightHandItemDataId = player.RightHandItem.ItemData.Id;
-
-            foreach(string dataId in _requiredToolIdList)
+            if(player is IInventoryOwner playerHandSituation)
             {
-                // key가 사라지거나 하므로 오른손 왼손 구별하여 if문 작성
-                if(dataId == rightHandItemDataId)
+                string leftHandItemDataId = playerHandSituation.LeftHandItem.ItemData.Id;
+                string rightHandItemDataId = playerHandSituation.RightHandItem.ItemData.Id;
+
+                foreach (string dataId in _requiredToolIdList)
                 {
-                    _hasRequiresTool = true;
-                    // key에 따른 사용로직 추가 필요
-                    return;
-                }
-                else if(dataId == leftHandItemDataId)
-                {
-                    _hasRequiresTool = true;
-                    // key에 따른 사용로직 추가 필요
-                    return;
+                    // key가 사라지거나 하므로 오른손 왼손 구별하여 if문 작성
+                    if (dataId == rightHandItemDataId)
+                    {
+                        _hasRequiresTool = true;
+                        // key에 따른 사용로직 추가 필요
+                        return;
+                    }
+                    else if (dataId == leftHandItemDataId)
+                    {
+                        _hasRequiresTool = true;
+                        // key에 따른 사용로직 추가 필요
+                        return;
+                    }
                 }
             }
         }
