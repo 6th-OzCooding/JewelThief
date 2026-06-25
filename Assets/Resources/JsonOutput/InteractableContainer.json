@@ -13,7 +13,15 @@
     "TimeReductionAmountList": [
       0
     ],
-    "ItemIdList": null,
+    "ItemIdList": [
+      "Item_Jewel_Diamond",
+      "Item_Jewel_Amethyst",
+      "Item_Jewel_Aquamarine",
+      "Item_Jewel_Emerald",
+      "Item_Jewel_Ruby",
+      "Item_Jewel_Sapphire",
+      "Item_Jewel_Topaz"
+    ],
     "RateList": [
       100,
       0,
@@ -21,7 +29,7 @@
       0
     ],
     "MaxItemCount": 1,
-    "ContainerMeshPrefabPath": null
+    "ContainerMeshPrefabPath": "Mesh_Cabinet"
   },
   {
     "Id": "Object_02",
@@ -37,7 +45,15 @@
     "TimeReductionAmountList": [
       0
     ],
-    "ItemIdList": null,
+    "ItemIdList": [
+      "Item_Jewel_Diamond",
+      "Item_Jewel_Amethyst",
+      "Item_Jewel_Aquamarine",
+      "Item_Jewel_Emerald",
+      "Item_Jewel_Ruby",
+      "Item_Jewel_Sapphire",
+      "Item_Jewel_Topaz"
+    ],
     "RateList": [
       0,
       80,
@@ -45,7 +61,7 @@
       5
     ],
     "MaxItemCount": 3,
-    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_WoodBox_Prefab"
+    "ContainerMeshPrefabPath": "Mesh_WoodBox_Prefab"
   },
   {
     "Id": "Object_03",
@@ -53,7 +69,10 @@
     "SpawnContainerTypeData": "LockBox",
     "ContainerComment": "금고다. 잠겨있는만큼 값 비싼 보석이 담겨있다. 억지로 금고를 열려는 시도를 하는경우 안에 있는 보석이 상할 수 있다.",
     "IsContainerDisarm": false,
-    "RequiresToolIdList": null,
+    "RequiresToolIdList": [
+      "Item_Tool_MasterKey",
+      "Item_Tool_Key"
+    ],
     "CollectOpenDataId": "Object_04",
     "ForceOpenDataId": "Object_05",
     "TimeReductionAmountList": [
@@ -63,7 +82,7 @@
     "ItemIdList": null,
     "RateList": null,
     "MaxItemCount": 5,
-    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab"
+    "ContainerMeshPrefabPath": "Mesh_IronBox_Prefab"
   },
   {
     "Id": "Object_04",
@@ -79,7 +98,15 @@
     "TimeReductionAmountList": [
       0
     ],
-    "ItemIdList": null,
+    "ItemIdList": [
+      "Item_Jewel_Diamond",
+      "Item_Jewel_Amethyst",
+      "Item_Jewel_Aquamarine",
+      "Item_Jewel_Emerald",
+      "Item_Jewel_Ruby",
+      "Item_Jewel_Sapphire",
+      "Item_Jewel_Topaz"
+    ],
     "RateList": [
       0,
       10,
@@ -87,7 +114,7 @@
       40
     ],
     "MaxItemCount": 5,
-    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab"
+    "ContainerMeshPrefabPath": "Mesh_IronBox_Prefab"
   },
   {
     "Id": "Object_05",
@@ -103,7 +130,15 @@
     "TimeReductionAmountList": [
       0
     ],
-    "ItemIdList": null,
+    "ItemIdList": [
+      "Item_Jewel_Diamond",
+      "Item_Jewel_Amethyst",
+      "Item_Jewel_Aquamarine",
+      "Item_Jewel_Emerald",
+      "Item_Jewel_Ruby",
+      "Item_Jewel_Sapphire",
+      "Item_Jewel_Topaz"
+    ],
     "RateList": [
       0,
       40,
@@ -111,6 +146,6 @@
       10
     ],
     "MaxItemCount": 1,
-    "ContainerMeshPrefabPath": "Assets/03_Prefabs/Object/Mesh_IronBox_Prefab"
+    "ContainerMeshPrefabPath": "Mesh_IronBox_Prefab"
   }
 ]

@@ -6,5 +6,9 @@
   {
     "Id": "Pool_Tool",
     "InitSize": 5
+  },
+  {
+    "Id": "InteractableContainer_Prefab",
+    "InitSize": 5
   }
 ]

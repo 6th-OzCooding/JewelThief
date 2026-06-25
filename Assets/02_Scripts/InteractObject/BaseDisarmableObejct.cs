@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using TeamConvention.Interfaces;
 using UnityEngine;
 
@@ -110,15 +111,16 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
         // 그거에 따라서 _hasRequiresTool 값 할당
         // 예상안) LeftHandItem, RightHandItem과 _requiredToolIdList를 비교해서 있다면 사용하여
         // 해제하는 것으로 예상중. 오른손, 왼손 둘 다 들고 있는경우 오른손을 먼저 비교 사용
+        _hasRequiresTool = false;
         if (interactor == null) return;
-        if (_requiredToolIdList.Contains("None")) return;
+        if (_requiredToolIdList.Contains("None") || _requiredToolIdList ==null || _requiredToolIdList.Count == 0) return;
 
         if(interactor is PlayerController player)
         {
             if(player is IInventoryOwner playerHandSituation)
             {
-                string leftHandItemDataId = playerHandSituation.LeftHandItem.ItemData.Id;
-                string rightHandItemDataId = playerHandSituation.RightHandItem.ItemData.Id;
+                string leftHandItemDataId = playerHandSituation.LeftHandItem?.ItemData?.Id;
+                string rightHandItemDataId = playerHandSituation.RightHandItem?.ItemData?.Id;
 
                 foreach (string dataId in _requiredToolIdList)
                 {

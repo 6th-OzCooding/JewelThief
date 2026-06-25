@@ -9,7 +9,7 @@
       10
     ],
     "IsDisarm": false,
-    "DoorMeshPrefabPath": "Assets/03_Prefabs/Object/Door_Mesh"
+    "DoorMeshPrefabPath": "Door_Prefab"
   },
   {
     "Id": "Door_Test_Opened",

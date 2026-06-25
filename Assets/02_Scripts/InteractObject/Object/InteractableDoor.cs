@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-using TeamConvention.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 public class InteractableDoor : BaseDisarmableObejct

@@ -1,20 +1,23 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.LookDev;
 
 public class ObjectSpawnEditor : EditorWindow
 {
     private enum ItemObjectType
     {
         Jewel,
-        Tool
+        Tool,
+        Interactable
     }
 
     private string _jewelObjectAddress = "Pool_Jewel";
     private string _toolObjectAddress = "Pool_Tool";
+    private string _interactableObjectAddress = "InteractableContainer_Prefab";
 
     private static string[] _jewelItemIds =
     {
-        "Item_Jewel__Diamond",
+        "Item_Jewel_Diamond",
         "Item_Jewel_Amethyst",
         "Item_Jewel_Aquamarine",
         "Item_Jewel_Emerald",
@@ -27,14 +30,25 @@ public class ObjectSpawnEditor : EditorWindow
         "Item_Tool_MasterKey",
         "Item_Tool_Key"
     };
+    private static string[] _interactableItemIds =
+    {
+        "Object_01",
+        "Object_02",
+        "Object_03",
+        "Object_04",
+        "Object_05"
+    };
+    private static StageRuntimeInterface[] _stageRuntimeInterfaces;
 
     private ItemObjectType _selectedType = ItemObjectType.Jewel;
 
     private bool _showJewelObject = true;
     private bool _showToolObject = false;
+    private bool _showInteractableObject = false;
 
     private int _selectedJewelIndex = 0;
     private int _selectedToolIndex = 0;
+    private int _selectedInteractableIndex = 0;
 
     private bool _useGravity = false;
 
@@ -59,6 +73,8 @@ public class ObjectSpawnEditor : EditorWindow
         DrawJewelObjectSection();
         EditorGUILayout.Space(4);
         DrawToolObjectSection();
+        EditorGUILayout.Space(4);
+        DrawInteractableObjectSection();
 
         EditorGUILayout.Space(10);
 
@@ -83,6 +99,32 @@ public class ObjectSpawnEditor : EditorWindow
                 MessageType.Warning
             );
         }
+    }
+
+    private void DrawInteractableObjectSection()
+    {
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+        DrawSelectableFoldoutHeader(
+            ItemObjectType.Interactable,
+            ref _showInteractableObject,
+            "InteractableObject"
+        );
+
+        if (_showInteractableObject)
+        {
+            EditorGUI.indentLevel++;
+            using (new EditorGUI.DisabledScope(_selectedType != ItemObjectType.Interactable))
+            {
+                _selectedInteractableIndex = EditorGUILayout.Popup(
+                    "Interactable Item",
+                    _selectedInteractableIndex,
+                    _interactableItemIds
+                );
+            }
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
     }
 
     private void DrawJewelObjectSection()
@@ -188,13 +230,16 @@ public class ObjectSpawnEditor : EditorWindow
 
         GameObject spawnedObject = GameManager.Pool.SpawnFromPool(objectAddress, _spawnPosition, Quaternion.identity);
 
-        switch(_selectedType)
+        switch (_selectedType)
         {
             case ItemObjectType.Jewel:
                 spawnedObject.GetComponent<Jewel>().InitFromSpawner(itemId);
                 break;
             case ItemObjectType.Tool:
                 spawnedObject.GetComponent<Tool>().InitFromSpawner(itemId);
+                break;
+            case ItemObjectType.Interactable:
+                spawnedObject.GetComponent<BaseDisarmableObejct>().InitFromSpawner(itemId);
                 break;
             default:
                 Debug.LogError("선택된 오브젝트가 Jewel 또는 Tool이 아닙니다.");
@@ -217,6 +262,7 @@ public class ObjectSpawnEditor : EditorWindow
         {
             ItemObjectType.Jewel => _jewelObjectAddress,
             ItemObjectType.Tool => _toolObjectAddress,
+            ItemObjectType.Interactable => _interactableObjectAddress,
             _ => null
         };
     }
@@ -227,6 +273,7 @@ public class ObjectSpawnEditor : EditorWindow
         {
             ItemObjectType.Jewel => _jewelItemIds[_selectedJewelIndex],
             ItemObjectType.Tool => _toolItemIds[_selectedToolIndex],
+            ItemObjectType.Interactable => _interactableItemIds[_selectedInteractableIndex],
             _ => null
         };
     }
