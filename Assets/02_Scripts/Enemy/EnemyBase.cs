@@ -35,6 +35,9 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float _attackRadius = 1.5f;
     // 테이저와 곤봉을 위한 딜레이 변수
     [SerializeField] private float _attackDelay = 0f;
+    // 플레이어의 스태미나를 줄이는 데미지 변수
+    [SerializeField] private float _attackDamage = 0f;
+    public float AttackDamage => _attackDamage;
    
     // 기본값은 0초로 잡음
     private float _attackTimer = 0f; 
@@ -205,6 +208,16 @@ public class EnemyBase : MonoBehaviour
 
         // 잠깐 기다리는 시간
         await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: CancelToken);
+
+        // 플레이어에게 공격을 했을 때, 데미지로 플레이어의 스태미나를 감소하게 하는 메서드
+        if (TargetPlayer != null)
+        {
+            PlayerController player = TargetPlayer.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.TakePlayerSpDamage(_attackDamage);
+            }
+        }
 
         // 현재 애니메이션의 길이를 알아내어 기다림
         float currentAnimLength = 1.0f;

@@ -672,6 +672,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2951404586956976516, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
+      propertyPath: _attackDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3069605828623462851, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
       propertyPath: m_Name
       value: Police_Normal
@@ -2503,6 +2507,10 @@ PrefabInstance:
       propertyPath: _attackDelay
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7346867247242109029, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+      propertyPath: _attackDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8311518898016239993, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: m_Name
       value: Taser
@@ -2523,6 +2531,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 316015781581006270, guid: f637edc10bfaad24f9233e31f6e96b40, type: 3}
+      propertyPath: _attackDamage
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2191186160669249042, guid: f637edc10bfaad24f9233e31f6e96b40, type: 3}
       propertyPath: m_Size.x
       value: 0.3911641
@@ -2683,6 +2695,10 @@ PrefabInstance:
     - target: {fileID: 5251132332096177741, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
       propertyPath: _attackDelay
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5251132332096177741, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
+      propertyPath: _attackDamage
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
