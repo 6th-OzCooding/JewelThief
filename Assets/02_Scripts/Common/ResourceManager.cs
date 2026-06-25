@@ -26,11 +26,51 @@ public class ResourceManager
 
         foreach (PreLoadAssetData preLoadData in dataTable.Values)
         {
-            await PreLoadAssetAsync(preLoadData.Address, _progessCount, totalCount, onProgress);
+            switch (preLoadData.AssetType)
+            {
+                case "Mesh":
+                    await PreLoadAssetAsync<Mesh>(
+                        preLoadData.Address,
+                        _progessCount,
+                        totalCount,
+                        onProgress
+                    );
+                    break;
+
+                case "Material":
+                    await PreLoadAssetAsync<Material>(
+                        preLoadData.Address,
+                        _progessCount,
+                        totalCount,
+                        onProgress
+                    );
+                    break;
+
+                case "Prefab":
+                case "GameObject":
+                    await PreLoadAssetAsync<GameObject>(
+                        preLoadData.Address,
+                        _progessCount,
+                        totalCount,
+                        onProgress
+                    );
+                    break;
+
+                default:
+                    await PreLoadAssetAsync<Object>(
+                        preLoadData.Address,
+                        _progessCount,
+                        totalCount,
+                        onProgress
+                    );
+                    break;
+
+            }
 
             float progress = (_progessCount + 1) / (float)totalCount;
             onProgress?.Invoke(progress);
             _progessCount++;
+
         }
 
         onProgress?.Invoke(1f);
@@ -52,7 +92,7 @@ public class ResourceManager
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"에셋 로드 실패: {address}, Exception: {ex}");
+            Debug.LogWarning($"에셋 로드 실패: {address}, Exception: {ex}");
 
             if (loadHandle.IsValid())
                 Addressables.Release(loadHandle);
@@ -65,25 +105,25 @@ public class ResourceManager
     {
         if (!_handles.TryGetValue(address, out AsyncOperationHandle handle))
         {
-            Debug.LogError($"로드되지 않은 에셋입니다: {address}");
+            Debug.LogWarning($"로드되지 않은 에셋입니다: {address}");
             return null;
         }
 
         if (!handle.IsValid())
         {
-            Debug.LogError($"유효하지 않은 에셋 핸들입니다: {address}");
+            Debug.LogWarning($"유효하지 않은 에셋 핸들입니다: {address}");
             return null;
         }
 
         if (handle.Status != AsyncOperationStatus.Succeeded)
         {
-            Debug.LogError($"에셋 로드가 완료되지 않았거나 실패한 에셋입니다: {address}");
+            Debug.LogWarning($"에셋 로드가 완료되지 않았거나 실패한 에셋입니다: {address}");
             return null;
         }
 
         if (handle.Result is not T asset)
         {
-            Debug.LogError($"에셋 타입이 일치하지 않습니다: {address}");
+            Debug.LogWarning($"에셋 타입이 일치하지 않습니다: {address}");
             return null;
         }
 
@@ -110,7 +150,7 @@ public class ResourceManager
         Debug.Log("모든 에셋 메모리 해제 완료");
     }
 
-    private async UniTask PreLoadAssetAsync(string address, int loadedIndex, int totalCount, System.Action<float> onProgress)
+    private async UniTask PreLoadAssetAsync<T>(string address, int loadedIndex, int totalCount, System.Action<float> onProgress)
     {
         if (_handles.TryGetValue(address, out AsyncOperationHandle cacedHandle))
         {
@@ -123,7 +163,7 @@ public class ResourceManager
             _handles.Remove(address);
         }
 
-        AsyncOperationHandle<Object> loadHandle = Addressables.LoadAssetAsync<Object>(address);
+        AsyncOperationHandle<T> loadHandle = Addressables.LoadAssetAsync<T>(address);
 
         while (!loadHandle.IsDone)
         {
@@ -142,7 +182,7 @@ public class ResourceManager
         }
         else
         {
-            Debug.LogError($"에셋 로드 실패: {address}, Exection: {loadHandle.OperationException}");
+            Debug.LogWarning($"에셋 로드 실패: {address}, Exection: {loadHandle.OperationException}");
 
             if (loadHandle.IsValid())
                 Addressables.Release(loadHandle);

@@ -1,40 +1,82 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class FloorSpawner : MonoBehaviour
+public enum FloorSpawnerDirection
 {
-    [SerializeField] private int _spawnCount = 3;
-    [SerializeField] private int _spawnTryCount = 30;
-    [SerializeField] private SpawnArea[] _spawnArea;
-    [SerializeField] private GameObject _tempPrefab;
-    [SerializeField] private LayerMask _floorLayer;
-    [SerializeField] private LayerMask _obstacleLayer;
-    [SerializeField] private float _rayDistance = 20f;
-    [SerializeField] private Vector3 _checkHalfExtents = new Vector3(0.5f, 0.5f, 0.5f);
+    Up,
+    Down,
+}
 
-    private int _spawnedCount = 0;
+public class FloorSpawner
+{
+    private int _spawnCount = 3;
+    private int _spawnTryCount = 30;
 
-    public void SpawnObjectFromFloor()
+    private float _rayDistance = 20f;
+
+    private LayerMask _targetLayer;
+    private LayerMask _obstacleLayer;
+
+    private Vector3 _checkHalfExtents = new Vector3(0.5f, 0.5f, 0.5f);
+    private Vector3 _rayDirection;
+
+    private FloorSpawnerDirection _direction;
+
+    public FloorSpawner(FloorSpawnerDirection direction)
     {
-        while (_spawnedCount < _spawnCount)
+        _direction = direction;
+        _rayDirection = _direction == FloorSpawnerDirection.Down ? Vector3.down : Vector3.up;
+    }
+
+
+    public int SpawnObjectFromFloor(IReadOnlyList<SpawnArea> spawnAreas)
+    {
+        if(null == spawnAreas)
         {
-            for (int i = 0; i < _spawnTryCount; i++)
-            {
-                SpawnArea volume = _spawnArea[Random.Range(0, _spawnArea.Length)];
-                Vector3 randomPoint = volume.GetRandomPosition();
-
-                if (!Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit, _rayDistance, _floorLayer))
-                    continue;
-
-                Vector3 spawnPos = hit.point;
-
-                if (Physics.CheckBox(spawnPos, _checkHalfExtents, Quaternion.identity, _obstacleLayer))
-                    continue;
-
-                Instantiate(_tempPrefab, spawnPos, Quaternion.identity);
-                _spawnedCount++;
-                return;
-            }
+            Debug.LogWarning("Floor SpawnArea가 없습니다.");
+            return 0;
         }
+
+        if(spawnAreas.Count == 0)
+        {
+            Debug.LogWarning("Floor SpawnArea에 스폰할 수 있는 영역이 없습니다.");
+            return 0;
+        }
+
+        int spawnedCount = 0;
+
+        for (int j = 0; j < _spawnCount; j++)
+        {
+            bool result = TrySpawn(spawnAreas);
+
+            if(result)
+                spawnedCount++;
+        }
+
+        return spawnedCount;
+    }
+
+    private bool TrySpawn(IReadOnlyList<SpawnArea> spawnAreas)
+    {
+        for (int i = 0; i < _spawnTryCount; i++)
+        {
+            SpawnArea area = spawnAreas[Random.Range(0, spawnAreas.Count)];
+            Vector3 randomPoint = area.GetRandomPosition();
+
+            if (!Physics.Raycast(randomPoint, _rayDirection, out RaycastHit hit, _rayDistance, _targetLayer))
+                continue;
+
+            Vector3 spawnPos = hit.point;
+
+            if (Physics.CheckBox(spawnPos, _checkHalfExtents, Quaternion.identity, _obstacleLayer))
+                continue;
+
+            // TODO 네번째 매개변수에 mapRoot 넣기
+            GameObject.Instantiate(Utils.ResourcesLoad<GameObject>("TestMapObject"), spawnPos, Quaternion.identity);
+            return true;
+        }
+
+        return false;
     }
 }
 

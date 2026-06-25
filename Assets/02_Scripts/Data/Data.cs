@@ -24,7 +24,25 @@ public enum PopupTargetType
     Trap,
     EscapePath,
     Door,
-    Tool
+    Tool,
+    StageSelectChair,
+    Washer
+}
+
+public enum ItemType
+{
+    None = 0,
+    Potion,
+    Tool,
+    Jewel
+}
+public enum ItemGrade
+{
+    None = 0,
+    Rare,
+    Epic,
+    Unique,
+    Legendary
 }
 
 [Serializable]
@@ -43,6 +61,7 @@ public class PoolingObjectData : BaseData
 public class PreLoadAssetData : BaseData
 {
     public string Address;
+    public string AssetType;
 }
 
 [Serializable]
@@ -50,14 +69,16 @@ public class ItemData : BaseData
 {
     public string Name;
     public string Description;
-    public ItemType CurrentItemType;
-    public ItemGrade CurrentItemGrade;
+    public ItemType ItemType;
+    public ItemGrade ItemGrade;
+    public string StringHoldType;
     public float Weight;
     public int Price;
     public string IconPath;
-    public string PrefabPath;
     public string MeshPath;
     public List<string> MaterialPaths = new List<string>();
+    public int ChargeCount;
+    public string Husks;
 }
 
 [Serializable]
@@ -75,13 +96,7 @@ public class ToolData : ItemData
 {
     public int Durability;
 }
-[Serializable]
-public class PotionData : ItemData
-{
-    public BuffType CurrentBuffType;
-    public float Value;
-    public float Duration;
-}
+
 [Serializable]
 public class JewelData : ItemData
 {
@@ -122,7 +137,7 @@ public class Door : BaseData
 [Serializable]
 public class PopupViewData : BaseData
 {
-    public string PopupType;
+    public string StringPopupType;
     public string DefaultPrompt;
     public string LockedPrompt;
     public string MasterKeyPrompt;
@@ -132,7 +147,7 @@ public class PopupViewData : BaseData
     public string PurchaseSuccessPrompt;
 
     public global::PopupType GetPopupType()
-        => Enum.TryParse<global::PopupType>(PopupType, out var result) ? result : global::PopupType.Simple;
+        => Enum.TryParse<global::PopupType>(StringPopupType, out var result) ? result : global::PopupType.Simple;
 }
 
 [Serializable]

@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class StageSelectChair : MonoBehaviour, IInteractable
 {
+    private const string POPUP_DATA_ID = "StageSelectChair";
+
     [SerializeField] private string _name = "스테이지 선택";
     [SerializeField] private StageSelectController _stageSelectController;
 
-    public string GetId => _name;
+    public string GetId => POPUP_DATA_ID;
 
     public string GetName => _name;
 

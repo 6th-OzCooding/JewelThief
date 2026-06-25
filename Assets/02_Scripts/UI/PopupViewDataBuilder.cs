@@ -9,6 +9,11 @@ using UnityEngine;
 /// </summary>
 public static class PopupViewDataBuilder
 {
+    private const string STAGE_SELECT_CHAIR_DATA_ID = "StageSelectChair";
+    private const string MONEY_LAUNDRY_DATA_ID = "MoneyLaundry";
+    private const string WASHER_DATA_ID_PREFIX = "Washer_";
+    private const string TOTAL_PRICE_TOKEN = "{TotalPrice}";
+
     private static Dictionary<string, RawItemPopupData> _rawItemPopupDataTable;
 
     /// <summary>
@@ -43,6 +48,21 @@ public static class PopupViewDataBuilder
         return true;
     }
 
+    /// <summary>
+    /// 세탁기처럼 상호작용 성공 후 출력할 금액 포함 문구를 만듭니다.
+    /// </summary>
+    public static string BuildPurchaseSuccessPrompt(PopupTargetType targetType, int totalPrice)
+    {
+        if (targetType == PopupTargetType.None || GameManager.DataTable == null)
+            return string.Empty;
+
+        PopupViewData popupViewData = GameManager.DataTable.GetPopupViewData($"TargetType_{targetType}");
+        if (popupViewData == null)
+            return string.Empty;
+
+        return FormatTotalPricePrompt(popupViewData.PurchaseSuccessPrompt, totalPrice);
+    }
+
     private static string ResolvePopupViewDataId(string dataId, PopupInfoTarget popupInfoTarget)
     {
         string explicitId = popupInfoTarget != null ? popupInfoTarget.GetPopupViewDataId() : string.Empty;
@@ -64,7 +84,21 @@ public static class PopupViewDataBuilder
         if (dataId.StartsWith("Trap_"))
             return "TargetType_Trap";
 
+        if (dataId == STAGE_SELECT_CHAIR_DATA_ID)
+            return "TargetType_StageSelectChair";
+
+        if (dataId == MONEY_LAUNDRY_DATA_ID || dataId.StartsWith(WASHER_DATA_ID_PREFIX))
+            return "TargetType_Washer";
+
         return string.Empty;
+    }
+
+    private static string FormatTotalPricePrompt(string prompt, int totalPrice)
+    {
+        if (string.IsNullOrEmpty(prompt))
+            return string.Empty;
+
+        return prompt.Replace(TOTAL_PRICE_TOKEN, totalPrice.ToString());
     }
 
     private static void FillSourceData(string dataId, PopupDisplayData displayData)
@@ -156,8 +190,8 @@ public static class PopupViewDataBuilder
         if (itemData == null)
             return string.Empty;
 
-        if (itemData.CurrentItemGrade != ItemGrade.None)
-            return itemData.CurrentItemGrade.ToString();
+        if (itemData.ItemGrade != ItemGrade.None)
+            return itemData.ItemGrade.ToString();
 
         RawItemPopupData rawData = GetRawItemPopupData(itemData.Id);
         if (rawData != null && !string.IsNullOrEmpty(rawData.CurrentItemGrade))

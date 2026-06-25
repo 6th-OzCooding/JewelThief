@@ -90,6 +90,13 @@ public static class Utils
         return Resources.Load<T>(path);
     }
 
+    public static GameObject CreateEmptyGameObject(string name, Transform parent = null)
+    {
+        GameObject newGameObject = new GameObject(name);
+        if (null != parent) newGameObject.transform.SetParent(parent);
+        return newGameObject;
+    }
+
     // 타이머 표기
     private static string UpdateTimerText()
     {

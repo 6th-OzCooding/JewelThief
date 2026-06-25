@@ -164,7 +164,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
         foreach(string checkItemDataId in _itemList)
         {
-            if(GameManager.DataTable.GetItemData(checkItemDataId).CurrentItemGrade == spanwAbleItemList)
+            if(GameManager.DataTable.GetItemData(checkItemDataId).ItemGrade == spanwAbleItemList)
             {
                 _spawnedRarityList.Add(checkItemDataId);
             }

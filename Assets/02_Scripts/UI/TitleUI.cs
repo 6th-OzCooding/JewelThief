@@ -20,8 +20,8 @@ public class TitleUI : UIBase
     private void OnClickNewGame()
     {
         Debug.Log("새 게임 시작!");
-        GameManager.UI.CloseMainUI();
-        GameManager.Instance.EnterLobby();
+        PlayerController playerController = GameManager.Instance.EnterLobby(true);
+        GameManager.UI.ShowStartupUIOnGameStart(playerController);
 
         // 후추 : 인게임 진입 로직
     }

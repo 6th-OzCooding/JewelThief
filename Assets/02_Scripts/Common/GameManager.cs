@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using NUnit.Framework;
 using System;
 using UnityEngine;
 
@@ -31,6 +32,19 @@ public class GameManager : SingletonBehaviour<GameManager>
     [SerializeField] private bool _skipStartupUIForTest;
 
     private bool _isPlaying = false;
+
+    private Transform _mapRoot = null;
+    private GameObject _lobbyPrefab;
+    private GameObject _lobbyInstance;
+    private LobbyController _lobbyController;
+
+    private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
+
+    #endregion
+
+    #region Events
+
+    public event Action<string[]> OnExitInGame;
 
     #endregion
 
@@ -123,35 +137,54 @@ public class GameManager : SingletonBehaviour<GameManager>
         if(_isPlaying)
         {
             _alertManager.OnUpdate();
-
         }
     }
 
-    public void EnterLobby()
+    public PlayerController EnterLobby(bool isFirstEnter = false)
     {
-        UI.CloseUI(UIType.TitleUI);
-        UI.EnterGameplayCursorMode();
+        if(isFirstEnter)
+            UI.CloseUI(UIType.TitleUI);
 
-        GameObject lobbyPrefab = _resourceManager.GetLoadedAsset<GameObject>("Lobby");
-        if (lobbyPrefab == null)
+        if(isFirstEnter)
         {
-            Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
+            _lobbyPrefab = _resourceManager.GetLoadedAsset<GameObject>("Lobby");
+            if (_lobbyPrefab == null)
+            {
+                Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
+                return null;
+            }
+            else
+            {
+                _lobbyInstance = Instantiate(_lobbyPrefab);
+                _lobbyInstance.SetActive(true);
+
+                if (_lobbyInstance.TryGetComponent(out _lobbyController))
+                    return _lobbyController.Enter();
+                else
+                    Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+            }
         }
         else
         {
-            GameObject lobbyInstance = Instantiate(lobbyPrefab);
+            if (_lobbyInstance == null || _lobbyController == null)
+            {
+                Debug.LogError("Lobby 인스턴스가 생성되지 않았습니다.");
+                return null;
+            }
 
-            if (lobbyInstance.TryGetComponent(out LobbyController lobbyController))
-                lobbyController.Enter();
-            else
-                Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+            _lobbyInstance.SetActive(true);
+            return _lobbyController.Enter();
         }
+
+        return null;
     }
 
-    public void EnterGamePlay(string StageId)
+    public void EnterInGame(string StageId)
     {
-        // TODO(김익환 2026-06-21): 맵 로딩 ui가 필요한지 몰라서 일단은 로딩화면 없이 바로 생성
-        _wfcMapGeneration.StartGenerateMap().Forget();
+        GenerateMap();
+
+        if (_lobbyInstance != null)
+            _lobbyInstance.SetActive(false);
 
         StageData stageData = _dataTable.GetStageData(StageId);
         if (stageData != null)
@@ -166,13 +199,15 @@ public class GameManager : SingletonBehaviour<GameManager>
     /// <summary>
     /// InGame 이탈 시점 호출
     /// </summary>
-    public void ExitStage()
+    public void ExitInGame()
     {
         _isPlaying = false;
 
         _wfcMapGeneration.Release();
 
-        // TODO(김익환 2026-06-21): 본부로 이동
+        OnExitInGame?.Invoke(_removeToolIdsWhenInGameExit);
+
+        EnterLobby();
     }
 
     public void QuitGame()
@@ -182,5 +217,16 @@ public class GameManager : SingletonBehaviour<GameManager>
         #else
             Application.Quit();
         #endif
+    }
+
+    private void GenerateMap()
+    {
+        // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
+        if(null == _mapRoot)
+        {
+            _mapRoot = Utils.CreateEmptyGameObject("MapRoot", this.gameObject.transform).transform;
+        }
+
+        _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
     }
 }
