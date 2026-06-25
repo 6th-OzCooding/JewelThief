@@ -24,6 +24,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     private WFCMapGeneration _wfcMapGeneration = new();
     private UserDataManager _userDataManager = new();
 
+    private LobbyController _lobbyController;
+
     #endregion
 
     #region Variables
@@ -34,10 +36,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     private bool _isPlaying = false;
 
     private Transform _mapRoot = null;
+    private Transform _poolRoot = null;
+
     private GameObject _lobbyPrefab;
     private GameObject _lobbyInstance;
-    private LobbyController _lobbyController;
-    private GameObject _jewelPuzzleInstance;
 
     private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
 
@@ -130,7 +132,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void InitNonAsync()
     {
         _soundManager.Init(this.gameObject);
-        _poolManager.Init();
+        PoolInit();
     }
 
     private void Update()
@@ -154,30 +156,15 @@ public class GameManager : SingletonBehaviour<GameManager>
                 Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
                 return null;
             }
-
-            _lobbyInstance = Instantiate(_lobbyPrefab);
-            _lobbyInstance.SetActive(true);
-
-            GameObject puzzlePrefab = _resourceManager.GetLoadedAsset<GameObject>("JewelInventory");
-            if (puzzlePrefab == null)
-            {
-                Debug.LogError("JewelInventory 프리팹을 로드하지 못했습니다.");
-            }
             else
             {
-                Vector3 spawnPosition = new Vector3(10000f, 10000f, 10000f);
-                _jewelPuzzleInstance = Instantiate(puzzlePrefab, spawnPosition, Quaternion.identity);
+                _lobbyInstance = Instantiate(_lobbyPrefab);
+                _lobbyInstance.SetActive(true);
 
-                _jewelPuzzleInstance.SetActive(true);
-            }
-
-            if (_lobbyInstance.TryGetComponent(out _lobbyController))
-            {
-                return _lobbyController.Enter();
-            }
-            else
-            {
-                Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+                if (_lobbyInstance.TryGetComponent(out _lobbyController))
+                    return _lobbyController.Enter();
+                else
+                    Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
             }
         }
         else
@@ -246,15 +233,13 @@ public class GameManager : SingletonBehaviour<GameManager>
         _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
     }
 
-    // 보석 인벤토리 열림
-    public void PauseGameForPuzzle()
+    private void PoolInit()
     {
-        _isPlaying = false;
-    }
+        if (null == _poolRoot)
+        {
+            _poolRoot = Utils.CreateEmptyGameObject("PoolRoot", this.gameObject.transform).transform;
+        }
 
-    // 보석 이벤토리 닫힘
-    public void ResumeGameFromPuzzle()
-    {
-        _isPlaying = true;
+        _poolManager.Init(_poolRoot);
     }
 }

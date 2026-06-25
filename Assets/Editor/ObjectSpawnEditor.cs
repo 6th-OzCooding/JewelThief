@@ -9,8 +9,8 @@ public class ObjectSpawnEditor : EditorWindow
         Tool
     }
 
-    private string _jewelObjectAddress = "JewelObject";
-    private string _toolObjectAddress = "ToolObject";
+    private string _jewelObjectAddress = "Pool_Jewel";
+    private string _toolObjectAddress = "Pool_Tool";
 
     private static string[] _jewelItemIds =
     {
@@ -186,18 +186,7 @@ public class ObjectSpawnEditor : EditorWindow
             return;
         }
 
-        GameObject prefab = GameManager.Resource.GetLoadedAsset<GameObject>(objectAddress);
-
-        if (prefab == null)
-        {
-            Debug.LogError(
-                $"로드된 프리팹을 찾을 수 없습니다. Address: {objectAddress}\n" +
-                $"ResourceManager.Init()에서 해당 Address가 미리 로드되었는지 확인하세요."
-            );
-            return;
-        }
-
-        GameObject spawnedObject = Instantiate(prefab, _spawnPosition, Quaternion.identity);
+        GameObject spawnedObject = GameManager.Pool.SpawnFromPool(objectAddress, _spawnPosition, Quaternion.identity);
 
         switch(_selectedType)
         {
