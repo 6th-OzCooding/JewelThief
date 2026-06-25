@@ -116,11 +116,6 @@ public class PlayerStatusHUD : MonoBehaviour
     /// </summary>
     public void Refresh()
     {
-        if (_playerController == null)
-        {
-            _playerController = Object.FindFirstObjectByType<PlayerController>();
-        }
-
         if (_playerController == null) return;
 
         SetStamina(_playerController.CurrentStamina, _playerController.MaxStamina);

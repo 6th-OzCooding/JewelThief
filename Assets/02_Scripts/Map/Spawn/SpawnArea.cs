@@ -13,20 +13,23 @@ public class SpawnArea : MonoBehaviour
     [SerializeField] private AreaType _areaType;
     private BoxCollider _collider;
 
+    public AreaType AreaType => _areaType;
+
     private void Awake()
     {
         _collider = GetComponent<BoxCollider>();
+        _collider.isTrigger = true;
     }
 
     public Vector3 GetRandomPosition()
     {
         Bounds bounds = _collider.bounds;
 
-        float x = Random.Range(bounds.min.x, bounds.max.x);
-        float y = Random.Range(bounds.min.y, bounds.max.y);
-        float z = Random.Range(bounds.min.z, bounds.max.z);
-
-        return new Vector3(x, y, z);
+        return new Vector3(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y),
+            Random.Range(bounds.min.z, bounds.max.z)
+            );
     }
 
     private void OnDrawGizmos()
