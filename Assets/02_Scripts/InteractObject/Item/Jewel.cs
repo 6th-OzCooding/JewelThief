@@ -4,6 +4,12 @@ using UnityEngine;
 public class Jewel : BaseInteractableObject
 {
     private ItemData _itemData;
+
+    public ItemData Data
+    {
+        get { return _itemData; }
+    }
+
     public float Weight { get; private set; }
     public int Price { get; private set; }
 

@@ -98,7 +98,16 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public float GetTotalCarryWeight()
     {
-        return GetCurrentBagWeight() + GetItemWeight(LeftHandItem) + GetItemWeight(RightHandItem);
+        // 보석 인벤토리 무게도 추가 해서 수정함
+        float normalItemWeight = GetCurrentBagWeight() + GetItemWeight(LeftHandItem) + GetItemWeight(RightHandItem);
+
+        float jewelWeight = 0f;
+        if (JewelInventoryManager.Instance != null)
+        {
+            jewelWeight = JewelInventoryManager.Instance.GetTotalJewelWeight();
+        }
+
+        return normalItemWeight + jewelWeight;
     }
 
     /// <summary>

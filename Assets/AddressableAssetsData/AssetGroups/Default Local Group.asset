@@ -265,6 +265,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2ee0adf282326246bc6300be2049c67
+    m_Address: Assets/03_Prefabs/Map/JewelPuzzleSystem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cb625715e98149146914b9f5f0415f00
     m_Address: Error_02
     m_ReadOnly: 0
