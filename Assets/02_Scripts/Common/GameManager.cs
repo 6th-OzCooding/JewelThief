@@ -25,6 +25,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private UserDataManager _userDataManager = new();
 
     private LobbyController _lobbyController;
+    private GameObject _jewelPuzzleInstance;
 
     #endregion
 
@@ -156,16 +157,27 @@ public class GameManager : SingletonBehaviour<GameManager>
                 Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
                 return null;
             }
+
+            _lobbyInstance = Instantiate(_lobbyPrefab);
+            _lobbyInstance.SetActive(true);
+
+            // --- [추가] 보석 인벤토리 시스템 소환 ---
+            GameObject puzzlePrefab = _resourceManager.GetLoadedAsset<GameObject>("JewelInventory");
+            if (puzzlePrefab != null)
+            {
+                Vector3 spawnPosition = new Vector3(10000f, 10000f, 10000f);
+                _jewelPuzzleInstance = Instantiate(puzzlePrefab, spawnPosition, Quaternion.identity);
+                _jewelPuzzleInstance.SetActive(true);
+            }
             else
             {
-                _lobbyInstance = Instantiate(_lobbyPrefab);
-                _lobbyInstance.SetActive(true);
-
-                if (_lobbyInstance.TryGetComponent(out _lobbyController))
-                    return _lobbyController.Enter();
-                else
-                    Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+                Debug.LogError("JewelInventory 프리팹을 찾을 수 없습니다.");
             }
+
+            if (_lobbyInstance.TryGetComponent(out _lobbyController))
+                return _lobbyController.Enter();
+            else
+                Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
         }
         else
         {

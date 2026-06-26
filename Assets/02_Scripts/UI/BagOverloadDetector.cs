@@ -9,6 +9,9 @@ public class BagOverloadDetector : MonoBehaviour
     [SerializeField] private SpriteRenderer _boundaryLineRenderer; // 경계 선 (넘침 체크 선)
     [SerializeField] private float _returnDelay = 0.5f; // 선을 넘은 후 판정까지 버티는 시간
 
+    [Header("내부 시스템 연결")]
+    [SerializeField] private JewelInventoryManager _jewelManager;
+
     private Dictionary<Collider, CancellationTokenSource> _activeTrackings = new Dictionary<Collider, CancellationTokenSource>();
 
     public bool IsSpaceSafe
@@ -19,6 +22,14 @@ public class BagOverloadDetector : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        if (_jewelManager == null)
+        {
+            _jewelManager = GetComponentInParent<JewelInventoryManager>();
+        }
+
+    }
     private void Start()
     {
         UpdateLineColor();
@@ -89,12 +100,12 @@ public class BagOverloadDetector : MonoBehaviour
             UpdateLineColor();
         }
 
-        if (JewelInventoryManager.Instance != null)
+        if (_jewelManager != null)
         {
             Jewel gem = gemCollider.GetComponent<Jewel>();
             if (gem != null)
             {
-                JewelInventoryManager.Instance.RemoveJewelFromBag(gem);
+                _jewelManager.RemoveJewelFromBag(gem);
                 Debug.Log($"<color=orange>{gemCollider.name}</color>이(가) 가방 용량을 초과하여 임시 보관함으로 반환되었습니다.");
             }
         }
