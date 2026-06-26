@@ -61,8 +61,8 @@ public class InteractableDoor : BaseDisarmableObejct
         else
         {
             _isInteractable = false;
-            // TODO(안우재 2026-6-24) : 강제로 열었기에 ChangeStat 전에 차감 시간을 적용해야함
-            //                          시간 차감 로직 성준님께 여쭤보기
+            // 시간 감소 리스트의 2번째가 줄어드는 것이므로 1로 설정
+            GameManager.Alert.ReduceTimer(_timeReductionAmountList[1]);
             OpenDoor();
         }
     }
