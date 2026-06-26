@@ -13,8 +13,8 @@ public class ObjectSpawnEditor : EditorWindow
 
     private string _jewelObjectAddress = "Pool_Jewel";
     private string _toolObjectAddress = "Pool_Tool";
-    //private string _interactableObjectAddress = "InteractableContainer_Prefab";
-    private string _interactableObjectAddress = "Door_Prefab";
+    private string _interactableObjectAddress = "InteractableContainer_Prefab";
+    // private string _interactableObjectAddress = "Door_Prefab";
 
     private static string[] _jewelItemIds =
     {
@@ -33,14 +33,14 @@ public class ObjectSpawnEditor : EditorWindow
     };
     private static string[] _interactableItemIds =
     {
-        /*
+        
         "Object_01",
         "Object_02",
         "Object_03",
         "Object_04",
         "Object_05"
-        */
-        "Door_01"
+        
+        // "Door_01"
     };
     private static StageRuntimeInterface[] _stageRuntimeInterfaces;
 
