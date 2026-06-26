@@ -233,6 +233,18 @@ public class GameManager : SingletonBehaviour<GameManager>
         _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
     }
 
+    // 보석 인벤토리 열림
+    public void PauseGameForPuzzle()
+    {
+        _isPlaying = false;
+    }
+
+    // 보석 이벤토리 닫힘
+    public void ResumeGameFromPuzzle()
+    {
+        _isPlaying = true;
+    }
+
     private void PoolInit()
     {
         if (null == _poolRoot)

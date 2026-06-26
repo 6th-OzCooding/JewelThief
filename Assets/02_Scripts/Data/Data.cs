@@ -70,8 +70,8 @@ public class ItemData : BaseData
 {
     public string Name;
     public string Description;
-    public ItemType ItemType;
-    public ItemGrade ItemGrade;
+    public string StringItemType;
+    public string StringItemGrade;
     public string StringHoldType;
     public float Weight;
     public int Price;
@@ -80,6 +80,11 @@ public class ItemData : BaseData
     public List<string> MaterialPaths = new List<string>();
     public int ChargeCount;
     public string Husks;
+
+    public ItemGrade GetItemGrade()
+        => Enum.TryParse<ItemGrade>(StringItemGrade, out var result) ? result : ItemGrade.None;
+    public ItemType GetItemType()
+        => Enum.TryParse<ItemType>(StringItemType, out var result) ? result : ItemType.None;
 }
 
 [Serializable]
@@ -119,6 +124,9 @@ public class InteractableContainerData : BaseData
     public List<int> RateList;
     public int MaxItemCount;
     public string ContainerMeshPrefabPath;
+
+    public SpawnObjectType GetPopupType()
+        => Enum.TryParse<SpawnObjectType>(SpawnContainerTypeData, out var result) ? result : SpawnObjectType.None;
 }
 
 [Serializable]
