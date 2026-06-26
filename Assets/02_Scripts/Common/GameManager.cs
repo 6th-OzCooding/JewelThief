@@ -228,10 +228,46 @@ public class GameManager : SingletonBehaviour<GameManager>
     /// <summary>
     /// InGame 이탈 시점 호출
     /// </summary>
-    public void ExitInGame()
+    // 경찰에게 잡힘 판정 임시용 bool isCaught = false (추후 수정)
+    public void ExitInGame(bool isCaught = false)
     {
         _isInGame = false;
         _isPaused = false;
+
+        float leftTime = _alertManager.GetRemainingTime();
+
+        int currentStageEarnedGold = 0;
+        string bestGemName = "없음";
+
+        if (JewelInventoryManager.Instance != null)
+        {
+            // 경찰에게 잡힘 판정을 받아오는 곳 알면 추후 수정
+            // 경찰에게 잡혔다면 정산 전 몰수 처리 먼저 수행
+            if (isCaught)
+            {
+                JewelInventoryManager.Instance.ClearAllJewelsOnCaught();
+            }
+
+            // 이번 판에서 번 순수 골드 (현재 가방 총액 - 스테이지 시작 시 가방 총액)
+            // 잡혔다면 몰수되어 0원이 나옵니다.
+            currentStageEarnedGold = JewelInventoryManager.Instance.GetCurrentStageScore();
+
+            // 이번 판에서 얻은 가장 비싼 보석 이름
+            // 잡혔다면 "없음"이 나옵니다.
+            bestGemName = JewelInventoryManager.Instance.GetMostExpensiveJewelName();
+        }
+        else
+        {
+            Debug.LogError("JewelInventoryManager 인스턴스를 찾을 수 없어 0점 처리합니다.");
+        }
+
+        UIBase popupBase = UI.OpenPopupUI(UIType.ScorePopupUI);
+        if (popupBase != null && popupBase.TryGetComponent(out ScorePopupUI scoreUI))
+        {
+            // 실제 가방에서 긁어온 데이터와 남은 시간, 체포 여부 전달
+            // 경찰에게 잡힘 판정은 추후 구현이므로 임시로 false 전달
+            scoreUI.DisplayScore(currentStageEarnedGold, bestGemName, leftTime, false);
+        }
 
         _wfcMapGeneration.Release();
 
