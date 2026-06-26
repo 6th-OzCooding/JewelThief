@@ -17,8 +17,6 @@ public class ObjectSpawnEditor : EditorWindow
     private string _toolObjectAddress = "Pool_Tool";
     private string _PaintingObjectAddress = "Pool_Painting";
     private string _StatueObjectAddress = "Pool_Statue";
-    //private string _interactableObjectAddress = "InteractableContainer_Prefab";
-    private string _interactableObjectAddress = "Door_Prefab";
     private string _interactableObjectAddress = "InteractableContainer_Prefab";
     // private string _interactableObjectAddress = "Door_Prefab";
 
