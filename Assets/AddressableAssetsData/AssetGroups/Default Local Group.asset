@@ -41,12 +41,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 223416086535a7b43a073dca9b5d410a
-    m_Address: Painting_1
+    m_Address: Painting_1_Mesh
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2af78253eecb838488739813767b7b48
-    m_Address: Painting_4
+    m_Address: Painting_4_Mesh
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -180,11 +180,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7e1ee362ef967d54cb12acb4009e198b
-    m_Address: Painting_7
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7e2a5fd1da1725d47b4fd328ee4220f9
     m_Address: Notification_02
     m_ReadOnly: 0
@@ -202,11 +197,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8260dff7604f73845a5015567b2e30eb
     m_Address: TestPresetTile
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 82be378027a804b4d80f7239d0737342
-    m_Address: Painting_6
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -301,7 +291,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa6d0a258191a6f43b1d7f0f906d98d0
-    m_Address: Painting_3
+    m_Address: Painting_3_Mesh
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -416,7 +406,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e6e2c036a7f77ef47bde648215da9967
-    m_Address: Painting_5
+    m_Address: Painting_5_Mesh
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -441,7 +431,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fcbf0858952742943882a7f6f913649b
-    m_Address: Painting_2
+    m_Address: Painting_2_Mesh
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

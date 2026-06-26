@@ -164,11 +164,11 @@
     "IconPath": null,
     "ChargeCount": null,
     "MaterialPaths": [
-      "Painting_1",
+      "PaintingFrame_WoodHell",
       "PaintingFrame_White",
-      "PaintingFrame_WoodHell"
+      "Painting_1"
     ],
-    "MeshPath": "Painting_1[Painting_1]",
+    "MeshPath": "Painting_1_Mesh[Painting_1]",
     "Husks": "PaintingObject",
     "HoldType": "Pocket"
   },
@@ -183,10 +183,10 @@
     "IconPath": null,
     "ChargeCount": null,
     "MaterialPaths": [
-      "Painting_6",
-      "PaintingFrame_White"
+      "PaintingFrame_White",
+      "Painting_6"
     ],
-    "MeshPath": "Painting_2[Painting_2]",
+    "MeshPath": "Painting_2_Mesh[Painting_2]",
     "Husks": "PaintingObject",
     "HoldType": "Pocket"
   },
@@ -201,11 +201,11 @@
     "IconPath": null,
     "ChargeCount": null,
     "MaterialPaths": [
-      "Painting_8",
+      "PaintingFrame_Black",
       "PaintingFrame_Gold",
-      "PaintingFrame_Black"
+      "Painting_8"
     ],
-    "MeshPath": "Painting_3[Painting_8]",
+    "MeshPath": "Painting_3_Mesh[Painting_8]",
     "Husks": "PaintingObject",
     "HoldType": "Pocket"
   },
@@ -220,10 +220,10 @@
     "IconPath": null,
     "ChargeCount": null,
     "MaterialPaths": [
-      "Painting_3",
-      "PaintingFrame_White"
+      "PaintingFrame_White",
+      "Painting_3"
     ],
-    "MeshPath": "Painting_4[Painting_4]",
+    "MeshPath": "Painting_4_Mesh[Painting_4]",
     "Husks": "PaintingObject",
     "HoldType": "Pocket"
   },
@@ -238,10 +238,10 @@
     "IconPath": null,
     "ChargeCount": null,
     "MaterialPaths": [
-      "Painting_2",
-      "PaintingFrame_WoodHell"
+      "PaintingFrame_WoodHell",
+      "Painting_2"
     ],
-    "MeshPath": "Painting_5[Painting_5]",
+    "MeshPath": "Painting_5_Mesh[Painting_5]",
     "Husks": "PaintingObject",
     "HoldType": "Pocket"
   }

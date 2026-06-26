@@ -8,11 +8,13 @@ public class ObjectSpawnEditor : EditorWindow
     {
         Jewel,
         Tool,
-        Interactable
+        Interactable,
+        Painting
     }
 
     private string _jewelObjectAddress = "Pool_Jewel";
     private string _toolObjectAddress = "Pool_Tool";
+    private string _PaintingObjectAddress = "Pool_Painting";
     //private string _interactableObjectAddress = "InteractableContainer_Prefab";
     private string _interactableObjectAddress = "Door_Prefab";
 
@@ -42,6 +44,14 @@ public class ObjectSpawnEditor : EditorWindow
         */
         "Door_01"
     };
+    private static string[] _PaintingItemId =
+    {
+        "Item_Painting_01",
+        "Item_Painting_02",
+        "Item_Painting_03",
+        "Item_Painting_04",
+        "Item_Painting_05"
+    };
     private static StageRuntimeInterface[] _stageRuntimeInterfaces;
 
     private ItemObjectType _selectedType = ItemObjectType.Jewel;
@@ -49,10 +59,12 @@ public class ObjectSpawnEditor : EditorWindow
     private bool _showJewelObject = true;
     private bool _showToolObject = false;
     private bool _showInteractableObject = false;
+    private bool _showPaintingObject = false;
 
     private int _selectedJewelIndex = 0;
     private int _selectedToolIndex = 0;
     private int _selectedInteractableIndex = 0;
+    private int _selectedPaintingIndex = 0;
 
     private bool _useGravity = false;
 
@@ -79,6 +91,8 @@ public class ObjectSpawnEditor : EditorWindow
         DrawToolObjectSection();
         EditorGUILayout.Space(4);
         DrawInteractableObjectSection();
+        EditorGUILayout.Space(4);
+        DrawPaintingObjectSection();
 
         EditorGUILayout.Space(10);
 
@@ -189,6 +203,36 @@ public class ObjectSpawnEditor : EditorWindow
         EditorGUILayout.EndVertical();
     }
 
+    private void DrawPaintingObjectSection()
+    {
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+        DrawSelectableFoldoutHeader(
+            ItemObjectType.Painting,
+            ref _showPaintingObject,
+            "PaintingObject"
+        );
+
+        if (_showPaintingObject)
+        {
+            EditorGUI.indentLevel++;
+
+            using (new EditorGUI.DisabledScope(_selectedType != ItemObjectType.Painting))
+            {
+                _selectedPaintingIndex = EditorGUILayout.Popup(
+                    "Painting Item",
+                    _selectedPaintingIndex,
+                    _PaintingItemId
+                );
+            }
+
+            EditorGUI.indentLevel--;
+        }
+
+        EditorGUILayout.EndVertical();
+    }
+
+
     private void DrawSelectableFoldoutHeader(
         ItemObjectType type,
         ref bool foldout,
@@ -245,6 +289,9 @@ public class ObjectSpawnEditor : EditorWindow
             case ItemObjectType.Interactable:
                 spawnedObject.GetComponent<BaseDisarmableObejct>().InitFromSpawner(itemId);
                 break;
+            case ItemObjectType.Painting:
+                spawnedObject.GetComponent<Painting>().InitFromSpawner(itemId);
+                break;
             default:
                 Debug.LogError("선택된 오브젝트가 Jewel 또는 Tool이 아닙니다.");
                 Destroy(spawnedObject);
@@ -267,6 +314,7 @@ public class ObjectSpawnEditor : EditorWindow
             ItemObjectType.Jewel => _jewelObjectAddress,
             ItemObjectType.Tool => _toolObjectAddress,
             ItemObjectType.Interactable => _interactableObjectAddress,
+            ItemObjectType.Painting => _PaintingObjectAddress,
             _ => null
         };
     }
@@ -278,6 +326,7 @@ public class ObjectSpawnEditor : EditorWindow
             ItemObjectType.Jewel => _jewelItemIds[_selectedJewelIndex],
             ItemObjectType.Tool => _toolItemIds[_selectedToolIndex],
             ItemObjectType.Interactable => _interactableItemIds[_selectedInteractableIndex],
+            ItemObjectType.Painting => _PaintingItemId[_selectedPaintingIndex],
             _ => null
         };
     }
