@@ -115,21 +115,33 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         _playerMaxSp = _playerSp; //최대 스태미나 지정
 
         _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
+        
         _playerInventory = GetComponent<PlayerInventory>();
+
+        if (JewelInventoryManager.Instance != null)
+        {
+            JewelInventoryManager.Instance.InitializePlayer(transform, GetComponent<PlayerInputHandler>());
+        }
 
     }
 
     void OnEnable()
     {
+        if (_playerInventory == null)
+            _playerInventory = GetComponent<PlayerInventory>();
+
         if (_inputHandler != null)
         {
             _inputHandler.OnInteractEvent += TryInteract;
             _inputHandler.OnCrouchChanged += CrouchAndStand;
-            if (_playerInventory != null)
+
+            if (_playerInventory != null && GameManager.Instance != null)
+            {
                 GameManager.Instance.OnExitInGame += _playerInventory.FindToolAndRemove;
+            }
             else
             {
-                Debug.LogError("PlayerInventory가 연결되지 않았습니다. OnExitInGame 이벤트에 등록할 수 없습니다.");
+                Debug.LogWarning("PlayerInventory 또는 GameManager가 초기화되지 않아 이벤트를 등록할 수 없습니다.");
             }
         }
     }

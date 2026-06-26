@@ -1,28 +1,23 @@
 ﻿using TeamConvention.Interfaces;
 using UnityEngine;
 
-public class Jewel : BaseInteractableObject
+public class ShopItemDisplay : BaseInteractableObject
 {
     private ItemData _itemData;
-
-    public ItemData Data
-    {
-        get { return _itemData; }
-    }
-
-    public float Weight { get; private set; }
-    public int Price { get; private set; }
 
     [SerializeField] private MeshFilter _meshFilter;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private MeshCollider _meshCollider;
-    public ItemGrade ItemGrade { get; private set; }
+
+    protected override void LoadData(string id)
+    {
+        _itemData = GameManager.DataTable.GetItemData(id);
+    }
 
     protected override void OnInitalized()
     {
         _objectId = _itemData.Id;
         _objectName = _itemData.Name;
-        ItemGrade = _itemData.GetItemGrade();
 
         _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
         _meshCollider.sharedMesh = _meshFilter.sharedMesh;
@@ -40,20 +35,27 @@ public class Jewel : BaseInteractableObject
 
     protected override bool CheckCanInteract()
     {
-        return true;
-    }
-
-    protected override void LoadData(string id)
-    {
-        _itemData = GameManager.DataTable.GetItemData(id);
+        return _itemData != null;
     }
 
     protected override void OnInteract(IInteractor interactor)
     {
-        if (JewelInventoryManager.Instance == null) return;
+        if (interactor is not IInventoryOwner inventoryOwner)
+        {
+            Debug.LogWarning("인벤토리가 누락되었습니다.");
+            return;
+        }
 
-        if (!JewelInventoryManager.Instance.CanPickupJewel(_itemData)) return;
+        bool isPurchased = GameManager.Shop.TryBuyItem(inventoryOwner, _objectId);
 
-        JewelInventoryManager.Instance.AddJewelToTempQueue(this);
+        if (!isPurchased)
+        {
+            GameManager.Sound.PlaySFX(SoundId.SFX_Error01);
+            Debug.Log($"{_objectName} 구매에 실패했습니다. (골드 부족 또는 습득 실패)");
+            return;
+        }
+
+        GameManager.Sound.PlaySFX(SoundId.SFX_Gain01);
+        Debug.Log($"{_objectName}을(를) 구매했습니다. 남은 골드: {GameManager.Instance.Gold}");
     }
 }
