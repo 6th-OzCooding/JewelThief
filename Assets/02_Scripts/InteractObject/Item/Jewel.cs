@@ -4,6 +4,12 @@ using UnityEngine;
 public class Jewel : BaseInteractableObject
 {
     private ItemData _itemData;
+
+    public ItemData Data
+    {
+        get { return _itemData; }
+    }
+
     public float Weight { get; private set; }
     public int Price { get; private set; }
 
@@ -16,7 +22,7 @@ public class Jewel : BaseInteractableObject
     {
         _objectId = _itemData.Id;
         _objectName = _itemData.Name;
-        ItemGrade = _itemData.ItemGrade;
+        ItemGrade = _itemData.GetItemGrade();
 
         _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
         _meshCollider.sharedMesh = _meshFilter.sharedMesh;
