@@ -39,7 +39,7 @@ public class BulletProjectile : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                // [추가됨] 곤봉과 동일한 디버그
+                // 적이랑 부딪히면 바로 파괴되게
                 Debug.Log("적 맞고 파괴됨");
                 Destroy(gameObject);
                 return;
@@ -50,7 +50,7 @@ public class BulletProjectile : MonoBehaviour
                 if (player != null)
                 {
                     player.TakePlayerSpDamage(_damage);
-                    // [추가됨] 곤봉과 동일한 디버그
+                    // 데미지를 받았는 지 확인
                     Debug.Log($"플레이어에게 총알 적중! 데미지: {_damage}");
                 }
                 Destroy(gameObject);
@@ -58,7 +58,7 @@ public class BulletProjectile : MonoBehaviour
             }
             else
             {
-                // [추가됨] 곤봉과 동일한 디버그
+                // 벽이나 물체에 맞으면 바로 파괴되게
                 Debug.Log("벽 맞고 파괴됨");
                 Destroy(gameObject);
                 return;

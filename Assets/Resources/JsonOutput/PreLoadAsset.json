@@ -343,5 +343,105 @@
     "Id": "PreLoadAsset_PoliceThrow_Object",
     "Address": "Pool_Throw",
     "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_PaintingObject",
+    "Address": "Pool_Painting",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_1[Painting_1]",
+    "Address": "Painting_1_Mesh[Painting_1]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_2[Painting_2]",
+    "Address": "Painting_2_Mesh[Painting_2]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_3[Painting_8]",
+    "Address": "Painting_3_Mesh[Painting_8]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_4[Painting_4]",
+    "Address": "Painting_4_Mesh[Painting_4]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_5[Painting_5]",
+    "Address": "Painting_5_Mesh[Painting_5]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_1",
+    "Address": "Painting_1",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_2",
+    "Address": "Painting_2",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_3",
+    "Address": "Painting_3",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_6",
+    "Address": "Painting_6",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_8",
+    "Address": "Painting_8",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_Gold",
+    "Address": "PaintingFrame_Gold",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_Black",
+    "Address": "PaintingFrame_Black",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_White",
+    "Address": "PaintingFrame_White",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_WoodHell",
+    "Address": "PaintingFrame_WoodHell",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_PoliceShoot_Object",
+    "Address": "Pool_Bullet",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Police_Normal",
+    "Address": "Police_Normal",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Police_Shoot",
+    "Address": "Police_Shoot",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Police_Throw",
+    "Address": "Police_Throw",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Police_Dog",
+    "Address": "Police_Dog",
+    "AssetType": null
   }
 ]

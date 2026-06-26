@@ -11,7 +11,7 @@
     "AttackRadius": 1.5,
     "AttackDelay": 0,
     "AttackDamage": 1,
-    "PrefabAddress": "Assets/03_Prefabs/Enemy/Police_Normal.prefab"
+    "PrefabAddress": "Police_Normal"
   },
   {
     "Id": "Enemy_02",
@@ -25,7 +25,7 @@
     "AttackRadius": 8,
     "AttackDelay": 1.5,
     "AttackDamage": 5,
-    "PrefabAddress": "Assets/03_Prefabs/Enemy/Police_Shoot.prefab"
+    "PrefabAddress": "Police_Shoot"
   },
   {
     "Id": "Enemy_03",
@@ -39,7 +39,7 @@
     "AttackRadius": 10,
     "AttackDelay": 1,
     "AttackDamage": 8,
-    "PrefabAddress": "Assets/03_Prefabs/Enemy/Police_Throw.prefab"
+    "PrefabAddress": "Police_Throw"
   },
   {
     "Id": "Enemy_04",
@@ -53,6 +53,6 @@
     "AttackRadius": 1,
     "AttackDelay": 0,
     "AttackDamage": 0.5,
-    "PrefabAddress": "Assets/03_Prefabs/Enemy/Police_Dog.prefab"
+    "PrefabAddress": "Police_Dog"
   }
 ]

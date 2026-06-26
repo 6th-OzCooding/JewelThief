@@ -75,7 +75,6 @@ public class BarProjectile : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            // [수정됨] 기존 코드에 있던 버그 수정 (자신이 아닌 other에서 GetComponent를 해야 합니다!)
             PlayerController player = other.GetComponent<PlayerController>();
             if (player != null)
             {
@@ -84,6 +83,6 @@ public class BarProjectile : MonoBehaviour
             }
         }
 
-        Destroy(gameObject); // [수정됨]
+        Destroy(gameObject);
     }
 }
