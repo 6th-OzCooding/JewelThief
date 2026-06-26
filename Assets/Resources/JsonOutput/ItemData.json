@@ -159,7 +159,7 @@
     "Description": "벽에 걸려있는 그림이다.",
     "StringItemType": "Painting",
     "StringItemGrade": "Epic",
-    "Weight": 12,
+    "Weight": 6,
     "Price": 1200,
     "IconPath": null,
     "ChargeCount": null,
@@ -178,7 +178,7 @@
     "Description": "벽에 걸려있는 그림이다.",
     "StringItemType": "Painting",
     "StringItemGrade": "Epic",
-    "Weight": 12,
+    "Weight": 6,
     "Price": 1200,
     "IconPath": null,
     "ChargeCount": null,
@@ -196,7 +196,7 @@
     "Description": "벽에 걸려있는 그림이다.",
     "StringItemType": "Painting",
     "StringItemGrade": "Epic",
-    "Weight": 12,
+    "Weight": 6,
     "Price": 1200,
     "IconPath": null,
     "ChargeCount": null,
@@ -215,7 +215,7 @@
     "Description": "벽에 걸려있는 그림이다.",
     "StringItemType": "Painting",
     "StringItemGrade": "Epic",
-    "Weight": 12,
+    "Weight": 6,
     "Price": 1200,
     "IconPath": null,
     "ChargeCount": null,
@@ -233,7 +233,7 @@
     "Description": "벽에 걸려있는 그림이다.",
     "StringItemType": "Painting",
     "StringItemGrade": "Epic",
-    "Weight": 12,
+    "Weight": 6,
     "Price": 1200,
     "IconPath": null,
     "ChargeCount": null,
@@ -243,6 +243,74 @@
     ],
     "MeshPath": "Painting_5_Mesh[Painting_5]",
     "Husks": "PaintingObject",
+    "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Statue_Stone",
+    "Name": "돌 조각상",
+    "Description": "투박한 돌로 만든 조각상이다.",
+    "StringItemType": "Statue",
+    "StringItemGrade": "Epic",
+    "Weight": 5,
+    "Price": 800,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Statue_Stone"
+    ],
+    "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
+    "Husks": "StatueObject",
+    "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Statue_Copper",
+    "Name": "구리 조각상",
+    "Description": "특이한 색의 조각상이다.",
+    "StringItemType": "Statue",
+    "StringItemGrade": "Rare",
+    "Weight": 10,
+    "Price": 1600,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Statue_Copper"
+    ],
+    "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
+    "Husks": "StatueObject",
+    "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Statue_Metal",
+    "Name": "금속 조각상",
+    "Description": "광택이 나는 금속 조각상이다.",
+    "StringItemType": "Statue",
+    "StringItemGrade": "Unique",
+    "Weight": 15,
+    "Price": 3000,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Statue_Metal"
+    ],
+    "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
+    "Husks": "StatueObject",
+    "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Statue_Marble",
+    "Name": "대리석 조각상",
+    "Description": "아름다운 조각상이다.",
+    "StringItemType": "Statue",
+    "StringItemGrade": "Legendary",
+    "Weight": 20,
+    "Price": 5000,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Statue_Marble"
+    ],
+    "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
+    "Husks": "StatueObject",
     "HoldType": "Pocket"
   }
 ]

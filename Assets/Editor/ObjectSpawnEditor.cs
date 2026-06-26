@@ -9,12 +9,14 @@ public class ObjectSpawnEditor : EditorWindow
         Jewel,
         Tool,
         Interactable,
-        Painting
+        Painting,
+        Statue
     }
 
     private string _jewelObjectAddress = "Pool_Jewel";
     private string _toolObjectAddress = "Pool_Tool";
     private string _PaintingObjectAddress = "Pool_Painting";
+    private string _StatueObjectAddress = "Pool_Statue";
     //private string _interactableObjectAddress = "InteractableContainer_Prefab";
     private string _interactableObjectAddress = "Door_Prefab";
 
@@ -52,6 +54,13 @@ public class ObjectSpawnEditor : EditorWindow
         "Item_Painting_04",
         "Item_Painting_05"
     };
+    private static string[] _StatueItemId =
+    {
+        "Item_Statue_Stone",
+        "Item_Statue_Copper",
+        "Item_Statue_Metal",
+        "Item_Statue_Marble"
+    };
     private static StageRuntimeInterface[] _stageRuntimeInterfaces;
 
     private ItemObjectType _selectedType = ItemObjectType.Jewel;
@@ -60,11 +69,13 @@ public class ObjectSpawnEditor : EditorWindow
     private bool _showToolObject = false;
     private bool _showInteractableObject = false;
     private bool _showPaintingObject = false;
+    private bool _showStatueObject = false;
 
     private int _selectedJewelIndex = 0;
     private int _selectedToolIndex = 0;
     private int _selectedInteractableIndex = 0;
     private int _selectedPaintingIndex = 0;
+    private int _selectedStatueIndex = 0;
 
     private bool _useGravity = false;
 
@@ -93,6 +104,8 @@ public class ObjectSpawnEditor : EditorWindow
         DrawInteractableObjectSection();
         EditorGUILayout.Space(4);
         DrawPaintingObjectSection();
+        EditorGUILayout.Space(4);
+        DrawStatueObjectSection();
 
         EditorGUILayout.Space(10);
 
@@ -259,6 +272,36 @@ public class ObjectSpawnEditor : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
+    //추가: 조각상 스폰 섹션
+    private void DrawStatueObjectSection()
+    {
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+        DrawSelectableFoldoutHeader(
+            ItemObjectType.Statue,
+            ref _showStatueObject,
+            "StatueObject"
+        );
+
+        if (_showStatueObject)
+        {
+            EditorGUI.indentLevel++;
+
+            using (new EditorGUI.DisabledScope(_selectedType != ItemObjectType.Statue))
+            {
+                _selectedStatueIndex = EditorGUILayout.Popup(
+                    "Statue Item",
+                    _selectedStatueIndex,
+                    _StatueItemId
+                );
+            }
+
+            EditorGUI.indentLevel--;
+        }
+
+        EditorGUILayout.EndVertical();
+    }
+
     private void SpawnSelectedItem()
     {
         string objectAddress = GetSelectedObjectAddress();
@@ -292,6 +335,9 @@ public class ObjectSpawnEditor : EditorWindow
             case ItemObjectType.Painting:
                 spawnedObject.GetComponent<Painting>().InitFromSpawner(itemId);
                 break;
+            case ItemObjectType.Statue:
+                spawnedObject.GetComponent<Statue>().InitFromSpawner(itemId);
+                break;
             default:
                 Debug.LogError("선택된 오브젝트가 Jewel 또는 Tool이 아닙니다.");
                 Destroy(spawnedObject);
@@ -315,6 +361,7 @@ public class ObjectSpawnEditor : EditorWindow
             ItemObjectType.Tool => _toolObjectAddress,
             ItemObjectType.Interactable => _interactableObjectAddress,
             ItemObjectType.Painting => _PaintingObjectAddress,
+            ItemObjectType.Statue => _StatueObjectAddress,
             _ => null
         };
     }
@@ -327,6 +374,7 @@ public class ObjectSpawnEditor : EditorWindow
             ItemObjectType.Tool => _toolItemIds[_selectedToolIndex],
             ItemObjectType.Interactable => _interactableItemIds[_selectedInteractableIndex],
             ItemObjectType.Painting => _PaintingItemId[_selectedPaintingIndex],
+            ItemObjectType.Statue => _StatueItemId[_selectedStatueIndex],
             _ => null
         };
     }

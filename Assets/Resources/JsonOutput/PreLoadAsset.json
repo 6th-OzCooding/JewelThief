@@ -345,27 +345,27 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_Mesh_Painting_1[Painting_1]",
+    "Id": "PreLoadAsset_Mesh_Painting_1",
     "Address": "Painting_1_Mesh[Painting_1]",
     "AssetType": "Mesh"
   },
   {
-    "Id": "PreLoadAsset_Mesh_Painting_2[Painting_2]",
+    "Id": "PreLoadAsset_Mesh_Painting_2",
     "Address": "Painting_2_Mesh[Painting_2]",
     "AssetType": "Mesh"
   },
   {
-    "Id": "PreLoadAsset_Mesh_Painting_3[Painting_8]",
+    "Id": "PreLoadAsset_Mesh_Painting_3",
     "Address": "Painting_3_Mesh[Painting_8]",
     "AssetType": "Mesh"
   },
   {
-    "Id": "PreLoadAsset_Mesh_Painting_4[Painting_4]",
+    "Id": "PreLoadAsset_Mesh_Painting_4",
     "Address": "Painting_4_Mesh[Painting_4]",
     "AssetType": "Mesh"
   },
   {
-    "Id": "PreLoadAsset_Mesh_Painting_5[Painting_5]",
+    "Id": "PreLoadAsset_Mesh_Painting_5",
     "Address": "Painting_5_Mesh[Painting_5]",
     "AssetType": "Mesh"
   },
@@ -412,6 +412,36 @@
   {
     "Id": "PreLoadAsset_Material_PaintingFrame_WoodHell",
     "Address": "PaintingFrame_WoodHell",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_StatueObject",
+    "Address": "Pool_Statue",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_SeatedLion",
+    "Address": "SeatedLion[Seated_Lion_LOD0]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Stone",
+    "Address": "Statue_Stone",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Copper",
+    "Address": "Statue_Copper",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Metal",
+    "Address": "Statue_Metal",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Marble",
+    "Address": "Statue_Marble",
     "AssetType": null
   }
 ]
