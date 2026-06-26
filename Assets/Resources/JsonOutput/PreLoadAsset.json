@@ -290,6 +290,56 @@
     "AssetType": null
   },
   {
+    "Id": "PreLoadAsset_GameObject_Door",
+    "Address": "Door_Prefab",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_InteractableContainer",
+    "Address": "InteractableContainer_Prefab",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_MeshDoor",
+    "Address": "Mesh_Door",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_MeshCabinet",
+    "Address": "Mesh_Cabinet",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_MeshIronBoxPrefab",
+    "Address": "Mesh_IronBox_Prefab",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_MeshWoodBoxPrefab",
+    "Address": "Mesh_WoodBox_Prefab",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_Effect_High",
+    "Address": "Effect_High",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_Effect_Low",
+    "Address": "Effect_Low",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_Effect_Normal",
+    "Address": "Effect_Normal",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_JewelInventory",
+    "Address": "JewelInventory",
+    "AssetType": null
+  },
+  {
     "Id": "PreLoadAsset_PoliceThrow_Object",
     "Address": "Pool_Throw",
     "AssetType": null
