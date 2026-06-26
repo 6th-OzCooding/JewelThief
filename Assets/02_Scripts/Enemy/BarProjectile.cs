@@ -29,7 +29,7 @@ public class BarProjectile : MonoBehaviour
 
     private async UniTaskVoid AutoDespawnRoutine(CancellationToken token)
     {
-        bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(5f), cancellationToken: token).SuppressCancellationThrow();
+        bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(_lifeTime), cancellationToken: token).SuppressCancellationThrow();
         if (isCanceled) return; // 중간에 다른 곳에 부딪혀서 토큰이 취소되면 무시
 
         if (gameObject.activeInHierarchy)
