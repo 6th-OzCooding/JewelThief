@@ -92,7 +92,7 @@ public class ResourceManager
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"에셋 로드 실패: {address}, Exception: {ex}");
+            Debug.LogWarning($"에셋 로드 실패: {address}, Exception: {ex}");
 
             if (loadHandle.IsValid())
                 Addressables.Release(loadHandle);
@@ -105,25 +105,25 @@ public class ResourceManager
     {
         if (!_handles.TryGetValue(address, out AsyncOperationHandle handle))
         {
-            Debug.LogError($"로드되지 않은 에셋입니다: {address}");
+            Debug.LogWarning($"로드되지 않은 에셋입니다: {address}");
             return null;
         }
 
         if (!handle.IsValid())
         {
-            Debug.LogError($"유효하지 않은 에셋 핸들입니다: {address}");
+            Debug.LogWarning($"유효하지 않은 에셋 핸들입니다: {address}");
             return null;
         }
 
         if (handle.Status != AsyncOperationStatus.Succeeded)
         {
-            Debug.LogError($"에셋 로드가 완료되지 않았거나 실패한 에셋입니다: {address}");
+            Debug.LogWarning($"에셋 로드가 완료되지 않았거나 실패한 에셋입니다: {address}");
             return null;
         }
 
         if (handle.Result is not T asset)
         {
-            Debug.LogError($"에셋 타입이 일치하지 않습니다: {address}");
+            Debug.LogWarning($"에셋 타입이 일치하지 않습니다: {address}");
             return null;
         }
 
@@ -182,7 +182,7 @@ public class ResourceManager
         }
         else
         {
-            Debug.LogError($"에셋 로드 실패: {address}, Exection: {loadHandle.OperationException}");
+            Debug.LogWarning($"에셋 로드 실패: {address}, Exection: {loadHandle.OperationException}");
 
             if (loadHandle.IsValid())
                 Addressables.Release(loadHandle);

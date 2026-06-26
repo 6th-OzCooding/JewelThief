@@ -271,12 +271,12 @@
   },
   {
     "Id": "PreLoadAsset_GameObject_ToolObject",
-    "Address": "ToolObject",
+    "Address": "Pool_Tool",
     "AssetType": null
   },
   {
     "Id": "PreLoadAsset_GameObject_JewelObject",
-    "Address": "JewelObject",
+    "Address": "Pool_Jewel",
     "AssetType": null
   },
   {
@@ -287,6 +287,11 @@
   {
     "Id": "PreLoadAsset_Material_Lit",
     "Address": "Lit",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_JewelInventory",
+    "Address": "JewelInventory",
     "AssetType": null
   }
 ]

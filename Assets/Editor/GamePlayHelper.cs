@@ -32,4 +32,10 @@ public class GamePlayHelper : Editor
         a.GetComponent<Tool>().InitFromSpawner("Item_Tool_MasterKey");
         a.GetComponent<Rigidbody>().useGravity = false;
     }
+
+    [MenuItem("Tools/GamePlayHelper/EnterInGame")]
+    private static void EnterInGame()
+    {
+        GameManager.Instance.EnterInGame("Stage_01");
+    }
 }

@@ -4,7 +4,7 @@
     "Name": "만능 열쇠",
     "Description": "잠겨있는 무언가를 열 수 있다.\n여러 번 사용할 수 있다.",
     "StringItemType": "Tool",
-    "StringItemGrade": "Legendary",
+    "StringItemGrade": "None",
     "Weight": 2,
     "Price": 100000,
     "IconPath": null,
@@ -13,14 +13,15 @@
       "Yellow"
     ],
     "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
-    "Husks": "ToolObject"
+    "Husks": "ToolObject",
+    "HoldType": null
   },
   {
     "Id": "Item_Tool_Key",
     "Name": "열쇠",
     "Description": "잠겨있는 무언가를 열 수 있다.\n한 번만 사용 할 수 있다.",
     "StringItemType": "Tool",
-    "StringItemGrade": "Rare",
+    "StringItemGrade": "None",
     "Weight": 1,
     "Price": 30,
     "IconPath": null,
@@ -29,14 +30,15 @@
       "Black"
     ],
     "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
-    "Husks": "ToolObject"
+    "Husks": "ToolObject",
+    "HoldType": null
   },
   {
-    "Id": "Item_Jewel__Diamond",
+    "Id": "Item_Jewel_Diamond",
     "Name": "다이아몬드",
     "Description": "다이아몬드다.",
     "StringItemType": "Jewel",
-    "StringItemGrade": "Legendary",
+    "StringItemGrade": "Epic",
     "Weight": 10,
     "Price": 1000,
     "IconPath": null,
@@ -46,14 +48,15 @@
       "Lit"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject"
+    "Husks": "JewelObject",
+    "HoldType": "Hold"
   },
   {
     "Id": "Item_Jewel_Amethyst",
     "Name": "자수정",
     "Description": "자수정이다.",
     "StringItemType": "Jewel",
-    "StringItemGrade": "Unique",
+    "StringItemGrade": "Epic",
     "Weight": 8,
     "Price": 800,
     "IconPath": null,
@@ -62,7 +65,8 @@
       "M_Gemstone_Amethyst"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject"
+    "Husks": "JewelObject",
+    "HoldType": "Pocket"
   },
   {
     "Id": "Item_Jewel_Aquamarine",
@@ -78,14 +82,15 @@
       "M_Gemstone_Aquamarine"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject"
+    "Husks": "JewelObject",
+    "HoldType": "Pocket"
   },
   {
     "Id": "Item_Jewel_Emerald",
     "Name": "에메랄드",
     "Description": "에메랄드다.",
     "StringItemType": "Jewel",
-    "StringItemGrade": "Epic",
+    "StringItemGrade": "Rare",
     "Weight": 6,
     "Price": 600,
     "IconPath": null,
@@ -94,14 +99,15 @@
       "M_Gemstone_Emerald"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject"
+    "Husks": "JewelObject",
+    "HoldType": "Pocket"
   },
   {
     "Id": "Item_Jewel_Ruby",
     "Name": "루비",
     "Description": "루비다.",
     "StringItemType": "Jewel",
-    "StringItemGrade": "Epic",
+    "StringItemGrade": "Rare",
     "Weight": 5,
     "Price": 500,
     "IconPath": null,
@@ -110,14 +116,15 @@
       "M_Gemstone_Ruby"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject"
+    "Husks": "JewelObject",
+    "HoldType": "Hold"
   },
   {
     "Id": "Item_Jewel_Sapphire",
     "Name": "사피이어",
     "Description": "사파이어다.",
     "StringItemType": "Jewel",
-    "StringItemGrade": "Rare",
+    "StringItemGrade": "Legendary",
     "Weight": 4,
     "Price": 400,
     "IconPath": null,
@@ -126,14 +133,15 @@
       "M_Gemstone_Sapphire"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject"
+    "Husks": "JewelObject",
+    "HoldType": "Pocket"
   },
   {
     "Id": "Item_Jewel_Topaz",
     "Name": "토파즈",
     "Description": "토파즈다.",
     "StringItemType": "Jewel",
-    "StringItemGrade": "Rare",
+    "StringItemGrade": "Legendary",
     "Weight": 3,
     "Price": 300,
     "IconPath": null,
@@ -142,6 +150,7 @@
       "M_Gemstone_Topaz"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject"
+    "Husks": "JewelObject",
+    "HoldType": "Pocket"
   }
 ]

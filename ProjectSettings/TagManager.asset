@@ -14,7 +14,7 @@ TagManager:
   - UI
   - PlayerBody
   - PlayerHand
-  - 
+  - Gem
   - 
   - ground
   - 
@@ -24,7 +24,7 @@ TagManager:
   - Floor
   - Wall
   - Ceiling
-  - 
+  - Obstacle
   - 
   - 
   - 

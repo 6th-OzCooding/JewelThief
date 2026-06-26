@@ -24,7 +24,9 @@ public enum PopupTargetType
     Trap,
     EscapePath,
     Door,
-    Tool
+    Tool,
+    StageSelectChair,
+    Washer
 }
 
 public enum ItemType
@@ -34,6 +36,7 @@ public enum ItemType
     Tool,
     Jewel
 }
+
 public enum ItemGrade
 {
     None = 0,
@@ -50,7 +53,7 @@ public class BaseData
 }
 
 [Serializable]
-public class PoolingObjectData : BaseData
+public class PoolData : BaseData
 {
     public int InitSize;
 }
@@ -69,18 +72,19 @@ public class ItemData : BaseData
     public string Description;
     public string StringItemType;
     public string StringItemGrade;
+    public string StringHoldType;
     public float Weight;
     public int Price;
     public string IconPath;
     public string MeshPath;
     public List<string> MaterialPaths = new List<string>();
     public int ChargeCount;
-
-    public ItemType GetItemType()
-       => Enum.TryParse<ItemType>(StringItemType, out var result) ? result : ItemType.None;
+    public string Husks;
 
     public ItemGrade GetItemGrade()
         => Enum.TryParse<ItemGrade>(StringItemGrade, out var result) ? result : ItemGrade.None;
+    public ItemType GetItemType()
+        => Enum.TryParse<ItemType>(StringItemType, out var result) ? result : ItemType.None;
 }
 
 [Serializable]
@@ -120,6 +124,9 @@ public class InteractableContainerData : BaseData
     public List<int> RateList;
     public int MaxItemCount;
     public string ContainerMeshPrefabPath;
+
+    public SpawnObjectType GetPopupType()
+        => Enum.TryParse<SpawnObjectType>(SpawnContainerTypeData, out var result) ? result : SpawnObjectType.None;
 }
 
 [Serializable]

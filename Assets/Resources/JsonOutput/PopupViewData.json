@@ -64,5 +64,27 @@
     "OverweightPrompt": null,
     "NotEnoughMoneyPrompt": "소지금 부족!",
     "PurchaseSuccessPrompt": "구매 성공!"
+  },
+  {
+    "Id": "TargetType_StageSelectChair",
+    "StringPopupType": "Simple",
+    "DefaultPrompt": "[E] : 지역 선택",
+    "LockedPrompt": null,
+    "MasterKeyPrompt": null,
+    "MasterKeyLimitPrompt": null,
+    "OverweightPrompt": null,
+    "NotEnoughMoneyPrompt": null,
+    "PurchaseSuccessPrompt": null
+  },
+  {
+    "Id": "TargetType_Washer",
+    "StringPopupType": "Simple",
+    "DefaultPrompt": "[E] : 돈 세탁",
+    "LockedPrompt": null,
+    "MasterKeyPrompt": null,
+    "MasterKeyLimitPrompt": null,
+    "OverweightPrompt": null,
+    "NotEnoughMoneyPrompt": null,
+    "PurchaseSuccessPrompt": "{TotalPrice}$ 세탁 완료!"
   }
 ]

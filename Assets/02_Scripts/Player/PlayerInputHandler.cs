@@ -12,9 +12,14 @@ public class PlayerInputHandler : MonoBehaviour
     public bool CrouchRequested { get; private set; }//Crouch 입력이 들어왔는지 확인하는 플래그
     public PlayerInputMode CurrentMode { get; private set; } = PlayerInputMode.Gameplay;
 
+    public bool JewelryInventoryRequested { get; private set; }
+
     public event Action OnInteractEvent;
 
     public event Action OnCrouchChanged;
+
+    public event Action OnJewelryInventoryToggleEvent; // B키 (보석 인벤토리 열기/ 닫기)
+
     // 추가: 입력 모드 전환 (이동/시선 허용 여부 + 커서 잠금 상태를 함께 제어)
     public void SetMode(PlayerInputMode mode)
     {
@@ -62,5 +67,16 @@ public class PlayerInputHandler : MonoBehaviour
             OnCrouchChanged?.Invoke();
         }
        
+    }
+
+    // B키 보석 인벤토리
+    private void OnJewelryInventory(InputValue value)
+    {
+        JewelryInventoryRequested = value.isPressed;
+
+        if (value.isPressed)
+        {
+            OnJewelryInventoryToggleEvent?.Invoke();
+        }
     }
 }

@@ -4,17 +4,25 @@ using UnityEngine;
 public class Jewel : BaseInteractableObject
 {
     private ItemData _itemData;
+
+    public ItemData Data
+    {
+        get { return _itemData; }
+    }
+
     public float Weight { get; private set; }
     public int Price { get; private set; }
 
     [SerializeField] private MeshFilter _meshFilter;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private MeshCollider _meshCollider;
+    public ItemGrade ItemGrade { get; private set; }
 
     protected override void OnInitalized()
     {
         _objectId = _itemData.Id;
         _objectName = _itemData.Name;
+        ItemGrade = _itemData.GetItemGrade();
 
         _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
         _meshCollider.sharedMesh = _meshFilter.sharedMesh;
@@ -45,6 +53,7 @@ public class Jewel : BaseInteractableObject
         if(interactor is IInventoryOwner inventoryOwner)
         {
             inventoryOwner.TryAcquireItem(_itemData, HoldType.Pocket);
+            GameManager.Pool.DespawnToPool(this.gameObject);
         }
     }
 }

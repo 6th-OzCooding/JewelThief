@@ -16,7 +16,7 @@ public class LobbyController : MonoBehaviour
         if (_playerSpawner == null)
         {
             Debug.LogError("PlayerSpawner가 연결되지 않았습니다.");
-            return;
+            return null;
         }
 
         GameObject spawnedPlayer = _playerSpawner.TrySpawnPlayer(_lobbySpawnPoint.position, _lobbySpawnPoint.rotation);
@@ -36,10 +36,12 @@ public class LobbyController : MonoBehaviour
         if (playerController != null)
         {
             _stageSelectController.SetPlayerCameraTransform(playerController.CameraTransform);
+            return playerController;
         }
         else
         {
             Debug.LogError("PlayerController를 찾지 못했습니다.");
+            return null;
         }
 
         DisplayShopTools();

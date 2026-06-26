@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 
-public class SlimeTrap : MonoBehaviour//BaseDisarmableObejct
+public class SlimeTrap : BaseDisarmableObejct
 {
     [SerializeField] private float detectionRange = 10f;
-   
-
-    private bool _isDisarmed = false;
+    
     void Update()
     {
-        if (_isDisarmed) return;
+        if (IsDisarmed) return;
         CheckPlayerTrapped();
     }
     
@@ -25,7 +23,7 @@ public class SlimeTrap : MonoBehaviour//BaseDisarmableObejct
                 if (hit.collider.TryGetComponent(out IDebuffable debuffableTarget))
                 {
                     Debug.Log("플레이어 감지 디버프 발동");
-                    debuffableTarget.ApplySlowDebuff(0.9f, 5f);
+                    debuffableTarget.ApplyDebuff(DebuffType.MoveSpeed, 0.1f, 5f);
                 }
             }
         }
@@ -62,5 +60,11 @@ public class SlimeTrap : MonoBehaviour//BaseDisarmableObejct
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(startPosition, endPosition);
         }
+    }
+    protected override void LoadData(string id) { }
+    protected override void OnDisarm()
+    {
+        base.OnDisarm();
+        _isDisarmed = true;
     }
 }

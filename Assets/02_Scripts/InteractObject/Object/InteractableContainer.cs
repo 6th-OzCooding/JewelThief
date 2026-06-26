@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using TeamConvention.Interfaces;
-using UnityEditor.Experimental.GraphView;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public enum SpawnObjectType
 {
@@ -33,8 +28,7 @@ public class InteractableContainer : BaseDisarmableObejct
     [SerializeField] private InteractableContainerAnimeController _animController;
 
     private SpawnObjectType _interactableObjectType;
-    private string _meshPrefabPath;
-    private Dictionary<ItemGrade, List<string>> _itemPoolByRarity = new Dictionary<ItemGrade, List<string>>();
+    private string _visualPrefabPath;
     private BoxDropData _rarityRateData = new BoxDropData();
     private List<string> _itemList = new List<string>();
     private List<string> _spawnedRarityList = new List<string>();
@@ -52,11 +46,22 @@ public class InteractableContainer : BaseDisarmableObejct
     protected override void LoadData(string dataId)
     {
         InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(dataId);
+        ApplyData(data);
+    }
+
+    private void ApplyData(InteractableContainerData data)
+    {
+        if (data == null)
+        {
+            Debug.LogError("InteractableContainerData가 없습니다.");
+            return;
+        }
+
         _disarmObjId = data.Id;
         _maxSpawnItemCount = data.MaxItemCount;
-        InitObjectSpawnType(data.SpawnContainerTypeData);
+        _interactableObjectType = data.GetPopupType();
         _isDisarmed = data.IsContainerDisarm;
-        _meshPrefabPath = data.ContainerMeshPrefabPath;
+        _visualPrefabPath = data.ContainerMeshPrefabPath;
         InitStringListData(_itemList, data.ItemIdList);
         InitRarityRateData(data.RateList);
         InitFloatListData(_timeReductionAmountList, data.TimeReductionAmountList);
@@ -68,6 +73,9 @@ public class InteractableContainer : BaseDisarmableObejct
     private void InitStringListData(List<string> requierInitList, List<string> loadDataList)
     {
         if (requierInitList == null || loadDataList == null) return;
+
+        requierInitList.Clear();
+
         foreach (string data in loadDataList)
         {
             requierInitList.Add(data);
@@ -77,28 +85,21 @@ public class InteractableContainer : BaseDisarmableObejct
     private void InitFloatListData(List<float> requierInitList, List<float> loadDataList)
     {
         if (requierInitList == null || loadDataList == null) return;
+
+        requierInitList.Clear();
+
         foreach (float data in loadDataList)
         {
             requierInitList.Add(data);
         }
     }
 
-    private void InitObjectSpawnType(string typeStr)
-    {
-        if (Enum.TryParse<SpawnObjectType>(typeStr, out SpawnObjectType returnObjType))
-        {
-            _interactableObjectType = returnObjType;
-        }
-        else
-        {
-            Debug.LogError("잘못된 소환 형식");
-            _interactableObjectType = SpawnObjectType.None;
-        }
-    }
-
     private void InitRarityRateData(List<int> rateList)
     {
         if(rateList == null) return;
+
+        _rarityRateData.RarityWeights.Clear();
+
         for (int i = 0; i < rateList.Count; i++)
         {
             ItemGrade rarity = (ItemGrade)(i + 1);
@@ -111,25 +112,41 @@ public class InteractableContainer : BaseDisarmableObejct
         }
     }
 
-    private async void SpawnMeshBox()
+    private void SpawnMeshBox()
     {
-        if (_meshPrefabPath == null || _meshPrefabPath == "")
+        if (string.IsNullOrEmpty(_visualPrefabPath))
         {
-            Debug.LogError("Mesh 프리팹 경로 없음");
+            Debug.LogError("Visual 프리팹 경로 없음");
             return;
         }
-           
-        GameObject obj = await Addressables.InstantiateAsync(_meshPrefabPath).Task;
-        if (obj == null) return;
 
-        obj.transform.SetParent(transform, false);
+        GameObject prefab = GameManager.Resource.GetLoadedAsset<GameObject>(_visualPrefabPath);
+
+        if (prefab == null)
+        {
+            Debug.LogError($"Visual 프리팹이 ResourceManager에 로드되어 있지 않습니다: {_visualPrefabPath}");
+            return;
+        }
+
+        GameObject obj = Instantiate(prefab, transform);
+
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
+
         _meshObject = obj;
-        _animController.InitMeshAnime(obj);
+
+        if (_animController != null)
+            _animController.InitMeshAnime(obj);
     }
 
     private void DestroyMeshBox()
     {
+        if (_meshObject == null)
+            return;
+
         Destroy(_meshObject);
+        _meshObject = null;
     }
 
     private void PickItemId()
@@ -143,6 +160,7 @@ public class InteractableContainer : BaseDisarmableObejct
         if(_spawnedRarityList.Count == 0)
         {
             Debug.LogError("InteratableObject.cs 스크립트의 InitSpawnedItemList메서드 문제");
+            return;
         }
 
         // Random.Range 특성 상 최댓값을 포함하지 않아 +1을 추가하였음
@@ -160,10 +178,22 @@ public class InteractableContainer : BaseDisarmableObejct
     {
         _spawnedRarityList.Clear();
         if (spanwAbleItemList == ItemGrade.None) return;
-
-        foreach(string checkItemDataId in _itemList)
+        if(_itemList.Count == 0)
         {
-            if(GameManager.DataTable.GetItemData(checkItemDataId).GetItemGrade() == spanwAbleItemList)
+            Debug.LogError("할당된 데이터 아이템 Id가 없습니다.");
+        }
+
+        foreach (string checkItemDataId in _itemList)
+        {
+            ItemData itemData = GameManager.DataTable.GetItemData(checkItemDataId);
+
+            if (itemData == null)
+            {
+                Debug.LogError($"존재하지 않는 ItemData입니다 : {checkItemDataId}");
+                continue;
+            }
+
+            if (itemData.GetItemGrade() == spanwAbleItemList)
             {
                 _spawnedRarityList.Add(checkItemDataId);
             }
@@ -211,14 +241,16 @@ public class InteractableContainer : BaseDisarmableObejct
 
     private void ShootItem(GameObject shootingObject)
     {
-        if(shootingObject == null) return;
+        if (shootingObject == null)
+            return;
+
+        if (!shootingObject.TryGetComponent(out Rigidbody shootObjRigid))
+            return;
 
         // 튀어오르는 값 여기서 조절 가능
         float minImpulsePower = 3f;
         float maxImpulsePower = 7f;
         float sideRandomPower = 1.5f;
-
-        shootingObject.TryGetComponent<Rigidbody>(out Rigidbody shootObjRigid);
 
         shootObjRigid.linearVelocity = Vector3.zero;
         shootObjRigid.angularVelocity = Vector3.zero;
@@ -234,44 +266,121 @@ public class InteractableContainer : BaseDisarmableObejct
         shootObjRigid.AddForce(randomDir * power, ForceMode.Impulse);
     }
 
-    private async void PlayDropItemParitcle(int dropItemCount)
+    private void PlayDropItemParticle(int dropItemCount)
     {
-        // Addresabble로 파티클 구현 dropItemCount 1=Low, 2,3=normal / 4,5 = High
-        if(dropItemCount <= 1)
-        {
-            GameObject effect = await Addressables.InstantiateAsync(
-            "Prefabs/Paticle/Effect_Low",
+        string poolId = GetDropParticlePoolId(dropItemCount);
+
+        if (string.IsNullOrEmpty(poolId))
+            return;
+
+        GameManager.Pool.SpawnFromPool(
+            poolId,
             transform.position,
             Quaternion.identity
-            ).Task;
-        }
-        else if(dropItemCount >= 2 && dropItemCount <= 3)
-        {
-            GameObject effect = await Addressables.InstantiateAsync(
-            "Prefabs/Paticle/Effect_Normal",
-            transform.position,
-            Quaternion.identity
-            ).Task;
-        }
-        else if(dropItemCount >=4)
-        {
-            GameObject effect = await Addressables.InstantiateAsync(
-            "Prefabs/Paticle/Effect_High",
-            transform.position,
-            Quaternion.identity
-            ).Task;
-        }
+        );
+    }
+
+    private string GetDropParticlePoolId(int dropItemCount)
+    {
+        if (dropItemCount <= 1)
+            return "Effect_Low";
+
+        if (dropItemCount <= 3)
+            return "Effect_Normal";
+
+        return "Effect_High";
     }
 
     private void OpenBox()
     {
         _animController.SetStat(BoxState.Open);
         PickItemId();
-        PlayDropItemParitcle(_spawnedItemList.Count);
+        PlayDropItemParticle(_spawnedItemList.Count);
 
         foreach (string spawnItemId in _spawnedItemList)
         {
-            // TODO(안우재 2026-6-24) : GameObejct 생성(pooling 구현 후 가능) 후 ShootItem() 을이용하여 발사
+            ItemData itemData = GameManager.DataTable.GetItemData(spawnItemId);
+
+            if (itemData == null)
+            {
+                Debug.LogError($"아이템 데이터 없음: {spawnItemId}");
+                continue;
+            }
+
+            GameObject spawnedObject = SpawnItemObjectFromPool(itemData, spawnItemId);
+
+            if (spawnedObject == null)
+                continue;
+
+            ShootItem(spawnedObject);
+        }
+    }
+
+    //                          AI생성
+    private GameObject SpawnItemObjectFromPool(ItemData itemData, string itemId)
+    {
+        string poolId = GetItemPoolId(itemData);
+
+        if (string.IsNullOrEmpty(poolId))
+            return null;
+
+        GameObject spawnedObject = GameManager.Pool.SpawnFromPool(
+            poolId,
+            transform.position + Vector3.up * 0.7f,
+            Quaternion.identity
+        );
+
+        switch (poolId)
+        {
+            case "Pool_Jewel":
+
+                if (spawnedObject.TryGetComponent<Jewel>(out Jewel jewel))
+                {
+                    jewel.InitFromSpawner(itemId);
+                }
+                else
+                {
+                    Debug.LogError("Pool_Jewel 프리팹에 Jewel 컴포넌트가 없습니다.");
+                    GameManager.Pool.DespawnToPool(spawnedObject);
+                    return null;
+                }
+                break;
+            case "Pool_Tool":
+
+                if (spawnedObject.TryGetComponent<Tool>(out Tool tool))
+                {
+                    tool.InitFromSpawner(itemId);
+                }
+                else
+                {
+                    Debug.LogError("Pool_Tool 프리팹에 Tool 컴포넌트가 없습니다.");
+                    GameManager.Pool.DespawnToPool(spawnedObject);
+                    return null;
+                }
+                break;
+            default:
+                Debug.LogError($"지원하지 않는 PoolId입니다: {poolId}");
+                GameManager.Pool.DespawnToPool(spawnedObject);
+                return null;
+        }
+
+        return spawnedObject;
+    }
+
+    //                          AI생성
+    private string GetItemPoolId(ItemData itemData)
+    {
+        switch (itemData.GetItemType()) // 실제 필드명에 맞게 수정
+        {
+            case ItemType.Jewel:
+                return "Pool_Jewel";
+
+            case ItemType.Tool:
+                return "Pool_Tool";
+
+            default:
+                Debug.LogError($"지원하지 않는 아이템 타입입니다.");
+                return null;
         }
     }
 
@@ -293,6 +402,7 @@ public class InteractableContainer : BaseDisarmableObejct
         else
         {
             // TODO(안우재 2026-6-24) : 강제로 열었기에 ChangeStat 전에 차감 시간을 적용해야함
+            //                          시간 차감 로직 성준님께 여쭤보기
             ChangeStat(data.ForceOpenDataId);
         }
     }
@@ -300,19 +410,8 @@ public class InteractableContainer : BaseDisarmableObejct
     private void ChangeStat(string dataId)
     {
         InteractableContainerData data = GameManager.DataTable.GetInteractableContainerData(dataId);
-        _disarmObjId = data.Id;
-        _maxSpawnItemCount = data.MaxItemCount;
-        InitObjectSpawnType(data.SpawnContainerTypeData);
-        _isDisarmed = data.IsContainerDisarm;
-        _meshPrefabPath = data.ContainerMeshPrefabPath;
-        InitStringListData(_itemList, data.ItemIdList);
-        InitRarityRateData(data.RateList);
-        InitFloatListData(_timeReductionAmountList, data.TimeReductionAmountList);
-        InitStringListData(_requiredToolIdList, data.RequiresToolIdList);
-        _isInteractable = true;
-        _hasRequiresTool = false;
+        ApplyData(data);
         DestroyMeshBox();
         SpawnMeshBox();
     }
 }
-

@@ -6,7 +6,7 @@ using UnityEngine;
 public class DataTable
 {
     public Dictionary<string, PreLoadAssetData> GetPreLoadAssetDataTable() => _preLoadAssetDataTable;
-    public Dictionary<string, PoolingObjectData> GetPoolingObjectDataTable() => _poolingObjectDataTable;
+    public Dictionary<string, PoolData> GetPoolDataTable() => _poolDataTable;
     public Dictionary<string, InteractableContainerData> GetInteractableContainerDataTable() => _interactableContainerDataTable;
     public Dictionary<string, Door> GetDoorDataTable() => _doorDataTable;
     public Dictionary<string, InventoryTypeData> GetInventoryTypeDataTable() => _inventoryTypeDataTable;
@@ -17,7 +17,7 @@ public class DataTable
 
 
     private Dictionary<string, PreLoadAssetData> _preLoadAssetDataTable { get; set; } = new();
-    private Dictionary<string, PoolingObjectData> _poolingObjectDataTable { get; set; } = new();
+    private Dictionary<string, PoolData> _poolDataTable { get; set; } = new();
     private Dictionary<string, InteractableContainerData> _interactableContainerDataTable { get; set; } = new();
     private Dictionary<string, InventoryTypeData> _inventoryTypeDataTable { get; set; } = new();
     private Dictionary<string, ItemData> _itemDataTable { get; set; } = new();
@@ -36,7 +36,7 @@ public class DataTable
     public void LoadAllData()
     {
         _preLoadAssetDataTable = LoadData<PreLoadAssetData>("PreLoadAsset");
-        // PoolingObjectDataTable = LoadData<PoolingObjectData>("PoolingObject");
+        _poolDataTable = LoadData<PoolData>("Pool");
         _interactableContainerDataTable = LoadData<InteractableContainerData>("InteractableContainer");
         _doorDataTable = LoadData<Door>("Door");
         _itemDataTable = LoadData<ItemData>("ItemData");
@@ -56,11 +56,11 @@ public class DataTable
         return _preLoadAssetDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
-    public PoolingObjectData GetPoolingObjectData(string id)
+    public PoolData GetPoolData(string id)
     {
-        if (null == _poolingObjectDataTable || string.IsNullOrEmpty(id)) return null;
+        if (null == _poolDataTable || string.IsNullOrEmpty(id)) return null;
 
-        return _poolingObjectDataTable.TryGetValue(id, out var data) ? data : null;
+        return _poolDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
     public InteractableContainerData GetInteractableContainerData(string id)
