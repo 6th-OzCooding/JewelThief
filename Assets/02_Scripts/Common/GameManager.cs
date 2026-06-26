@@ -12,6 +12,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public static DataTable DataTable { get { return Instance._dataTable; } }
     public static UIManager UI { get { return Instance._uiManager; } }
     public static UserDataManager UserData { get { return Instance._userDataManager; } }
+    public static ShopManager Shop { get { return Instance._shopManager; } }
 
     #region Manager Varialbes
 
@@ -23,6 +24,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private UIManager _uiManager = new();
     private WFCMapGeneration _wfcMapGeneration = new();
     private UserDataManager _userDataManager = new();
+    private ShopManager _shopManager = new();
 
     private LobbyController _lobbyController;
     private GameObject _jewelPuzzleInstance;
