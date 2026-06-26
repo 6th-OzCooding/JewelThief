@@ -146,11 +146,11 @@ public static class PopupViewDataBuilder
     {
         InteractableContainerData containerData = GameManager.DataTable.GetInteractableContainerData(dataId);
         if (containerData != null)
-            return containerData.IsContainerDisarm;
+            return !containerData.IsContainerDisarm;
 
         Door doorData = GameManager.DataTable.GetDoorData(dataId);
         if (doorData != null)
-            return doorData.IsDisarm;
+            return !doorData.IsDisarm;
 
         return false;
     }

@@ -198,7 +198,7 @@ public class JewelInventoryManager : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            //GameManager.Instance.PauseGameForPuzzle();
+            // GameManager.Instance.PauseGameForPuzzle();
         }
 
         if (_tempQueue.Count > 0)
@@ -286,7 +286,7 @@ public class JewelInventoryManager : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            //GameManager.Instance.ResumeGameFromPuzzle();
+            // GameManager.Instance.ResumeGameFromPuzzle();
         }
     }
 
