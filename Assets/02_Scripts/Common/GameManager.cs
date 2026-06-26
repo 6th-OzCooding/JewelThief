@@ -178,7 +178,10 @@ public class GameManager : SingletonBehaviour<GameManager>
             }
 
             if (_lobbyInstance.TryGetComponent(out _lobbyController))
-                return _lobbyController.Enter();
+            {
+                _playerController = _lobbyController.Enter();
+                return _playerController;
+            }
             else
                 Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
         }
@@ -253,6 +256,12 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private void TeleportPlayerToBaseTile()
     {
+        if (_playerController == null)
+        {
+            Debug.LogError("PlayerController가 캐싱되지 않았습니다.");
+            return;
+        }
+
         if (_wfcMapGeneration.TryGetBaseTileWorldPosition(out Vector3 baseTileWorldPosition))
         {
             _playerController.Teleport(baseTileWorldPosition);
