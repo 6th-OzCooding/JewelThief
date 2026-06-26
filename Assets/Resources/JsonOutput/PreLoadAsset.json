@@ -338,5 +338,80 @@
     "Id": "PreLoadAsset_JewelInventory",
     "Address": "JewelInventory",
     "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_PaintingObject",
+    "Address": "Pool_Painting",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_1[Painting_1]",
+    "Address": "Painting_1[Painting_1]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_2[Painting_2]",
+    "Address": "Painting_2[Painting_2]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_3[Painting_8]",
+    "Address": "Painting_3[Painting_8]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_4[Painting_4]",
+    "Address": "Painting_4[Painting_4]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_5[Painting_5]",
+    "Address": "Painting_5[Painting_5]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_1",
+    "Address": "Painting_1",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_2",
+    "Address": "Painting_2",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_3",
+    "Address": "Painting_3",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_6",
+    "Address": "Painting_6",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_8",
+    "Address": "Painting_8",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_Gold",
+    "Address": "PaintingFrame_Gold",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_Black",
+    "Address": "PaintingFrame_Black",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_White",
+    "Address": "PaintingFrame_White",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_WoodHell",
+    "Address": "PaintingFrame_WoodHell",
+    "AssetType": null
   }
 ]

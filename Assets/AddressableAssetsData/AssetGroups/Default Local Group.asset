@@ -40,6 +40,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 223416086535a7b43a073dca9b5d410a
+    m_Address: Painting_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2af78253eecb838488739813767b7b48
+    m_Address: Painting_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2e920f9dae272d44e8aefce90a734cdb
     m_Address: Demo Room1
     m_ReadOnly: 0
@@ -90,6 +100,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 528f5c092b61f2145bcdf13778ba0a45
+    m_Address: Painting_6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 54e61414d13b2c243806d3bfb2497b7f
     m_Address: Explosion_05
     m_ReadOnly: 0
@@ -97,6 +112,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 55af624d731fc954ca4009254829fe4d
     m_Address: RightTop Corridor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5aaf8c27f62f89d4b8418a2e51438984
+    m_Address: Painting_8
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -122,6 +142,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 66e1f300cb059014a98502e0d2032a5d
     m_Address: Lit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c3bd5dae5ddc3c4c9d883b82b31a4cb
+    m_Address: PaintingFrame_Gold
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -155,6 +180,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e1ee362ef967d54cb12acb4009e198b
+    m_Address: Painting_7
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7e2a5fd1da1725d47b4fd328ee4220f9
     m_Address: Notification_02
     m_ReadOnly: 0
@@ -172,6 +202,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8260dff7604f73845a5015567b2e30eb
     m_Address: TestPresetTile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82be378027a804b4d80f7239d0737342
+    m_Address: Painting_6
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -225,8 +260,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9553658fd3abd084bba24cb4d8f82698
+    m_Address: Painting_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98d8e10b70dd0244d9c0576f92ee1fac
     m_Address: Purchase_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a06e7efb46cb9f5428e9efe3c30c034a
+    m_Address: Pool_Statue
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -235,13 +280,38 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a22cf84ed7e5d8b4a82ba86406ef01dc
+    m_Address: PaintingFrame_White
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a6ce8083df4fbf7478f17bd05ce5b5d9
     m_Address: Demo Room4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7935b24b52ea6b4493b7fb0380b1c25
+    m_Address: PaintingFrame_WoodHell
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a7c8682b5b22fa549b6a0796e7259611
     m_Address: M_Gemstone_Sapphire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aa6d0a258191a6f43b1d7f0f906d98d0
+    m_Address: Painting_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aeb016aa83d140446a9f376bd9e5c716
+    m_Address: PaintingFrame_Black
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afbc89f99e3d172439bbe146488edce4
+    m_Address: Painting_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -267,6 +337,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2ee0adf282326246bc6300be2049c67
     m_Address: JewelInventory
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9f67c3b5052b1c47978d3b05313adb9
+    m_Address: Painting_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -340,6 +415,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6e2c036a7f77ef47bde648215da9967
+    m_Address: Painting_5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ec9cb0d3f295dfe4486b8a1a25b84185
     m_Address: Mesh_IronBox_Prefab
     m_ReadOnly: 0
@@ -350,8 +430,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6e2568ad34e522458c6b5d4db3cf75f
+    m_Address: Pool_Painting
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f9d00a2426db1e449bcf40bb3e144dda
     m_Address: RightDown Corridor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fcbf0858952742943882a7f6f913649b
+    m_Address: Painting_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

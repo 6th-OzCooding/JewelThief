@@ -152,5 +152,97 @@
     "MeshPath": "Jewel_Cone[Cone]",
     "Husks": "JewelObject",
     "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Painting_01",
+    "Name": "명화",
+    "Description": "벽에 걸려있는 그림이다.",
+    "StringItemType": "Painting",
+    "StringItemGrade": "Epic",
+    "Weight": 12,
+    "Price": 1200,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Painting_1",
+      "PaintingFrame_White",
+      "PaintingFrame_WoodHell"
+    ],
+    "MeshPath": "Painting_1[Painting_1]",
+    "Husks": "PaintingObject",
+    "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Painting_02",
+    "Name": "명화",
+    "Description": "벽에 걸려있는 그림이다.",
+    "StringItemType": "Painting",
+    "StringItemGrade": "Epic",
+    "Weight": 12,
+    "Price": 1200,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Painting_6",
+      "PaintingFrame_White"
+    ],
+    "MeshPath": "Painting_2[Painting_2]",
+    "Husks": "PaintingObject",
+    "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Painting_03",
+    "Name": "명화",
+    "Description": "벽에 걸려있는 그림이다.",
+    "StringItemType": "Painting",
+    "StringItemGrade": "Epic",
+    "Weight": 12,
+    "Price": 1200,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Painting_8",
+      "PaintingFrame_Gold",
+      "PaintingFrame_Black"
+    ],
+    "MeshPath": "Painting_3[Painting_8]",
+    "Husks": "PaintingObject",
+    "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Painting_04",
+    "Name": "명화",
+    "Description": "벽에 걸려있는 그림이다.",
+    "StringItemType": "Painting",
+    "StringItemGrade": "Epic",
+    "Weight": 12,
+    "Price": 1200,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Painting_3",
+      "PaintingFrame_White"
+    ],
+    "MeshPath": "Painting_4[Painting_4]",
+    "Husks": "PaintingObject",
+    "HoldType": "Pocket"
+  },
+  {
+    "Id": "Item_Painting_05",
+    "Name": "명화",
+    "Description": "벽에 걸려있는 그림이다.",
+    "StringItemType": "Painting",
+    "StringItemGrade": "Epic",
+    "Weight": 12,
+    "Price": 1200,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Painting_2",
+      "PaintingFrame_WoodHell"
+    ],
+    "MeshPath": "Painting_5[Painting_5]",
+    "Husks": "PaintingObject",
+    "HoldType": "Pocket"
   }
 ]
