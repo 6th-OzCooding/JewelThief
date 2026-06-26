@@ -45,7 +45,7 @@ public class BarProjectile : MonoBehaviour
         float moveDistance = _speed * Time.deltaTime;
 
         // 이동하기 전에 현재 위치에서 앞방향으로 이동할 거리(moveDistance)만큼 레이저를 쏴서 막히는 게 있는지 검사합니다.
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, moveDistance))
+        if (Physics.Raycast(transform.position, _flyDirection, out RaycastHit hit, moveDistance))
         {
             // 부딪힌 대상이 적(자신이나 동료)이라면 무시
             if (hit.collider.CompareTag("Enemy"))

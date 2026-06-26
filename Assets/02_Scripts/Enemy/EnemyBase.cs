@@ -38,7 +38,9 @@ public class EnemyBase : MonoBehaviour
     // 플레이어의 스태미나를 줄이는 데미지 변수
     [SerializeField] private float _attackDamage = 0f;
     public float AttackDamage => _attackDamage;
-   
+    // 원거리 공격하는 애들한테만 쓰이는 쿨타임 중에 움직일 때, 사거리 안에 있으면 발만 움직이는 것 해결하기 위한 변수
+    public bool IsAttackCooldown { get; private set; } = false;
+
     // 기본값은 0초로 잡음
     private float _attackTimer = 0f; 
     
@@ -82,7 +84,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (Nav != null)
         {
-            if (StateContext.CurrentState == StateContext.ChaseState)
+            if (StateContext.CurrentState == StateContext.ChaseState && !IsAttackCooldown)
             {
                 Nav.stoppingDistance = _attackRadius;
             }
@@ -93,7 +95,7 @@ public class EnemyBase : MonoBehaviour
         }
 
         // 시야각에 들어오면서 공격사거리에 들어온 경우
-        if (StateContext.CurrentState == StateContext.ChaseState && DstToTarget <= _attackRadius)
+        if (StateContext.CurrentState == StateContext.ChaseState && DstToTarget <= _attackRadius && !IsAttackCooldown)
         {
 
             if (DirToTarget != Vector3.zero)
@@ -118,6 +120,11 @@ public class EnemyBase : MonoBehaviour
         }
         // 이미 공격중인 상태이면 공격 메서드 계속 호출 -> StateContext.Update()가 대신 처리함, 그 외는 움직이는 상태로 이동
         StateContext.Update();
+    }
+    // 공격상태에서 쿨타임 관련 메서드
+    public void SetAttackCooldown(bool cooldown)
+    {
+        IsAttackCooldown = cooldown;
     }
 
     private void DetectPlayer()
@@ -190,7 +197,11 @@ public class EnemyBase : MonoBehaviour
         if (CancelToken.IsCancellationRequested) return;
 
         Debug.Log("Enemy가 Player를 공격했습니다!");
+        
+        Anim.SetBool("isRun", false);
         Anim.SetTrigger("isAttack");
+
+        SetAttackCooldown(true);
 
         // 곤봉을 던지는 Enemy 때문에 추가
         ThrowEnemy throwScript = GetComponent<ThrowEnemy>();
@@ -227,11 +238,18 @@ public class EnemyBase : MonoBehaviour
             if (stateInfo.length > 0) currentAnimLength = stateInfo.length;
         }
 
-        // 기다린 시간 삭제
+        // 공격 애니메이션이 끝날 때까지 대기
         await UniTask.Delay(TimeSpan.FromSeconds(currentAnimLength - 0.1f), cancellationToken: CancelToken);
 
         // 공격이 끝나면 상태를 다시 Normal로 변경(초기화)
         StateContext.TransitionTo(StateContext.NormalState);
+
+        DetectPlayer();
+
+        await UniTask.Delay(TimeSpan.FromSeconds(_attackDelay), cancellationToken: CancelToken);
+
+        // 쿨타임이 끝나면 다시 공격이 가능하도록 해제합니다.
+        SetAttackCooldown(false);
     }
 
     private void OnDrawGizmos()
