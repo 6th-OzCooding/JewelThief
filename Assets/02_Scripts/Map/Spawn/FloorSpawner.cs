@@ -26,6 +26,13 @@ public class FloorSpawner
     {
         _direction = direction;
         _rayDirection = _direction == FloorSpawnerDirection.Down ? Vector3.down : Vector3.up;
+
+        if(_direction == FloorSpawnerDirection.Down)
+            _targetLayer = LayerMask.GetMask("Floor");
+        else
+            _targetLayer = LayerMask.GetMask("Ceiling");
+
+        _obstacleLayer = LayerMask.GetMask("Obstacle");
     }
 
 

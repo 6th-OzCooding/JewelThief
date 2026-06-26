@@ -24,10 +24,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     private AlertManager _alertManager = new();
     private DataTable _dataTable = new();
     private UIManager _uiManager = new();
-    private WFCMapGeneration _wfcMapGeneration = new();
     private UserDataManager _userDataManager = new();
     private ShopManager _shopManager = new();
 
+    private WFCMapGeneration _wfcMapGeneration;
     private LobbyController _lobbyController;
     private GameObject _jewelPuzzleInstance;
 
@@ -150,6 +150,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void InitNonAsync()
     {
         _soundManager.Init(this.gameObject);
+        _wfcMapGeneration = new();
         PoolInit();
     }
 
