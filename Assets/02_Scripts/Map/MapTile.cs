@@ -2,23 +2,31 @@
 
 public class MapTile : MonoBehaviour
 {
-    [SerializeField] private MapTile[] _upTiles;
-    [SerializeField] private MapTile[] _downTiles;
-    [SerializeField] private MapTile[] _leftTiles;
-    [SerializeField] private MapTile[] _rightTiles;
+    [SerializeField] private bool _openUp;
+    [SerializeField] private bool _openDown;
+    [SerializeField] private bool _openLeft;
+    [SerializeField] private bool _openRight;
 
-    [SerializeField] public GameObject CeilingGO;
+    public bool OpenUp => _openUp;
+    public bool OpenDown => _openDown;
+    public bool OpenLeft => _openLeft;
+    public bool OpenRight => _openRight;
 
-    public MapTile[] GetUpTiles => _upTiles;
-    public MapTile[] GetDownTiles => _downTiles;
-    public MapTile[] GetLeftTiles => _leftTiles;
-    public MapTile[] GetRightTiles => _rightTiles;
 
-    public void SetCeilingGO(bool active)
+    private bool _isStartTile = false;
+
+
+    public void SetStartTile()
     {
-        if (CeilingGO != null)
+        _isStartTile = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_isStartTile)
         {
-            CeilingGO.SetActive(active);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(transform.position, new Vector3(5, 10, 5));
         }
     }
 }

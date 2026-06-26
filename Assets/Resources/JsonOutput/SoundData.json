@@ -1,7 +1,7 @@
-[
+﻿[
   {
     "Id": "Sound_BGM_01",
-    "Name": "BGM_01",
+    "Name": "PlayTheme",
     "Volumn": 100,
     "IsLoop": true
   },

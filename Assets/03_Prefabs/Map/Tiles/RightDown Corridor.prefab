@@ -1220,34 +1220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7badb89e780ab428cfbf1018d2d02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapTile
-  _upTiles:
-  - {fileID: -642271718611852707, guid: 2e920f9dae272d44e8aefce90a734cdb, type: 3}
-  - {fileID: 6698724872310855212, guid: a6ce8083df4fbf7478f17bd05ce5b5d9, type: 3}
-  - {fileID: 244000010739327863, guid: d69143228653e864a9c0d9178fb8be86, type: 3}
-  - {fileID: -1724958632965242748, guid: 7388b6783a325464a8addb4c6e9a9265, type: 3}
-  - {fileID: -758822650666286364, guid: 55af624d731fc954ca4009254829fe4d, type: 3}
-  _downTiles:
-  - {fileID: 2550080244902641972, guid: 3254645d2b8c4574687548df1a0b30a8, type: 3}
-  - {fileID: -642271718611852707, guid: 2e920f9dae272d44e8aefce90a734cdb, type: 3}
-  - {fileID: 6698724872310855212, guid: a6ce8083df4fbf7478f17bd05ce5b5d9, type: 3}
-  - {fileID: -1724958632965242748, guid: 7388b6783a325464a8addb4c6e9a9265, type: 3}
-  - {fileID: -758822650666286364, guid: 55af624d731fc954ca4009254829fe4d, type: 3}
-  - {fileID: 326103095968963883, guid: 7646425da9d02e049b0c1145f042d766, type: 3}
-  _leftTiles:
-  - {fileID: -642271718611852707, guid: 2e920f9dae272d44e8aefce90a734cdb, type: 3}
-  - {fileID: 1979059380598593444, guid: 92c418d0256638d45b6411d8f96b6a01, type: 3}
-  - {fileID: 8115681778142865902, guid: 949aec4f313f8a84c82b3ee7d8d9f8a5, type: 3}
-  - {fileID: 6698724872310855212, guid: a6ce8083df4fbf7478f17bd05ce5b5d9, type: 3}
-  - {fileID: -3202035140694518038, guid: 8f7348e7f9f2e3f4c9745fdc2361d0fb, type: 3}
-  - {fileID: -1724958632965242748, guid: 7388b6783a325464a8addb4c6e9a9265, type: 3}
-  - {fileID: -7594386115795982021, guid: 7a8f315d3806bd243a7b825be868d5ee, type: 3}
-  - {fileID: 326103095968963883, guid: 7646425da9d02e049b0c1145f042d766, type: 3}
-  _rightTiles:
-  - {fileID: 2550080244902641972, guid: 3254645d2b8c4574687548df1a0b30a8, type: 3}
-  - {fileID: 244000010739327863, guid: d69143228653e864a9c0d9178fb8be86, type: 3}
-  - {fileID: -3202035140694518038, guid: 8f7348e7f9f2e3f4c9745fdc2361d0fb, type: 3}
-  - {fileID: -1724958632965242748, guid: 7388b6783a325464a8addb4c6e9a9265, type: 3}
-  CeilingGO: {fileID: 1923612095451970538}
+  _openUp: 0
+  _openDown: 1
+  _openLeft: 0
+  _openRight: 1
 --- !u!1 &6087299025412171488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2293,10 +2269,5 @@ PrefabInstance:
 --- !u!4 &1923612095451539402 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8307813378593426871, guid: fb3ea3ef1606cb049bcd7b783fee6ca4, type: 3}
-  m_PrefabInstance: {fileID: 7636208594337409661}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1923612095451970538 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8307813378593329559, guid: fb3ea3ef1606cb049bcd7b783fee6ca4, type: 3}
   m_PrefabInstance: {fileID: 7636208594337409661}
   m_PrefabAsset: {fileID: 0}
