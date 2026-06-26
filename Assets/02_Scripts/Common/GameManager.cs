@@ -29,6 +29,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private ShopManager _shopManager = new();
 
     private LobbyController _lobbyController;
+    private GameObject _jewelPuzzleInstance;
 
     #endregion
 
@@ -37,7 +38,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     [Header("Test Options")]
     [SerializeField] private bool _skipStartupUIForTest;
 
-    private bool _isPlaying = false;
+    private bool _isInGame = false;
+    private bool _isPaused = false;
 
     private Transform _mapRoot = null;
     private Transform _poolRoot = null;
@@ -59,7 +61,15 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     #region Getters
 
-    public bool IsPlaying => _isPlaying;
+    /// <summary>
+    /// 현재 플레이어가 실제 스테이지 플레이 상태에 있는지 반환합니다.
+    /// </summary>
+    public bool IsInGame => _isInGame;
+
+    /// <summary>
+    /// 현재 게임플레이가 일시정지 상태인지 반환합니다.
+    /// </summary>
+    public bool IsPaused => _isPaused;
 
     #endregion
 
@@ -110,7 +120,9 @@ public class GameManager : SingletonBehaviour<GameManager>
         {
             await Resource.Init();
             InitNonAsync();
-            UI.ShowInventorySystemTestUI();
+
+            PlayerController playerController = EnterLobby(true);
+            UI.ShowStartupUIOnGameStart(playerController);
             return;
         }
 
@@ -143,7 +155,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private void Update()
     {
-        if(_isPlaying)
+        if(_isInGame && !_isPaused)
         {
             _alertManager.OnUpdate();
         }
@@ -162,16 +174,27 @@ public class GameManager : SingletonBehaviour<GameManager>
                 Debug.LogError("Lobby 프리팹을 로드하지 못했습니다.");
                 return null;
             }
+
+            _lobbyInstance = Instantiate(_lobbyPrefab);
+            _lobbyInstance.SetActive(true);
+
+            // --- [추가] 보석 인벤토리 시스템 소환 ---
+            GameObject puzzlePrefab = _resourceManager.GetLoadedAsset<GameObject>("JewelInventory");
+            if (puzzlePrefab != null)
+            {
+                Vector3 spawnPosition = new Vector3(10000f, 10000f, 10000f);
+                _jewelPuzzleInstance = Instantiate(puzzlePrefab, spawnPosition, Quaternion.identity);
+                _jewelPuzzleInstance.SetActive(true);
+            }
             else
             {
-                _lobbyInstance = Instantiate(_lobbyPrefab);
-                _lobbyInstance.SetActive(true);
-
-                if (_lobbyInstance.TryGetComponent(out _lobbyController))
-                    return _lobbyController.Enter();
-                else
-                    Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
+                Debug.LogError("JewelInventory 프리팹을 찾을 수 없습니다.");
             }
+
+            if (_lobbyInstance.TryGetComponent(out _lobbyController))
+                return _lobbyController.Enter();
+            else
+                Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
         }
         else
         {
@@ -202,7 +225,8 @@ public class GameManager : SingletonBehaviour<GameManager>
             _alertManager.Init(stageData.TimeLimit);
         }
 
-        _isPlaying = true;
+        _isInGame = true;
+        _isPaused = false;
     }
 
     /// <summary>
@@ -210,7 +234,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     /// </summary>
     public void ExitInGame()
     {
-        _isPlaying = false;
+        _isInGame = false;
+        _isPaused = false;
 
         _wfcMapGeneration.Release();
 
@@ -242,16 +267,20 @@ public class GameManager : SingletonBehaviour<GameManager>
         _wfcMapGeneration.StartGenerateMap(_navMeshSurface, _mapRoot).Forget();
     }
 
-    // 보석 인벤토리 열림
-    public void PauseGameForPuzzle()
+    /// <summary>
+    /// 현재 인게임 상태를 유지한 채 게임플레이 진행을 일시정지합니다.
+    /// </summary>
+    public void PauseGame()
     {
-        _isPlaying = false;
+        _isPaused = true;
     }
 
-    // 보석 이벤토리 닫힘
-    public void ResumeGameFromPuzzle()
+    /// <summary>
+    /// 게임플레이 일시정지를 해제합니다.
+    /// </summary>
+    public void ResumeGame()
     {
-        _isPlaying = true;
+        _isPaused = false;
     }
 
     private void PoolInit()

@@ -64,7 +64,7 @@ public class TimerHUD : MonoBehaviour
     /// </summary>
     public void Refresh()
     {
-        if (GameManager.Instance != null && !GameManager.Instance.IsPlaying)
+        if (GameManager.Instance != null && !GameManager.Instance.IsInGame)
         {
             ShowLobbyGold();
             return;
