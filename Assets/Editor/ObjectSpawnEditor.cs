@@ -19,6 +19,8 @@ public class ObjectSpawnEditor : EditorWindow
     private string _StatueObjectAddress = "Pool_Statue";
     //private string _interactableObjectAddress = "InteractableContainer_Prefab";
     private string _interactableObjectAddress = "Door_Prefab";
+    private string _interactableObjectAddress = "InteractableContainer_Prefab";
+    // private string _interactableObjectAddress = "Door_Prefab";
 
     private static string[] _jewelItemIds =
     {
@@ -37,14 +39,14 @@ public class ObjectSpawnEditor : EditorWindow
     };
     private static string[] _interactableItemIds =
     {
-        /*
+        
         "Object_01",
         "Object_02",
         "Object_03",
         "Object_04",
         "Object_05"
-        */
-        "Door_01"
+        
+        // "Door_01"
     };
     private static string[] _PaintingItemId =
     {
