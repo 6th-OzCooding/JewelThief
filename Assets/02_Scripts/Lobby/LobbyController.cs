@@ -11,7 +11,7 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private ShopItemDisplay _shopItemDisplayPrefab;
     [SerializeField] private Transform[] _shopDisplayAnchors;
 
-    public void Enter()
+    public PlayerController Enter()
     {
         if (_playerSpawner == null)
         {
@@ -23,7 +23,7 @@ public class LobbyController : MonoBehaviour
 
         if (spawnedPlayer == null || _stageSelectController == null)
         {
-            return;
+            return null;
         }
 
         PlayerInputHandler inputHandler = spawnedPlayer.GetComponentInChildren<PlayerInputHandler>();
@@ -33,18 +33,15 @@ public class LobbyController : MonoBehaviour
         }
 
         PlayerController playerController = spawnedPlayer.GetComponentInChildren<PlayerController>();
-        if (playerController != null)
-        {
-            _stageSelectController.SetPlayerCameraTransform(playerController.CameraTransform);
-            return playerController;
-        }
-        else
+        if (playerController == null)
         {
             Debug.LogError("PlayerController를 찾지 못했습니다.");
             return null;
         }
 
+        _stageSelectController.SetPlayerCameraTransform(playerController.CameraTransform);
         DisplayShopTools();
+        return playerController;
     }
 
     private void DisplayShopTools()

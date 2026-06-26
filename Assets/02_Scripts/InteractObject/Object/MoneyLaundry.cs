@@ -26,7 +26,7 @@ public class MoneyLaundry : MonoBehaviour, IInteractable
         }
 
         GameManager.Sound.PlaySFX(SoundId.SFX_Gain01);
-        Debug.Log($"보석 {soldCount}개를 판매, {totalSellPrice} 골드를 획득");
+        Debug.Log($"보석 {result.SoldCount}개를 판매, {result.TotalPrice} 골드를 획득");
     }
 
     // 가방/손 공통 - 판매 가능 여부(보석 종류) 판정
