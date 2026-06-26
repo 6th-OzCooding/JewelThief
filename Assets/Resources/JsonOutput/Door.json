@@ -3,13 +3,16 @@
     "Id": "Door_01",
     "DoorName": "잠긴 문",
     "DoorComment": "문이다. 잠금장치가 존재하여 도구를 사용해야 열 수 있을거 같다.",
-    "DoorRequiresToolIdList": null,
+    "DoorRequiresToolIdList": [
+      "Item_Tool_MasterKey",
+      "Item_Tool_Key"
+    ],
     "DoorTimeReductionAmountList": [
       0,
       10
     ],
     "IsDisarm": false,
-    "DoorMeshPrefabPath": "Assets/03_Prefabs/Object/Door_Mesh"
+    "DoorMeshPrefabPath": "Mesh_Door"
   },
   {
     "Id": "Door_Test_Opened",

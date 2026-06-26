@@ -21,17 +21,17 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 165bac9ae1d95234581f89826d2bb64a
-    m_Address: ToolObject
+    m_Address: Pool_Tool
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1c31387baab812741821e94cd49ec9c6
-    m_Address: Prefabs/Paticle/Effect_Low
+    m_Address: Effect_Low
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1dfc93650565f744080e5d530ab73da1
-    m_Address: Assets/03_Prefabs/Object/Mesh_WoodBox_Prefab
+    m_Address: Mesh_WoodBox_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 60f69512f2bf64342ae986abdcb41ba4
-    m_Address: Assets/03_Prefabs/Object/Door_Mesh
+    m_Address: Mesh_Door
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78fb78614443e604daae12413ee3b9f5
-    m_Address: Prefabs/Paticle/Effect_Normal
+    m_Address: Effect_Normal
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 81501d88fbc5955499b0154d9213dd07
-    m_Address: Prefabs/Paticle/Effect_High
+    m_Address: Effect_High
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -177,6 +177,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8408a40bd12650a4abd0deba57847653
     m_Address: Lose_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8473ebe1205aad94dbdd8e89f65b74e6
+    m_Address: Mesh_Cabinet
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -245,8 +250,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c119564b27bf84f409fc6a5489daa1a6
+    m_Address: Door_Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1f33a1a5b8ce0b4981ace4278498936
     m_Address: Gain_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2ee0adf282326246bc6300be2049c67
+    m_Address: JewelInventory
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -262,6 +277,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cdde25d2baf76704b830d75b51155ae4
     m_Address: M_Gemstone_Topaz
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf43c808d36c3bc4599ff0ad4503bfbc
+    m_Address: InteractableContainer_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -316,7 +336,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ec9cb0d3f295dfe4486b8a1a25b84185
-    m_Address: Assets/03_Prefabs/Object/Mesh_IronBox_Prefab
+    m_Address: Mesh_IronBox_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
