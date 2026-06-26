@@ -4,6 +4,8 @@ using UnityEngine.AddressableAssets;
 
 public class InteractableDoor : BaseDisarmableObejct
 {
+    private InteractableContainerAnimeController _animController;
+
     private string _doorMeshPrefabPath;
     private GameObject _doorMeshObject;
 
@@ -40,9 +42,9 @@ public class InteractableDoor : BaseDisarmableObejct
         obj.transform.localScale = Vector3.one;
 
         _doorMeshObject = obj;
-        
-        // 현재 애니메이션 없음
-        // _animController.InitMeshAnime(obj);
+
+        if (_animController != null)
+            _animController.InitMeshAnime(obj);
     }
 
     private void DestroyMeshDoor()
