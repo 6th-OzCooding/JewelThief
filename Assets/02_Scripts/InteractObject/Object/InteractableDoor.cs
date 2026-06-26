@@ -1,10 +1,8 @@
-﻿using TeamConvention.Interfaces;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
+﻿using UnityEngine;
 
 public class InteractableDoor : BaseDisarmableObejct
 {
-    private InteractableContainerAnimeController _animController;
+    [SerializeField] private InteractableContainerAnimeController _animController;
 
     private string _doorMeshPrefabPath;
     private GameObject _doorMeshObject;
@@ -47,12 +45,9 @@ public class InteractableDoor : BaseDisarmableObejct
             _animController.InitMeshAnime(obj);
     }
 
-    private void DestroyMeshDoor()
+    private void OpenDoor()
     {
-        if (_doorMeshObject == null) return;
-            
-        Destroy(_doorMeshObject);
-        _doorMeshObject = null;
+        _animController.SetStat(InteractableObjectAnimState.Open);
     }
 
     protected override void OnDisarm(bool isCollectToolUse)
@@ -61,14 +56,14 @@ public class InteractableDoor : BaseDisarmableObejct
         if (isCollectToolUse)
         {
             _isInteractable = false;
-            DestroyMeshDoor();
+            OpenDoor();
         }
         else
         {
             _isInteractable = false;
             // TODO(안우재 2026-6-24) : 강제로 열었기에 ChangeStat 전에 차감 시간을 적용해야함
             //                          시간 차감 로직 성준님께 여쭤보기
-            DestroyMeshDoor();
+            OpenDoor();
         }
     }
 }
