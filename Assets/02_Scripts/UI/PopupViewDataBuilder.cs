@@ -9,9 +9,6 @@ using UnityEngine;
 /// </summary>
 public static class PopupViewDataBuilder
 {
-    private const string STAGE_SELECT_CHAIR_DATA_ID = "StageSelectChair";
-    private const string MONEY_LAUNDRY_DATA_ID = "MoneyLaundry";
-    private const string WASHER_DATA_ID_PREFIX = "Washer_";
     private const string TOTAL_PRICE_TOKEN = "{TotalPrice}";
 
     private static Dictionary<string, RawItemPopupData> _rawItemPopupDataTable;
@@ -27,7 +24,13 @@ public static class PopupViewDataBuilder
             return false;
 
         string dataId = interactable.GetId;
-        string popupViewDataId = ResolvePopupViewDataId(dataId, popupInfoTarget);
+        string popupViewDataId = ResolvePopupViewDataId(popupInfoTarget);
+        if (string.IsNullOrEmpty(popupViewDataId))
+        {
+            Debug.LogError($"PopupTargetType을 판별할 수 없습니다. TargetDataId: {dataId}, TargetName: {interactable.GetName}. PopupInfoTarget을 추가하고 TargetType을 None이 아닌 값으로 설정하세요.");
+            return false;
+        }
+
         PopupViewData popupViewData = GameManager.DataTable.GetPopupViewData(popupViewDataId);
         if (popupViewData == null)
         {
@@ -56,41 +59,24 @@ public static class PopupViewDataBuilder
         if (targetType == PopupTargetType.None || GameManager.DataTable == null)
             return string.Empty;
 
-        PopupViewData popupViewData = GameManager.DataTable.GetPopupViewData($"TargetType_{targetType}");
+        PopupViewData popupViewData = GameManager.DataTable.GetPopupViewData(BuildPopupViewDataId(targetType));
         if (popupViewData == null)
             return string.Empty;
 
         return FormatTotalPricePrompt(popupViewData.PurchaseSuccessPrompt, totalPrice);
     }
 
-    private static string ResolvePopupViewDataId(string dataId, PopupInfoTarget popupInfoTarget)
+    private static string ResolvePopupViewDataId(PopupInfoTarget popupInfoTarget)
     {
-        string explicitId = popupInfoTarget != null ? popupInfoTarget.GetPopupViewDataId() : string.Empty;
-        if (!string.IsNullOrEmpty(explicitId))
-            return explicitId;
-
-        if (string.IsNullOrEmpty(dataId))
+        if (popupInfoTarget == null || popupInfoTarget.TargetType == PopupTargetType.None)
             return string.Empty;
 
-        if (dataId.StartsWith("Item_"))
-            return "TargetType_Item";
+        return BuildPopupViewDataId(popupInfoTarget.TargetType);
+    }
 
-        if (dataId.StartsWith("Object_"))
-            return "TargetType_Box";
-
-        if (dataId.StartsWith("Door_"))
-            return "TargetType_Door";
-
-        if (dataId.StartsWith("Trap_"))
-            return "TargetType_Trap";
-
-        if (dataId == STAGE_SELECT_CHAIR_DATA_ID)
-            return "TargetType_StageSelectChair";
-
-        if (dataId == MONEY_LAUNDRY_DATA_ID || dataId.StartsWith(WASHER_DATA_ID_PREFIX))
-            return "TargetType_Washer";
-
-        return string.Empty;
+    private static string BuildPopupViewDataId(PopupTargetType targetType)
+    {
+        return $"TargetType_{targetType}";
     }
 
     private static string FormatTotalPricePrompt(string prompt, int totalPrice)
