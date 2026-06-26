@@ -338,5 +338,10 @@
     "Id": "PreLoadAsset_JewelInventory",
     "Address": "JewelInventory",
     "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_PoliceThrow_Object",
+    "Address": "Pool_Throw",
+    "AssetType": null
   }
 ]

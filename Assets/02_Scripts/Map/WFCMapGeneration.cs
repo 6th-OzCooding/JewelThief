@@ -24,6 +24,9 @@ public class WFCMapGeneration
     private List<MapGrid> _grids;
     private List<MapTile> _generatedTiles;
 
+    private Vector3 _baseTileWorldPosition;
+    private bool _hasBaseTile;
+
     // Buffer를 만들어 재활용
     private readonly List<MapGrid> _lowEntropyGrids = new();
     private readonly MapGrid[] _collapsedNeighbors = new MapGrid[4];
@@ -32,6 +35,11 @@ public class WFCMapGeneration
     private MapObjectSpawner _mapObjectSpawner = new();
     private Transform _mapRoot;
 
+    public bool TryGetBaseTileWorldPosition(out Vector3 worldPosition)
+    {
+        worldPosition = _baseTileWorldPosition;
+        return _hasBaseTile;
+    }
 
     public async UniTask StartGenerateMap(Transform mapRoot, Action<float> onProgress = null)
     {
@@ -318,6 +326,15 @@ public class WFCMapGeneration
             tile.transform.rotation
             , _mapRoot);
 
+            if (presetTile.isBaseTile)
+            {
+                if (newTile.SpawnPoint != null)
+                {
+                    _baseTileWorldPosition = newTile.SpawnPoint.position;
+                    _hasBaseTile = true;
+                }
+            }
+
             _generatedTiles.Add(newTile);
 
             UpdateGeneration(currentGrid, tile);
@@ -333,6 +350,7 @@ public class WFCMapGeneration
         _lowEntropyGrids.Clear();
 
         _generationCount = 0;
+        _hasBaseTile = false;
     }
 
     private void DestroyGrid()

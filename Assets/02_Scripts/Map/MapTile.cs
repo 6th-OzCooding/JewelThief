@@ -9,10 +9,14 @@ public class MapTile : MonoBehaviour
 
     [SerializeField] public GameObject CeilingGO;
 
+    [Header("베이스 타일 스폰 포인트")]
+    [SerializeField] private Transform _spawnPoint;
+
     public MapTile[] GetUpTiles => _upTiles;
     public MapTile[] GetDownTiles => _downTiles;
     public MapTile[] GetLeftTiles => _leftTiles;
     public MapTile[] GetRightTiles => _rightTiles;
+    public Transform SpawnPoint => _spawnPoint;
 
     public void SetCeilingGO(bool active)
     {

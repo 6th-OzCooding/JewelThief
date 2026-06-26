@@ -8,6 +8,8 @@ public struct TilePresetData
     public MapTile tilePrefab;
     [Header("타일 위치")]
     public Vector2Int position;
+    [Header("베이스 타일 여부")]
+    public bool isBaseTile;
 }
 
 [CreateAssetMenu(fileName = "SOTilePreset", menuName = "Scriptable Objects/Map/SOTilePreset")]

@@ -27,6 +27,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private ShopManager _shopManager = new();
 
     private LobbyController _lobbyController;
+    private PlayerController _playerController;
     private GameObject _jewelPuzzleInstance;
 
     #endregion
@@ -190,7 +191,8 @@ public class GameManager : SingletonBehaviour<GameManager>
             }
 
             _lobbyInstance.SetActive(true);
-            return _lobbyController.Enter();
+            _playerController = _lobbyController.Enter();
+            return _playerController;
         }
 
         return null;
@@ -198,7 +200,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public void EnterInGame(string StageId)
     {
-        GenerateMap();
+        GenerateMap().Forget();
 
         if (_lobbyInstance != null)
             _lobbyInstance.SetActive(false);
@@ -236,7 +238,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         #endif
     }
 
-    private void GenerateMap()
+    private async UniTaskVoid GenerateMap()
     {
         // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
         if(null == _mapRoot)
@@ -244,7 +246,20 @@ public class GameManager : SingletonBehaviour<GameManager>
             _mapRoot = Utils.CreateEmptyGameObject("MapRoot", this.gameObject.transform).transform;
         }
 
-        _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
+        await _wfcMapGeneration.StartGenerateMap(_mapRoot);
+
+        TeleportPlayerToBaseTile();
+    }
+
+    private void TeleportPlayerToBaseTile()
+    {
+        if (_wfcMapGeneration.TryGetBaseTileWorldPosition(out Vector3 baseTileWorldPosition))
+        {
+            _playerController.Teleport(baseTileWorldPosition);
+        }
+        else Debug.LogError("베이스 타일 위치를 찾지 못했습니다.");
+
+        _playerController.SetInputMode(PlayerInputMode.Gameplay);
     }
 
     // 보석 인벤토리 열림

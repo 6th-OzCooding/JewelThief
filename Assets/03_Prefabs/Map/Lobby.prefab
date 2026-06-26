@@ -14646,6 +14646,7 @@ GameObject:
   - component: {fileID: 8455537949901002402}
   - component: {fileID: 2416352675209394402}
   - component: {fileID: 479592415987639581}
+  - component: {fileID: 4258658098753049809}
   m_Layer: 0
   m_Name: StageSelectChair
   m_TagString: Untagged
@@ -14761,6 +14762,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageSelectChair
   _name: "\uC2A4\uD14C\uC774\uC9C0 \uC120\uD0DD"
   _stageSelectController: {fileID: 996879441456969415}
+--- !u!114 &4258658098753049809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231124143061977098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d7236001bc418b9bd6d526127f8e73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PopupInfoTarget
+  _targetType: 7
 --- !u!1 &1235450456615519317
 GameObject:
   m_ObjectHideFlags: 0

@@ -351,6 +351,26 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         interactable.Interact(this);
     }
 
+    public void SetInputMode(PlayerInputMode mode)
+    {
+        _inputHandler.SetMode(mode);
+    }
+
+    public void Teleport(Vector3 worldPosition)
+    {
+        if (_rigidbody_Player != null)
+        {
+            _rigidbody_Player.linearVelocity = Vector3.zero;
+            _rigidbody_Player.angularVelocity = Vector3.zero;
+            _rigidbody_Player.position = worldPosition;
+            Physics.SyncTransforms();
+        }
+        else
+        {
+            this.transform.position = worldPosition;
+        }
+    }
+
     private void OnDrawGizmos() //시각적으로 _groundCheck 그리기
     {
         if (_groundCheck != null)
