@@ -86,39 +86,58 @@ public class EnemyBase : MonoBehaviour
         {
             if (StateContext.CurrentState == StateContext.ChaseState && !IsAttackCooldown)
             {
-                Nav.stoppingDistance = _attackRadius;
+                // 1. 플레이어가 공격 사거리 안에 들어왔을 때
+                if (DstToTarget <= _attackRadius)
+                {
+                    // NavMesh 이동 강제 정지 (밀림 방지)
+                    Nav.isStopped = true;
+                    Nav.velocity = Vector3.zero;
+
+                    // [핵심] Idle 애니메이션이 없으므로, 애니메이션 속도를 0으로 만들어 발을 멈춥니다.
+                    Anim.speed = 0f;
+
+                    // 플레이어를 바라보며 조준
+                    if (DirToTarget != Vector3.zero)
+                    {
+                        Quaternion targetRotation = Quaternion.LookRotation(DirToTarget);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 5.0f);
+                    }
+
+                    // 딜레이 타이머 굴리기
+                    _attackTimer += Time.fixedDeltaTime;
+
+                    // 딜레이 시간이 꽉 찼다면 (도망치지 않고 버텼다면) 공격 시작
+                    if (_attackTimer >= _attackDelay)
+                    {
+                        Anim.speed = 1f; // 애니메이션 속도 원상복구
+                        StateContext.TransitionTo(StateContext.AttackState);
+                        _attackTimer = 0f;
+                    }
+                }
+                // 2. 공격 딜레이 도중 플레이어가 사거리 밖으로 도망쳤을 때 (또는 그냥 추적 중일 때)
+                else
+                {
+                    _attackTimer = 0f; // 공격 타이머 초기화 (공격 취소)
+
+                    Nav.isStopped = false; // 다시 추적 시작
+                    Nav.stoppingDistance = _attackRadius; // 사거리 앞까지만 이동
+
+                    Anim.speed = 1f; // 걷기 애니메이션 다시 재생
+                }
             }
+            // ChaseState가 아닐 때 (Normal, Track 등)
             else
             {
                 Nav.stoppingDistance = 0.5f;
+
+                // AttackState가 아닐 때는 항상 애니메이션 정상 재생
+                if (StateContext.CurrentState != StateContext.AttackState)
+                {
+                    Anim.speed = 1f;
+                }
             }
         }
 
-        // 시야각에 들어오면서 공격사거리에 들어온 경우
-        if (StateContext.CurrentState == StateContext.ChaseState && DstToTarget <= _attackRadius && !IsAttackCooldown)
-        {
-
-            if (DirToTarget != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(DirToTarget);
-                // AttackState와 동일한 속도(5.0f)로 부드럽게 회전
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 5.0f);
-            }
-
-            _attackTimer += Time.fixedDeltaTime;
-            // 근접은 바로 0초 원거리만 1.5초로 해놓기 (수정 가능)
-            if (_attackTimer >= _attackDelay)
-            {
-                StateContext.TransitionTo(StateContext.AttackState);
-                _attackTimer = 0f; // 초기화
-            }
-        }
-
-        else
-        {
-            _attackTimer = 0f; // 범위에서 벗어나면 초기화
-        }
-        // 이미 공격중인 상태이면 공격 메서드 계속 호출 -> StateContext.Update()가 대신 처리함, 그 외는 움직이는 상태로 이동
         StateContext.Update();
     }
     // 공격상태에서 쿨타임 관련 메서드

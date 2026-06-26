@@ -129,6 +129,8 @@ MonoBehaviour:
   _taserEffect: {fileID: 5477526759706404288}
   _shootDelay: 0.5
   _effectDuration: 1
+  _bulletPrefab: {fileID: 1087995890372706508, guid: 0f8e6137e16581542baa0fc00d3f8c33, type: 3}
+  _firePoint: {fileID: 8710949686342887585}
 --- !u!54 &729247758777245714
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6216,6 +6218,7 @@ Transform:
   m_Children:
   - {fileID: 639452350035961567}
   - {fileID: 1377978649436545545}
+  - {fileID: 8710949686342887585}
   m_Father: {fileID: 4974162178426309225}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &3127418580580138606
@@ -6281,6 +6284,37 @@ Transform:
   m_Children:
   - {fileID: 6996261052924336893}
   m_Father: {fileID: 2307375126941906429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3469983034005587545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8710949686342887585}
+  m_Layer: 0
+  m_Name: Bullet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8710949686342887585
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3469983034005587545}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1, y: -2.27, z: 0.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3809134908808653416}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3631289477481029535
 GameObject:

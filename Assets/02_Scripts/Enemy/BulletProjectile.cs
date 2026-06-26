@@ -3,11 +3,10 @@ using System;
 using System.Threading;
 using UnityEngine;
 
-public class BarProjectile : MonoBehaviour
+public class BulletProjectile : MonoBehaviour
 {
-    [SerializeField] private float _speed = 7f;
-    [SerializeField] private float _lifeTime = 3f;
-    [SerializeField] private float _spinSpeed = 1000f; // 회전 속도
+    [SerializeField] private float _speed = 20f;
+    [SerializeField] private float _lifeTime = 2f;
 
     private float _damage;
     private Vector3 _flyDirection;
@@ -16,10 +15,8 @@ public class BarProjectile : MonoBehaviour
     {
         _damage = damage;
         _flyDirection = direction.normalized;
-
         transform.forward = _flyDirection;
 
-        // [수정됨] 풀링용 토큰 대신 파괴 시 자동 취소되는 토큰 사용
         AutoDestroyRoutine(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
@@ -30,21 +27,21 @@ public class BarProjectile : MonoBehaviour
 
         if (gameObject != null)
         {
-            Destroy(gameObject); // [수정됨] Destroy 사용
+            Destroy(gameObject);
         }
     }
 
     private void Update()
     {
-        transform.Rotate(Vector3.right * _spinSpeed * Time.deltaTime, Space.Self);
         float moveDistance = _speed * Time.deltaTime;
 
         if (Physics.Raycast(transform.position, _flyDirection, out RaycastHit hit, moveDistance))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
+                // [추가됨] 곤봉과 동일한 디버그
                 Debug.Log("적 맞고 파괴됨");
-                Destroy(gameObject); // [수정됨]
+                Destroy(gameObject);
                 return;
             }
             else if (hit.collider.CompareTag("Player"))
@@ -53,15 +50,17 @@ public class BarProjectile : MonoBehaviour
                 if (player != null)
                 {
                     player.TakePlayerSpDamage(_damage);
-                    Debug.Log($"플레이어에게 곤봉 적중! 데미지: {_damage}");
+                    // [추가됨] 곤봉과 동일한 디버그
+                    Debug.Log($"플레이어에게 총알 적중! 데미지: {_damage}");
                 }
-                Destroy(gameObject); // [수정됨]
+                Destroy(gameObject);
                 return;
             }
             else
             {
+                // [추가됨] 곤봉과 동일한 디버그
                 Debug.Log("벽 맞고 파괴됨");
-                Destroy(gameObject); // [수정됨]
+                Destroy(gameObject);
                 return;
             }
         }
@@ -75,15 +74,14 @@ public class BarProjectile : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            // [수정됨] 기존 코드에 있던 버그 수정 (자신이 아닌 other에서 GetComponent를 해야 합니다!)
             PlayerController player = other.GetComponent<PlayerController>();
             if (player != null)
             {
                 player.TakePlayerSpDamage(_damage);
-                Debug.Log("플레이어가 곤봉에 맞았습니다.");
+                Debug.Log("플레이어가 총알에 맞았습니다.");
             }
         }
 
-        Destroy(gameObject); // [수정됨]
+        Destroy(gameObject);
     }
 }

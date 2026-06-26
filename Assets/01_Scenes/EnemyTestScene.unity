@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 192430106}
   - component: {fileID: 192430105}
   - component: {fileID: 192430109}
+  - component: {fileID: 192430110}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -259,6 +260,46 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &192430110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192430104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab8406a27da89f458cbe8ca59e0b33b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  _moveSpeed: 8
+  _sprintScale: 2
+  _crouchScale: 0.3
+  _overweightScale: 0.5
+  _minMoveSpeed: 1
+  _rigidbody_Player: {fileID: 0}
+  _playerCollider: {fileID: 0}
+  _jumpForce: 7
+  _groundCheck: {fileID: 0}
+  _groundCheckRadius: 0.5
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _headCheck: {fileID: 0}
+  _headCheckRadius: 0.5
+  _headLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _tranform_CameraRig: {fileID: 0}
+  Camera_FPS: {fileID: 0}
+  _tranform_CrouchCamera: {fileID: 0}
+  _float_MoveColliderY: 0.5
+  _inputHandler: {fileID: 0}
+  _playerInventory: {fileID: 0}
+  _hoverDetector: {fileID: 0}
+  _playerSp: 100
+  _spintSpUsePerSecond: 5
+  _spintSpAddPerSecond: 3
 --- !u!1 &265500698
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,6 +2501,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6089835730745821097, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+      propertyPath: _firePoint
+      value: 
+      objectReference: {fileID: 8868810602441862198}
+    - target: {fileID: 6089835730745821097, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+      propertyPath: _bulletPrefab
+      value: 
+      objectReference: {fileID: 1087995890372706508, guid: 0f8e6137e16581542baa0fc00d3f8c33, type: 3}
     - target: {fileID: 6177572815198542200, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.226
@@ -2505,6 +2554,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+--- !u!4 &8868810602441862198 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8710949686342887585, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+  m_PrefabInstance: {fileID: 8868810602441862197}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
