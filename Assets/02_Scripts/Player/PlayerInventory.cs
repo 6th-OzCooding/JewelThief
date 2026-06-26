@@ -63,6 +63,8 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public InventoryItem RightHandItem { get; private set; }
 
+    public JewelInventoryManager JewelInventory { get; private set; }
+
     /// <summary>
     /// 가방에 들어 있는 아이템 목록입니다.
     /// </summary>
@@ -77,6 +79,11 @@ public class PlayerInventory : MonoBehaviour
     /// 현재 플레이어가 들고 다닐 수 있는 전체 기준 무게입니다.
     /// </summary>
     public float MaxCarryWeight => _bagMaxWeight;
+
+    private void Start()
+    {
+        JewelInventory = JewelInventoryManager.Instance;
+    }
 
     /// <summary>
     /// 현재 가방에 들어 있는 아이템의 총 무게를 반환합니다.
@@ -98,7 +105,17 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public float GetTotalCarryWeight()
     {
-        return GetCurrentBagWeight() + GetItemWeight(LeftHandItem) + GetItemWeight(RightHandItem);
+        // 보석 인벤토리 무게도 추가 해서 수정함
+        float normalItemWeight = GetCurrentBagWeight() + GetItemWeight(LeftHandItem) + GetItemWeight(RightHandItem);
+
+        float jewelWeight = 0f;
+
+        if (JewelInventory != null)
+        {
+            jewelWeight = JewelInventory.GetTotalJewelWeight();
+        }
+
+        return normalItemWeight + jewelWeight;
     }
 
     /// <summary>
@@ -373,6 +390,14 @@ public class PlayerInventory : MonoBehaviour
                 RightHandItem = null;
 
             // TODO(김익환, 26.06.22): 가방에 들어 있는 Tool 아이템 제거 로직 추가 필요
+        }
+    }
+
+    public void AddJewel(Jewel gem)
+    {
+        if (JewelInventory != null)
+        {
+            JewelInventory.AddJewelToTempQueue(gem);
         }
     }
 }
