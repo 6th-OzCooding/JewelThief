@@ -29,7 +29,9 @@ public enum UIType
     SettingPopup,
     StageSelectUI,
     SimplePopupUI,
-    ShopInfoPopupUI
+    ShopInfoPopupUI,
+    ScorePopupUI,
+    JewelInventoryUI
 }
 
 /// <summary>

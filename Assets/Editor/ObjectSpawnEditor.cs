@@ -13,7 +13,8 @@ public class ObjectSpawnEditor : EditorWindow
 
     private string _jewelObjectAddress = "Pool_Jewel";
     private string _toolObjectAddress = "Pool_Tool";
-    private string _interactableObjectAddress = "Pool_Interactable";
+    //private string _interactableObjectAddress = "InteractableContainer_Prefab";
+    private string _interactableObjectAddress = "Door_Prefab";
 
     private static string[] _jewelItemIds =
     {
@@ -32,7 +33,14 @@ public class ObjectSpawnEditor : EditorWindow
     };
     private static string[] _interactableItemIds =
     {
-        // 우재님 여기에 아이디 넣어주세요
+        /*
+        "Object_01",
+        "Object_02",
+        "Object_03",
+        "Object_04",
+        "Object_05"
+        */
+        "Door_01"
     };
     private static StageRuntimeInterface[] _stageRuntimeInterfaces;
 
@@ -235,7 +243,7 @@ public class ObjectSpawnEditor : EditorWindow
                 spawnedObject.GetComponent<Tool>().InitFromSpawner(itemId);
                 break;
             case ItemObjectType.Interactable:
-                spawnedObject.GetComponent<BaseInteractableObject>().InitFromSpawner(itemId);
+                spawnedObject.GetComponent<BaseDisarmableObejct>().InitFromSpawner(itemId);
                 break;
             default:
                 Debug.LogError("선택된 오브젝트가 Jewel 또는 Tool이 아닙니다.");

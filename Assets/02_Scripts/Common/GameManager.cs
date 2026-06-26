@@ -14,6 +14,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public static DataTable DataTable { get { return Instance._dataTable; } }
     public static UIManager UI { get { return Instance._uiManager; } }
     public static UserDataManager UserData { get { return Instance._userDataManager; } }
+    public static ShopManager Shop { get { return Instance._shopManager; } }
 
     #region Manager Varialbes
 
@@ -25,6 +26,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private UIManager _uiManager = new();
     private WFCMapGeneration _wfcMapGeneration = new();
     private UserDataManager _userDataManager = new();
+    private ShopManager _shopManager = new();
 
     private LobbyController _lobbyController;
 
@@ -238,6 +240,18 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
 
         _wfcMapGeneration.StartGenerateMap(_navMeshSurface, _mapRoot).Forget();
+    }
+
+    // 보석 인벤토리 열림
+    public void PauseGameForPuzzle()
+    {
+        _isPlaying = false;
+    }
+
+    // 보석 이벤토리 닫힘
+    public void ResumeGameFromPuzzle()
+    {
+        _isPlaying = true;
     }
 
     private void PoolInit()
