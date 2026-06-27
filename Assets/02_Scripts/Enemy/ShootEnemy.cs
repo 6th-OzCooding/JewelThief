@@ -4,13 +4,9 @@ using Cysharp.Threading.Tasks;
 
 public class ShootEnemy : MonoBehaviour
 {
-    [Header("Effect Settings")]
     [SerializeField] private GameObject _taserEffect; // 기존에 쓰시던 이펙트 오브젝트
     [SerializeField] private float _shootDelay = 0.1f; // 총을 뻗는 애니메이션 타이밍 (켜지는 시간)
     [SerializeField] private float _effectDuration = 0.8f; // 이펙트가 터지고 유지되는 시간 (꺼지는 시간)
-
-    [Header("Projectile Settings")]
-    [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _firePoint; // 투사체의 생성 위치 (스크린샷의 Bullet 빈 오브젝트)
 
     private EnemyBase _enemyBase;
@@ -59,7 +55,7 @@ public class ShootEnemy : MonoBehaviour
             // 총알을 쏘기 직전에 멈추게 하는 코드
             await UniTask.WaitWhile(() => GameManager.Instance != null && GameManager.Instance.IsPaused, cancellationToken: token);
             // 투사체(총알) 생성 및 발사
-            GameObject projectile = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
+            GameObject projectile = GameManager.Pool.SpawnFromPool("Pool_Bullet", _firePoint.position, _firePoint.rotation);
             BulletProjectile projScript = projectile.GetComponent<BulletProjectile>();
 
             if (projScript != null && _enemyBase != null)

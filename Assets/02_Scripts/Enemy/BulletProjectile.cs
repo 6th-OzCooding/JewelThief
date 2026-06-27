@@ -10,6 +10,7 @@ public class BulletProjectile : MonoBehaviour
 
     private float _damage;
     private Vector3 _flyDirection;
+    private CancellationTokenSource _cts;
 
     public void Initialize(Vector3 direction, float damage)
     {
@@ -17,17 +18,25 @@ public class BulletProjectile : MonoBehaviour
         _flyDirection = direction.normalized;
         transform.forward = _flyDirection;
 
-        AutoDestroyRoutine(this.GetCancellationTokenOnDestroy()).Forget();
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        AutoDespawnRoutine(_cts.Token).Forget();
     }
 
-    private async UniTaskVoid AutoDestroyRoutine(CancellationToken token)
+    private async UniTaskVoid AutoDespawnRoutine(CancellationToken token)
     {
         bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(_lifeTime), cancellationToken: token).SuppressCancellationThrow();
-        if (isCanceled) return;
+        if (isCanceled) return; // 중간에 다른 곳에 부딪혀서 토큰이 취소되면 무시
 
-        if (gameObject != null)
+        ReturnToPool();
+    }
+    // Destroy 대신 Pool로 반납하는 메서드
+    private void ReturnToPool()
+    {
+        _cts?.Cancel();
+        if (gameObject.activeInHierarchy)
         {
-            Destroy(gameObject);
+            GameManager.Pool.DespawnToPool(gameObject);
         }
     }
 
@@ -39,9 +48,9 @@ public class BulletProjectile : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                // 적이랑 부딪히면 바로 파괴되게
+                // 적이랑 부딪히면 바로 반납
                 Debug.Log("적 맞고 파괴됨");
-                Destroy(gameObject);
+                ReturnToPool();
                 return;
             }
             else if (hit.collider.CompareTag("Player"))
@@ -53,14 +62,14 @@ public class BulletProjectile : MonoBehaviour
                     // 데미지를 받았는 지 확인
                     Debug.Log($"플레이어에게 총알 적중! 데미지: {_damage}");
                 }
-                Destroy(gameObject);
+                ReturnToPool();
                 return;
             }
             else
             {
                 // 벽이나 물체에 맞으면 바로 파괴되게
                 Debug.Log("벽 맞고 파괴됨");
-                Destroy(gameObject);
+                ReturnToPool();
                 return;
             }
         }
@@ -81,7 +90,6 @@ public class BulletProjectile : MonoBehaviour
                 Debug.Log("플레이어가 총알에 맞았습니다.");
             }
         }
-
-        Destroy(gameObject);
+        ReturnToPool();
     }
 }

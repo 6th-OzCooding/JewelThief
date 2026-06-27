@@ -5,8 +5,6 @@ using Cysharp.Threading.Tasks;
 public class ThrowEnemy : MonoBehaviour
 {
     [SerializeField] private GameObject _policeBar; // 껐다 켤 경찰봉 오브젝트
-    // [수정됨] Pool ID 문자열 대신 프리팹을 직접 받도록 변경
-    [SerializeField] private GameObject _barProjectilePrefab;
     [SerializeField] private Transform _firePoint; // 투사체의 생성 위치
 
     [SerializeField] private float _throwDelay = 0.1f;
@@ -22,7 +20,7 @@ public class ThrowEnemy : MonoBehaviour
     public void ThrowWeapon()
     {
         // 프리팹 할당 체크
-        if (_policeBar == null || _barProjectilePrefab == null) return;
+        if (_policeBar == null) return;
 
         ThrowRoutine().Forget();
     }
@@ -41,8 +39,7 @@ public class ThrowEnemy : MonoBehaviour
 
             Vector3 spawnPos = _firePoint != null ? _firePoint.position : transform.position + Vector3.up * 1f;
 
-            // [수정됨] 풀 대신 Instantiate를 사용하여 곤봉 생성
-            GameObject projectile = Instantiate(_barProjectilePrefab, spawnPos, transform.rotation);
+            GameObject projectile = GameManager.Pool.SpawnFromPool("Pool_Throw", spawnPos, transform.rotation);
 
             BarProjectile projScript = projectile.GetComponent<BarProjectile>();
             if (projScript != null && _enemyBase != null)
@@ -52,6 +49,8 @@ public class ThrowEnemy : MonoBehaviour
 
             await UniTask.Delay(TimeSpan.FromSeconds(_respawnTime), cancellationToken: token);
 
+            await UniTask.WaitWhile(() => GameManager.Instance != null && GameManager.Instance.IsPaused, cancellationToken: token);
+            
             _policeBar.SetActive(true);
         }
         catch (OperationCanceledException)

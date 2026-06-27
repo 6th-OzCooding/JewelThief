@@ -11,7 +11,8 @@ public class EnemyBase : MonoBehaviour
     public Rigidbody Rb { get; private set; }
     public NavMeshAgent Nav { get; private set; }
     // 취소 토큰을 미리 선언해두기
-    public CancellationToken CancelToken { get; private set; }
+    private CancellationTokenSource _cts;
+    public CancellationToken CancelToken => _cts != null ? _cts.Token : CancellationToken.None;
     public EnemyStateContext StateContext { get; private set; }
 
     public float WalkSpeed => _walkSpeed;
@@ -51,32 +52,61 @@ public class EnemyBase : MonoBehaviour
 
     private void Awake()
     {
-        // 토큰을 받은 오브젝트가 사라지면 받은 토큰을 없애도록
-        CancelToken = this.GetCancellationTokenOnDestroy();
-        Nav = GetComponent<NavMeshAgent>(); // NavMesh 할당
-
-        // 상태 컨텍스트(관리자) 생성 및 주입
-        StateContext = new EnemyStateContext(this);
-    }
-
-    private void Start()
-    {
+        // 고정적인 컴포넌트 할당은 Awake에서 1번만 실행
+        Nav = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
         Rb = GetComponent<Rigidbody>();
 
-        // 물리 충돌로 밀어내는 현상 방지
         if (Rb != null) Rb.isKinematic = true;
+        StateContext = new EnemyStateContext(this);
+    }
 
-        // 최소 접근 거리 초기화
+    private void OnEnable()
+    {
+        // 남아있을 수 있는 토큰들을 취소 후 다시 발급받는다.
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        
+        // 플레이어에 관한 상태 리셋
+        TargetPlayer = null;
+        DirToTarget = Vector3.zero;
+        DstToTarget = 0f;
+        _attackTimer = 0f;
+        _detectTimer = 0f;
+        IsAttackCooldown = false;
+        // NavMesh 초기화
         if (Nav != null)
         {
             Nav.stoppingDistance = _minApproachDistance;
+            if (Nav.isOnNavMesh)
+            {
+                Nav.isStopped = false;
+                Nav.ResetPath();
+            }
         }
-
-        // 시작 상태를 Normal로 지정
-        StateContext.Initialize(StateContext.NormalState);
+        // 애니메이션 초기화
+        if (Anim != null)
+        {
+            Anim.speed = 1f;
+            Anim.SetBool("isRun", false);
+        }
+        // 시작 상태는 Normal로 지정
+        if (StateContext != null)
+        {
+            StateContext.Initialize(StateContext.NormalState);
+        }
     }
 
+    // Pool 반갑시 진행중이던 공격, 딜레이 타이머 종료
+    private void OnDisable()
+    {
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
+    }
     private void Update()
     {
         if (GameManager.Instance != null && GameManager.Instance.IsPaused)

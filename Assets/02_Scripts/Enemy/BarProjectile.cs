@@ -11,6 +11,7 @@ public class BarProjectile : MonoBehaviour
 
     private float _damage;
     private Vector3 _flyDirection;
+    private CancellationTokenSource _cts;
 
     public void Initialize(Vector3 direction, float damage)
     {
@@ -19,18 +20,25 @@ public class BarProjectile : MonoBehaviour
 
         transform.forward = _flyDirection;
 
-        // [수정됨] 풀링용 토큰 대신 파괴 시 자동 취소되는 토큰 사용
-        AutoDestroyRoutine(this.GetCancellationTokenOnDestroy()).Forget();
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        AutoDespawnRoutine(_cts.Token).Forget();
     }
 
-    private async UniTaskVoid AutoDestroyRoutine(CancellationToken token)
+    private async UniTaskVoid AutoDespawnRoutine(CancellationToken token)
     {
         bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(_lifeTime), cancellationToken: token).SuppressCancellationThrow();
         if (isCanceled) return;
 
-        if (gameObject != null)
+        ReturnToPool();
+    }
+
+    private void ReturnToPool()
+    {
+        _cts?.Cancel();
+        if (gameObject.activeInHierarchy)
         {
-            Destroy(gameObject); // [수정됨] Destroy 사용
+            GameManager.Pool.DespawnToPool(gameObject);
         }
     }
 
@@ -44,7 +52,7 @@ public class BarProjectile : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 Debug.Log("적 맞고 파괴됨");
-                Destroy(gameObject); // [수정됨]
+                ReturnToPool();
                 return;
             }
             else if (hit.collider.CompareTag("Player"))
@@ -55,13 +63,13 @@ public class BarProjectile : MonoBehaviour
                     player.TakePlayerSpDamage(_damage);
                     Debug.Log($"플레이어에게 곤봉 적중! 데미지: {_damage}");
                 }
-                Destroy(gameObject); // [수정됨]
+                ReturnToPool();
                 return;
             }
             else
             {
                 Debug.Log("벽 맞고 파괴됨");
-                Destroy(gameObject); // [수정됨]
+                ReturnToPool();
                 return;
             }
         }
@@ -82,7 +90,6 @@ public class BarProjectile : MonoBehaviour
                 Debug.Log("플레이어가 곤봉에 맞았습니다.");
             }
         }
-
-        Destroy(gameObject);
+        ReturnToPool();
     }
 }
