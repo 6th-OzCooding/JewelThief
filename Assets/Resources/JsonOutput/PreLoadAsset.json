@@ -15,11 +15,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_Stage1_TestPresetTile",
-    "Address": "TestPresetTile",
-    "AssetType": null
-  },
-  {
     "Id": "PreLoadAsset_Stage1_Vertical Corridor",
     "Address": "Vertical Corridor",
     "AssetType": null

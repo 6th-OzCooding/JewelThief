@@ -185,11 +185,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8260dff7604f73845a5015567b2e30eb
-    m_Address: TestPresetTile
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 83346d92482c608498b0ab928342a335
     m_Address: Error_01
     m_ReadOnly: 0

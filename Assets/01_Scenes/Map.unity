@@ -1020,8 +1020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _skipStartupUIForTest: 0
-  _gold: 0
-  _selectedStageId: 
+  SelectedStageId: 
 --- !u!4 &2044133021
 Transform:
   m_ObjectHideFlags: 0

@@ -74,10 +74,9 @@ public class GameManager : SingletonBehaviour<GameManager>
     #endregion
 
     // 전역 데이터 추가
-    public int _gold;
-    public string _selectedStageId;
+    public int Gold { get; private set; }
+    public string SelectedStageId;
 
-    public int Gold => _gold;
 
     // 골드 증가 (판매소 등)
     public void AddGold(int amount)
@@ -85,16 +84,16 @@ public class GameManager : SingletonBehaviour<GameManager>
         if (amount <= 0)
             return;
 
-        _gold += amount;
+        Gold += amount;
     }
 
     // 골드 차감 시도 (상점 등)
     public bool TrySpendGold(int amount)
     {
-        if (amount <= 0 || _gold < amount)
+        if (amount <= 0 || Gold < amount)
             return false;
 
-        _gold -= amount;
+        Gold -= amount;
         return true;
     }
 

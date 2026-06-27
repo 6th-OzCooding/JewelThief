@@ -3,27 +3,53 @@
     "Id": "Stage_01",
     "Name": "TestMap",
     "TimeLimit": 120,
-    "MaxObject": 12,
+    "MaxContainer": 12,
     "MaxTrap": 6,
+    "MaxTool": 2,
+    "MaxObject": 4,
     "ExitCount": 2,
-    "EnemyId": 0
+    "TileAddress": [
+      "All Direction Corridor",
+      "Vertical Corridor",
+      "RightTop Corridor",
+      "RightDown Corridor",
+      "LeftTop Corridor",
+      "LeftDown Corridor",
+      "Horizontal Corridor",
+      "T Corridor1",
+      "T Corridor2",
+      "T Corridor3",
+      "T Corridor4",
+      "Room1",
+      "Demo Room1",
+      "Demo Room2",
+      "Demo Room3",
+      "Demo Room4",
+      "Demo Room5",
+      "Demo Room6",
+      "Demo Room7"
+    ]
   },
   {
     "Id": "Stage_02",
     "Name": "City",
     "TimeLimit": 120,
-    "MaxObject": 12,
+    "MaxContainer": 12,
     "MaxTrap": 8,
+    "MaxTool": 4,
+    "MaxObject": 6,
     "ExitCount": 3,
-    "EnemyId": 0
+    "TileAddress": null
   },
   {
     "Id": "Stage_03",
     "Name": "Museum",
     "TimeLimit": 120,
-    "MaxObject": 15,
+    "MaxContainer": 15,
     "MaxTrap": 10,
+    "MaxTool": 6,
+    "MaxObject": 8,
     "ExitCount": 3,
-    "EnemyId": 0
+    "TileAddress": null
   }
 ]
