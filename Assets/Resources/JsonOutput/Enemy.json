@@ -53,7 +53,7 @@
     "DetectRadius": 30,
     "WalkSpeed": 4,
     "RunSpeed": 5,
-    "AttackRadius": 1.5,
+    "AttackRadius": 1,
     "MinApproachDistance": 1,
     "AttackDelay": 0,
     "AttackDamage": 0.5,
