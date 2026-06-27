@@ -78,6 +78,7 @@ public class ItemData : BaseData
     public string IconPath;
     public string MeshPath;
     public List<string> MaterialPaths = new List<string>();
+    public string MeshCollider;
     public int ChargeCount;
     public string Husks;
 

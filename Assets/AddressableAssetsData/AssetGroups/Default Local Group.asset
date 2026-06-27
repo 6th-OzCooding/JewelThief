@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -17,6 +17,11 @@ MonoBehaviour:
   m_SerializeEntries:
   - m_GUID: 006235b25867908418567637ba7a0f39
     m_Address: SeatedLion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 028a6bb6e696e5c4794e0d5ae98ec79d
+    m_Address: Junk_Sculpture
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -41,7 +46,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 165bac9ae1d95234581f89826d2bb64a
-    m_Address: Pool_Tool
+    m_Address: ToolObject
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 169da0b69d9908e48bbee8c07e16a535
+    m_Address: Junk_Fish
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -55,8 +65,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ec0f794fda98254bb72db6e8a4e4944
+    m_Address: MeshCollider_Junk_Bottle_Pink_Large
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1f84ea28775ed4f479903d2949684cc0
+    m_Address: MeshCollider_Junk_Glasses
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 223416086535a7b43a073dca9b5d410a
     m_Address: Painting_1_Mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22e8642e2c45f144c9a2fb94c077b2c1
+    m_Address: Junk_Microphone
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 25af85828bde484408ec40d86c4e07e6
+    m_Address: Junk_Glasses
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -82,6 +112,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 394a6b8e1d665894690a0983a933aac3
     m_Address: Explosion_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b670c261baf57449aa641edb6bde69d
+    m_Address: PolygonNightclubs_01_A
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -185,13 +220,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6f78cd84bb020f642a28938e1e9b6c65
-    m_Address: T Corridor2
+  - m_GUID: 6c3bd5dae5ddc3c4c9d883b82b31a4cb
+    m_Address: PaintingFrame_Gold
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6c3bd5dae5ddc3c4c9d883b82b31a4cb
-    m_Address: PaintingFrame_Gold
+  - m_GUID: 6f78cd84bb020f642a28938e1e9b6c65
+    m_Address: T Corridor2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -222,6 +257,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78fb78614443e604daae12413ee3b9f5
     m_Address: Effect_Normal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7953302bbdf9f0a4599f13d2d54c8061
+    m_Address: Junk_Bottle_Blue
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -345,6 +385,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abb4da7564a49f54c8f16a13bf0865b3
+    m_Address: MeshCollider_Junk_Bottle_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acbccfaa10f61c4429d88b29a16e249e
+    m_Address: Demo Room5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aeb016aa83d140446a9f376bd9e5c716
     m_Address: PaintingFrame_Black
     m_ReadOnly: 0
@@ -355,13 +405,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: acbccfaa10f61c4429d88b29a16e249e
-    m_Address: Demo Room5
+  - m_GUID: b1fda2122b30bd94caab8565edd73ca9
+    m_Address: GunTrap_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b1fda2122b30bd94caab8565edd73ca9
-    m_Address: GunTrap_01
+  - m_GUID: be3c2daed67d47f49b2d3ce7373962d2
+    m_Address: PolygonNightclub_Mat_01_A_Metallic
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -390,13 +440,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6774015cb57c9043b126f4904aab41f
+    m_Address: T Corridor4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c9f67c3b5052b1c47978d3b05313adb9
     m_Address: Painting_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c6774015cb57c9043b126f4904aab41f
-    m_Address: T Corridor4
+  - m_GUID: cb370af80a08891498553785223cbb0a
+    m_Address: Junk_Can_Navy
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -405,8 +460,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc41612db60a50e45bb4994866ccf19a
+    m_Address: Junk_Bottle_Pink_Large
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ccff500a80b00084e9553c58463ca4fe
-    m_Address: Pool_Jewel
+    m_Address: JewelObject
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -452,6 +512,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: db56d1ee0639e504bb557eda71f1052f
     m_Address: Yellow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ddd19b109b2a3424ebb1494122725bb0
+    m_Address: JunkObject
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
