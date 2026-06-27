@@ -14,7 +14,7 @@ public class DataTable
     public Dictionary<string, PopupViewData> GetPopupViewDataTable() => _popupViewDataTable;
     public Dictionary<string, SoundData> GetSoundDataTable() => _soundDataTable;
     public Dictionary<string, StageData> GetStageDataTable() => _stageDataTable;
-
+    public Dictionary<string, EnemyData> GetEnemyDataTable() => _enemyDataTable;
 
     private Dictionary<string, PreLoadAssetData> _preLoadAssetDataTable { get; set; } = new();
     private Dictionary<string, PoolData> _poolDataTable { get; set; } = new();
@@ -25,6 +25,7 @@ public class DataTable
     private Dictionary<string, PopupViewData> _popupViewDataTable { get; set; } = new();
     private Dictionary<string, SoundData> _soundDataTable { get; set; } = new();
     private Dictionary<string, StageData> _stageDataTable { get; set; } = new();
+    private Dictionary<string, EnemyData> _enemyDataTable { get; set; } = new();
 
     [Serializable]
     class SerializationWrapper<T>
@@ -46,6 +47,8 @@ public class DataTable
         _popupViewDataTable = LoadData<PopupViewData>("PopupViewData");
         _soundDataTable = LoadData<SoundData>("SoundData");
         _stageDataTable = LoadData<StageData>("StageData");
+
+        _enemyDataTable = LoadData<EnemyData>("Enemy");
     }
 
     #region Getters
@@ -108,6 +111,11 @@ public class DataTable
         return _stageDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
+    public EnemyData GetEnemyData(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return null;
+        return _enemyDataTable.TryGetValue(id, out var data) ? data : null;
+    }
     #endregion
 
     Dictionary<string, T> LoadData<T>(string tableNmae) where T : BaseData

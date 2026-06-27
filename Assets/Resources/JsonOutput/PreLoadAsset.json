@@ -15,6 +15,11 @@
     "AssetType": null
   },
   {
+    "Id": "PreLoadAsset_Stage1_TestPresetTile",
+    "Address": "TestPresetTile",
+    "AssetType": null
+  },
+  {
     "Id": "PreLoadAsset_Stage1_Vertical Corridor",
     "Address": "Vertical Corridor",
     "AssetType": null
@@ -462,41 +467,6 @@
   {
     "Id": "PreLoadAsset_Material_Statue_Marble",
     "Address": "Statue_Marble",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Stage1_TCorridor1",
-    "Address": "T Corridor1",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Stage1_TCorridor2",
-    "Address": "T Corridor2",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Stage1_TCorridor3",
-    "Address": "T Corridor3",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Stage1_TCorridor4",
-    "Address": "T Corridor4",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Stage1_Demo Room5",
-    "Address": "Demo Room5",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Stage1_Demo Room6",
-    "Address": "Demo Room6",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Stage1_Demo Room7",
-    "Address": "Demo Room7",
     "AssetType": null
   }
 ]
