@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class WFCMapGeneration
 {
+    public SOTilePreset SOTilePreset { get; private set; }
+
     private enum Direction
     {
         Up,
@@ -14,44 +16,45 @@ public class WFCMapGeneration
         Left
     }
 
-    private static readonly Direction[] Directions =
+    private readonly Direction[] _directions =
     {
-    Direction.Up,
-    Direction.Down,
-    Direction.Right,
-    Direction.Left
-};
+        Direction.Up,
+        Direction.Down,
+        Direction.Right,
+        Direction.Left
+    };
 
     // Map Generation Settings
-    private float _gridSpacing = 10f;
-    private int _mapSizeSetting = 10;
     private int _mapSize;
     private int _generationCount = 0;
-
-    public SOTilePreset SOTilePreset { get; private set; }
-
-    // Objects
-    private List<MapTile> _tileObjects;
-    private MapGrid _mapGridObject;
-    private MapTile _backUpTile;
-    private MapTile _boundaryTile;
+    private int _mapSizeSetting = 10;
+    private float _gridSpacing = 10f;
 
     // cache
+    private MapTile _boundaryTile;
+    private MapGrid _mapGridObject;
     private List<MapGrid> _grids;
+    private List<MapTile> _tileObjects;
     private List<MapTile> _generatedTiles;
 
-    // Buffer를 만들어 재활용
+    // 재활용 Buffer를
     private readonly List<MapGrid> _lowEntropyGrids = new();
     private readonly MapGrid[] _collapsedNeighbors = new MapGrid[4];
+    private Queue<MapGrid> _propagateQueue = new();
+    private HashSet<int> _propagateQueueIndexes = new();
+    private Queue<MapGrid> _checkReachableTileQueue = new();
+    private HashSet<int> _checkReachableTileVisitedIndexs = new();
 
-    // 그거 여기 네이밍 뭐 하지?
-    private MapObjectSpawner _mapObjectSpawner = new();
+    // Map Object Spawner
     private Transform _mapRoot;
+    private MapObjectSpawner _mapObjectSpawner = new();
     private RunTimeBakeNavMesh _runTimeBakeNavMesh = new();
 
-    private const int MaxGenerateRetryCount = 20;
-    private int _minReachableTileCount = 30;
+    // Generation Map Exception
     private MapGrid _startGrid;
+    private int _maxGenerateRetryCount;    // 맵 생성 실패 시 재시도 횟수
+    private int _minReachableTileCount;    // 도달 가능한 타일 수 최소값
+    private int _minReachableRoomCount;     // 도달 가능한 방 개수 최소값
 
     public async UniTask StartGenerateMap(NavMeshSurface navMeshSurface, Transform mapRoot, Action<float> onProgress = null)
     {
@@ -66,12 +69,12 @@ public class WFCMapGeneration
         await LoadAssets();
 
         bool success = false;
-        for (int retryCount = 0; retryCount < MaxGenerateRetryCount; retryCount++)
+        for (int retryCount = 0; retryCount < _maxGenerateRetryCount; retryCount++)
         {
-            Debug.Log($"WFC 맵 생성 시도: {retryCount + 1}/{MaxGenerateRetryCount}");
+            Debug.Log($"WFC 맵 생성 시도: {retryCount + 1}/{_maxGenerateRetryCount}");
 
             ClearGeneratedMap();
-            InitGenerationState();
+            Initialize();
 
             GenerateGrids();
 
@@ -94,7 +97,15 @@ public class WFCMapGeneration
 
             if (!CheckReachableTileCount())
             {
-                Debug.LogWarning("시작 타일 기준 도달 가능한 타일 수가 부족합니다. 맵 재생성 시도.");
+                Debug.LogWarning("시작 타일 기준 도달 가능한 타일 수가 부족. 맵 재생성 시도.");
+                success = false;
+                await UniTask.Yield();
+                continue;
+            }
+
+            if(!CheckReachableRoomCount())
+            {
+                Debug.LogWarning("도달 가능한 방 개수가 부족. 맵 재생성 시도.");
                 success = false;
                 await UniTask.Yield();
                 continue;
@@ -106,7 +117,7 @@ public class WFCMapGeneration
 
         if (!success)
         {
-            Debug.LogError($"WFC 맵 생성 실패. 최대 재시도 횟수 초과: {MaxGenerateRetryCount}");
+            Debug.LogError($"WFC 맵 생성 실패. 최대 재시도 횟수 초과: {_maxGenerateRetryCount}");
             return;
         }
 
@@ -117,15 +128,23 @@ public class WFCMapGeneration
         onProgress?.Invoke(1.0f);
     }
 
-    private void InitGenerationState()
+
+    private void Initialize()
     {
         _generationCount = 0;
+
+        _propagateQueue.Clear();
+        _propagateQueueIndexes.Clear();
+
+        _checkReachableTileQueue.Clear();
+        _checkReachableTileVisitedIndexs.Clear();
 
         _grids.Clear();
         _generatedTiles.Clear();
         _lowEntropyGrids.Clear();
 
-        _startGrid = null;
+        DestroyGrid();
+        DestroyTile();
     }
 
     private void ClearGeneratedMap()
@@ -231,7 +250,31 @@ public class WFCMapGeneration
 
         currentGrid.IsCollapsed = true;
 
-        MapTile selectedTile = currentGrid.TileOptions[UnityEngine.Random.Range(0, currentGrid.TileOptions.Length)];
+        MapTile selectedTile = null;
+
+        int totalWeight = 0;
+        for (int i = 0; i < currentGrid.TileOptions.Length; i++)
+        {
+            totalWeight += currentGrid.TileOptions[i].Weight;
+        }
+
+        int randomWeight = UnityEngine.Random.Range(0, totalWeight);
+        int currentWeight = 0;
+        for (int i = 0; i < currentGrid.TileOptions.Length; i++)
+        {
+            currentWeight += currentGrid.TileOptions[i].Weight;
+            if(randomWeight < currentWeight)
+            {
+                selectedTile = currentGrid.TileOptions[i];
+                break;
+            }
+        }
+
+        if(selectedTile == null)
+        {
+            Debug.LogError("CollapseGrid: 타일 선택 실패");
+            return false;
+        }
         currentGrid.TileOptions = new MapTile[] { selectedTile };
 
         _generationCount++;
@@ -255,15 +298,15 @@ public class WFCMapGeneration
 
     private bool Propagate(MapGrid collapseGrid)
     {
-        Queue<MapGrid> queue = new();
-        HashSet<int> queueIndexes = new(); // 중복 방지용
+        _propagateQueue.Clear();
+        _propagateQueueIndexes.Clear();
 
-        EnqueueNeighbors(collapseGrid, queue, queueIndexes);
+        EnqueueNeighbors(collapseGrid, _propagateQueue, _propagateQueueIndexes);
 
-        while (queue.Count > 0)
+        while (_propagateQueue.Count > 0)
         {
-            MapGrid neighborGrid = queue.Dequeue();
-            queueIndexes.Remove(neighborGrid.Index);
+            MapGrid neighborGrid = _propagateQueue.Dequeue();
+            _propagateQueueIndexes.Remove(neighborGrid.Index);
 
             if (neighborGrid.IsCollapsed)
                 continue;
@@ -280,7 +323,7 @@ public class WFCMapGeneration
             if (newOptions.Length != oldOptions.Length)
             {
                 neighborGrid.SetTileOptions(newOptions);
-                EnqueueNeighbors(neighborGrid, queue, queueIndexes);
+                EnqueueNeighbors(neighborGrid, _propagateQueue, _propagateQueueIndexes);
             }
         }
 
@@ -289,7 +332,7 @@ public class WFCMapGeneration
 
     private void EnqueueNeighbors(MapGrid grid, Queue<MapGrid> queue, HashSet<int> queueIndexes)
     {
-        foreach (Direction dir in Directions)
+        foreach (Direction dir in _directions)
         {
             MapGrid neighbor = GetNeighbor(grid, dir);
             if (neighbor != null && !neighbor.IsCollapsed && !queueIndexes.Contains(neighbor.Index))
@@ -330,7 +373,7 @@ public class WFCMapGeneration
         {
             bool isValid = true;
 
-            foreach (Direction direction in Directions)
+            foreach (Direction direction in _directions)
             {
                 MapGrid neighborGrid = GetNeighbor(updatingGrid, direction);
 
@@ -422,23 +465,35 @@ public class WFCMapGeneration
         _mapGridObject = GameManager.Resource.GetLoadedAsset<GameObject>("MapGrid").GetComponent<MapGrid>();
 
         // TODO(김익환, 26-06-24): 어떤 스테이지에 따라 아래 하드 코딩된 것을 등록 하면 될 듯 - 그건 데이터 드리븐으로 가져오고.
-        _backUpTile = GameManager.Resource.GetLoadedAsset<GameObject>("BackUpTile").GetComponent<MapTile>();
         _boundaryTile = GameManager.Resource.GetLoadedAsset<GameObject>("BoundaryTile").GetComponent<MapTile>();
+
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("All Direction Corridor").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Horizontal Corridor").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Vertical Corridor").GetComponent<MapTile>());
-        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Room1").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("RightTop Corridor").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("RightDown Corridor").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("LeftTop Corridor").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("LeftDown Corridor").GetComponent<MapTile>());
-        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Horizontal Corridor").GetComponent<MapTile>());
-        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room4").GetComponent<MapTile>());
-        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room3").GetComponent<MapTile>());
-        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room2").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("T Corridor1").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("T Corridor2").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("T Corridor3").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("T Corridor4").GetComponent<MapTile>());
+
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Room1").GetComponent<MapTile>());
         _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room1").GetComponent<MapTile>());
-        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("All Direction Corridor").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room2").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room3").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room4").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room5").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room6").GetComponent<MapTile>());
+        _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>("Demo Room7").GetComponent<MapTile>());
+
 
         SOTilePreset = await GameManager.Resource.LoadAssetAsync<SOTilePreset>("SOTilePreset");
-        Debug.Log("맵 에셋 할당 완료!");
+
+        _maxGenerateRetryCount = SOTilePreset.MaxGenerateRetryCount;
+        _minReachableTileCount = SOTilePreset.MinReachableTileCount;
+        _minReachableRoomCount = SOTilePreset.MinReachableRoomCount;
     }
 
     private bool PresetTileGenerate()
@@ -460,7 +515,7 @@ public class WFCMapGeneration
             MapGrid currentGrid = _grids[gridIndex];
             currentGrid.IsCollapsed = true;
 
-            if(presetTile.IsStartTile)
+            if (presetTile.IsStartTile)
                 _startGrid = currentGrid;
 
             MapTile tile = presetTile.tilePrefab;
@@ -493,13 +548,10 @@ public class WFCMapGeneration
 
     public void Release()
     {
-        DestroyGrid();
-        DestroyTile();
+        Initialize();
 
         _tileObjects.Clear();
-        _lowEntropyGrids.Clear();
-
-        _generationCount = 0;
+        _startGrid = null;
     }
 
     private void DestroyGrid()
@@ -524,49 +576,49 @@ public class WFCMapGeneration
     {
         if (_startGrid == null)
         {
-            Debug.LogError("시작 Grid가 없습니다. PresetTileGenerate에서 _startGrid가 설정되어야 합니다.");
+            Debug.LogError("시작 Grid가 없습니다.");
             return false;
         }
 
-        Queue<MapGrid> queue = new();
-        HashSet<int> visited = new();
+        _checkReachableTileQueue.Clear();
+        _checkReachableTileVisitedIndexs.Clear();
 
-        queue.Enqueue(_startGrid);
-        visited.Add(_startGrid.Index);
+        _checkReachableTileQueue.Enqueue(_startGrid);
+        _checkReachableTileVisitedIndexs.Add(_startGrid.Index);
 
-        while (queue.Count > 0)
+        while (_checkReachableTileQueue.Count > 0)
         {
-            MapGrid currentGrid = queue.Dequeue();
+            MapGrid currentGrid = _checkReachableTileQueue.Dequeue();
 
-            foreach (Direction direction in Directions)
+            foreach (Direction direction in _directions)
             {
                 MapGrid neighborGrid = GetNeighbor(currentGrid, direction);
 
                 if (neighborGrid == null)
                     continue;
 
-                if (visited.Contains(neighborGrid.Index))
+                if (_checkReachableTileVisitedIndexs.Contains(neighborGrid.Index))
                     continue;
 
                 if (!neighborGrid.IsCollapsed)
                     continue;
 
-                if (!CheckConneted(currentGrid, neighborGrid, direction))
+                if (!CheckConnected(currentGrid, neighborGrid, direction))
                     continue;
 
-                visited.Add(neighborGrid.Index);
-                queue.Enqueue(neighborGrid);
+                _checkReachableTileVisitedIndexs.Add(neighborGrid.Index);
+                _checkReachableTileQueue.Enqueue(neighborGrid);
             }
         }
 
-        int reachableCount = visited.Count;
+        int reachableCount = _checkReachableTileVisitedIndexs.Count;
 
         Debug.Log($"시작 타일 기준 도달 가능 타일 수: {reachableCount}/{_grids.Count}, 필요 개수: {_minReachableTileCount}");
 
         return reachableCount >= _minReachableTileCount;
     }
 
-    private bool CheckConneted(MapGrid currentGrid, MapGrid neighborGrid, Direction direction)
+    private bool CheckConnected(MapGrid currentGrid, MapGrid neighborGrid, Direction direction)
     {
         if (!TryGetCollapsedTile(currentGrid, out MapTile currentTile))
             return false;
@@ -607,5 +659,64 @@ public class WFCMapGeneration
             Direction.Left => Direction.Right,
             _ => direction
         };
+    }
+
+    private bool CheckReachableRoomCount()
+    {
+        if (_startGrid == null)
+        {
+            Debug.LogError("시작 Grid가 없습니다.");
+            return false;
+        }
+
+        int reachableRoomCount = CountReachableRooms(_startGrid);
+
+        Debug.Log($"시작 타일 기준 도달 가능 방 개수: {reachableRoomCount}, 필요 개수: {_minReachableRoomCount}");
+
+        return reachableRoomCount >= _minReachableRoomCount;
+    }
+
+    private int CountReachableRooms(MapGrid startGrid)
+    {
+        Queue<MapGrid> queue = new();
+        HashSet<int> visited = new();
+
+        queue.Enqueue(startGrid);
+        visited.Add(startGrid.Index);
+
+        int roomCount = 0;
+
+        while (queue.Count > 0)
+        {
+            MapGrid currentGrid = queue.Dequeue();
+
+            if (TryGetCollapsedTile(currentGrid, out MapTile currentTile))
+            {
+                if (currentTile.TileType == MapTileType.Room)
+                    roomCount++;
+            }
+
+            foreach (Direction direction in _directions)
+            {
+                MapGrid neighborGrid = GetNeighbor(currentGrid, direction);
+
+                if (neighborGrid == null)
+                    continue;
+
+                if (visited.Contains(neighborGrid.Index))
+                    continue;
+
+                if (!neighborGrid.IsCollapsed)
+                    continue;
+
+                if (!CheckConnected(currentGrid, neighborGrid, direction))
+                    continue;
+
+                visited.Add(neighborGrid.Index);
+                queue.Enqueue(neighborGrid);
+            }
+        }
+
+        return roomCount;
     }
 }

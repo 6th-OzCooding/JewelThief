@@ -41394,6 +41394,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Fire_Pit_01
       objectReference: {fileID: 0}
+    - target: {fileID: 2521169188296990923, guid: 106a6eccf70e66047ae05f3f39982ef3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3005922576551279217, guid: 106a6eccf70e66047ae05f3f39982ef3, type: 3}
       propertyPath: m_RootOrder
       value: 180

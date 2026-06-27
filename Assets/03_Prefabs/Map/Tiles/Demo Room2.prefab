@@ -1958,6 +1958,8 @@ MonoBehaviour:
   _openDown: 1
   _openLeft: 0
   _openRight: 0
+  _tileType: 0
+  _weight: 2
 --- !u!1 &9080951345328355069
 GameObject:
   m_ObjectHideFlags: 0
