@@ -190,6 +190,7 @@ public class EnemyData : BaseData
     public float WalkSpeed;
     public float RunSpeed;
     public float AttackRadius;
+    public float MinApproachDistance;
     public float AttackDelay;
     public float AttackDamage;
     public string PrefabAddress;

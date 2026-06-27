@@ -741,6 +741,9 @@ MonoBehaviour:
   _walkSpeed: 3
   _runSpeed: 4.5
   _attackRadius: 1.5
+  _minApproachDistance: 1
+  _attackDelay: 0
+  _attackDamage: 0
 --- !u!195 &5228809722326151580
 NavMeshAgent:
   m_ObjectHideFlags: 0

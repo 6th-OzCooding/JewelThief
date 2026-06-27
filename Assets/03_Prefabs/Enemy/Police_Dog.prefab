@@ -1342,7 +1342,10 @@ MonoBehaviour:
   _detectRadius: 30
   _walkSpeed: 4
   _runSpeed: 5
-  _attackRadius: 1
+  _attackRadius: 1.5
+  _minApproachDistance: 1
+  _attackDelay: 0
+  _attackDamage: 0
 --- !u!54 &9102587609601712290
 Rigidbody:
   m_ObjectHideFlags: 0

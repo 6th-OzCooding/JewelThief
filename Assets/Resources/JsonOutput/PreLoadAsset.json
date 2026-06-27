@@ -15,11 +15,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_Stage1_BackUpTile",
-    "Address": "BackUpTile",
-    "AssetType": null
-  },
-  {
     "Id": "PreLoadAsset_Stage1_TestPresetTile",
     "Address": "TestPresetTile",
     "AssetType": null
@@ -442,6 +437,36 @@
   {
     "Id": "PreLoadAsset_Police_Dog",
     "Address": "Police_Dog",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_StatueObject",
+    "Address": "Pool_Statue",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_SeatedLion",
+    "Address": "SeatedLion[Seated_Lion_LOD0]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Stone",
+    "Address": "Statue_Stone",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Copper",
+    "Address": "Statue_Copper",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Metal",
+    "Address": "Statue_Metal",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Marble",
+    "Address": "Statue_Marble",
     "AssetType": null
   }
 ]

@@ -9,6 +9,7 @@
     "WalkSpeed": 3,
     "RunSpeed": 4.5,
     "AttackRadius": 1.5,
+    "MinApproachDistance": 1,
     "AttackDelay": 0,
     "AttackDamage": 1,
     "PrefabAddress": "Police_Normal"
@@ -23,6 +24,7 @@
     "WalkSpeed": 3,
     "RunSpeed": 3,
     "AttackRadius": 8,
+    "MinApproachDistance": 5,
     "AttackDelay": 1.5,
     "AttackDamage": 5,
     "PrefabAddress": "Police_Shoot"
@@ -37,6 +39,7 @@
     "WalkSpeed": 2,
     "RunSpeed": 2,
     "AttackRadius": 10,
+    "MinApproachDistance": 6,
     "AttackDelay": 1,
     "AttackDamage": 8,
     "PrefabAddress": "Police_Throw"
@@ -50,7 +53,8 @@
     "DetectRadius": 30,
     "WalkSpeed": 4,
     "RunSpeed": 5,
-    "AttackRadius": 1,
+    "AttackRadius": 1.5,
+    "MinApproachDistance": 1,
     "AttackDelay": 0,
     "AttackDamage": 0.5,
     "PrefabAddress": "Police_Dog"

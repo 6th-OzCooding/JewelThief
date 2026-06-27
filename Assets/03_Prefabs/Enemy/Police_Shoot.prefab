@@ -112,6 +112,7 @@ MonoBehaviour:
   _walkSpeed: 3
   _runSpeed: 3
   _attackRadius: 8
+  _minApproachDistance: 5
   _attackDelay: 1.5
   _attackDamage: 5
 --- !u!114 &6089835730745821097

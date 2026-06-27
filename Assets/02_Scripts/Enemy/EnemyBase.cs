@@ -33,6 +33,8 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float _runSpeed = 4.5f;
     // 공격 사거리 (조정 가능)
     [SerializeField] private float _attackRadius = 1.5f;
+    // 최소 접근 거리 ( 이 거리 이상으로 다가가지 못하게 수정)
+    [SerializeField] private float _minApproachDistance = 2.0f;
     // 테이저와 곤봉을 위한 딜레이 변수
     [SerializeField] private float _attackDelay = 0f;
     // 플레이어의 스태미나를 줄이는 데미지 변수
@@ -65,6 +67,12 @@ public class EnemyBase : MonoBehaviour
         // 물리 충돌로 밀어내는 현상 방지
         if (Rb != null) Rb.isKinematic = true;
 
+        // 최소 접근 거리 초기화
+        if (Nav != null)
+        {
+            Nav.stoppingDistance = _minApproachDistance;
+        }
+
         // 시작 상태를 Normal로 지정
         StateContext.Initialize(StateContext.NormalState);
     }
@@ -84,6 +92,8 @@ public class EnemyBase : MonoBehaviour
     {
         if (Nav != null)
         {
+            Nav.stoppingDistance = _minApproachDistance;
+
             if (StateContext.CurrentState == StateContext.ChaseState && !IsAttackCooldown)
             {
                 // 1. 플레이어가 공격 사거리 안에 들어왔을 때
@@ -120,7 +130,6 @@ public class EnemyBase : MonoBehaviour
                     _attackTimer = 0f; // 공격 타이머 초기화 (공격 취소)
 
                     Nav.isStopped = false; // 다시 추적 시작
-                    Nav.stoppingDistance = _attackRadius; // 사거리 앞까지만 이동
 
                     Anim.speed = 1f; // 걷기 애니메이션 다시 재생
                 }
@@ -128,8 +137,6 @@ public class EnemyBase : MonoBehaviour
             // ChaseState가 아닐 때 (Normal, Track 등)
             else
             {
-                Nav.stoppingDistance = 0.5f;
-
                 // AttackState가 아닐 때는 항상 애니메이션 정상 재생
                 if (StateContext.CurrentState != StateContext.AttackState)
                 {
