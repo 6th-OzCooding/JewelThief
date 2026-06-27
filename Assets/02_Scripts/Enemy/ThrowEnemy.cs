@@ -35,6 +35,8 @@ public class ThrowEnemy : MonoBehaviour
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_throwDelay), cancellationToken: token);
 
+            await UniTask.WaitWhile(() => GameManager.Instance != null && GameManager.Instance.IsPaused, cancellationToken: token);
+
             _policeBar.SetActive(false);
 
             Vector3 spawnPos = _firePoint != null ? _firePoint.position : transform.position + Vector3.up * 1f;

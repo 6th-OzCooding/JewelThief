@@ -56,8 +56,9 @@ public class ShootEnemy : MonoBehaviour
         {
             // 잠시 기다리기 (애니메이션 타이밍)
             await UniTask.Delay(TimeSpan.FromSeconds(_shootDelay), cancellationToken: token);
-
-            // --- [추가된 부분] 투사체(총알) 생성 및 발사 ---
+            // 총알을 쏘기 직전에 멈추게 하는 코드
+            await UniTask.WaitWhile(() => GameManager.Instance != null && GameManager.Instance.IsPaused, cancellationToken: token);
+            // 투사체(총알) 생성 및 발사
             GameObject projectile = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
             BulletProjectile projScript = projectile.GetComponent<BulletProjectile>();
 
@@ -66,9 +67,7 @@ public class ShootEnemy : MonoBehaviour
                 // 적이 바라보는 방향으로 발사
                 projScript.Initialize(transform.forward, _enemyBase.AttackDamage);
             }
-            // ---------------------------------------------
 
-            // --- [기존 로직 복구] 이펙트 켜기 ---
             if (_taserEffect != null)
             {
                 _taserEffect.SetActive(true);

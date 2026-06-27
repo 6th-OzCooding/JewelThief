@@ -79,6 +79,20 @@ public class EnemyBase : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsPaused)
+        {
+            // 정지 상태일 때는 애니메이션과 움직임을 멈춘다
+            if (Anim != null) Anim.speed = 0f;
+            if (Nav != null && Nav.isOnNavMesh) Nav.isStopped = true;
+
+            return;
+        }
+        // 원거리 공격하는 몬스터는 멈추는 로직이 있으므로 예외처리
+        if (StateContext.CurrentState != StateContext.AttackState)
+        {
+            if (Anim != null && Anim.speed == 0f) Anim.speed = 0f;
+            if (Nav != null && Nav.isOnNavMesh && Nav.isStopped) Nav.isStopped = false;
+        }
         // 0.1초마다 한 번씩만 시야 탐지 => 0.1초가 넘어가면 다시 초기화
         _detectTimer += Time.deltaTime;
         if (_detectTimer >= _detectDelay)
@@ -90,6 +104,9 @@ public class EnemyBase : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // 게임이 일시정지일 때 상태 전환이나 이동 정지
+        if (GameManager.Instance != null && GameManager.Instance.IsPaused) return;
+        
         if (Nav != null)
         {
             Nav.stoppingDistance = _minApproachDistance;
@@ -245,6 +262,8 @@ public class EnemyBase : MonoBehaviour
 
         // 잠깐 기다리는 시간
         await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: CancelToken);
+        // 딱 공격하는 순간 일시정지가 되면 멈출 수 있게 
+        await UniTask.WaitWhile(() => GameManager.Instance != null && GameManager.Instance.IsPaused, cancellationToken: CancelToken);
 
         // 플레이어에게 공격을 했을 때, 데미지로 플레이어의 스태미나를 감소하게 하는 메서드
         if (TargetPlayer != null)
