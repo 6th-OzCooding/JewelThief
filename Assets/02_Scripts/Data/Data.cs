@@ -178,3 +178,20 @@ public class StageData : BaseData
     public int ExitCount;
     public int EnemyId;
 }
+
+[Serializable]
+public class EnemyData : BaseData
+{
+    public string Name;
+    public float ViewRadius;
+    public float ViewAngle;
+    public float ViewHeight;
+    public float DetectRadius;
+    public float WalkSpeed;
+    public float RunSpeed;
+    public float AttackRadius;
+    public float MinApproachDistance;
+    public float AttackDelay;
+    public float AttackDamage;
+    public string PrefabAddress;
+}

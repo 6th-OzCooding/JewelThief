@@ -34,5 +34,29 @@
   {
     "Id": "Door_Prefab",
     "InitSize": 5
+  },
+  {
+    "Id": "Pool_Throw",
+    "InitSize": 10
+  },
+  {
+    "Id": "Pool_Bullet",
+    "InitSize": 10
+  },
+  {
+    "Id": "Police_Normal",
+    "InitSize": 3
+  },
+  {
+    "Id": "Police_Shoot",
+    "InitSize": 3
+  },
+  {
+    "Id": "Police_Throw",
+    "InitSize": 3
+  },
+  {
+    "Id": "Police_Dog",
+    "InitSize": 3
   }
 ]
