@@ -27,15 +27,15 @@ public class WFCMapGeneration
     // Map Generation Settings
     private int _mapSize;
     private int _generationCount = 0;
-    private int _mapSizeSetting = 10;
+    private int _mapSizeSetting;
     private float _gridSpacing = 10f;
 
     // cache
     private MapTile _boundaryTile;
     private MapGrid _mapGridObject;
-    private List<MapGrid> _grids;
-    private List<MapTile> _tileObjects;
-    private Dictionary<int, MapTile> _generatedTiles;   // 키는 grid index, 바운더리 타일은 음수
+    private List<MapGrid> _grids = new();
+    private List<MapTile> _tileObjects = new();
+    private Dictionary<int, MapTile> _generatedTiles = new();   // 키는 grid index, 바운더리 타일은 음수
 
     // 재활용 Buffer를
     private readonly List<MapGrid> _lowEntropyGrids = new();
@@ -53,9 +53,6 @@ public class WFCMapGeneration
 
     // Generation Map Exception
     private MapGrid _startGrid;
-    private int _maxGenerateRetryCount;    // 맵 생성 실패 시 재시도 횟수
-    private int _minReachableTileCount;    // 도달 가능한 타일 수 최소값
-    private int _minReachableRoomCount;     // 도달 가능한 방 개수 최소값
 
 
     public void Release()
@@ -72,20 +69,17 @@ public class WFCMapGeneration
 
     public async UniTask StartGenerateMap(NavMeshSurface navMeshSurface, Transform mapRoot, Action<float> onProgress = null)
     {
+        await LoadAssets();
+
         _mapRoot = mapRoot;
         _runTimeBakeNavMesh.Init(navMeshSurface);
 
-        _tileObjects = new();
-        _generatedTiles = new();
-        _grids = new();
         _mapSize = _mapSizeSetting + 2;
 
-        await LoadAssets();
-
         bool success = false;
-        for (int retryCount = 0; retryCount < _maxGenerateRetryCount; retryCount++)
+        for (int retryCount = 0; retryCount < SOTilePreset.MaxGenerateRetryCount; retryCount++)
         {
-            Debug.Log($"WFC 맵 생성 시도: {retryCount + 1}/{_maxGenerateRetryCount}");
+            Debug.Log($"WFC 맵 생성 시도: {retryCount + 1}/{SOTilePreset.MaxGenerateRetryCount}");
 
             ClearGeneratedMap();
             Initialize();
@@ -132,7 +126,7 @@ public class WFCMapGeneration
 
         if (!success)
         {
-            Debug.LogError($"WFC 맵 생성 실패. 최대 재시도 횟수 초과: {_maxGenerateRetryCount}");
+            Debug.LogError($"WFC 맵 생성 실패. 최대 재시도 횟수 초과: {SOTilePreset.MaxGenerateRetryCount}");
             return;
         }
 
@@ -485,16 +479,12 @@ public class WFCMapGeneration
         _boundaryTile = GameManager.Resource.GetLoadedAsset<GameObject>("BoundaryTile").GetComponent<MapTile>();
 
         StageData stageData = GameManager.DataTable.GetStageData(GameManager.Instance.SelectedStageId);
-        List<string> tileAddressList = stageData.TileAddress;
 
-        foreach (string tileAddress in tileAddressList)
+        foreach (string tileAddress in stageData.TileAddress)
             _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>(tileAddress).GetComponent<MapTile>());
 
         SOTilePreset = await GameManager.Resource.LoadAssetAsync<SOTilePreset>("SOTilePreset");
-
-        _maxGenerateRetryCount = SOTilePreset.MaxGenerateRetryCount;
-        _minReachableTileCount = SOTilePreset.MinReachableTileCount;
-        _minReachableRoomCount = SOTilePreset.MinReachableRoomCount;
+        _mapSizeSetting = SOTilePreset.MapWidth;
     }
 
     private bool PresetTileGenerate()
@@ -615,9 +605,9 @@ public class WFCMapGeneration
 
         int reachableCount = _checkReachableTileVisitedIndexs.Count;
 
-        Debug.Log($"시작 타일 기준 도달 가능 타일 수: {reachableCount}/{_grids.Count}, 필요 개수: {_minReachableTileCount}");
+        Debug.Log($"시작 타일 기준 도달 가능 타일 수: {reachableCount}/{_grids.Count}, 필요 개수: {SOTilePreset.MinReachableTileCount}");
 
-        return reachableCount >= _minReachableTileCount;
+        return reachableCount >= SOTilePreset.MinReachableTileCount;
     }
 
     private bool CheckConnected(MapGrid currentGrid, MapGrid neighborGrid, Direction direction)
@@ -678,9 +668,13 @@ public class WFCMapGeneration
                 reachableRoomCount++;
         }
 
-        Debug.Log($"시작 타일 기준 도달 가능 방 개수: {reachableRoomCount}, 필요 개수: {_minReachableRoomCount}");
+        Debug.Log($"시작 타일 기준 도달 가능 방 개수: {reachableRoomCount}, 필요 개수: {SOTilePreset.MinReachableRoomCount}");
 
-        return reachableRoomCount >= _minReachableRoomCount;
+        float currentRoomRatio = (float)reachableRoomCount / (_mapSizeSetting * _mapSizeSetting);
+        Debug.Log($"방 비율: {currentRoomRatio}, 최대 방 비율: {SOTilePreset.MaxRoomRatio}");
+
+
+        return (reachableRoomCount >= SOTilePreset.MinReachableRoomCount) && (currentRoomRatio <= SOTilePreset.MaxRoomRatio);
     }
 
     private void DeleteUnreacheableTile()
