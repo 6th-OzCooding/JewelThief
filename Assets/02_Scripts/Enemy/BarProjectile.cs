@@ -19,8 +19,13 @@ public class BarProjectile : MonoBehaviour
         _flyDirection = direction.normalized;
 
         transform.forward = _flyDirection;
-
-        _cts?.Cancel();
+        // Dispose로 메모리 누수 문제 해결
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
         _cts = new CancellationTokenSource();
         AutoDespawnRoutine(_cts.Token).Forget();
     }
@@ -35,7 +40,13 @@ public class BarProjectile : MonoBehaviour
 
     private void ReturnToPool()
     {
-        _cts?.Cancel();
+        // Dispose를 사용하여 메모리 누수 문제 해결
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
         if (gameObject.activeInHierarchy)
         {
             GameManager.Pool.DespawnToPool(gameObject);

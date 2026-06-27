@@ -63,8 +63,13 @@ public class EnemyBase : MonoBehaviour
 
     private void OnEnable()
     {
-        // 남아있을 수 있는 토큰들을 취소 후 다시 발급받는다.
-        _cts?.Cancel();
+        // Dispose()를 사용하여 메모리 누수 문제 해결
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
         _cts = new CancellationTokenSource();
         
         // 플레이어에 관한 상태 리셋

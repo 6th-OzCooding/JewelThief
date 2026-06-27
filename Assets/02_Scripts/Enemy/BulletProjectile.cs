@@ -17,8 +17,12 @@ public class BulletProjectile : MonoBehaviour
         _damage = damage;
         _flyDirection = direction.normalized;
         transform.forward = _flyDirection;
-
-        _cts?.Cancel();
+        // Dispose로 메모리 누수문제 해결
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+        }
         _cts = new CancellationTokenSource();
         AutoDespawnRoutine(_cts.Token).Forget();
     }
@@ -33,7 +37,13 @@ public class BulletProjectile : MonoBehaviour
     // Destroy 대신 Pool로 반납하는 메서드
     private void ReturnToPool()
     {
-        _cts?.Cancel();
+        // Dispose로 메모리 누수 문제 해결
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
         if (gameObject.activeInHierarchy)
         {
             GameManager.Pool.DespawnToPool(gameObject);
