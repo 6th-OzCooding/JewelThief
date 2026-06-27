@@ -8,6 +8,14 @@
     "InitSize": 5
   },
   {
+    "Id": "Pool_Painting",
+    "InitSize": 5
+  },
+  {
+    "Id": "Pool_Statue",
+    "InitSize": 5
+  },
+  {
     "Id": "InteractableContainer_Prefab",
     "InitSize": 5
   },
