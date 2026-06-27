@@ -14,6 +14,11 @@ public class WallSpawner
     private Vector3 _checkHalfExtents = new Vector3(0.5f, 0.5f, 0.5f);
     private Vector3[] _directions = { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
 
+    public WallSpawner()
+    {
+        _wallLayer = LayerMask.GetMask("Wall");
+        _obstacleLayer = LayerMask.GetMask("Obstacle");
+    }
 
     public int SpawnObjectFromWall(IReadOnlyList<SpawnArea> spawnAreas)
     {

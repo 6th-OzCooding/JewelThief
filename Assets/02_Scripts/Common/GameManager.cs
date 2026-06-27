@@ -1,7 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using NUnit.Framework;
 using System;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -22,10 +24,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     private AlertManager _alertManager = new();
     private DataTable _dataTable = new();
     private UIManager _uiManager = new();
-    private WFCMapGeneration _wfcMapGeneration = new();
     private UserDataManager _userDataManager = new();
     private ShopManager _shopManager = new();
 
+    private WFCMapGeneration _wfcMapGeneration;
     private LobbyController _lobbyController;
     private GameObject _jewelPuzzleInstance;
 
@@ -44,6 +46,8 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private GameObject _lobbyPrefab;
     private GameObject _lobbyInstance;
+
+    private NavMeshSurface _navMeshSurface = null;
 
     private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
 
@@ -70,10 +74,9 @@ public class GameManager : SingletonBehaviour<GameManager>
     #endregion
 
     // 전역 데이터 추가
-    public int _gold;
-    public string _selectedStageId;
+    public int Gold { get; private set; }
+    public string SelectedStageId;
 
-    public int Gold => _gold;
 
     // 골드 증가 (판매소 등)
     public void AddGold(int amount)
@@ -81,16 +84,16 @@ public class GameManager : SingletonBehaviour<GameManager>
         if (amount <= 0)
             return;
 
-        _gold += amount;
+        Gold += amount;
     }
 
     // 골드 차감 시도 (상점 등)
     public bool TrySpendGold(int amount)
     {
-        if (amount <= 0 || _gold < amount)
+        if (amount <= 0 || Gold < amount)
             return false;
 
-        _gold -= amount;
+        Gold -= amount;
         return true;
     }
 
@@ -146,6 +149,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void InitNonAsync()
     {
         _soundManager.Init(this.gameObject);
+        _wfcMapGeneration = new();
         PoolInit();
     }
 
@@ -249,15 +253,18 @@ public class GameManager : SingletonBehaviour<GameManager>
         #endif
     }
 
+    // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
     private void GenerateMap()
     {
-        // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
-        if(null == _mapRoot)
+        if (null == _mapRoot)
         {
             _mapRoot = Utils.CreateEmptyGameObject("MapRoot", this.gameObject.transform).transform;
+            _navMeshSurface = Utils.GetOrAddComponent<NavMeshSurface>(_mapRoot.gameObject);
+            _navMeshSurface.collectObjects = CollectObjects.Children;
+            _navMeshSurface.layerMask = LayerMask.GetMask("Floor");
         }
 
-        _wfcMapGeneration.StartGenerateMap(_mapRoot).Forget();
+        _wfcMapGeneration.StartGenerateMap(_navMeshSurface, _mapRoot).Forget();
     }
 
     /// <summary>

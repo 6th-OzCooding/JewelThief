@@ -177,6 +177,7 @@ public class StageData : BaseData
     public int MaxTrap;
     public int ExitCount;
     public int EnemyId;
+    public List<string> TileAddress;
 }
 
 [Serializable]

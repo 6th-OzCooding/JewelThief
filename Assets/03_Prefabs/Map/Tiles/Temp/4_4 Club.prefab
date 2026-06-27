@@ -70590,6 +70590,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Bld_Base_Floor_01 (109)
       objectReference: {fileID: 0}
+    - target: {fileID: 5580141628907397799, guid: 7068f38c7fb6a364a85b7461318e0f7d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6228576480856277874, guid: 7068f38c7fb6a364a85b7461318e0f7d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
