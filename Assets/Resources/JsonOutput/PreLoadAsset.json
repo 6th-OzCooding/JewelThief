@@ -275,6 +275,11 @@
     "AssetType": "Mesh"
   },
   {
+    "Id": "PreLoadAsset_Mesh_Jewel_Cone[Cube.058]",
+    "Address": "Jewel_Stone[Cube.058]",
+    "AssetType": "Mesh"
+  },
+  {
     "Id": "PreLoadAsset_Material_Lit",
     "Address": "Lit",
     "AssetType": null

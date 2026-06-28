@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlimeTrap
   debuffType: 1
-  debuffValue: 0.3
+  debuffValue: 0.2
   duration: 3
   checkInterval: 0.5
 --- !u!65 &6232297657062127329
@@ -128,8 +128,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5, y: 1.5, z: 0.2}
-  m_Center: {x: 0, y: 0.2, z: 0}
+  m_Size: {x: 0.7, y: 0, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1340712525373589454
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,8 +3,8 @@
 public class SlimeTrap : BaseDisarmableObejct
 {
     [SerializeField] private DebuffType debuffType = DebuffType.MoveSpeed;
-    [SerializeField] private float debuffValue = 0.5f; // 50% 느려짐
-    [SerializeField] private float duration = 1.5f;    // 한 번 갱신할 때 1.5초 지속
+    [SerializeField] private float debuffValue = 0.2f; // 50% 느려짐
+    [SerializeField] private float duration = 3.0f;    // 한 번 갱신할 때 1.5초 지속
     private Collider trapCollider;
     [SerializeField] private float checkInterval = 0.5f; // 0.5초마다 플레이어에게 디버프 주사
     private float nextCheckTime = 0f;
