@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     private bool _isOverweight;
     private bool _isCrouching;
     private bool _isStaminaCooling = false; //스태미나 고갈을 표현하는 상태변수
+    private bool _isSprinting = false; // 매 FixedUpdate 시작에 1회 계산해 캐싱하는 스프린트 상태 (한 프레임 내 일관성 보장)
 
     private float _moveSpeedDebuffMultiplier = 1f;
 
@@ -118,14 +119,13 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         _playerMaxSp = _playerSp; //최대 스태미나 지정
 
         _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
-        
+
         _playerInventory = GetComponent<PlayerInventory>();
 
         if (JewelInventoryManager.Instance != null)
         {
             JewelInventoryManager.Instance.InitializePlayer(transform, GetComponent<PlayerInputHandler>());
         }
-
     }
 
     void OnEnable()
@@ -139,13 +139,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             _inputHandler.OnCrouchChanged += CrouchAndStand;
 
             if (_playerInventory != null && GameManager.Instance != null)
-            {
                 GameManager.Instance.OnExitInGame += _playerInventory.FindToolAndRemove;
-            }
-            else
-            {
-                Debug.LogWarning("PlayerInventory 또는 GameManager가 초기화되지 않아 이벤트를 등록할 수 없습니다.");
-            }
         }
     }
 
@@ -155,13 +149,17 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         {
             _inputHandler.OnInteractEvent -= TryInteract;
             _inputHandler.OnCrouchChanged -= CrouchAndStand;
-            GameManager.Instance.OnExitInGame -= _playerInventory.FindToolAndRemove;
 
+            if (_playerInventory != null && GameManager.Instance != null)
+                GameManager.Instance.OnExitInGame -= _playerInventory.FindToolAndRemove;
         }
     }
 
     void FixedUpdate()
     {
+        // 이동 속도 계산과 스태미나 차감이 같은 스프린트 판정을 쓰도록, 프레임 시작에 1회만 계산해 캐싱
+        _isSprinting = IsSprint();
+
         Move();
         RotatePlayer();
 
@@ -178,22 +176,22 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         if (_headCheck != null)
         {
             _isHeading = Physics.CheckSphere(_headCheck.position, _headCheckRadius, _headLayer);
-          
+
         }
 
-        if (IsSprint())
+        if (_isSprinting)
         {
             //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
             TakePlayerSpDamagePerSecond(_spintSpUsePerSecond); //스태미나를 초당 정해진 값만큼 깎음
-            if (_playerSp < 0f) {
-
+            if (_playerSp <= 0f)
+            {
                 _playerSp = 0f;
                 _isStaminaCooling = true;
             }
         }
         else  //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
         {
-            if(_playerSp < _playerMaxSp)
+            if (_playerSp < _playerMaxSp)
             {
                 AddPlayerSpPerSecond(_spintSpAddPerSecond);
 
@@ -206,14 +204,13 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
                 _isStaminaCooling = false;
             }
         }
-
     }
 
     private bool IsSprint() //스프린트 입력되고, 좌표 변경되는 중, 스태미나 0이상, 앉기가 입력되지 않을때 true
     {
         bool hasInput = _inputHandler.SprintRequested;
         bool isMoving = _moveDirection.magnitude > 0.1f;
-        bool hasStamina = _playerSp > 0f&& !_isStaminaCooling; ;
+        bool hasStamina = _playerSp > 0f && !_isStaminaCooling;
         bool isNotCrouching = !_isCrouching;
 
         return hasInput && isMoving && hasStamina && isNotCrouching;
@@ -243,7 +240,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             return _moveSpeed * _crouchScale * _moveSpeedDebuffMultiplier;
         }
 
-        if (IsSprint()) //스프린트 상태일때
+        if (_isSprinting)
         {
             return _moveSpeed * _sprintScale * _moveSpeedDebuffMultiplier;
 
@@ -256,7 +253,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         float currentWeight = _playerInventory.GetTotalCarryWeight();
         float maxWeight = _playerInventory.MaxCarryWeight;
         bool isOverweight = currentWeight > maxWeight;
-
 
         if (_isOverweight != isOverweight)
         {
@@ -378,35 +374,27 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     public void TakePlayerSpDamagePerSecond(float damage)
     {
         _playerSp -= damage * Time.fixedDeltaTime;
-        Debug.Log($"플레이어 Sp: {_playerSp}");
     }
 
     public void AddPlayerSp(float sp)
     {
         _playerSp += sp;
-        Debug.Log($"플레이어 Sp: {_playerSp}");
-
     }
 
     public void AddPlayerSpPerSecond(float sp)
     {
-
         _playerSp += sp * Time.fixedDeltaTime;
-        Debug.Log($"플레이어 Sp: {_playerSp}");
-
     }
 
     public void TakePlayerMoveSpeedDamage(float damage)
     {
         _moveSpeed -= damage;
         _moveSpeed = Mathf.Max(_moveSpeed, _minMoveSpeed);
-        Debug.Log($"플레이어 속도: {_moveSpeed}");
     }
 
     public void AddPlayerMoveSpeed(float speed)
     {
         _moveSpeed += speed;
-        Debug.Log($"플레이어 속도: {_moveSpeed}");
     }
 
     private void PlayerDie()
