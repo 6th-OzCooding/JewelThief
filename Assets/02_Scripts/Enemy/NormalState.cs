@@ -45,6 +45,9 @@ public class NormalState : IEnemyState
 
     private void SetRandomDestination()
     {
+        if (_enemy.Nav == null || !_enemy.Nav.isOnNavMesh)
+            return;
+
         // 방향을 랜덤으로 찾고
         Vector2 randomCircle = Random.insideUnitCircle.normalized;
         // 최소거리와 최대 거리 내에서 위치 찍기

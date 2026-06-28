@@ -15,13 +15,14 @@ public class RunTimeBakeNavMesh
     public async UniTask BakeAfterMapGeneratedAsync()
     {
         await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
-
+        Debug.Log($"[NavMesh Debug] Bake 시작 직전. MapRoot 자식 개수: {_navMeshSurface.transform.childCount}");
         if (_navMeshSurface.navMeshData != null)
         {
             _navMeshSurface.RemoveData();
         }
 
         _navMeshSurface.BuildNavMesh();
+        Debug.Log($"[NavMesh Debug] Bake 완료. navMeshData null 여부: {_navMeshSurface.navMeshData == null}");
 
         if (!HasValidNavMesh())
         {

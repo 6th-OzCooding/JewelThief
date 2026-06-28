@@ -65,6 +65,13 @@ public class FloorSpawner
 
     private bool TrySpawn(IReadOnlyList<SpawnArea> spawnAreas)
     {
+        GameObject prefab = Utils.ResourcesLoad<GameObject>("TestMapObject");
+        if (prefab == null)
+        {
+            Debug.LogWarning("TestMapObject 프리팹을 찾을 수 없습니다. Resources 경로를 확인하세요.");
+            return false;
+        }
+
         for (int i = 0; i < _spawnTryCount; i++)
         {
             SpawnArea area = spawnAreas[Random.Range(0, spawnAreas.Count)];
