@@ -18,11 +18,16 @@ public class NormalState : IEnemyState
         // 탐지 범위를 벗어났을 때 이전 목적지(플레이어 위치)를 지워줍니다.
         if (_enemy.Nav.hasPath) _enemy.Nav.ResetPath();
 
-        SetRandomDestination();
+        if (_enemy.Nav != null && _enemy.Nav.isOnNavMesh)
+        {
+            SetRandomDestination();
+        }
     }
 
     public void UpdateState()
     {
+        if (_enemy.Nav == null || !_enemy.Nav.isOnNavMesh) return;
+
         if (!_enemy.Nav.pathPending)
         {
             // 목적지까지 남은 거리가 Agent의 정지 거리 근처라면 (Nav.stoppingDistance에 여유분 0.5f를 더해 줘서 멈칫거리지 않게 함)
