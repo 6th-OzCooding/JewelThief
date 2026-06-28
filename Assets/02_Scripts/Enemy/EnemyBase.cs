@@ -18,10 +18,18 @@ public class EnemyBase : MonoBehaviour
     public float WalkSpeed => _walkSpeed;
     public float RunSpeed => _runSpeed;
 
+    // 상태 클래스가 전환 판단에 사용하는 거리값
+    public float AttackRadius => _attackRadius;
+    public float ViewRadius => _viewRadius;
+    public float MinApproachDistance => _minApproachDistance; // 상태별 stoppingDistance 복구에 사용
+
     public GameObject TargetPlayer { get; private set; }
 
     public Vector3 DirToTarget { get; set; } = Vector3.zero; // 플레이어와의 방향 초기화
     public float DstToTarget { get; set; } = 0.0f; // 플레이어까지의 거리 초기화
+
+    // 시야(Raycast) 확보 여부 => 상태 클래스가 Chase 전환을 판단할 때 사용
+    public bool HasLineOfSight { get; private set; } = false;
 
     // 시야각 생성 (조정 가능)
     [SerializeField] private float _viewRadius = 6.0f;
@@ -63,15 +71,10 @@ public class EnemyBase : MonoBehaviour
 
     private void OnEnable()
     {
-        // Dispose()를 사용하여 메모리 누수 문제 해결
-        if (_cts != null)
-        {
-            _cts.Cancel();
-            _cts.Dispose();
-            _cts = null;
-        }
+        // 남아있을 수 있는 토큰들을 취소 후 다시 발급받는다.
+        _cts?.Cancel();
         _cts = new CancellationTokenSource();
-        
+
         // 플레이어에 관한 상태 리셋
         TargetPlayer = null;
         DirToTarget = Vector3.zero;
@@ -141,15 +144,13 @@ public class EnemyBase : MonoBehaviour
     {
         // 게임이 일시정지일 때 상태 전환이나 이동 정지
         if (GameManager.Instance != null && GameManager.Instance.IsPaused) return;
-        
+
         if (Nav != null)
         {
-            Nav.stoppingDistance = _minApproachDistance;
-
             if (StateContext.CurrentState == StateContext.ChaseState && !IsAttackCooldown)
             {
-                // 1. 플레이어가 공격 사거리 안에 들어왔을 때
-                if (DstToTarget <= _attackRadius)
+                // 1. 플레이어가 공격 사거리 안에 들어왔을 때 (시야가 확보된 경우에만)
+                if (DstToTarget <= _attackRadius && HasLineOfSight) // 벽 너머 공격 방지를 위해 HasLineOfSight 조건 추가
                 {
                     // NavMesh 이동 강제 정지 (밀림 방지)
                     Nav.isStopped = true;
@@ -189,10 +190,12 @@ public class EnemyBase : MonoBehaviour
             // ChaseState가 아닐 때 (Normal, Track 등)
             else
             {
-                // AttackState가 아닐 때는 항상 애니메이션 정상 재생
+                // AttackState가 아닐 때는 항상 애니메이션 정상 재생 + 이동 정지 해제
                 if (StateContext.CurrentState != StateContext.AttackState)
                 {
                     Anim.speed = 1f;
+                    // Chase 사거리 진입 시 걸린 Nav.isStopped가 Track/Normal 전환 후에도 남아 이동이 멈추는 문제 해결
+                    if (Nav.isOnNavMesh && Nav.isStopped) Nav.isStopped = false;
                 }
             }
         }
@@ -207,11 +210,9 @@ public class EnemyBase : MonoBehaviour
 
     private void DetectPlayer()
     {
-        // 탐지한 경우 다음 상태를 Normal로 지정
-        IEnemyState nextState = StateContext.NormalState;
-
         DirToTarget = Vector3.zero;
         DstToTarget = 0.0f;
+        HasLineOfSight = false; // 매 탐지마다 시야 확보 여부 초기화
 
         // 매 탐지마다 타겟을 초기화 (범위 밖으로 나가면 TargetPlayer가 null이 되게끔)
         TargetPlayer = null;
@@ -225,9 +226,6 @@ public class EnemyBase : MonoBehaviour
             if (target.CompareTag("Player"))
             {
                 TargetPlayer = target.gameObject;
-
-                // 플레이어가 거리안에 들어왔으므로 상태를 Track으로 변경
-                nextState = StateContext.TrackState;
 
                 // 플레이어와의 방향 확인
                 Vector3 dir = (target.transform.position - transform.position);
@@ -253,19 +251,13 @@ public class EnemyBase : MonoBehaviour
                             // 플레이어를 바로 탐지한 경우 (다른 물체가 가로막지 않은 경우)
                             if (hit.collider.CompareTag("Player"))
                             {
-                                nextState = StateContext.ChaseState;
+                                HasLineOfSight = true; //상태 전환 대신 시야 확보 플래그만 set
                             }
                         }
                     }
                 }
                 break; // 플레이어를 발견 했다면 빠져나오게
             }
-        }
-
-        // 현재 공격중이 아닐 때, 새로운 상태를 다시 재적용
-        if (StateContext.CurrentState != StateContext.AttackState)
-        {
-            StateContext.TransitionTo(nextState);
         }
     }
 
@@ -275,7 +267,7 @@ public class EnemyBase : MonoBehaviour
         if (CancelToken.IsCancellationRequested) return;
 
         Debug.Log("Enemy가 Player를 공격했습니다!");
-        
+
         Anim.SetBool("isRun", false);
         Anim.SetTrigger("isAttack");
 
@@ -287,7 +279,7 @@ public class EnemyBase : MonoBehaviour
         {
             throwScript.ThrowWeapon();
         }
-        
+
         // 테이저 건을 쏘는 Enemy 때문에 추가
         ShootEnemy shootScript = GetComponent<ShootEnemy>();
         if (shootScript != null)
@@ -322,9 +314,8 @@ public class EnemyBase : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(currentAnimLength - 0.1f), cancellationToken: CancelToken);
 
         // 공격이 끝나면 상태를 다시 Normal로 변경(초기화)
-        StateContext.TransitionTo(StateContext.NormalState);
-
-        DetectPlayer();
+        // 이후 탐지/전환은 Update의 주기적 DetectPlayer + NormalState의 전환 판단이 담당
+        StateContext.TransitionTo(StateContext.NormalState); // 뒤따르던 DetectPlayer() 직접 호출 제거
 
         await UniTask.Delay(TimeSpan.FromSeconds(_attackDelay), cancellationToken: CancelToken);
 

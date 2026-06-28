@@ -15,18 +15,31 @@ public class NormalState : IEnemyState
         _enemy.Anim.SetBool("isRun", false);
         _enemy.Nav.speed = _enemy.WalkSpeed;
 
+        // 순찰 중에는 목적지에 충분히 도달하도록 정지 거리를 작게 설정
+        if (_enemy.Nav.isOnNavMesh)
+        {
+            _enemy.Nav.stoppingDistance = 0.5f;
+            _enemy.Nav.isStopped = false; // 이전 상태에서 멈춤이 걸린 채 넘어왔을 수 있으므로 해제
+        }
+
         // 탐지 범위를 벗어났을 때 이전 목적지(플레이어 위치)를 지워줍니다.
         if (_enemy.Nav.hasPath) _enemy.Nav.ResetPath();
 
-        if (_enemy.Nav != null && _enemy.Nav.isOnNavMesh)
-        {
-            SetRandomDestination();
-        }
+        SetRandomDestination();
     }
 
     public void UpdateState()
     {
-        if (_enemy.Nav == null || !_enemy.Nav.isOnNavMesh) return;
+        // 플레이어가 탐지되면 시야 확보 여부에 따라 상태 전환
+        // (시야 확보 시 Chase, 탐지만 됐으면 Track)
+        if (_enemy.TargetPlayer != null)
+        {
+            if (_enemy.HasLineOfSight)
+                _enemy.StateContext.TransitionTo(_enemy.StateContext.ChaseState);
+            else
+                _enemy.StateContext.TransitionTo(_enemy.StateContext.TrackState);
+            return;
+        }
 
         if (!_enemy.Nav.pathPending)
         {
