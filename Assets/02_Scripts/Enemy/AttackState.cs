@@ -36,7 +36,7 @@ public class AttackState : IEnemyState
         {
             Quaternion targetRotation = Quaternion.LookRotation(_enemy.DirToTarget);
             // NavMesh와 충돌 없이 부드럽게 회전하도록 _rb 대신 transform 적용
-            _enemy.transform.rotation = Quaternion.Slerp(_enemy.transform.rotation, targetRotation, Time.fixedDeltaTime * 10.0f);
+            _enemy.transform.rotation = Quaternion.Slerp(_enemy.transform.rotation, targetRotation, Time.fixedDeltaTime * 5.0f);
         }
     }
 

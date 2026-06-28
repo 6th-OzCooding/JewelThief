@@ -139,18 +139,18 @@ public static class PopupViewDataBuilder
         if (popupType != PopupType.ShopInfo || GameManager.Instance == null)
             return string.Empty;
 
-        return GameManager.Instance._gold.ToString();
+        return GameManager.Instance.Gold.ToString();
     }
 
     private static bool IsLocked(string dataId)
     {
         InteractableContainerData containerData = GameManager.DataTable.GetInteractableContainerData(dataId);
         if (containerData != null)
-            return containerData.IsContainerDisarm;
+            return !containerData.IsContainerDisarm;
 
         Door doorData = GameManager.DataTable.GetDoorData(dataId);
         if (doorData != null)
-            return doorData.IsDisarm;
+            return !doorData.IsDisarm;
 
         return false;
     }

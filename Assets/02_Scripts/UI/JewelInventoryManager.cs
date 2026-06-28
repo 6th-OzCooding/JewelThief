@@ -25,7 +25,7 @@ public class JewelInventoryManager : MonoBehaviour
     [SerializeField] private BagOverloadDetector _overflowHandler; // 유효성 검사용
     [SerializeField] private Camera _puzzleCamera; // 카메라
 
-    private PlayerInventory _playerInventory;
+    private Transform _playerTransform;
     private PlayerInputHandler _playerInput;
 
     // 주울때 Queue 저장
@@ -60,13 +60,7 @@ public class JewelInventoryManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        _playerInventory = FindAnyObjectByType<PlayerInventory>();
         _playerInput = FindAnyObjectByType<PlayerInputHandler>();
-        /*
-        if (_playerInventory == null)
-        {
-            Debug.LogError("씬에서 PlayerInventory를 찾을 수 없습니다! 플레이어가 씬에 있는지 확인하세요.");
-        }*/
 
         if (_puzzleVisualRoot != null)
         {
@@ -81,14 +75,6 @@ public class JewelInventoryManager : MonoBehaviour
         else
         {
             Debug.LogError("퍼즐 전용 카메라(_puzzleCamera)가 연결되지 않았습니다!");
-        }
-    }
-
-    private void Start()
-    {
-        if (_playerInput != null)
-        {
-            _playerInput.OnJewelryInventoryToggleEvent += TogglePuzzleInventory;
         }
     }
 
@@ -108,10 +94,35 @@ public class JewelInventoryManager : MonoBehaviour
         }
     }
 
+    public void InitializePlayer(Transform player, PlayerInputHandler input)
+    {
+        _playerTransform = player;
+
+        if (_playerInput != null)
+        {
+            _playerInput.OnJewelryInventoryToggleEvent -= TogglePuzzleInventory;
+        }
+
+        _playerInput = input;
+
+        if (_playerInput != null)
+        {
+            _playerInput.OnJewelryInventoryToggleEvent += TogglePuzzleInventory;
+        }
+    }
+
     private void TogglePuzzleInventory()
     {
-        if (IsPuzzleActive) ClosePuzzleInventory();
-        else OpenPuzzleInventory();
+        if (_puzzleVisualRoot == null) return;
+
+        if (IsPuzzleActive)
+        {
+            ClosePuzzleInventory();
+        }
+        else
+        {
+            OpenPuzzleInventory();
+        }
     }
 
     public void InitStageStartPrice()
@@ -187,7 +198,7 @@ public class JewelInventoryManager : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.PauseGameForPuzzle();
+            GameManager.Instance.PauseGame();
         }
 
         if (_tempQueue.Count > 0)
@@ -226,24 +237,32 @@ public class JewelInventoryManager : MonoBehaviour
         if (GameManager.UI != null)
         {
             GameManager.UI.CloseUI(UIType.JewelInventoryUI);
-        }
-
-        if (GameManager.UI != null)
-        {
             GameManager.UI.OpenUI(UIRootType.MainUI, UIType.MainHUD);
         }
 
-        if (_playerInventory == null) return;
+        if (_playerTransform == null)
+        {
+            Debug.LogError("Player Transform을 찾을 수 없습니다.");
+            return;
+        }
 
-        Vector3 dropPosition = _playerInventory.transform.position;
+        Vector3 dropPosition = _playerTransform.position;
 
         foreach (var gem in _pickupAreaGems)
         {
+            if (gem == null)
+                continue;
+
             gem.gameObject.SetActive(true);
+
             gem.transform.position = dropPosition + new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f));
 
             var physics = gem.GetComponent<JewelPhysicsApplier>();
-            if (physics != null) physics.ExitPuzzleMode();
+
+            if (physics != null)
+            {
+                physics.ExitPuzzleMode();
+            }
 
             gem.gameObject.layer = LayerMask.NameToLayer("Default");
 
@@ -267,7 +286,7 @@ public class JewelInventoryManager : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ResumeGameFromPuzzle();
+            GameManager.Instance.ResumeGame();
         }
     }
 
@@ -304,15 +323,26 @@ public class JewelInventoryManager : MonoBehaviour
     private void DropGemAutomatically(Jewel gem)
     {
         var physics = gem.GetComponent<JewelPhysicsApplier>();
+
         if (physics == null) physics = gem.gameObject.AddComponent<JewelPhysicsApplier>();
+
         physics.EnterPuzzleMode();
 
         float randomX = Random.Range(-_limitX, _limitX);
+
         gem.transform.position = _dropZoneCenter.position + new Vector3(randomX, 0, 0);
 
-        gem.GetComponent<Rigidbody>().useGravity = true;
+        Rigidbody rb = gem.GetComponent<Rigidbody>();
 
-        _jewelsInBag.Add(gem);
+        if (rb != null)
+        { 
+            rb.useGravity = true; 
+        }
+
+        if (!_jewelsInBag.Contains(gem))
+        { 
+            _jewelsInBag.Add(gem);
+        }
     }
 
     // 가방 -> 임시 보관함

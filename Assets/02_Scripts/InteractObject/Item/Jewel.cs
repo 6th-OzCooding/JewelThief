@@ -50,10 +50,10 @@ public class Jewel : BaseInteractableObject
 
     protected override void OnInteract(IInteractor interactor)
     {
-        if(interactor is IInventoryOwner inventoryOwner)
-        {
-            inventoryOwner.TryAcquireItem(_itemData, HoldType.Pocket);
-            GameManager.Pool.DespawnToPool(this.gameObject);
-        }
+        if (JewelInventoryManager.Instance == null) return;
+
+        if (!JewelInventoryManager.Instance.CanPickupJewel(_itemData)) return;
+
+        JewelInventoryManager.Instance.AddJewelToTempQueue(this);
     }
 }

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: SOTilePreset
   m_EditorClassIdentifier: Assembly-CSharp::SOTilePreset
   presetTiles:
-  - tilePrefab: {fileID: 6149524208288276319, guid: 8260dff7604f73845a5015567b2e30eb, type: 3}
-    position: {x: 4, y: 0, z: 4}
+  - tilePrefab: {fileID: 2550080244902641972, guid: 3254645d2b8c4574687548df1a0b30a8, type: 3}
+    position: {x: 4, y: 4}
+    IsStartTile: 1
