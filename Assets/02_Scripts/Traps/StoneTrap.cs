@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 public class StoneTrap : BaseDisarmableObejct
 {
     [SerializeField] private float detectionRange = 10f;
+    [SerializeField] private Transform spawnPo;
     ItemData stoneData;
     private bool _isWorked = false;
     void Update()
@@ -103,4 +104,48 @@ public class StoneTrap : BaseDisarmableObejct
         base.OnDisarm();
         _isDisarmed = true;
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_isWorked|| _isDisarmed) { return; }
+        ItemData stoneData = GameManager.DataTable.GetItemData("Item_Jewel_Emerald");
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("플레이어 감지 ");
+
+            if (other.TryGetComponent(out IInventoryOwner inventoryOwner))
+            {
+                Debug.Log("트랩 발동 - 인벤토리 채우기 시작");
+
+                if (stoneData == null)
+                {
+                    Debug.LogError("stoneData가 등록되지 않았습니다!");
+                    return;
+                }
+
+                int dropCount = 10;
+
+
+                for (int i = 0; i < dropCount; i++)
+                {
+                    // 가방에 넣기
+                    if (inventoryOwner.TryAcquireItem(stoneData, HoldType.Pocket))
+                    {
+                        Debug.Log($"[함정] {stoneData.Name}을(를) 강제로 넣었습니다. ({i + 1}/{dropCount})");
+                    }
+                    // 가방이 꽉 차서 실패했다면 바닥에 생성
+                    else
+                    {
+                        Debug.Log($"[함정] 가방이 가득 찼습니다! ({i + 1}/{dropCount})");
+                    }
+                }
+                for (int i = 0; i < dropCount; i++)
+                {
+                        Debug.Log($"[함정] 플레이어 주변 바닥에 생성합니다. ({i + 1}/{dropCount})");
+                        SpawnRemainItem(stoneData.Id, spawnPo.position);
+                }
+                _isWorked = true;
+            }
+        }
+    }
+
 }

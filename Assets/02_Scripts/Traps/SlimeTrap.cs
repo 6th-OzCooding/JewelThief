@@ -2,69 +2,44 @@
 
 public class SlimeTrap : BaseDisarmableObejct
 {
-    [SerializeField] private float detectionRange = 10f;
-    
-    void Update()
+    [SerializeField] private DebuffType debuffType = DebuffType.MoveSpeed;
+    [SerializeField] private float debuffValue = 0.5f; // 50% 느려짐
+    [SerializeField] private float duration = 1.5f;    // 한 번 갱신할 때 1.5초 지속
+    private Collider trapCollider;
+    [SerializeField] private float checkInterval = 0.5f; // 0.5초마다 플레이어에게 디버프 주사
+    private float nextCheckTime = 0f;
+    void Awake()
     {
-        if (IsDisarmed) return;
-        CheckPlayerTrapped();
+        // 내 몸에 붙은 콜라이더(Box, Sphere 등)를 미리 찾아둡니다.
+        trapCollider = GetComponent<Collider>();
     }
-    
-    private void CheckPlayerTrapped() 
+    private void OnEnable()
     {
-        RaycastHit hit;
-        
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, detectionRange))
-        {
-            if (hit.collider.CompareTag("Player"))
-            {
-                Debug.Log("플레이어 감지 ");
-                
-                if (hit.collider.TryGetComponent(out IDebuffable debuffableTarget))
-                {
-                    Debug.Log("플레이어 감지 디버프 발동");
-                    debuffableTarget.ApplyDebuff(DebuffType.MoveSpeed, 0.1f, 5f);
-                }
-            }
-        }
-    }
-    private void OnDrawGizmos()
-    {
-        // 1. 기본 레이의 시작점과 끝점 계산
-        Vector3 startPosition = transform.position;
-        Vector3 endPosition = transform.position + (Vector3.down * detectionRange);
-
-        // 2. 에디터 재생 중(런타임)일 때와 아닐 때를 구분해서 시각화하면 좋습니다.
-        if (Application.isPlaying)
-        {
-            // 재생 중일 때 실제로 레이를 쏴서 부딪힌 곳이 있는지 체크
-            if (Physics.Raycast(startPosition, Vector3.down, out RaycastHit hit, detectionRange))
-            {
-                // 무언가 감지되었다면 녹색선으로 그리고, 부딪힌 지점에 빨간 구체 생성
-                Gizmos.color = Color.green;
-                Gizmos.DrawLine(startPosition, hit.point);
-
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(hit.point, 0.2f); // 부딪힌 지점에 조그만 구체 그리기
-            }
-            else
-            {
-                // 아무것도 감지되지 않았다면 평소엔 빨간색 선으로 표시
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(startPosition, endPosition);
-            }
-        }
-        else
-        {
-            // 게임이 실행 중이 아닐 때(에디터 편집 상태)는 상시 노란색 선으로 범위 표시
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(startPosition, endPosition);
-        }
+        _isInteractable = true;
     }
     protected override void LoadData(string id) { }
     protected override void OnDisarm()
     {
         base.OnDisarm();
         _isDisarmed = true;
+        gameObject.SetActive(false);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // 0.5초마다만 작동.
+            if (Time.time >= nextCheckTime)
+            {
+                nextCheckTime = Time.time + checkInterval;
+
+                if (other.TryGetComponent(out IDebuffable debuffTarget))
+                {
+                    Debug.Log($"[거미줄 유지] {debuffType} 디버프 지속 주입");
+                   
+                    debuffTarget.ApplyDebuff(debuffType, debuffValue, duration);
+                }
+            }
+        }
     }
 }
