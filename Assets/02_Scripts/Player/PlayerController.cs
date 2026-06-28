@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using TeamConvention.Interfaces;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,IStatModifiable
 {
