@@ -15,6 +15,13 @@ public class NormalState : IEnemyState
         _enemy.Anim.SetBool("isRun", false);
         _enemy.Nav.speed = _enemy.WalkSpeed;
 
+        // 순찰 중에는 목적지에 충분히 도달하도록 정지 거리를 작게 설정
+        if (_enemy.Nav.isOnNavMesh)
+        {
+            _enemy.Nav.stoppingDistance = 0.5f;
+            _enemy.Nav.isStopped = false; // 이전 상태에서 멈춤이 걸린 채 넘어왔을 수 있으므로 해제
+        }
+
         // 탐지 범위를 벗어났을 때 이전 목적지(플레이어 위치)를 지워줍니다.
         if (_enemy.Nav.hasPath) _enemy.Nav.ResetPath();
 
@@ -23,6 +30,17 @@ public class NormalState : IEnemyState
 
     public void UpdateState()
     {
+        // 플레이어가 탐지되면 시야 확보 여부에 따라 상태 전환
+        // (시야 확보 시 Chase, 탐지만 됐으면 Track)
+        if (_enemy.TargetPlayer != null)
+        {
+            if (_enemy.HasLineOfSight)
+                _enemy.StateContext.TransitionTo(_enemy.StateContext.ChaseState);
+            else
+                _enemy.StateContext.TransitionTo(_enemy.StateContext.TrackState);
+            return;
+        }
+
         if (!_enemy.Nav.pathPending)
         {
             // 목적지까지 남은 거리가 Agent의 정지 거리 근처라면 (Nav.stoppingDistance에 여유분 0.5f를 더해 줘서 멈칫거리지 않게 함)
@@ -45,25 +63,26 @@ public class NormalState : IEnemyState
 
     private void SetRandomDestination()
     {
-        // 방향을 랜덤으로 찾고
-        Vector2 randomCircle = Random.insideUnitCircle.normalized;
-        // 최소거리와 최대 거리 내에서 위치 찍기
-        float randomDist = Random.Range(_minPatrolDistance, _maxPatrolDistance);
-        // 구한 방향과 거리를 3차원 좌표로 설정 (y는 0으로 고정시킬 것 공중에 있으면 안되므로)
-        Vector3 randomDirection = new Vector3(randomCircle.x, 0, randomCircle.y) * randomDist;
-        // 현재 위치에서 목표 위치 계산
-        Vector3 targetPos = _enemy.transform.position + randomDirection;
+        //무한 재귀 → 루프 + 최대 시도 횟수 방식으로 변경 (StackOverflow 방지)
+        const int maxAttempts = 30; // 최대 시도 횟수
 
-        NavMeshHit hit;
-        // 만약 네비 메시 바닥이 아닐 경우 그 근방에서 네비메쉬 바닥을 찾고 있다면 목적지로 설정
-        if (NavMesh.SamplePosition(targetPos, out hit, 5f, NavMesh.AllAreas))
+        for (int i = 0; i < maxAttempts; i++)
         {
-            _enemy.Nav.SetDestination(hit.position);
-        }
-        else
-        {
-            // 맵 바깥이나 이상한 곳을 찍은 경우 다시 찾도록 설정
-            SetRandomDestination();
+            // 방향을 랜덤으로 찾고
+            Vector2 randomCircle = Random.insideUnitCircle.normalized;
+            // 최소거리와 최대 거리 내에서 위치 찍기
+            float randomDist = Random.Range(_minPatrolDistance, _maxPatrolDistance);
+            // 구한 방향과 거리를 3차원 좌표로 설정 (y는 0으로 고정시킬 것 공중에 있으면 안되므로)
+            Vector3 randomDirection = new Vector3(randomCircle.x, 0, randomCircle.y) * randomDist;
+            // 현재 위치에서 목표 위치 계산
+            Vector3 targetPos = _enemy.transform.position + randomDirection;
+
+            // 네비메쉬 바닥을 찾으면 목적지로 설정하고 종료
+            if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+            {
+                _enemy.Nav.SetDestination(hit.position);
+                return; // 유효한 위치를 찾으면 즉시 종료
+            }
         }
     }
 }
