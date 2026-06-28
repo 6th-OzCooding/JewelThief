@@ -293,7 +293,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
     private void OpenBox()
     {
-        _animController.SetStat(BoxState.Open);
+        _animController.SetStat(InteractableObjectAnimState.Open);
         PickItemId();
         PlayDropItemParticle(_spawnedItemList.Count);
 
@@ -370,7 +370,7 @@ public class InteractableContainer : BaseDisarmableObejct
     //                          AI생성
     private string GetItemPoolId(ItemData itemData)
     {
-        switch (itemData.GetItemType()) // 실제 필드명에 맞게 수정
+        switch (itemData.GetItemType()) 
         {
             case ItemType.Jewel:
                 return "Pool_Jewel";
@@ -401,8 +401,8 @@ public class InteractableContainer : BaseDisarmableObejct
         }
         else
         {
-            // TODO(안우재 2026-6-24) : 강제로 열었기에 ChangeStat 전에 차감 시간을 적용해야함
-            //                          시간 차감 로직 성준님께 여쭤보기
+            // 시간 감소 리스트의 2번째가 줄어드는 것이므로 1로 설정
+            GameManager.Alert.ReduceTimer(_timeReductionAmountList[1]);
             ChangeStat(data.ForceOpenDataId);
         }
     }

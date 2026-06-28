@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -64,7 +64,7 @@ public class TimerHUD : MonoBehaviour
     /// </summary>
     public void Refresh()
     {
-        if (GameManager.Instance != null && !GameManager.Instance.IsPlaying)
+        if (GameManager.Instance != null && !GameManager.Instance.IsInGame)
         {
             ShowLobbyGold();
             return;
@@ -94,7 +94,7 @@ public class TimerHUD : MonoBehaviour
 
         if (_currentGoldText == null || GameManager.Instance == null) return;
 
-        _currentGoldText.text = $"보유 자금\n{GameManager.Instance._gold}$";
+        _currentGoldText.text = $"보유 자금\n{GameManager.Instance.Gold}$";
     }
 
     private void ShowStageTimer()

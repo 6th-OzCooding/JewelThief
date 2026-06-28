@@ -107,6 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BagOverloadDetector
   _boundaryLineRenderer: {fileID: 7695599740723057335}
   _returnDelay: 0.5
+  _jewelManager: {fileID: 0}
 --- !u!1 &1602290402600131412
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +117,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 976462272956056347}
-  - component: {fileID: 6303877158855515734}
   m_Layer: 0
   m_Name: JewelInventory
   m_TagString: Untagged
@@ -145,28 +145,6 @@ Transform:
   - {fileID: 3923359635548988031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6303877158855515734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602290402600131412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33e643c95074b0441a061af2b0428695, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::JewelInventoryManager
-  _puzzleVisualRoot: {fileID: 1602290402600131412}
-  _maxWeight: 50
-  _pickupSpace: {fileID: 3923359635548988031}
-  _gemLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _dropZoneCenter: {fileID: 0}
-  _limitX: 3
-  _overflowHandler: {fileID: 5589651191563861685}
-  _puzzleCamera: {fileID: 4043152597828472738}
 --- !u!1 &1826904150904762370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e643c95074b0441a061af2b0428695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JewelPuzzleUIManager
-  _puzzleVisualRoot: {fileID: 0}
+  _puzzleVisualRoot: {fileID: 1602290402600131412}
   _maxWeight: 50
   _pickupSpace: {fileID: 3923359635548988031}
   _gemLayerMask:

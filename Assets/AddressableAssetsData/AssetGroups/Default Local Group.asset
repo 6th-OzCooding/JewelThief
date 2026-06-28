@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,8 +15,23 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: be8d15f0c8cf30e4ca7e0a93622c918e
   m_SerializeEntries:
+  - m_GUID: 006235b25867908418567637ba7a0f39
+    m_Address: SeatedLion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 04933c45a0a5dfe44bb714276bc692e0
     m_Address: KeyFBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06ffdc796a51f3a46807b4654e3d9fd1
+    m_Address: Statue_Stone
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f8e6137e16581542baa0fc00d3f8c33
+    m_Address: Pool_Bullet
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -37,6 +52,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1dfc93650565f744080e5d530ab73da1
     m_Address: Mesh_WoodBox_Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 223416086535a7b43a073dca9b5d410a
+    m_Address: Painting_1_Mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ab63363a75ada447bd07872061b528f
+    m_Address: Police_Throw
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2af78253eecb838488739813767b7b48
+    m_Address: Painting_4_Mesh
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -70,6 +100,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 426a97308da40a640907690ce523dadd
+    m_Address: Statue_Metal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 455d6f49b2f92ef4f819067f6dab8cce
     m_Address: PlayTheme
     m_ReadOnly: 0
@@ -80,13 +115,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4bdbd7f522a225d4ca8947af462afe35
+    m_Address: Demo Room6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4deebf0b960164241b321322ebeb4078
     m_Address: ToolObject
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f2199fe6c356a943b3ca45fe881506c
+    m_Address: Police_Shoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 522a2acbc8892034291e8e24b27c040c
     m_Address: Win_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 528f5c092b61f2145bcdf13778ba0a45
+    m_Address: Painting_6
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -97,6 +147,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 55af624d731fc954ca4009254829fe4d
     m_Address: RightTop Corridor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5aaf8c27f62f89d4b8418a2e51438984
+    m_Address: Painting_8
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -125,6 +180,21 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a942ba9bd7b93d48b51636f61672f10
+    m_Address: Police_Normal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f78cd84bb020f642a28938e1e9b6c65
+    m_Address: T Corridor2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c3bd5dae5ddc3c4c9d883b82b31a4cb
+    m_Address: PaintingFrame_Gold
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 735e97775f5a9c343aa66cf11e64c26c
     m_Address: M_Gemstone_Amethyst
     m_ReadOnly: 0
@@ -132,6 +202,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7388b6783a325464a8addb4c6e9a9265
     m_Address: LeftTop Corridor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74c082ece7c2d234ab144639322ed47e
+    m_Address: Demo Room7
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -170,11 +245,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8260dff7604f73845a5015567b2e30eb
-    m_Address: TestPresetTile
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 83346d92482c608498b0ab928342a335
     m_Address: Error_01
     m_ReadOnly: 0
@@ -187,6 +257,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8473ebe1205aad94dbdd8e89f65b74e6
     m_Address: Mesh_Cabinet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85a24a3574c2edc4aaf9ce867d461e20
+    m_Address: T Corridor3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -225,8 +300,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9553658fd3abd084bba24cb4d8f82698
+    m_Address: Painting_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98d8e10b70dd0244d9c0576f92ee1fac
     m_Address: Purchase_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a06e7efb46cb9f5428e9efe3c30c034a
+    m_Address: Pool_Statue
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -235,8 +320,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a22cf84ed7e5d8b4a82ba86406ef01dc
+    m_Address: PaintingFrame_White
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a6ce8083df4fbf7478f17bd05ce5b5d9
     m_Address: Demo Room4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7935b24b52ea6b4493b7fb0380b1c25
+    m_Address: PaintingFrame_WoodHell
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -245,8 +340,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aa6d0a258191a6f43b1d7f0f906d98d0
+    m_Address: Painting_3_Mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aeb016aa83d140446a9f376bd9e5c716
+    m_Address: PaintingFrame_Black
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afbc89f99e3d172439bbe146488edce4
+    m_Address: Painting_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acbccfaa10f61c4429d88b29a16e249e
+    m_Address: Demo Room5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b1fda2122b30bd94caab8565edd73ca9
     m_Address: GunTrap_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf1ec8a4d5fb1db4787a5e1d5fd38c42
+    m_Address: Pool_Throw
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -267,6 +387,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2ee0adf282326246bc6300be2049c67
     m_Address: JewelInventory
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9f67c3b5052b1c47978d3b05313adb9
+    m_Address: Painting_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6774015cb57c9043b126f4904aab41f
+    m_Address: T Corridor4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -300,6 +430,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4d17990a89e10c4d95595d7f9fea4a7
+    m_Address: T Corridor1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d54ee4ed1c70dc74786204d422484add
     m_Address: BackUpTile
     m_ReadOnly: 0
@@ -325,6 +460,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e15129e138b524b41bff44fcbbc69421
+    m_Address: Statue_Marble
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e440abf894c0e7a4da3ab9802b2b10b3
     m_Address: MapGrid
     m_ReadOnly: 0
@@ -340,6 +480,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6e2c036a7f77ef47bde648215da9967
+    m_Address: Painting_5_Mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7d69863d0e540540816e3ea2b33a8d7
+    m_Address: Statue_Copper
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ec9cb0d3f295dfe4486b8a1a25b84185
     m_Address: Mesh_IronBox_Prefab
     m_ReadOnly: 0
@@ -350,8 +500,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f637edc10bfaad24f9233e31f6e96b40
+    m_Address: Police_Dog
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6e2568ad34e522458c6b5d4db3cf75f
+    m_Address: Pool_Painting
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f9d00a2426db1e449bcf40bb3e144dda
     m_Address: RightDown Corridor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fcbf0858952742943882a7f6f913649b
+    m_Address: Painting_2_Mesh
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
