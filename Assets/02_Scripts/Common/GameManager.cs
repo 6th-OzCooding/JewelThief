@@ -258,6 +258,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isInGame = true;
         _isPaused = false;
 
+        await UniTask.Delay(2000);  // 플레이어 이동이 노출되는 것을 방지
+
         UI.CloseInGameLoadingUI();
         IsEnteringInGame = false;
     }
