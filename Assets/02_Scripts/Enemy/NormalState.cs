@@ -8,6 +8,13 @@ public class NormalState : IEnemyState
 
     private float _minPatrolDistance = 3f; // 최소거리
     private float _maxPatrolDistance = 90f; // 최대거리
+
+    private Vector3 _lastPosition;
+    private float _stuckTimer = 0f;
+
+    // 1.5초동안 1.5f 이하로 이동할 시 장애물이 있는 것으로 판단하게 하는 변수들
+    private const float STUCK_CHECK_INTERVAL = 1.5f;
+    private const float MIN_MOVE_DISTANCE = 1.5f;
     public NormalState(EnemyBase enemy) { _enemy = enemy; }
 
     public void EnterState()
@@ -26,6 +33,9 @@ public class NormalState : IEnemyState
         if (_enemy.Nav.hasPath) _enemy.Nav.ResetPath();
 
         SetRandomDestination();
+
+        _lastPosition = _enemy.transform.position;
+        _stuckTimer = 0f;
     }
 
     public void UpdateState()
@@ -40,6 +50,21 @@ public class NormalState : IEnemyState
                 _enemy.StateContext.TransitionTo(_enemy.StateContext.TrackState);
             return;
         }
+
+        _stuckTimer += Time.deltaTime;
+        if (_stuckTimer >= STUCK_CHECK_INTERVAL)
+        {
+            float moveDistance = Vector3.Distance(_enemy.transform.position, _lastPosition);
+
+            if (moveDistance <= MIN_MOVE_DISTANCE)
+            {
+                SetRandomDestination();
+            }
+
+            _stuckTimer = 0f;
+            _lastPosition = _enemy.transform.position;
+        }
+
 
         if (!_enemy.Nav.pathPending)
         {
@@ -81,6 +106,9 @@ public class NormalState : IEnemyState
             if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 5f, NavMesh.AllAreas))
             {
                 _enemy.Nav.SetDestination(hit.position);
+
+                _stuckTimer = 0f;
+                _lastPosition = _enemy.transform.position;
                 return; // 유효한 위치를 찾으면 즉시 종료
             }
         }
