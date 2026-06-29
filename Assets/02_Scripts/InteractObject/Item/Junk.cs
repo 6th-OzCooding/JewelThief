@@ -1,7 +1,7 @@
 ﻿using TeamConvention.Interfaces;
 using UnityEngine;
 
-public class Jewel : BaseInteractableObject
+public class Junk : BaseInteractableObject
 {
     private ItemData _itemData;
 
@@ -25,7 +25,10 @@ public class Jewel : BaseInteractableObject
         ItemGrade = _itemData.GetItemGrade();
 
         _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
-        _meshCollider.sharedMesh = _meshFilter.sharedMesh;
+        if (_itemData.MeshCollider != null)
+            _meshCollider.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshCollider);
+        else
+            _meshCollider.sharedMesh = _meshFilter.sharedMesh;
 
         var materialPath = _itemData.MaterialPaths;
         Material[] materials = new Material[materialPath.Count];

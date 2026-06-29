@@ -27,11 +27,9 @@ public class WFCMapGeneration
     // Map Generation Settings
     private int _mapSize;
     private int _generationCount = 0;
-    private int _mapSizeSetting;
     private float _gridSpacing = 10f;
 
     // cache
-    private MapTile _boundaryTile;
     private MapGrid _mapGridObject;
     private List<MapGrid> _grids = new();
     private List<MapTile> _tileObjects = new();
@@ -39,7 +37,6 @@ public class WFCMapGeneration
 
     // 재활용 Buffer를
     private readonly List<MapGrid> _lowEntropyGrids = new();
-    private readonly MapGrid[] _collapsedNeighbors = new MapGrid[4];
     private Queue<MapGrid> _propagateQueue = new();
     private HashSet<int> _propagateQueueIndexes = new();
     private Queue<MapGrid> _checkReachableTileQueue = new();
@@ -72,9 +69,6 @@ public class WFCMapGeneration
         await LoadAssets();
 
         _mapRoot = mapRoot;
-        _runTimeBakeNavMesh.Init(navMeshSurface);
-
-        _mapSize = _mapSizeSetting + 2;
 
         bool success = false;
         for (int retryCount = 0; retryCount < SOTilePreset.MaxGenerateRetryCount; retryCount++)
@@ -111,7 +105,7 @@ public class WFCMapGeneration
                 continue;
             }
 
-            if(!CheckReachableRoomCount())
+            if (!CheckReachableRoomCount())
             {
                 Debug.LogWarning("도달 가능한 방 개수가 부족. 맵 재생성 시도.");
                 success = false;
@@ -130,7 +124,9 @@ public class WFCMapGeneration
             return;
         }
 
-        _mapObjectSpawner.ObjectSpawnAfterMapGenerated(_mapRoot);
+        _mapObjectSpawner.ObjectSpawnAfterMapGenerated(_generatedTiles.Values);
+
+        _runTimeBakeNavMesh.Init(navMeshSurface);
         await _runTimeBakeNavMesh.BakeAfterMapGeneratedAsync();
 
         onProgress?.Invoke(1.0f);
@@ -168,24 +164,16 @@ public class WFCMapGeneration
             {
                 MapGrid newGrid = GameObject.Instantiate(_mapGridObject, new Vector3(x * _gridSpacing, 0, y * _gridSpacing), Quaternion.identity, _mapRoot);
 
-                if (x == 0 || y == 0 || x == _mapSize - 1 || y == _mapSize - 1)
-                {
-                    int pos = x + y * _mapSize;
-                    CreateBoundary(newGrid, pos);
-                }
-                else
-                {
-                    newGrid.CreateMapGrid(false, _tileObjects, index);
-                    _grids.Add(newGrid);
-                    index++;
-                }
+                newGrid.CreateMapGrid(false, _tileObjects, index);
+                _grids.Add(newGrid);
+                index++;
             }
         }
     }
 
     private async UniTask<bool> GenerateMapAsync(Action<float> onProgress)
     {
-        float totalCount = _mapSizeSetting * _mapSizeSetting;
+        float totalCount = _mapSize * _mapSize;
 
         while (_generationCount < totalCount)
         {
@@ -268,14 +256,14 @@ public class WFCMapGeneration
         for (int i = 0; i < currentGrid.TileOptions.Length; i++)
         {
             currentWeight += currentGrid.TileOptions[i].Weight;
-            if(randomWeight < currentWeight)
+            if (randomWeight < currentWeight)
             {
                 selectedTile = currentGrid.TileOptions[i];
                 break;
             }
         }
 
-        if(selectedTile == null)
+        if (selectedTile == null)
         {
             Debug.LogError("CollapseGrid: 타일 선택 실패");
             return false;
@@ -355,16 +343,16 @@ public class WFCMapGeneration
         switch (direction)
         {
             case Direction.Up:
-                neighborIndex = (currentIndex + _mapSizeSetting < _grids.Count) ? currentIndex + _mapSizeSetting : -1;
+                neighborIndex = (currentIndex + _mapSize < _grids.Count) ? currentIndex + _mapSize : -1;
                 break;
             case Direction.Down:
-                neighborIndex = (currentIndex - _mapSizeSetting >= 0) ? currentIndex - _mapSizeSetting : -1;
+                neighborIndex = (currentIndex - _mapSize >= 0) ? currentIndex - _mapSize : -1;
                 break;
             case Direction.Right:
-                neighborIndex = (currentIndex % _mapSizeSetting < _mapSizeSetting - 1) ? currentIndex + 1 : -1;
+                neighborIndex = (currentIndex % _mapSize < _mapSize - 1) ? currentIndex + 1 : -1;
                 break;
             case Direction.Left:
-                neighborIndex = (currentIndex % _mapSizeSetting > 0) ? currentIndex - 1 : -1;
+                neighborIndex = (currentIndex % _mapSize > 0) ? currentIndex - 1 : -1;
                 break;
         }
         return neighborIndex != -1 ? _grids[neighborIndex] : null;
@@ -442,41 +430,9 @@ public class WFCMapGeneration
         };
     }
 
-    private void CreateBoundary(MapGrid newGrid, int pos)
-    {
-        Quaternion rotation = Quaternion.identity;
-        Vector3 dir = Vector3.zero;
-
-        if (pos < _mapSize)                             // 아래 경계
-        {
-            rotation = Quaternion.Euler(0, 0, 0);
-            dir = Vector3.forward;
-        }
-        else if (pos >= _mapSize * (_mapSize - 1))      // 위쪽 경계
-        {
-            rotation = Quaternion.Euler(0, 180, 0);
-            dir = Vector3.back;
-        }
-        else if (pos % _mapSize == 0)                   // 왼쪽 경계
-        {
-            rotation = Quaternion.Euler(0, 90, 0);
-            dir = Vector3.right;
-        }
-        else if (pos % _mapSize == _mapSize - 1)        // 오른쪽 경계
-        {
-            rotation = Quaternion.Euler(0, -90, 0);
-            dir = Vector3.left;
-        }
-
-        newGrid.CreateMapGrid(true, new List<MapTile> { _boundaryTile }, -1);
-        var newBoundaryTile = GameObject.Instantiate(_boundaryTile, newGrid.transform.position + dir * _gridSpacing / 2, rotation, _mapRoot);
-        _generatedTiles[-1 * (pos + 1)] = newBoundaryTile;
-    }
-
     private async UniTask LoadAssets()
     {
         _mapGridObject = GameManager.Resource.GetLoadedAsset<GameObject>("MapGrid").GetComponent<MapGrid>();
-        _boundaryTile = GameManager.Resource.GetLoadedAsset<GameObject>("BoundaryTile").GetComponent<MapTile>();
 
         StageData stageData = GameManager.DataTable.GetStageData(GameManager.Instance.SelectedStageId);
 
@@ -484,7 +440,7 @@ public class WFCMapGeneration
             _tileObjects.Add(GameManager.Resource.GetLoadedAsset<GameObject>(tileAddress).GetComponent<MapTile>());
 
         SOTilePreset = await GameManager.Resource.LoadAssetAsync<SOTilePreset>("SOTilePreset");
-        _mapSizeSetting = SOTilePreset.MapWidth;
+        _mapSize = SOTilePreset.MapWidth;
     }
 
     private bool PresetTileGenerate()
@@ -496,13 +452,13 @@ public class WFCMapGeneration
         {
             Vector2Int pos = presetTile.position;
 
-            if (pos.x < 0 || pos.x >= _mapSizeSetting || pos.y < 0 || pos.y >= _mapSizeSetting)
+            if (pos.x < 0 || pos.x >= _mapSize || pos.y < 0 || pos.y >= _mapSize)
                 continue;
 
             if (null == presetTile.tilePrefab)
                 continue;
 
-            int gridIndex = pos.x + pos.y * _mapSizeSetting;
+            int gridIndex = pos.x + pos.y * _mapSize;
             MapGrid currentGrid = _grids[gridIndex];
 
             if (currentGrid.IsCollapsed)
@@ -670,7 +626,7 @@ public class WFCMapGeneration
 
         Debug.Log($"시작 타일 기준 도달 가능 방 개수: {reachableRoomCount}, 필요 개수: {SOTilePreset.MinReachableRoomCount}");
 
-        float currentRoomRatio = (float)reachableRoomCount / (_mapSizeSetting * _mapSizeSetting);
+        float currentRoomRatio = (float)reachableRoomCount / (_mapSize * _mapSize);
         Debug.Log($"방 비율: {currentRoomRatio}, 최대 방 비율: {SOTilePreset.MaxRoomRatio}");
 
 

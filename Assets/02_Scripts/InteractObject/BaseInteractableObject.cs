@@ -8,6 +8,7 @@ public abstract class BaseInteractableObject : MonoBehaviour, IInteractable
     protected string _objectComment;
 
     private bool _isInitialized = false;
+    private bool _isGravityOff = false;
 
     private Animator _animator;
 
@@ -38,6 +39,11 @@ public abstract class BaseInteractableObject : MonoBehaviour, IInteractable
     protected virtual void OnInitalized() 
     {
         _isInitialized = false;
+
+        if (_isGravityOff)
+        {
+            GetComponent<Rigidbody>().useGravity = false;
+        }
     }
 
 
@@ -66,9 +72,10 @@ public abstract class BaseInteractableObject : MonoBehaviour, IInteractable
 
     public string GetName => _objectName;
 
-    public void InitFromSpawner(string id)
+    public void InitFromSpawner(string id, bool offGravity = false)
     {
         _objectId = id;
+        _isGravityOff = offGravity;
         LoadData(id);
         OnInitalized();
         _isInitialized = true;

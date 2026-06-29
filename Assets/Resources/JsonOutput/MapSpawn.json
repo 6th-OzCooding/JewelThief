@@ -42,43 +42,6 @@
     ]
   },
   {
-    "Id": "MapSpawn_Floor_Statue",
-    "StringSpawnArea": "Floor",
-    "StringSpawnType": "Statue",
-    "StringInteractType": "Interact",
-    "PoolAddress": "Pool_Statue",
-    "ItemId": [
-      "Item_Statue_Stone",
-      "Item_Statue_Copper",
-      "Item_Statue_Metal",
-      "Item_Statue_Marble"
-    ]
-  },
-  {
-    "Id": "MapSoawn_Floor_Trap",
-    "StringSpawnArea": "Floor",
-    "StringSpawnType": null,
-    "StringInteractType": "Disarm",
-    "PoolAddress": null,
-    "ItemId": null
-  },
-  {
-    "Id": "MapSpawn_Floor_Container",
-    "StringSpawnArea": "Floor",
-    "StringSpawnType": null,
-    "StringInteractType": null,
-    "PoolAddress": null,
-    "ItemId": null
-  },
-  {
-    "Id": "MapSpawn_Wall_Trap",
-    "StringSpawnArea": "Wall",
-    "StringSpawnType": null,
-    "StringInteractType": null,
-    "PoolAddress": null,
-    "ItemId": null
-  },
-  {
     "Id": "MapSpawn_Wall_Painting",
     "StringSpawnArea": "Wall",
     "StringSpawnType": "Painting",
@@ -91,21 +54,5 @@
       "Item_Painting_04",
       "Item_Painting_05"
     ]
-  },
-  {
-    "Id": "MapSpawn_FloorWall_Container",
-    "StringSpawnArea": "FloorWall",
-    "StringSpawnType": null,
-    "StringInteractType": null,
-    "PoolAddress": null,
-    "ItemId": null
-  },
-  {
-    "Id": "MapSpawn_Ceiling_Trap",
-    "StringSpawnArea": "Ceiling",
-    "StringSpawnType": null,
-    "StringInteractType": null,
-    "PoolAddress": null,
-    "ItemId": null
   }
 ]

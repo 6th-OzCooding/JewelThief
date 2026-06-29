@@ -7,13 +7,9 @@ public class DataTable
 {
     public Dictionary<string, PreLoadAssetData> GetPreLoadAssetDataTable() => _preLoadAssetDataTable;
     public Dictionary<string, PoolData> GetPoolDataTable() => _poolDataTable;
-    public Dictionary<string, InteractableContainerData> GetInteractableContainerDataTable() => _interactableContainerDataTable;
-    public Dictionary<string, Door> GetDoorDataTable() => _doorDataTable;
     public Dictionary<string, ItemData> GetItemDataTable() => _itemDataTable;
-    public Dictionary<string, PopupViewData> GetPopupViewDataTable() => _popupViewDataTable;
-    public Dictionary<string, SoundData> GetSoundDataTable() => _soundDataTable;
     public Dictionary<string, StageData> GetStageDataTable() => _stageDataTable;
-    public Dictionary<string, EnemyData> GetEnemyDataTable() => _enemyDataTable;
+    public Dictionary<string, MapSpawnData> GetMapSpawnDataTable() => _mapSpawnDataTable;
 
     private Dictionary<string, PreLoadAssetData> _preLoadAssetDataTable { get; set; } = new();
     private Dictionary<string, PoolData> _poolDataTable { get; set; } = new();
@@ -24,6 +20,7 @@ public class DataTable
     private Dictionary<string, SoundData> _soundDataTable { get; set; } = new();
     private Dictionary<string, StageData> _stageDataTable { get; set; } = new();
     private Dictionary<string, EnemyData> _enemyDataTable { get; set; } = new();
+    private Dictionary<string, MapSpawnData> _mapSpawnDataTable { get; set; } = new();
 
     [Serializable]
     class SerializationWrapper<T>
@@ -42,8 +39,8 @@ public class DataTable
         _popupViewDataTable = LoadData<PopupViewData>("PopupViewData");
         _soundDataTable = LoadData<SoundData>("SoundData");
         _stageDataTable = LoadData<StageData>("StageData");
-
         _enemyDataTable = LoadData<EnemyData>("Enemy");
+        _mapSpawnDataTable = LoadData<MapSpawnData>("MapSpawn");
     }
 
     #region Getters
@@ -104,6 +101,13 @@ public class DataTable
         if (string.IsNullOrEmpty(id)) return null;
         return _enemyDataTable.TryGetValue(id, out var data) ? data : null;
     }
+
+    public MapSpawnData GetMapSpawnData(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return null;
+        return _mapSpawnDataTable.TryGetValue(id, out var data) ? data : null;
+    }
+
     #endregion
 
     Dictionary<string, T> LoadData<T>(string tableNmae) where T : BaseData
