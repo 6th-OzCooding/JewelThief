@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "Id": "ItemObject",
     "InitSize": 20
@@ -33,11 +33,11 @@
   },
   {
     "Id": "Pool_Throw",
-    "InitSize": 15
+    "InitSize": 10
   },
   {
     "Id": "Pool_Bullet",
-    "InitSize": 15
+    "InitSize": 10
   },
   {
     "Id": "Police_Normal",
