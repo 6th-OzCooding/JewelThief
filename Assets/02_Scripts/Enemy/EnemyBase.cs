@@ -298,7 +298,7 @@ public class EnemyBase : MonoBehaviour
             PlayerController player = TargetPlayer.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.TakePlayerSpDamage(_attackDamage);
+                player.OnPlayerHit();
             }
         }
 

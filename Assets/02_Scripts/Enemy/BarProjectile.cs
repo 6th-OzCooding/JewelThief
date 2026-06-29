@@ -71,7 +71,7 @@ public class BarProjectile : MonoBehaviour
                 PlayerController player = hit.collider.GetComponent<PlayerController>();
                 if (player != null)
                 {
-                    player.TakePlayerSpDamage(_damage);
+                    player.OnPlayerHit();
                     Debug.Log($"플레이어에게 곤봉 적중! 데미지: {_damage}");
                 }
                 ReturnToPool();
@@ -97,7 +97,7 @@ public class BarProjectile : MonoBehaviour
             PlayerController player = other.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.TakePlayerSpDamage(_damage);
+                player.OnPlayerHit();
                 Debug.Log("플레이어가 곤봉에 맞았습니다.");
             }
         }

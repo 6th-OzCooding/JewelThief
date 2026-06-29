@@ -68,8 +68,7 @@ public class BulletProjectile : MonoBehaviour
                 PlayerController player = hit.collider.GetComponent<PlayerController>();
                 if (player != null)
                 {
-                    player.TakePlayerSpDamage(_damage);
-                    // 데미지를 받았는 지 확인
+                    player.OnPlayerHit();
                     Debug.Log($"플레이어에게 총알 적중! 데미지: {_damage}");
                 }
                 ReturnToPool();
@@ -96,7 +95,7 @@ public class BulletProjectile : MonoBehaviour
             PlayerController player = other.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.TakePlayerSpDamage(_damage);
+                player.OnPlayerHit();
                 Debug.Log("플레이어가 총알에 맞았습니다.");
             }
         }
