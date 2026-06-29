@@ -209,8 +209,9 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         bool isMoving = _moveDirection.magnitude > 0.1f;
         bool hasStamina = _playerSp > 0f && !_isStaminaCooling;
         bool isNotCrouching = !_isCrouching;
+        bool canSprintByWeight = _playerInventory == null || _playerInventory.CanSprint();
 
-        return hasInput && isMoving && hasStamina && isNotCrouching;
+        return hasInput && isMoving && hasStamina && isNotCrouching && canSprintByWeight;
     }
 
     private void Move()
@@ -249,7 +250,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
         float currentWeight = _playerInventory.GetTotalCarryWeight();
         float maxWeight = _playerInventory.MaxCarryWeight;
-        bool isOverweight = currentWeight > maxWeight;
+        bool isOverweight = _playerInventory.IsOverweight();
 
         if (_isOverweight != isOverweight)
         {

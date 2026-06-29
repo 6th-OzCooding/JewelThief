@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +18,13 @@ public class QuickSlotHUD : MonoBehaviour
     [SerializeField] private string _testIconResourcesPath = "Images/MasterkeyIconTest";
     [SerializeField] private Vector2 _testIconSize = new(80f, 80f);
 
-    private Sprite _cachedTestIconSprite;
+    private Sprite _cachedDefaultToolIconSprite;
     private int _selectedSlotIndex = -1;
+
+    /// <summary>
+    /// 퀵슬롯이 선택되었을 때 선택된 슬롯 인덱스를 전달합니다.
+    /// </summary>
+    public event Action<int> OnSlotSelected;
 
     private void OnEnable()
     {
@@ -52,7 +59,7 @@ public class QuickSlotHUD : MonoBehaviour
     /// </summary>
     public void CreateTestIconInNextEmptySlot()
     {
-        Sprite testIconSprite = GetTestIconSprite();
+        Sprite testIconSprite = GetDefaultToolIconSprite();
         if (testIconSprite == null) return;
         if (_slotIconRoots == null) return;
 
@@ -65,6 +72,38 @@ public class QuickSlotHUD : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Tool 전용 인벤토리 목록을 퀵슬롯 아이콘에 반영합니다.
+    /// </summary>
+    public void RefreshToolSlots(IReadOnlyList<InventoryItem> toolItems)
+    {
+        ClearAllSlotIcons();
+
+        if (toolItems == null || _slotIconRoots == null)
+            return;
+
+        // 1차 구현에서는 Tool 인벤토리의 순서를 그대로 퀵슬롯 표시 순서로 사용합니다.
+        int slotCount = GetSlotCount();
+        int toolCount = Mathf.Min(toolItems.Count, slotCount);
+        for (int i = 0; i < toolCount; i++)
+        {
+            ItemData itemData = toolItems[i]?.ItemData;
+            if (itemData == null)
+                continue;
+
+            Sprite iconSprite = LoadToolIconSprite(itemData);
+            if (iconSprite == null)
+                continue;
+
+            CreateIcon(_slotIconRoots[i], iconSprite);
+        }
+
+        if (_selectedSlotIndex >= 0 && !HasIcon(_selectedSlotIndex))
+        {
+            HideAllSelectImages();
+        }
+    }
+
     public void SelectSlot(int slotIndex)
     {
         if (!HasIcon(slotIndex))
@@ -72,14 +111,17 @@ public class QuickSlotHUD : MonoBehaviour
 
         _selectedSlotIndex = slotIndex;
 
-        if (_slotSelectImages == null) return;
-
-        for (int i = 0; i < _slotSelectImages.Length; i++)
+        if (_slotSelectImages != null)
         {
-            if (_slotSelectImages[i] == null) continue;
+            for (int i = 0; i < _slotSelectImages.Length; i++)
+            {
+                if (_slotSelectImages[i] == null) continue;
 
-            _slotSelectImages[i].SetActive(i == _selectedSlotIndex);
+                _slotSelectImages[i].SetActive(i == _selectedSlotIndex);
+            }
         }
+
+        OnSlotSelected?.Invoke(_selectedSlotIndex);
     }
 
     private void SelectNextSlot(int direction)
@@ -104,23 +146,44 @@ public class QuickSlotHUD : MonoBehaviour
         }
     }
 
-    private Sprite GetTestIconSprite()
+    private Sprite LoadToolIconSprite(ItemData itemData)
     {
-        if (_cachedTestIconSprite != null)
-            return _cachedTestIconSprite;
-
-        _cachedTestIconSprite = Resources.Load<Sprite>(_testIconResourcesPath);
-        if (_cachedTestIconSprite == null)
+        if (itemData != null && !string.IsNullOrEmpty(itemData.IconPath))
         {
-            Debug.LogWarning($"QuickSlotHUD: test icon sprite not found. Path: {_testIconResourcesPath}");
+            Sprite iconSprite = Resources.Load<Sprite>(itemData.IconPath);
+            if (iconSprite != null)
+                return iconSprite;
+
+            Debug.LogWarning($"QuickSlotHUD: tool icon sprite not found. Item: {itemData.Id}, Path: {itemData.IconPath}");
         }
 
-        return _cachedTestIconSprite;
+        // IconPath가 아직 비어 있는 Tool은 임시 기본 아이콘을 사용합니다.
+        return GetDefaultToolIconSprite();
+    }
+
+    private Sprite GetDefaultToolIconSprite()
+    {
+        if (_cachedDefaultToolIconSprite != null)
+            return _cachedDefaultToolIconSprite;
+
+        _cachedDefaultToolIconSprite = Resources.Load<Sprite>(_testIconResourcesPath);
+        if (_cachedDefaultToolIconSprite == null)
+        {
+            Debug.LogWarning($"QuickSlotHUD: default tool icon sprite not found. Path: {_testIconResourcesPath}");
+        }
+
+        return _cachedDefaultToolIconSprite;
     }
 
     private void CreateTestIcon(Transform slotIconRoot, Sprite testIconSprite)
     {
+        CreateIcon(slotIconRoot, testIconSprite);
+    }
+
+    private void CreateIcon(Transform slotIconRoot, Sprite iconSprite)
+    {
         if (slotIconRoot == null) return;
+        if (iconSprite == null) return;
 
         ClearSlotIconRoot(slotIconRoot);
 
@@ -135,9 +198,20 @@ public class QuickSlotHUD : MonoBehaviour
         iconRectTransform.sizeDelta = _testIconSize;
 
         Image iconImage = iconObject.AddComponent<Image>();
-        iconImage.sprite = testIconSprite;
+        iconImage.sprite = iconSprite;
         iconImage.preserveAspect = true;
         iconImage.raycastTarget = false;
+    }
+
+    private void ClearAllSlotIcons()
+    {
+        if (_slotIconRoots == null)
+            return;
+
+        for (int i = 0; i < _slotIconRoots.Length; i++)
+        {
+            ClearSlotIconRoot(_slotIconRoots[i]);
+        }
     }
 
     private void ClearSlotIconRoot(Transform slotIconRoot)
