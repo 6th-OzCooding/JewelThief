@@ -160,11 +160,7 @@ public static class PopupViewDataBuilder
         if (itemData == null || playerController == null || playerController.Inventory == null)
             return false;
 
-        InventoryTypeData inventoryTypeData = GameManager.DataTable.GetInventoryTypeData(itemData.Id);
-        if (inventoryTypeData == null)
-            return false;
-
-        HoldType holdType = inventoryTypeData.GetHoldType();
+        HoldType holdType = itemData.GetHoldType();
         if (holdType != HoldType.Pocket)
             return false;
 
