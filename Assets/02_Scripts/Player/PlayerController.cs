@@ -136,7 +136,11 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
             _inputHandler.OnCrouchChanged += CrouchAndStand;
 
             if (_playerInventory != null && GameManager.Instance != null)
+            {
                 GameManager.Instance.OnExitInGame += _playerInventory.FindToolAndRemove;
+                GameManager.Instance.OnPlayerCaught += _playerInventory.RemoveAllItems;
+            }
+
         }
     }
 
@@ -148,7 +152,10 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
             _inputHandler.OnCrouchChanged -= CrouchAndStand;
 
             if (_playerInventory != null && GameManager.Instance != null)
+            {
                 GameManager.Instance.OnExitInGame -= _playerInventory.FindToolAndRemove;
+                GameManager.Instance.OnPlayerCaught -= _playerInventory.RemoveAllItems;
+            }
         }
     }
 
@@ -386,6 +393,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     {
         _playerSp -= damage;
         Debug.Log($"플레이어 Sp: {_playerSp}");
+        GameManager.Instance?.OnPlayerHit();
     }
 
     public void TakePlayerSpDamagePerSecond(float damage)

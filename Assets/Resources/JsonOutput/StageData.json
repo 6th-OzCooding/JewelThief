@@ -2,7 +2,7 @@
   {
     "Id": "Stage_01",
     "Name": "TestMap",
-    "TimeLimit": 120,
+    "TimeLimit": 600,
     "MaxTool": 2,
     "MaxJewel": 3,
     "MaxJunk": 6,
@@ -36,7 +36,7 @@
   {
     "Id": "Stage_02",
     "Name": "City",
-    "TimeLimit": 120,
+    "TimeLimit": 600,
     "MaxTool": 4,
     "MaxJewel": 6,
     "MaxJunk": 8,
@@ -50,7 +50,7 @@
   {
     "Id": "Stage_03",
     "Name": "Museum",
-    "TimeLimit": 120,
+    "TimeLimit": 600,
     "MaxTool": 6,
     "MaxJewel": 9,
     "MaxJunk": 10,
