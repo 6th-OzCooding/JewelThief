@@ -457,5 +457,23 @@
     "Husks": "JunkObject",
     "StringHoldType": null,
     "MeshCollider": null
+  },
+  {
+    "Id": "Item_Junk_Stone",
+    "Name": "돌",
+    "Description": "돌이다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Rare",
+    "Weight": 2,
+    "Price": 1,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Lit"
+    ],
+    "MeshPath": "Jewel_Stone[Cube.058]",
+    "Husks": "JunkObject",
+    "StringHoldType": "Pocket",
+    "MeshCollider": null
   }
 ]
