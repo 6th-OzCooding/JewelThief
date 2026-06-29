@@ -11,6 +11,8 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private ShopItemDisplay _shopItemDisplayPrefab;
     [SerializeField] private Transform[] _shopDisplayAnchors;
 
+    public Vector3 SpawnPosition => _lobbySpawnPoint != null ? _lobbySpawnPoint.position : Vector3.zero;
+
     public PlayerController Enter()
     {
         if (_playerSpawner == null)
@@ -83,7 +85,8 @@ public class LobbyController : MonoBehaviour
 
     public void Exit()
     {
-        // TODO (김경훈 - 26.06.22): 추후 본부에서 나갈 때 필요한 정리 로직
+        if (_lobbyInstance != null)
+            _lobbyInstance.SetActive(false);
 
     }
 }

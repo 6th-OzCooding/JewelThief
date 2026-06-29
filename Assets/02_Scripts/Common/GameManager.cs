@@ -81,10 +81,11 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     #endregion
 
+    #region Gold_Info
+
     // 전역 데이터 추가
     public int Gold { get; private set; }
     public string SelectedStageId;
-
 
     // 골드 증가 (판매소 등)
     public void AddGold(int amount)
@@ -104,6 +105,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         Gold -= amount;
         return true;
     }
+
+    #endregion
 
     /// <summary>
     /// 데이터 드리븐 초기화 -> UIManager 초기화 -> 로딩(어드레서블 불러오기) -> 사운드 및 풀 초기화
@@ -171,6 +174,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
     }
 
+    #region GameFlow
+
     public PlayerController EnterLobby(bool isFirstEnter = false)
     {
         if(isFirstEnter)
@@ -228,6 +233,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public void EnterInGame(string StageId)
     {
         EnterInGameAsync(StageId).Forget();
+
     }
 
     private async UniTaskVoid EnterInGameAsync(string stageId)
@@ -272,9 +278,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         _playerController.Teleport(startPosition + Vector3.up * _inGameSpawnHeightOffset);
     }
-    /// <summary>
-    /// InGame 이탈 시점 호출
-    /// </summary>
+
     public void ReturnToLobby()
     {
         _isInGame = false;
@@ -285,53 +289,25 @@ public class GameManager : SingletonBehaviour<GameManager>
         OnExitInGame?.Invoke(_removeToolIdsWhenInGameExit);
 
         EnterLobby();
+        RespawnPlayerToLobby();
     }
 
-    public void QuitGame()
+    private void RespawnPlayerToLobby()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+        if (_playerController == null || _lobbyController == null)
+            return;
+
+        _playerController.Teleport(_lobbyController.SpawnPosition);
     }
 
-    // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
-    private async UniTask GenerateMap()
-    {
-        if (null == _mapRoot)
-        {
-            _mapRoot = Utils.CreateEmptyGameObject("MapRoot", this.gameObject.transform).transform;
-            _navMeshSurface = Utils.GetOrAddComponent<NavMeshSurface>(_mapRoot.gameObject);
-            _navMeshSurface.collectObjects = CollectObjects.Children;
-            _navMeshSurface.layerMask = LayerMask.GetMask("Floor");
-        }
-
-        await _wfcMapGeneration.StartGenerateMap(_navMeshSurface, _mapRoot);
-    }
-
-    /// <summary>
-    /// 현재 인게임 상태를 유지한 채 게임플레이 진행을 일시정지합니다.
-    /// </summary>
-    public void PauseGame()
-    {
-        _isPaused = true;
-    }
-
-    /// <summary>
-    /// 게임플레이 일시정지를 해제합니다.
-    /// </summary>
-    public void ResumeGame()
-    {
-        _isPaused = false;
-    }
-
-   private void EscapeSuccessful() //나중에 탈출에 성공했을 때 이걸 불러와야 함
+    public void GameOver()
     {
         _isPaused = true;
 
-        OnPlayerEscape?.Invoke();
+        OnPlayerCaught?.Invoke();
+        _playerController.ResetPlayerStat();
 
+        // TODO(김경훈 2026-06-29): 보석 계산 메서드 확인 후 totalValue/bestGemName 연동
         int totalValue = 0;
         string bestGemName = "";
         float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
@@ -347,14 +323,46 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
     }
 
-    public void GameOver()
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
+
+    #endregion
+
+    private async UniTask GenerateMap()
+    {
+        if (null == _mapRoot)
+        {
+            _mapRoot = Utils.CreateEmptyGameObject("MapRoot", this.gameObject.transform).transform;
+            _navMeshSurface = Utils.GetOrAddComponent<NavMeshSurface>(_mapRoot.gameObject);
+            _navMeshSurface.collectObjects = CollectObjects.Children;
+            _navMeshSurface.layerMask = LayerMask.GetMask("Floor");
+        }
+
+        await _wfcMapGeneration.StartGenerateMap(_navMeshSurface, _mapRoot);
+    }
+
+    public void PauseGame()
+    {
+        _isPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        _isPaused = false;
+    }
+
+   private void EscapeSuccessful()  // TODO (한재덕 - 26.06.29) 탈출 성공시 메서드 호출 필요
     {
         _isPaused = true;
 
-        OnPlayerCaught?.Invoke();
-        _playerController.ResetPlayerStat();
+        OnPlayerEscape?.Invoke();
 
-        // TODO(김경훈 2026-06-29): 보석 계산 메서드 확인 후 totalValue/bestGemName 연동
         int totalValue = 0;
         string bestGemName = "";
         float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
