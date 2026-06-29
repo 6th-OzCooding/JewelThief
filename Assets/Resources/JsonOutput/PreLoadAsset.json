@@ -558,10 +558,5 @@
     "Id": "PreLoadAsset_MeshCollier_Junk_Glasses",
     "Address": "MeshCollider_Junk_Glasses",
     "AssetType": "Mesh"
-  },
-  {
-    "Id": "PreLoadAsset_GameObject_ItemObject",
-    "Address": "ItemObject",
-    "AssetType": null
   }
 ]
