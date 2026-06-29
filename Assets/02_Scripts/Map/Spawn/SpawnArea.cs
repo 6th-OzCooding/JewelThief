@@ -2,9 +2,11 @@
 
 public enum AreaType
 {
+    None,
     Floor,
     Wall,
     Ceiling,
+    FloorWall,
     COUNT,
 }
 

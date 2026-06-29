@@ -24,15 +24,21 @@ public class SpawnAreaRegister
         list.Add(area);
     }
 
-    public void RegisterFromRoot(Transform root)
+    public void RegisterFromRoot(IEnumerable<MapTile> tiles)
     {
-        if (root == null)
+        if (tiles == null)
             return;
 
-        SpawnArea[] areas = root.GetComponentsInChildren<SpawnArea>(true);
+        foreach (MapTile tile in tiles)
+        {
+            if (tile == null)
+                continue;
 
-        foreach (SpawnArea area in areas)
-            Register(area);
+            SpawnArea[] areas = tile.GetComponentsInChildren<SpawnArea>();
+
+            foreach (SpawnArea area in areas)
+                Register(area);
+        }
     }
 
     public IReadOnlyList<SpawnArea> GetAreas(AreaType areaType)

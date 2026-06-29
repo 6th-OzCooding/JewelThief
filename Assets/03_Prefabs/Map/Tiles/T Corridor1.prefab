@@ -736,7 +736,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: 0.2, z: 10}
+  m_Size: {x: 3.5, y: 0.2, z: 9}
   m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &7625493805372711747
 GameObject:
@@ -846,6 +846,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (4)
@@ -912,6 +916,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5373280145486597001}
     m_Modifications:
+    - target: {fileID: 64542078787801454, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -967,8 +975,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 576715941809536264}
   m_SourcePrefab: {fileID: 100100000, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+--- !u!1 &4216096439090079752 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+  m_PrefabInstance: {fileID: 607891467761848296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &576715941809536264
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4216096439090079752}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.75, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &4216096439090508840 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
@@ -982,6 +1014,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5373280145486597001}
     m_Modifications:
+    - target: {fileID: 64542078787801454, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1037,8 +1073,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1143956813953098928}
   m_SourcePrefab: {fileID: 100100000, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+--- !u!1 &4292095958087550586 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+  m_PrefabInstance: {fileID: 683889388993487258}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &1143956813953098928
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4292095958087550586}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.75, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &4292095958087719514 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
@@ -1052,6 +1112,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (11)
@@ -1118,6 +1182,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10
@@ -1184,6 +1252,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5373280145486597001}
     m_Modifications:
+    - target: {fileID: 64542078787801454, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1239,8 +1311,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6991586860159748544}
   m_SourcePrefab: {fileID: 100100000, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+--- !u!1 &2186914825906158880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+  m_PrefabInstance: {fileID: 3221274660700461760}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &6991586860159748544
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2186914825906158880}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.75, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &2186914825906184448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
@@ -1254,6 +1350,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5373280145486597001}
     m_Modifications:
+    - target: {fileID: 64542078787801454, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1309,8 +1409,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2462515351301455840}
   m_SourcePrefab: {fileID: 100100000, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+--- !u!1 &2234688065903349813 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+  m_PrefabInstance: {fileID: 3309595672152782805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &2462515351301455840
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234688065903349813}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.75, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &2234688065903709205 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
@@ -1324,6 +1448,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (03)
@@ -1390,6 +1518,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (7)
@@ -1456,6 +1588,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (1)
@@ -1522,6 +1658,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (15)
@@ -1588,6 +1728,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (8)
@@ -1654,6 +1798,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5373280145486597001}
     m_Modifications:
+    - target: {fileID: 64542078787801454, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
       propertyPath: m_LocalScale.x
       value: 4
@@ -1709,13 +1857,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6904936889345474955}
   m_SourcePrefab: {fileID: 100100000, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
 --- !u!4 &5107543073971806078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3669658876340927424, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
   m_PrefabInstance: {fileID: 8362230214816720062}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5107543073972224862 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3669658876341348320, guid: 5f3a38d534e5b9a4fa9cd3b3ec81dfb2, type: 3}
+  m_PrefabInstance: {fileID: 8362230214816720062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &6904936889345474955
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5107543073972224862}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.75, y: 1.25, z: 0.11100001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &8646461895248173862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1724,6 +1896,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (12)
@@ -1872,6 +2048,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2794940751613811740}
     m_Modifications:
+    - target: {fileID: 2187553604629537642, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6907739548714319148, guid: 5aedd7c0ef8da864daeefeb610f1b7b3, type: 3}
       propertyPath: m_Name
       value: Floor_10 (2)
