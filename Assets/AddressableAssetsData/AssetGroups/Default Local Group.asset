@@ -60,11 +60,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 28b8fa1dd7262c34c8b89c634be5eea8
-    m_Address: Mesh_Safe_Prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2ab63363a75ada447bd07872061b528f
     m_Address: Police_Throw
     m_ReadOnly: 0
@@ -127,6 +122,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4deebf0b960164241b321322ebeb4078
     m_Address: ToolObject
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e7ef58d8ebd3054e9bbef7742edcd62
+    m_Address: Z_FootStep_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -310,6 +310,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98ce49082421aa4419717dc82143e687
+    m_Address: Z_FootStep_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98d8e10b70dd0244d9c0576f92ee1fac
     m_Address: Purchase_02
     m_ReadOnly: 0
@@ -392,6 +397,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2ee0adf282326246bc6300be2049c67
     m_Address: JewelInventory
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c5978cf060582574eac488bf33f2b54f
+    m_Address: Z_Electricity_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -492,11 +502,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7d69863d0e540540816e3ea2b33a8d7
     m_Address: Statue_Copper
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eabcd23a2540e4946a4f5b3a8834d6f5
-    m_Address: Mesh_BrokenIronBox_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

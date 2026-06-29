@@ -53,10 +53,11 @@ public class Painting : BaseInteractableObject
 
     protected override void OnInteract(IInteractor interactor)
     {
-        // TODO (김경훈 - 26.06.26) 인벤토리 구현 확인 후 로직 완성
-        // if (JewelInventoryManager.Instance == null) return;
-        // if (!JewelInventoryManager.Instance.CanPickupJewel(_itemData)) return;
-        // JewelInventoryManager.Instance.AddJewelToTempQueue(this);
+        if (interactor is not IInventoryOwner inventoryOwner) return;
+
+        // 그림은 Hold 아이템으로 취급하므로 획득 가능 여부와 손 장착은 PlayerInventory가 판단합니다.
+        if (!inventoryOwner.TryAcquireItem(_itemData, _itemData.GetHoldType())) return;
+
         GameManager.Pool.DespawnToPool(this.gameObject);
     }
 }
