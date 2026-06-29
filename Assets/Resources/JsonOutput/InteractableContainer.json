@@ -114,7 +114,7 @@
       40
     ],
     "MaxItemCount": 5,
-    "ContainerMeshPrefabPath": "Mesh_IronBox_Prefab"
+    "ContainerMeshPrefabPath": "Mesh_BrokenIronBox_Prefab"
   },
   {
     "Id": "Object_05",
@@ -147,5 +147,37 @@
     ],
     "MaxItemCount": 1,
     "ContainerMeshPrefabPath": "Mesh_IronBox_Prefab"
+  },
+  {
+    "Id": "Object_06",
+    "ContainerName": "다이얼 금고",
+    "SpawnContainerTypeData": "None",
+    "ContainerComment": "금고다. 잠겨 있지 않지만 안에 좋은 아이템이 있다.",
+    "IsContainerDisarm": true,
+    "RequiresToolIdList": [
+      "None"
+    ],
+    "CollectOpenDataId": null,
+    "ForceOpenDataId": null,
+    "TimeReductionAmountList": [
+      0
+    ],
+    "ItemIdList": [
+      "Item_Jewel_Diamond",
+      "Item_Jewel_Amethyst",
+      "Item_Jewel_Aquamarine",
+      "Item_Jewel_Emerald",
+      "Item_Jewel_Ruby",
+      "Item_Jewel_Sapphire",
+      "Item_Jewel_Topaz"
+    ],
+    "RateList": [
+      0,
+      0,
+      10,
+      90
+    ],
+    "MaxItemCount": 1,
+    "ContainerMeshPrefabPath": "Mesh_Safe_Prefab"
   }
 ]

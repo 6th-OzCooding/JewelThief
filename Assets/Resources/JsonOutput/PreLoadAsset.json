@@ -265,11 +265,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_GameObject_JewelObject",
-    "Address": "Pool_Jewel",
-    "AssetType": null
-  },
-  {
     "Id": "PreLoadAsset_Mesh_Jewel_Cone[Cone]",
     "Address": "Jewel_Cone[Cone]",
     "AssetType": "Mesh"
@@ -305,6 +300,16 @@
     "AssetType": null
   },
   {
+    "Id": "PreLoadAsset_GameObject_MeshBrokenIronBoxPrefab",
+    "Address": "Mesh_BrokenIronBox_Prefab",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_MeshSafePrefab",
+    "Address": "Mesh_Safe_Prefab",
+    "AssetType": null
+  },
+  {
     "Id": "PreLoadAsset_GameObject_MeshWoodBoxPrefab",
     "Address": "Mesh_WoodBox_Prefab",
     "AssetType": null
@@ -332,11 +337,6 @@
   {
     "Id": "PreLoadAsset_PoliceThrow_Object",
     "Address": "Pool_Throw",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_GameObject_PaintingObject",
-    "Address": "Pool_Painting",
     "AssetType": null
   },
   {
@@ -497,6 +497,71 @@
   {
     "Id": "PreLoadAsset_Stage1_Demo Room7",
     "Address": "Demo Room7",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PolygonNightclubs_01_A",
+    "Address": "PolygonNightclubs_01_A",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Bottle_Blue",
+    "Address": "Junk_Bottle_Blue[SM_Prop_Bar_Bottle_07]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Bottle_Pink_Large",
+    "Address": "Junk_Bottle_Pink_Large[SM_Prop_Bottle_Large_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Can_Navy",
+    "Address": "Junk_Can_Navy[SM_Prop_Can_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Fish",
+    "Address": "Junk_Fish[SM_Prop_Display_Fish_02]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Glasses",
+    "Address": "Junk_Glasses[SM_Prop_Glasses_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Microphone",
+    "Address": "Junk_Microphone[SM_Prop_Microphone_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Sculpture",
+    "Address": "Junk_Sculpture[SM_Prop_Sculpture_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_PolygonNightclub_Mat_01_A_Metallic",
+    "Address": "PolygonNightclub_Mat_01_A_Metallic",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_MeshCollier_Junk_Bottle_Blue",
+    "Address": "MeshCollider_Junk_Bottle_Blue",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_MeshCollider_Junk_Bottle_Pink_Large",
+    "Address": "MeshCollider_Junk_Bottle_Pink_Large",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_MeshCollier_Junk_Glasses",
+    "Address": "MeshCollider_Junk_Glasses",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_ItemObject",
+    "Address": "ItemObject",
     "AssetType": null
   }
 ]
