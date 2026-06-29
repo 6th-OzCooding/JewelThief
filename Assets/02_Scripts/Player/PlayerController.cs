@@ -18,6 +18,14 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     private bool _isStaminaCooling = false; //스태미나 고갈을 표현하는 상태변수
     private bool _isSprinting = false; // 매 FixedUpdate 시작에 1회 계산해 캐싱하는 스프린트 상태 (한 프레임 내 일관성 보장)
 
+    [Header("발자국 사운드 설정")]
+    [SerializeField] private float _footStepInterval = 0.6f; //걷기 시 발자국 간격
+    [SerializeField] private float _footStepIntervalSprint = 0.3f; //스프린트 시 발자국 간격
+    [SerializeField] private float _footStepGroundedGrace = 0.1f; //접지가 잠깐 끊겨도 이 시간 동안은 접지로 간주(경사/이동시작 떨림 방지)
+    private bool _isFootStepPlaying = false; //발자국 반복 재생 중인지 여부
+    private bool _wasSprintingForFootStep = false; //직전 프레임의 스프린트 여부 (전환 감지용)
+    private float _lastGroundedTime = 0f; //마지막으로 접지로 판정된 시각 (디바운스용)
+
     private float _moveSpeedDebuffMultiplier = 1f;
 
     [Header("점프관련 설정")]
@@ -68,10 +76,13 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     [SerializeField] private InteractionHoverDetector _hoverDetector;
 
     [Header("플레이어 스탯")]
+    [SerializeField] private int _playerLife = 10;
     [SerializeField] private float _playerSp = 100;
     [SerializeField] private float _spintSpUsePerSecond = 5; //스프린트 시 초당 소모되는 스태미나
     [SerializeField] private float _spintSpAddPerSecond = 3; //평소 초당 회복되는 스태미나
     private float _playerMaxSp;
+    private int _playerMaxLife;
+
 
     public Vector3 Position => this.transform.position;
     public Transform CameraTransform => Camera_FPS != null ? Camera_FPS.transform : null;
@@ -81,11 +92,21 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     /// 현재 플레이어 스태미나 값입니다.
     /// </summary>
     public float CurrentStamina => _playerSp;
+    public float CurrentLife => _playerLife;
 
+    public void ResetPlayerStat() //플레이어 스폰했을 때 줄어든 스탯 초기화시키기
+    {
+        _playerLife = _playerMaxLife;
+        _playerSp = _playerMaxSp;
+        _moveSpeedDebuffMultiplier = 1f;
+
+    }
     /// <summary>
     /// 최대 플레이어 스태미나 값입니다.
     /// </summary>
     public float MaxStamina => _playerMaxSp;
+    public float MaxLife => _playerMaxLife;
+
 
     void Awake()
     {
@@ -116,6 +137,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         }
 
         _playerMaxSp = _playerSp; //최대 스태미나 지정
+        _playerMaxLife = _playerLife;
 
         _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
 
@@ -138,7 +160,13 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             _inputHandler.OnCrouchChanged += CrouchAndStand;
 
             if (_playerInventory != null && GameManager.Instance != null)
+            {
                 GameManager.Instance.OnExitInGame += _playerInventory.FindToolAndRemove;
+                GameManager.Instance.OnPlayerCaught += _playerInventory.RemoveAllItems;
+                GameManager.Instance.OnPlayerEscape += _playerInventory.RemoveToolItems;
+
+            }
+
         }
     }
 
@@ -150,7 +178,18 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             _inputHandler.OnCrouchChanged -= CrouchAndStand;
 
             if (_playerInventory != null && GameManager.Instance != null)
+            {
                 GameManager.Instance.OnExitInGame -= _playerInventory.FindToolAndRemove;
+                GameManager.Instance.OnPlayerCaught -= _playerInventory.RemoveAllItems;
+                GameManager.Instance.OnPlayerEscape -= _playerInventory.RemoveToolItems;
+
+            }
+        }
+
+        if (_isFootStepPlaying)
+        {
+            GameManager.Sound.StopRepeatingSFX(SoundId.SFX_FootStep_01);
+            _isFootStepPlaying = false;
         }
     }
 
@@ -203,6 +242,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
                 _isStaminaCooling = false;
             }
         }
+
+        UpdateFootStepSfx();
     }
 
     private bool IsSprint() //스프린트 입력되고, 좌표 변경되는 중, 스태미나 0이상, 앉기가 입력되지 않을때 true
@@ -231,6 +272,38 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             _rigidbody_Player.linearVelocity.y,
             _moveDirection.z * currentMoveSpeed
             );
+    }
+
+    private void UpdateFootStepSfx()
+    {
+        if (_isGrounded)
+            _lastGroundedTime = Time.time;
+
+        bool isGameplayMode = _inputHandler != null && _inputHandler.CurrentMode == PlayerInputMode.Gameplay;
+        bool hasMoveInput = _inputHandler != null && _inputHandler.HasMoveInput;
+        bool isGroundedStable = Time.time - _lastGroundedTime <= _footStepGroundedGrace;
+        bool isMoving = isGameplayMode && hasMoveInput && isGroundedStable && !_isCrouching;
+
+        if (isMoving)
+        {
+            float interval = _isSprinting ? _footStepIntervalSprint : _footStepInterval;
+            bool sprintStateChanged = _isFootStepPlaying && _wasSprintingForFootStep != _isSprinting;
+
+            if (!_isFootStepPlaying || sprintStateChanged)
+            {
+                GameManager.Sound.PlayRepeatingSFX(SoundId.SFX_FootStep_01, interval);
+                _isFootStepPlaying = true;
+                _wasSprintingForFootStep = _isSprinting;
+            }
+        }
+        else
+        {
+            if (_isFootStepPlaying)
+            {
+                GameManager.Sound.StopRepeatingSFX(SoundId.SFX_FootStep_01);
+                _isFootStepPlaying = false;
+            }
+        }
     }
 
     private float GetCurrentMoveSpeed()
@@ -327,6 +400,9 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         {
             // Y축 방향으로 순간적인 힘을 빡 꽂아넣어 '딱딱하게' 뛰어오르게 합니다.
             _rigidbody_Player.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+
+            _isGrounded = false;
+            _lastGroundedTime = Time.time - _footStepGroundedGrace;
         }
 
         _inputHandler.JumpRequested = false;
@@ -350,6 +426,26 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         interactable.Interact(this);
     }
 
+    public void SetInputMode(PlayerInputMode mode)
+    {
+        _inputHandler.SetMode(mode);
+    }
+
+    public void Teleport(Vector3 worldPosition)
+    {
+        if (_rigidbody_Player != null)
+        {
+            _rigidbody_Player.linearVelocity = Vector3.zero;
+            _rigidbody_Player.angularVelocity = Vector3.zero;
+            _rigidbody_Player.position = worldPosition;
+            Physics.SyncTransforms();
+        }
+        else
+        {
+            this.transform.position = worldPosition;
+        }
+    }
+
     private void OnDrawGizmos() //시각적으로 _groundCheck 그리기
     {
         if (_groundCheck != null)
@@ -369,6 +465,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     {
         _playerSp -= damage;
         Debug.Log($"플레이어 Sp: {_playerSp}");
+        //GameManager.Instance?.OnPlayerHit();
     }
 
     public void TakePlayerSpDamagePerSecond(float damage)
@@ -400,7 +497,24 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     private void PlayerDie()
     {
         Debug.Log("플레이어가 죽었습니다.");
+        GameManager.Instance.GameOver();
     }
+
+    public void OnPlayerHit()
+    {
+        if (!GameManager.Instance._isInGame || GameManager.Instance._isPaused)
+            return;
+
+        _playerLife--;
+        Debug.Log($"플레이어 피격 누적: {_playerLife}/{_playerMaxLife}");
+
+        if (_playerLife <= 0)
+        {
+            GameManager.Instance.GameOver();
+        }
+    }
+    
+
     public void SetStatMultiplier(DebuffType type, float value)
     {
         switch (type) 
