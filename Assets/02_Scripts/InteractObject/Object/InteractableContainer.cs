@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public enum SpawnObjectType
@@ -26,6 +27,7 @@ public class InteractableContainer : BaseDisarmableObejct
 {
     [Header("컴포넌트")]
     [SerializeField] private InteractableContainerAnimeController _animController;
+    [SerializeField] private AudioSource _audioSource;
 
     private SpawnObjectType _interactableObjectType;
     private string _visualPrefabPath;
@@ -137,7 +139,10 @@ public class InteractableContainer : BaseDisarmableObejct
         _meshObject = obj;
 
         if (_animController != null)
+        {
             _animController.InitMeshAnime(obj);
+            _audioSource = _meshObject.GetComponentInChildren<AudioSource>();
+        }
     }
 
     private void DestroyMeshBox()
@@ -314,6 +319,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
             ShootItem(spawnedObject);
         }
+        _audioSource.Play();
     }
 
     //                          AI생성

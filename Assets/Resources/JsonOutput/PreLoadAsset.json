@@ -285,11 +285,6 @@
     "AssetType": "Mesh"
   },
   {
-    "Id": "PreLoadAsset_Mesh_Jewel_Stone[Cube.058]",
-    "Address": "Jewel_Stone[Cube.058]",
-    "AssetType": "Mesh"
-  },
-  {
     "Id": "PreLoadAsset_Material_Lit",
     "Address": "Lit",
     "AssetType": null
@@ -450,6 +445,11 @@
     "AssetType": null
   },
   {
+    "Id": "PreLoadAsset_Police_Dog",
+    "Address": "Police_Dog",
+    "AssetType": null
+  },
+  {
     "Id": "PreLoadAsset_GameObject_StatueObject",
     "Address": "Pool_Statue",
     "AssetType": null
@@ -567,6 +567,11 @@
   {
     "Id": "PreLoadAsset_MeshCollider_Junk_Bottle_Pink_Large",
     "Address": "MeshCollider_Junk_Bottle_Pink_Large",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_MeshCollier_Junk_Glasses",
+    "Address": "MeshCollider_Junk_Glasses",
     "AssetType": "Mesh"
   },
   {

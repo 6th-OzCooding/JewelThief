@@ -42,7 +42,8 @@ public class ObjectSpawnEditor : EditorWindow
         "Object_02",
         "Object_03",
         "Object_04",
-        "Object_05"
+        "Object_05",
+        "Object_06"
         
         // "Door_01"
     };
