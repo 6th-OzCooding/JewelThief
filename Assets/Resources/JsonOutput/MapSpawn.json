@@ -1,0 +1,54 @@
+[
+  {
+    "Id": "MapSpawn_Floor_Key",
+    "StringSpawnArea": "Floor",
+    "StringSpawnType": "Tool",
+    "PoolAddress": "Pool_Tool",
+    "ItemId": [
+      "Item_Tool_Key"
+    ]
+  },
+  {
+    "Id": "MapSpawn_Floor_Jewel",
+    "StringSpawnArea": "Floor",
+    "StringSpawnType": "Jewel",
+    "PoolAddress": "ItemObject",
+    "ItemId": [
+      "Item_Jewel_Diamond",
+      "Item_Jewel_Amethyst",
+      "Item_Jewel_Aquamarine",
+      "Item_Jewel_Emerald",
+      "Item_Jewel_Ruby",
+      "Item_Jewel_Sapphire",
+      "Item_Jewel_Topaz"
+    ]
+  },
+  {
+    "Id": "MapSpawn_Floor_Junk",
+    "StringSpawnArea": "Floor",
+    "StringSpawnType": "Junk",
+    "PoolAddress": "ItemObject",
+    "ItemId": [
+      "Item_Junk_Bottle_Blue",
+      "Item_Junk_Bottle_Pink_Large",
+      "Item_Junk_Can_Navy",
+      "Item_Junk_Fish",
+      "Item_Junk_Glasses",
+      "Item_Junk_Microphone",
+      "Item_Junk_Sculpture"
+    ]
+  },
+  {
+    "Id": "MapSpawn_Wall_Painting",
+    "StringSpawnArea": "Wall",
+    "StringSpawnType": "Painting",
+    "PoolAddress": "ItemObject",
+    "ItemId": [
+      "Item_Painting_01",
+      "Item_Painting_02",
+      "Item_Painting_03",
+      "Item_Painting_04",
+      "Item_Painting_05"
+    ]
+  }
+]

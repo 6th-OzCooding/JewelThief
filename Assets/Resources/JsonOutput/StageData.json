@@ -1,12 +1,15 @@
-[
+﻿[
   {
     "Id": "Stage_01",
     "Name": "TestMap",
     "TimeLimit": 120,
-    "MaxContainer": 12,
-    "MaxTrap": 6,
     "MaxTool": 2,
-    "MaxObject": 4,
+    "MaxJewel": 3,
+    "MaxJunk": 6,
+    "MaxStatue": 2,
+    "MaxContainer": 12,
+    "MaxTrap": 12,
+    "MaxPainting": 6,
     "ExitCount": 2,
     "TileAddress": [
       "All Direction Corridor",
@@ -34,10 +37,12 @@
     "Id": "Stage_02",
     "Name": "City",
     "TimeLimit": 120,
-    "MaxContainer": 12,
-    "MaxTrap": 8,
     "MaxTool": 4,
-    "MaxObject": 6,
+    "MaxJewel": 6,
+    "MaxJunk": 8,
+    "MaxStatue": 4,
+    "MaxContainer": 12,
+    "MaxTrap": 12,
     "ExitCount": 3,
     "TileAddress": null
   },
@@ -45,10 +50,12 @@
     "Id": "Stage_03",
     "Name": "Museum",
     "TimeLimit": 120,
-    "MaxContainer": 15,
-    "MaxTrap": 10,
     "MaxTool": 6,
-    "MaxObject": 8,
+    "MaxJewel": 9,
+    "MaxJunk": 10,
+    "MaxStatue": 6,
+    "MaxContainer": 15,
+    "MaxTrap": 15,
     "ExitCount": 3,
     "TileAddress": null
   }

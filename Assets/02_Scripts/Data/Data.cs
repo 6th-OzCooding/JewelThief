@@ -32,7 +32,6 @@ public enum PopupTargetType
 public enum ItemType
 {
     None = 0,
-    Potion,
     Tool,
     Jewel
 }
@@ -44,6 +43,26 @@ public enum ItemGrade
     Epic,
     Unique,
     Legendary
+}
+
+public enum MapSpawnObjectType
+{
+    None,
+    Tool,
+    Jewel,
+    Junk,
+    Statue,
+    Trap,
+    Container,
+    Enemy,
+    Painting,
+}
+
+public enum InteractType
+{
+    None,
+    Interact,
+    Disarm,
 }
 
 [Serializable]
@@ -80,7 +99,6 @@ public class ItemData : BaseData
     public List<string> MaterialPaths = new List<string>();
     public string MeshCollider;
     public int ChargeCount;
-    public string Husks;
 
     public ItemGrade GetItemGrade()
         => Enum.TryParse<ItemGrade>(StringItemGrade, out var result) ? result : ItemGrade.None;
@@ -174,10 +192,15 @@ public class StageData : BaseData
 {
     public string Name;
     public int TimeLimit;
-    public int MaxObject;
+    public int MaxTool;
+    public int MaxJewel;
+    public int MaxJunk;
+    public int MaxStatue;
+    public int MaxContainer;
     public int MaxTrap;
+    public int MaxEnemy;
+    public int MaxPainting;
     public int ExitCount;
-    public int EnemyId;
     public List<string> TileAddress;
 }
 
@@ -196,4 +219,23 @@ public class EnemyData : BaseData
     public float AttackDelay;
     public float AttackDamage;
     public string PrefabAddress;
+}
+
+[Serializable]
+public class MapSpawnData : BaseData
+{
+    public string StringSpawnArea;
+    public string StringSpawnType;
+    public string StringInteractType;
+    public string PoolAddress;
+    public List<string> ItemId;
+
+    public AreaType GetAreaType()
+    => Enum.TryParse<AreaType>(StringSpawnArea, out var result) ? result : AreaType.None;
+
+    public MapSpawnObjectType GetMapSpawnObjectType()
+        => Enum.TryParse<MapSpawnObjectType>(StringSpawnType, out var result) ? result : MapSpawnObjectType.None;
+
+    public InteractType GetInteractType()
+        => Enum.TryParse<InteractType>(StringInteractType, out var result) ? result : InteractType.None;
 }

@@ -1,14 +1,10 @@
 [
   {
-    "Id": "JewelObject",
-    "InitSize": 10
+    "Id": "ItemObject",
+    "InitSize": 20
   },
   {
-    "Id": "ToolObject",
-    "InitSize": 5
-  },
-  {
-    "Id": "Pool_Painting",
+    "Id": "Pool_Tool",
     "InitSize": 5
   },
   {
@@ -58,9 +54,5 @@
   {
     "Id": "Police_Dog",
     "InitSize": 3
-  },
-  {
-    "Id": "JunkObject",
-    "InitSize": 10
   }
 ]

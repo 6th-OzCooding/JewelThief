@@ -13,8 +13,7 @@
       "Yellow"
     ],
     "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
-    "Husks": "ToolObject",
-    "HoldType": "Hold",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -31,8 +30,7 @@
       "Black"
     ],
     "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
-    "Husks": "ToolObject",
-    "HoldType": "Hold",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -50,8 +48,7 @@
       "Lit"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject",
-    "HoldType": "Hold",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -68,8 +65,7 @@
       "M_Gemstone_Amethyst"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Pocket",
     "MeshCollider": null
   },
   {
@@ -86,8 +82,7 @@
       "M_Gemstone_Aquamarine"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Pocket",
     "MeshCollider": null
   },
   {
@@ -104,8 +99,7 @@
       "M_Gemstone_Emerald"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Pocket",
     "MeshCollider": null
   },
   {
@@ -122,8 +116,7 @@
       "M_Gemstone_Ruby"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject",
-    "HoldType": "Hold",
+    "StringHoldType": "Pocket",
     "MeshCollider": null
   },
   {
@@ -140,8 +133,7 @@
       "M_Gemstone_Sapphire"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Pocket",
     "MeshCollider": null
   },
   {
@@ -158,8 +150,7 @@
       "M_Gemstone_Topaz"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "JewelObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Pocket",
     "MeshCollider": null
   },
   {
@@ -178,8 +169,7 @@
       "Painting_1"
     ],
     "MeshPath": "Painting_1_Mesh[Painting_1]",
-    "Husks": "PaintingObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -197,8 +187,7 @@
       "Painting_6"
     ],
     "MeshPath": "Painting_2_Mesh[Painting_2]",
-    "Husks": "PaintingObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -217,8 +206,7 @@
       "Painting_8"
     ],
     "MeshPath": "Painting_3_Mesh[Painting_8]",
-    "Husks": "PaintingObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -236,8 +224,7 @@
       "Painting_3"
     ],
     "MeshPath": "Painting_4_Mesh[Painting_4]",
-    "Husks": "PaintingObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -255,8 +242,7 @@
       "Painting_2"
     ],
     "MeshPath": "Painting_5_Mesh[Painting_5]",
-    "Husks": "PaintingObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -273,8 +259,7 @@
       "Statue_Stone"
     ],
     "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
-    "Husks": "StatueObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -291,8 +276,7 @@
       "Statue_Copper"
     ],
     "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
-    "Husks": "StatueObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -309,8 +293,7 @@
       "Statue_Metal"
     ],
     "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
-    "Husks": "StatueObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -327,8 +310,7 @@
       "Statue_Marble"
     ],
     "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
-    "Husks": "StatueObject",
-    "HoldType": "Pocket",
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -345,8 +327,7 @@
       "PolygonNightclubs_01_A"
     ],
     "MeshPath": "Junk_Bottle_Blue[SM_Prop_Bar_Bottle_07]",
-    "Husks": "JunkObject",
-    "HoldType": null,
+    "StringHoldType": null,
     "MeshCollider": "MeshCollider_Junk_Bottle_Blue"
   },
   {
@@ -362,9 +343,8 @@
     "MaterialPaths": [
       "PolygonNightclubs_01_A"
     ],
-    "MeshPath": "Junk_Bottle_Pink_Large[SM_Prop_Bar_Bottle_Lage_01]",
-    "Husks": "JunkObject",
-    "HoldType": null,
+    "MeshPath": "Junk_Bottle_Pink_Large[SM_Prop_Bottle_Large_01]",
+    "StringHoldType": null,
     "MeshCollider": "MeshCollider_Junk_Bottle_Pink_Large"
   },
   {
@@ -381,8 +361,7 @@
       "PolygonNightclubs_01_A"
     ],
     "MeshPath": "Junk_Can_Navy[SM_Prop_Can_01]",
-    "Husks": "JunkObject",
-    "HoldType": null,
+    "StringHoldType": null,
     "MeshCollider": null
   },
   {
@@ -399,8 +378,7 @@
       "PolygonNightclubs_01_A"
     ],
     "MeshPath": "Junk_Fish[SM_Prop_Display_Fish_02]",
-    "Husks": "JunkObject",
-    "HoldType": null,
+    "StringHoldType": "Hold",
     "MeshCollider": null
   },
   {
@@ -417,8 +395,7 @@
       "PolygonNightclubs_01_A"
     ],
     "MeshPath": "Junk_Glasses[SM_Prop_Glasses_01]",
-    "Husks": "JunkObject",
-    "HoldType": null,
+    "StringHoldType": null,
     "MeshCollider": "MeshCollider_Junk_Glasses"
   },
   {
@@ -435,8 +412,7 @@
       "PolygonNightclubs_01_A"
     ],
     "MeshPath": "Junk_Microphone[SM_Prop_Microphone_01]",
-    "Husks": null,
-    "HoldType": null,
+    "StringHoldType": null,
     "MeshCollider": null
   },
   {
@@ -454,8 +430,7 @@
       "PolygonNightclubs_01_A"
     ],
     "MeshPath": "Junk_Sculpture[SM_Prop_Sculpture_01]",
-    "Husks": null,
-    "HoldType": null,
+    "StringHoldType": null,
     "MeshCollider": null
   }
 ]

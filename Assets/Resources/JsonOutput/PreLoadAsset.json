@@ -261,12 +261,7 @@
   },
   {
     "Id": "PreLoadAsset_GameObject_ToolObject",
-    "Address": "ToolObject",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_GameObject_JewelObject",
-    "Address": "JewelObject",
+    "Address": "Pool_Tool",
     "AssetType": null
   },
   {
@@ -332,11 +327,6 @@
   {
     "Id": "PreLoadAsset_PoliceThrow_Object",
     "Address": "Pool_Throw",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_GameObject_PaintingObject",
-    "Address": "Pool_Painting",
     "AssetType": null
   },
   {
@@ -500,11 +490,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_GameObject_JunkObject",
-    "Address": "JunkObject",
-    "AssetType": null
-  },
-  {
     "Id": "PreLoadAsset_Material_PolygonNightclubs_01_A",
     "Address": "PolygonNightclubs_01_A",
     "AssetType": null
@@ -516,7 +501,7 @@
   },
   {
     "Id": "PreLoadAsset_Mesh_Junk_Bottle_Pink_Large",
-    "Address": "Junk_Bottle_Pink_Large[SM_Prop_Bar_Bottle_Lage_01]",
+    "Address": "Junk_Bottle_Pink_Large[SM_Prop_Bottle_Large_01]",
     "AssetType": "Mesh"
   },
   {
@@ -563,5 +548,10 @@
     "Id": "PreLoadAsset_MeshCollier_Junk_Glasses",
     "Address": "MeshCollider_Junk_Glasses",
     "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_ItemObject",
+    "Address": "ItemObject",
+    "AssetType": null
   }
 ]
