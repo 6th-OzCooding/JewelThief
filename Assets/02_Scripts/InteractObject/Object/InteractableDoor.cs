@@ -3,6 +3,7 @@
 public class InteractableDoor : BaseDisarmableObejct
 {
     [SerializeField] private InteractableContainerAnimeController _animController;
+    [SerializeField] private AudioSource _audioSource;
 
     private string _doorMeshPrefabPath;
     private GameObject _doorMeshObject;
@@ -48,6 +49,7 @@ public class InteractableDoor : BaseDisarmableObejct
     private void OpenDoor()
     {
         _animController.SetStat(InteractableObjectAnimState.Open);
+        _audioSource.Play();
     }
 
     protected override void OnDisarm(bool isCollectToolUse)

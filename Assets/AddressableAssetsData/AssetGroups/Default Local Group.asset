@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -87,6 +87,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 25af85828bde484408ec40d86c4e07e6
     m_Address: Junk_Glasses
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28b8fa1dd7262c34c8b89c634be5eea8
+    m_Address: Mesh_Safe_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -350,13 +355,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 98ce49082421aa4419717dc82143e687
-    m_Address: Z_FootStep_02
+  - m_GUID: 97e760ff9a04b8747bd68669d98b05b7
+    m_Address: ItemObject
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 97e760ff9a04b8747bd68669d98b05b7
-    m_Address: ItemObject
+  - m_GUID: 98ce49082421aa4419717dc82143e687
+    m_Address: Z_FootStep_02
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -400,6 +405,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acbccfaa10f61c4429d88b29a16e249e
+    m_Address: Demo Room5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aeb016aa83d140446a9f376bd9e5c716
     m_Address: PaintingFrame_Black
     m_ReadOnly: 0
@@ -407,11 +417,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: afbc89f99e3d172439bbe146488edce4
     m_Address: Painting_3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: acbccfaa10f61c4429d88b29a16e249e
-    m_Address: Demo Room5
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -445,13 +450,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cb370af80a08891498553785223cbb0a
-    m_Address: Junk_Can_Navy
+  - m_GUID: c9f67c3b5052b1c47978d3b05313adb9
+    m_Address: Painting_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c9f67c3b5052b1c47978d3b05313adb9
-    m_Address: Painting_2
+  - m_GUID: cb370af80a08891498553785223cbb0a
+    m_Address: Junk_Can_Navy
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -542,6 +547,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7d69863d0e540540816e3ea2b33a8d7
     m_Address: Statue_Copper
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eabcd23a2540e4946a4f5b3a8834d6f5
+    m_Address: Mesh_BrokenIronBox_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
