@@ -233,6 +233,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private async UniTaskVoid EnterInGameAsync(string stageId)
     {
         IsEnteringInGame = true;
+        UI.OpenInGameLoadingUI();
 
         if (_lobbyInstance != null)
             _lobbyInstance.SetActive(false);
@@ -251,6 +252,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isInGame = true;
         _isPaused = false;
 
+        UI.CloseInGameLoadingUI();
         IsEnteringInGame = false;
     }
 

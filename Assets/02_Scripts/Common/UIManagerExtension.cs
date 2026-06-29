@@ -31,7 +31,8 @@ public enum UIType
     SimplePopupUI,
     ShopInfoPopupUI,
     ScorePopupUI,
-    JewelInventoryUI
+    JewelInventoryUI,
+    InGameLoadingUI
 }
 
 /// <summary>
@@ -133,6 +134,22 @@ public static class UIManagerExtension
     public static void CloseMainUI(this UIManager uiManager)
     {
         uiManager.CloseUI(UIType.TitleUI);
+    }
+
+    /// <summary>
+    /// 인게임 진입(맵 생성) 중 표시되는 로딩 UI를 엽니다.
+    /// </summary>
+    public static UIBase OpenInGameLoadingUI(this UIManager uiManager)
+    {
+        return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.InGameLoadingUI);
+    }
+
+    /// <summary>
+    /// 인게임 진입 중 표시되는 로딩 UI를 닫습니다.
+    /// </summary>
+    public static void CloseInGameLoadingUI(this UIManager uiManager)
+    {
+        uiManager.CloseUI(UIType.InGameLoadingUI);
     }
 
     /// <summary>
