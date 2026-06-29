@@ -13,7 +13,7 @@
       "Yellow"
     ],
     "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
-    "Husks": "Pool_Tool",
+    "Husks": "ToolObject",
     "StringHoldType": "Hold",
     "MeshCollider": null
   },
@@ -31,7 +31,7 @@
       "Black"
     ],
     "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
-    "Husks": "Pool_Tool",
+    "Husks": "ToolObject",
     "StringHoldType": "Hold",
     "MeshCollider": null
   },
@@ -50,7 +50,7 @@
       "Lit"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "Pool_Jewel",
+    "Husks": "JewelObject",
     "StringHoldType": "Hold",
     "MeshCollider": null
   },
@@ -68,7 +68,7 @@
       "M_Gemstone_Amethyst"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "Pool_Jewel",
+    "Husks": "JewelObject",
     "StringHoldType": "Pocket",
     "MeshCollider": null
   },
@@ -86,7 +86,7 @@
       "M_Gemstone_Aquamarine"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "Pool_Jewel",
+    "Husks": "JewelObject",
     "StringHoldType": "Pocket",
     "MeshCollider": null
   },
@@ -104,7 +104,7 @@
       "M_Gemstone_Emerald"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "Pool_Jewel",
+    "Husks": "JewelObject",
     "StringHoldType": "Pocket",
     "MeshCollider": null
   },
@@ -122,7 +122,7 @@
       "M_Gemstone_Ruby"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "Pool_Jewel",
+    "Husks": "JewelObject",
     "StringHoldType": "Pocket",
     "MeshCollider": null
   },
@@ -140,7 +140,7 @@
       "M_Gemstone_Sapphire"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "Pool_Jewel",
+    "Husks": "JewelObject",
     "StringHoldType": "Pocket",
     "MeshCollider": null
   },
@@ -158,7 +158,7 @@
       "M_Gemstone_Topaz"
     ],
     "MeshPath": "Jewel_Cone[Cone]",
-    "Husks": "Pool_Jewel",
+    "Husks": "JewelObject",
     "StringHoldType": "Pocket",
     "MeshCollider": null
   },
@@ -435,7 +435,7 @@
       "PolygonNightclubs_01_A"
     ],
     "MeshPath": "Junk_Microphone[SM_Prop_Microphone_01]",
-    "Husks": null,
+    "Husks": "JunkObject",
     "StringHoldType": null,
     "MeshCollider": null
   },
@@ -454,7 +454,7 @@
       "PolygonNightclubs_01_A"
     ],
     "MeshPath": "Junk_Sculpture[SM_Prop_Sculpture_01]",
-    "Husks": null,
+    "Husks": "JunkObject",
     "StringHoldType": null,
     "MeshCollider": null
   }
