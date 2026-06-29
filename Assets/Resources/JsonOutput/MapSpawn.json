@@ -42,6 +42,33 @@
     ]
   },
   {
+    "Id": "MapSpawn_Floor_Statue",
+    "StringSpawnArea": "Floor",
+    "StringSpawnType": "Statue",
+    "StringInteractType": "Interact",
+    "PoolAddress": "Pool_Statue",
+    "ItemId": [
+      "Item_Statue_Stone",
+      "Item_Statue_Copper",
+      "Item_Statue_Metal",
+      "Item_Statue_Marble"
+    ]
+  },
+  {
+    "Id": "MapSpawn_Floor_Container",
+    "StringSpawnArea": "Floor",
+    "StringSpawnType": "FloorContainer",
+    "StringInteractType": "Disarm",
+    "PoolAddress": "InteractableContainer_Prefab",
+    "ItemId": [
+      "Object_02",
+      "Object_03",
+      "Object_04",
+      "Object_05",
+      "Object_06"
+    ]
+  },
+  {
     "Id": "MapSpawn_Wall_Painting",
     "StringSpawnArea": "Wall",
     "StringSpawnType": "Painting",
@@ -53,6 +80,16 @@
       "Item_Painting_03",
       "Item_Painting_04",
       "Item_Painting_05"
+    ]
+  },
+  {
+    "Id": "MapSpawn_FloorWall_Container",
+    "StringSpawnArea": "FloorWall",
+    "StringSpawnType": "WallContainer",
+    "StringInteractType": "Disarm",
+    "PoolAddress": "InteractableContainer_Prefab",
+    "ItemId": [
+      "Object_01"
     ]
   }
 ]

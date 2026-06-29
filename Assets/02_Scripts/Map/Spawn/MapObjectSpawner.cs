@@ -18,6 +18,8 @@ public class MapObjectSpawner
         {
             { AreaType.Floor, new FloorProvider() },
             { AreaType.Wall, new WallProvider() },
+            { AreaType.Ceiling, new CeilingProvider() },
+            { AreaType.FloorWall, new FloorWallProvider() }
         };
     }
 
@@ -56,7 +58,7 @@ public class MapObjectSpawner
                 continue;
             }
 
-            if (!TrySpawn(request.SpawnData, spawnInfo.Position, spawnInfo.Rotation, spawnInfo.IsGravityOff))
+            if (!TrySpawn(request.SpawnData, spawnInfo.Position, spawnInfo.Rotation, spawnInfo.IsKinematic))
             {
                 Debug.LogWarning($"스폰 실패: {request.SpawnData.Id}");
                 continue;
@@ -66,16 +68,15 @@ public class MapObjectSpawner
         }
     }
 
-    private bool TrySpawn(MapSpawnData data, Vector3 position, Quaternion rotation , bool isGravityOff = false)
+    private bool TrySpawn(MapSpawnData data, Vector3 position, Quaternion rotation, bool isKinematic = false)
     {
         string itemId = data.ItemId[Random.Range(0, data.ItemId.Count)];
         string poolAddress = data.PoolAddress;
-        data.GetAreaType();
 
         switch (data.GetInteractType())
         {
             case InteractType.Interact:
-                GameManager.Pool.SpawnFromPool<BaseInteractableObject>(poolAddress, position, rotation).InitFromSpawner(itemId, isGravityOff);
+                GameManager.Pool.SpawnFromPool<BaseInteractableObject>(poolAddress, position, rotation).InitFromSpawner(itemId, isKinematic);
                 return true;
             case InteractType.Disarm:
                 GameManager.Pool.SpawnFromPool<BaseDisarmableObejct>(poolAddress, position, rotation).InitFromSpawner(itemId);
