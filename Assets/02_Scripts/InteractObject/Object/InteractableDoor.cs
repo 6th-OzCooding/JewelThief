@@ -43,7 +43,10 @@ public class InteractableDoor : BaseDisarmableObejct
         _doorMeshObject = obj;
 
         if (_animController != null)
+        {
             _animController.InitMeshAnime(obj);
+            _audioSource = _doorMeshObject.GetComponentInChildren<AudioSource>();
+        }
     }
 
     private void OpenDoor()

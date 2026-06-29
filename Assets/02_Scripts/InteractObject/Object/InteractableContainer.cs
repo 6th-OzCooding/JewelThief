@@ -70,7 +70,6 @@ public class InteractableContainer : BaseDisarmableObejct
         InitStringListData(_requiredToolIdList, data.RequiresToolIdList);
         _isInteractable = true;
         _hasRequiresTool = false;
-        _audioSource = _meshObject.GetComponentInChildren<AudioSource>();
     }
 
     private void InitStringListData(List<string> requierInitList, List<string> loadDataList)
@@ -140,7 +139,10 @@ public class InteractableContainer : BaseDisarmableObejct
         _meshObject = obj;
 
         if (_animController != null)
+        {
             _animController.InitMeshAnime(obj);
+            _audioSource = _meshObject.GetComponentInChildren<AudioSource>();
+        }
     }
 
     private void DestroyMeshBox()

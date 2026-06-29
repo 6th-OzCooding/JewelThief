@@ -114,7 +114,7 @@
       40
     ],
     "MaxItemCount": 5,
-    "ContainerMeshPrefabPath": "Mesh_BrokenIronBox_Prefab"
+    "ContainerMeshPrefabPath": "Mesh_IronBox_Prefab"
   },
   {
     "Id": "Object_05",
@@ -146,7 +146,7 @@
       10
     ],
     "MaxItemCount": 1,
-    "ContainerMeshPrefabPath": "Mesh_IronBox_Prefab"
+    "ContainerMeshPrefabPath": "Mesh_BrokenIronBox_Prefab"
   },
   {
     "Id": "Object_06",
