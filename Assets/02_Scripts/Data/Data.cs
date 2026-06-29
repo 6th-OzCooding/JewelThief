@@ -53,7 +53,8 @@ public enum MapSpawnObjectType
     Junk,
     Statue,
     Trap,
-    Container,
+    FloorContainer,
+    WallContainer,
     Enemy,
     Painting,
 }
@@ -189,7 +190,8 @@ public class StageData : BaseData
     public int MaxJewel;
     public int MaxJunk;
     public int MaxStatue;
-    public int MaxContainer;
+    public int MaxFloorContainer;
+    public int MaxWallContainer;
     public int MaxTrap;
     public int MaxEnemy;
     public int MaxPainting;

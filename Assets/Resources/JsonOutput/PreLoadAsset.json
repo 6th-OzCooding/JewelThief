@@ -205,6 +205,21 @@
     "AssetType": null
   },
   {
+    "Id": "PreLoadAsset_Sound_SFX_024",
+    "Address": "Z_Electricity_01",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_025",
+    "Address": "Z_FootStep_01",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_026",
+    "Address": "Z_FootStep_02",
+    "AssetType": null
+  },
+  {
     "Id": "PreLoadAsset_FBX_KeyFBX",
     "Address": "KeyFBX",
     "AssetType": null
@@ -270,6 +285,11 @@
     "AssetType": "Mesh"
   },
   {
+    "Id": "PreLoadAsset_Mesh_Jewel_Stone[Cube.058]",
+    "Address": "Jewel_Stone[Cube.058]",
+    "AssetType": "Mesh"
+  },
+  {
     "Id": "PreLoadAsset_Material_Lit",
     "Address": "Lit",
     "AssetType": null
@@ -297,16 +317,6 @@
   {
     "Id": "PreLoadAsset_GameObject_MeshIronBoxPrefab",
     "Address": "Mesh_IronBox_Prefab",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_GameObject_MeshBrokenIronBoxPrefab",
-    "Address": "Mesh_BrokenIronBox_Prefab",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_GameObject_MeshSafePrefab",
-    "Address": "Mesh_Safe_Prefab",
     "AssetType": null
   },
   {
@@ -430,11 +440,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_Police_Dog",
-    "Address": "Police_Dog",
-    "AssetType": null
-  },
-  {
     "Id": "PreLoadAsset_GameObject_StatueObject",
     "Address": "Pool_Statue",
     "AssetType": null
@@ -555,8 +560,8 @@
     "AssetType": "Mesh"
   },
   {
-    "Id": "PreLoadAsset_MeshCollier_Junk_Glasses",
-    "Address": "MeshCollider_Junk_Glasses",
-    "AssetType": "Mesh"
+    "Id": "PreLoadAsset_GameObject_ItemObject",
+    "Address": "ItemObject",
+    "AssetType": null
   }
 ]

@@ -70,11 +70,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1f84ea28775ed4f479903d2949684cc0
-    m_Address: MeshCollider_Junk_Glasses
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 223416086535a7b43a073dca9b5d410a
     m_Address: Painting_1_Mesh
     m_ReadOnly: 0
@@ -87,11 +82,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 25af85828bde484408ec40d86c4e07e6
     m_Address: Junk_Glasses
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 28b8fa1dd7262c34c8b89c634be5eea8
-    m_Address: Mesh_Safe_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -405,6 +395,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abb4da7564a49f54c8f16a13bf0865b3
+    m_Address: MeshCollider_Junk_Bottle_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: acbccfaa10f61c4429d88b29a16e249e
     m_Address: Demo Room5
     m_ReadOnly: 0
@@ -422,6 +417,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b1fda2122b30bd94caab8565edd73ca9
     m_Address: GunTrap_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be3c2daed67d47f49b2d3ce7373962d2
+    m_Address: PolygonNightclub_Mat_01_A_Metallic
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -447,6 +447,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2ee0adf282326246bc6300be2049c67
     m_Address: JewelInventory
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c5978cf060582574eac488bf33f2b54f
+    m_Address: Z_Electricity_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6774015cb57c9043b126f4904aab41f
+    m_Address: T Corridor4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -510,6 +520,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db2583b456d5bba40ae4f1447803e4f3
+    m_Address: Jewel_Stone
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: db56d1ee0639e504bb557eda71f1052f
     m_Address: Yellow
     m_ReadOnly: 0
@@ -547,11 +562,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7d69863d0e540540816e3ea2b33a8d7
     m_Address: Statue_Copper
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eabcd23a2540e4946a4f5b3a8834d6f5
-    m_Address: Mesh_BrokenIronBox_Prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
