@@ -13,7 +13,7 @@
   },
   {
     "Id": "InteractableContainer_Prefab",
-    "InitSize": 5
+    "InitSize": 10
   },
   {
     "Id": "Effect_High",
@@ -33,11 +33,11 @@
   },
   {
     "Id": "Pool_Throw",
-    "InitSize": 15
+    "InitSize": 10
   },
   {
     "Id": "Pool_Bullet",
-    "InitSize": 15
+    "InitSize": 10
   },
   {
     "Id": "Police_Normal",
