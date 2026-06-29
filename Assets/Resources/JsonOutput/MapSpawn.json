@@ -3,6 +3,7 @@
     "Id": "MapSpawn_Floor_Key",
     "StringSpawnArea": "Floor",
     "StringSpawnType": "Tool",
+    "StringInteractType": "Interact",
     "PoolAddress": "Pool_Tool",
     "ItemId": [
       "Item_Tool_Key"
@@ -12,6 +13,7 @@
     "Id": "MapSpawn_Floor_Jewel",
     "StringSpawnArea": "Floor",
     "StringSpawnType": "Jewel",
+    "StringInteractType": "Interact",
     "PoolAddress": "ItemObject",
     "ItemId": [
       "Item_Jewel_Diamond",
@@ -27,6 +29,7 @@
     "Id": "MapSpawn_Floor_Junk",
     "StringSpawnArea": "Floor",
     "StringSpawnType": "Junk",
+    "StringInteractType": "Interact",
     "PoolAddress": "ItemObject",
     "ItemId": [
       "Item_Junk_Bottle_Blue",
@@ -42,6 +45,7 @@
     "Id": "MapSpawn_Wall_Painting",
     "StringSpawnArea": "Wall",
     "StringSpawnType": "Painting",
+    "StringInteractType": "Interact",
     "PoolAddress": "ItemObject",
     "ItemId": [
       "Item_Painting_01",

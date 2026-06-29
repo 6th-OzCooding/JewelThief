@@ -50,13 +50,13 @@ public class MapObjectSpawner
 
         for (int i = 0; i < request.SpawnCount; i++)
         {
-            if (!provider.TryGetTransform(areas, out SpawnTransform transform))
+            if (!provider.GetSpawnInfo(areas, out SpawnInfo spawnInfo))
             {
                 Debug.LogWarning($"스폰 Transform 얻기 실패: {request.SpawnData.Id}");
                 continue;
             }
 
-            if (!TrySpawn(request.SpawnData, transform.Position, transform.Rotation))
+            if (!TrySpawn(request.SpawnData, spawnInfo.Position, spawnInfo.Rotation, spawnInfo.IsGravityOff))
             {
                 Debug.LogWarning($"스폰 실패: {request.SpawnData.Id}");
                 continue;
@@ -66,15 +66,16 @@ public class MapObjectSpawner
         }
     }
 
-    private bool TrySpawn(MapSpawnData data, Vector3 position, Quaternion rotation)
+    private bool TrySpawn(MapSpawnData data, Vector3 position, Quaternion rotation , bool isGravityOff = false)
     {
         string itemId = data.ItemId[Random.Range(0, data.ItemId.Count)];
         string poolAddress = data.PoolAddress;
+        data.GetAreaType();
 
         switch (data.GetInteractType())
         {
             case InteractType.Interact:
-                GameManager.Pool.SpawnFromPool<BaseInteractableObject>(poolAddress, position, rotation).InitFromSpawner(itemId);
+                GameManager.Pool.SpawnFromPool<BaseInteractableObject>(poolAddress, position, rotation).InitFromSpawner(itemId, isGravityOff);
                 return true;
             case InteractType.Disarm:
                 GameManager.Pool.SpawnFromPool<BaseDisarmableObejct>(poolAddress, position, rotation).InitFromSpawner(itemId);

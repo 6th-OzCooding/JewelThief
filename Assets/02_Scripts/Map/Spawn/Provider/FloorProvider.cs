@@ -17,7 +17,7 @@ public class FloorProvider : ISpawnPositionProvider
         _obstacleLayer = LayerMask.GetMask("Obstacle");
     }
 
-    public bool TryGetTransform(IReadOnlyList<SpawnArea> spawnAreas, out SpawnTransform transform)
+    public bool GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas, out SpawnInfo transform)
     {
         for (int i = 0; i < _spawnTryCount; i++)
         {
@@ -32,7 +32,7 @@ public class FloorProvider : ISpawnPositionProvider
             if (Physics.CheckBox(position, _checkHalfExtents, Quaternion.identity, _obstacleLayer))
                 continue;
 
-            transform = new SpawnTransform(position, Quaternion.identity);
+            transform = new SpawnInfo(position, Quaternion.identity);
             return true;
         }
 

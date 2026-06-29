@@ -2,7 +2,7 @@
 
 public class CeilingProvider : ISpawnPositionProvider
 {
-    public bool TryGetTransform(IReadOnlyList<SpawnArea> spawnAreas, out SpawnTransform transform)
+    public bool GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas, out SpawnInfo transform)
     {
         transform = default;
         return false;

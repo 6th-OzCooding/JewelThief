@@ -18,7 +18,7 @@ public class WallProvider : ISpawnPositionProvider
         _obstacleLayer = LayerMask.GetMask("Obstacle");
     }
 
-    public bool TryGetTransform(IReadOnlyList<SpawnArea> spawnAreas, out SpawnTransform transform)
+    public bool GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas, out SpawnInfo transform)
     {
         for (int i = 0; i < _spawnTryCount; i++)
         {
@@ -37,7 +37,7 @@ public class WallProvider : ISpawnPositionProvider
             if (Physics.CheckBox(position, _checkHalfExtents, rotation, _obstacleLayer))
                 continue;
 
-            transform = new SpawnTransform(position, rotation);
+            transform = new SpawnInfo(position, rotation, true);
             return true;
         }
 

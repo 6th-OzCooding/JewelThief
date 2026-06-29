@@ -20,6 +20,8 @@ public class Item : BaseInteractableObject
 
     protected override void OnInitalized()
     {
+        base.OnInitalized();
+
         _objectId = _itemData.Id;
         _objectName = _itemData.Name;
 

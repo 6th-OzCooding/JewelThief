@@ -3,17 +3,19 @@ using UnityEngine;
 
 public interface ISpawnPositionProvider
 {
-    bool TryGetTransform(IReadOnlyList<SpawnArea> spawnAreas, out SpawnTransform transform);
+    bool GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas, out SpawnInfo spawnInfo);
 }
 
-public struct SpawnTransform
+public struct SpawnInfo
 {
     public Vector3 Position;
     public Quaternion Rotation;
+    public bool IsGravityOff;
 
-    public SpawnTransform(Vector3 position, Quaternion rotation)
+    public SpawnInfo(Vector3 position, Quaternion rotation, bool isGravityOff = false)
     {
         Position = position;
         Rotation = rotation;
+        IsGravityOff = isGravityOff;
     }
 }
