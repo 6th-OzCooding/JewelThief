@@ -1,7 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using NUnit.Framework;
 using System;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -22,12 +24,11 @@ public class GameManager : SingletonBehaviour<GameManager>
     private AlertManager _alertManager = new();
     private DataTable _dataTable = new();
     private UIManager _uiManager = new();
-    private WFCMapGeneration _wfcMapGeneration = new();
     private UserDataManager _userDataManager = new();
     private ShopManager _shopManager = new();
 
+    private WFCMapGeneration _wfcMapGeneration;
     private LobbyController _lobbyController;
-    private PlayerController _playerController;
     private GameObject _jewelPuzzleInstance;
 
     #endregion
@@ -37,13 +38,16 @@ public class GameManager : SingletonBehaviour<GameManager>
     [Header("Test Options")]
     [SerializeField] private bool _skipStartupUIForTest;
 
-    private bool _isPlaying = false;
+    private bool _isInGame = false;
+    private bool _isPaused = false;
 
     private Transform _mapRoot = null;
     private Transform _poolRoot = null;
 
     private GameObject _lobbyPrefab;
     private GameObject _lobbyInstance;
+
+    private NavMeshSurface _navMeshSurface = null;
 
     private string[] _removeToolIdsWhenInGameExit = { "Item_Tool_MasterKey", };
 
@@ -57,15 +61,22 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     #region Getters
 
-    public bool IsPlaying => _isPlaying;
+    /// <summary>
+    /// 현재 플레이어가 실제 스테이지 플레이 상태에 있는지 반환합니다.
+    /// </summary>
+    public bool IsInGame => _isInGame;
+
+    /// <summary>
+    /// 현재 게임플레이가 일시정지 상태인지 반환합니다.
+    /// </summary>
+    public bool IsPaused => _isPaused;
 
     #endregion
 
     // 전역 데이터 추가
-    public int _gold;
-    public string _selectedStageId;
+    public int Gold { get; private set; }
+    public string SelectedStageId;
 
-    public int Gold => _gold;
 
     // 골드 증가 (판매소 등)
     public void AddGold(int amount)
@@ -73,16 +84,16 @@ public class GameManager : SingletonBehaviour<GameManager>
         if (amount <= 0)
             return;
 
-        _gold += amount;
+        Gold += amount;
     }
 
     // 골드 차감 시도 (상점 등)
     public bool TrySpendGold(int amount)
     {
-        if (amount <= 0 || _gold < amount)
+        if (amount <= 0 || Gold < amount)
             return false;
 
-        _gold -= amount;
+        Gold -= amount;
         return true;
     }
 
@@ -108,7 +119,9 @@ public class GameManager : SingletonBehaviour<GameManager>
         {
             await Resource.Init();
             InitNonAsync();
-            UI.ShowInventorySystemTestUI();
+
+            PlayerController playerController = EnterLobby(true);
+            UI.ShowStartupUIOnGameStart(playerController);
             return;
         }
 
@@ -136,12 +149,13 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void InitNonAsync()
     {
         _soundManager.Init(this.gameObject);
+        _wfcMapGeneration = new();
         PoolInit();
     }
 
     private void Update()
     {
-        if(_isPlaying)
+        if(_isInGame && !_isPaused)
         {
             _alertManager.OnUpdate();
         }
@@ -178,10 +192,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             }
 
             if (_lobbyInstance.TryGetComponent(out _lobbyController))
-            {
-                _playerController = _lobbyController.Enter();
-                return _playerController;
-            }
+                return _lobbyController.Enter();
             else
                 Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
         }
@@ -194,8 +205,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             }
 
             _lobbyInstance.SetActive(true);
-            _playerController = _lobbyController.Enter();
-            return _playerController;
+            return _lobbyController.Enter();
         }
 
         return null;
@@ -203,7 +213,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public void EnterInGame(string StageId)
     {
-        GenerateMap().Forget();
+        GenerateMap();
 
         if (_lobbyInstance != null)
             _lobbyInstance.SetActive(false);
@@ -215,7 +225,8 @@ public class GameManager : SingletonBehaviour<GameManager>
             _alertManager.Init(stageData.TimeLimit);
         }
 
-        _isPlaying = true;
+        _isInGame = true;
+        _isPaused = false;
     }
 
     /// <summary>
@@ -223,7 +234,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     /// </summary>
     public void ExitInGame()
     {
-        _isPlaying = false;
+        _isInGame = false;
+        _isPaused = false;
 
         _wfcMapGeneration.Release();
 
@@ -241,46 +253,34 @@ public class GameManager : SingletonBehaviour<GameManager>
         #endif
     }
 
-    private async UniTaskVoid GenerateMap()
+    // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
+    private void GenerateMap()
     {
-        // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
-        if(null == _mapRoot)
+        if (null == _mapRoot)
         {
             _mapRoot = Utils.CreateEmptyGameObject("MapRoot", this.gameObject.transform).transform;
+            _navMeshSurface = Utils.GetOrAddComponent<NavMeshSurface>(_mapRoot.gameObject);
+            _navMeshSurface.collectObjects = CollectObjects.Children;
+            _navMeshSurface.layerMask = LayerMask.GetMask("Floor");
         }
 
-        await _wfcMapGeneration.StartGenerateMap(_mapRoot);
-
-        TeleportPlayerToBaseTile();
+        _wfcMapGeneration.StartGenerateMap(_navMeshSurface, _mapRoot).Forget();
     }
 
-    private void TeleportPlayerToBaseTile()
+    /// <summary>
+    /// 현재 인게임 상태를 유지한 채 게임플레이 진행을 일시정지합니다.
+    /// </summary>
+    public void PauseGame()
     {
-        if (_playerController == null)
-        {
-            Debug.LogError("PlayerController가 캐싱되지 않았습니다.");
-            return;
-        }
-
-        if (_wfcMapGeneration.TryGetBaseTileWorldPosition(out Vector3 baseTileWorldPosition))
-        {
-            _playerController.Teleport(baseTileWorldPosition);
-        }
-        else Debug.LogError("베이스 타일 위치를 찾지 못했습니다.");
-
-        _playerController.SetInputMode(PlayerInputMode.Gameplay);
+        _isPaused = true;
     }
 
-    // 보석 인벤토리 열림
-    public void PauseGameForPuzzle()
+    /// <summary>
+    /// 게임플레이 일시정지를 해제합니다.
+    /// </summary>
+    public void ResumeGame()
     {
-        _isPlaying = false;
-    }
-
-    // 보석 이벤토리 닫힘
-    public void ResumeGameFromPuzzle()
-    {
-        _isPlaying = true;
+        _isPaused = false;
     }
 
     private void PoolInit()

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4360115724694758474}
   - component: {fileID: 1785641250270465114}
   - component: {fileID: 285182022136296675}
-  - component: {fileID: -3145963593205220391}
+  - component: {fileID: 8821510245193008419}
   m_Layer: 0
   m_Name: JewelObject
   m_TagString: Untagged
@@ -158,7 +158,7 @@ MonoBehaviour:
   _meshFilter: {fileID: 7579949314134301663}
   _meshRenderer: {fileID: 5492226529130480329}
   _meshCollider: {fileID: 4360115724694758474}
---- !u!114 &-3145963593205220391
+--- !u!114 &8821510245193008419
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

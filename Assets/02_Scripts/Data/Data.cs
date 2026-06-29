@@ -85,16 +85,8 @@ public class ItemData : BaseData
         => Enum.TryParse<ItemGrade>(StringItemGrade, out var result) ? result : ItemGrade.None;
     public ItemType GetItemType()
         => Enum.TryParse<ItemType>(StringItemType, out var result) ? result : ItemType.None;
-}
-
-[Serializable]
-public class InventoryTypeData : BaseData
-{
-    public string Name;
-    public string CurrentHoldType;
-
     public HoldType GetHoldType()
-        => Enum.TryParse<HoldType>(CurrentHoldType, out var result) ? result : HoldType.None;
+        => Enum.TryParse<HoldType>(StringHoldType, out var result) ? result : HoldType.None;
 }
 
 [Serializable]
@@ -177,4 +169,22 @@ public class StageData : BaseData
     public int MaxTrap;
     public int ExitCount;
     public int EnemyId;
+    public List<string> TileAddress;
+}
+
+[Serializable]
+public class EnemyData : BaseData
+{
+    public string Name;
+    public float ViewRadius;
+    public float ViewAngle;
+    public float ViewHeight;
+    public float DetectRadius;
+    public float WalkSpeed;
+    public float RunSpeed;
+    public float AttackRadius;
+    public float MinApproachDistance;
+    public float AttackDelay;
+    public float AttackDamage;
+    public string PrefabAddress;
 }

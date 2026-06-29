@@ -15,16 +15,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_Stage1_BackUpTile",
-    "Address": "BackUpTile",
-    "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Stage1_TestPresetTile",
-    "Address": "TestPresetTile",
-    "AssetType": null
-  },
-  {
     "Id": "PreLoadAsset_Stage1_Vertical Corridor",
     "Address": "Vertical Corridor",
     "AssetType": null
@@ -275,11 +265,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_GameObject_JewelObject",
-    "Address": "Pool_Jewel",
-    "AssetType": null
-  },
-  {
     "Id": "PreLoadAsset_Mesh_Jewel_Cone[Cone]",
     "Address": "Jewel_Cone[Cone]",
     "AssetType": "Mesh"
@@ -342,6 +327,231 @@
   {
     "Id": "PreLoadAsset_PoliceThrow_Object",
     "Address": "Pool_Throw",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_1[Painting_1]",
+    "Address": "Painting_1_Mesh[Painting_1]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_2[Painting_2]",
+    "Address": "Painting_2_Mesh[Painting_2]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_3[Painting_8]",
+    "Address": "Painting_3_Mesh[Painting_8]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_4[Painting_4]",
+    "Address": "Painting_4_Mesh[Painting_4]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Painting_5[Painting_5]",
+    "Address": "Painting_5_Mesh[Painting_5]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_1",
+    "Address": "Painting_1",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_2",
+    "Address": "Painting_2",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_3",
+    "Address": "Painting_3",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_6",
+    "Address": "Painting_6",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Painting_8",
+    "Address": "Painting_8",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_Gold",
+    "Address": "PaintingFrame_Gold",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_Black",
+    "Address": "PaintingFrame_Black",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_White",
+    "Address": "PaintingFrame_White",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PaintingFrame_WoodHell",
+    "Address": "PaintingFrame_WoodHell",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_PoliceShoot_Object",
+    "Address": "Pool_Bullet",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Police_Normal",
+    "Address": "Police_Normal",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Police_Shoot",
+    "Address": "Police_Shoot",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Police_Throw",
+    "Address": "Police_Throw",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Police_Dog",
+    "Address": "Police_Dog",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_StatueObject",
+    "Address": "Pool_Statue",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_SeatedLion",
+    "Address": "SeatedLion[Seated_Lion_LOD0]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Stone",
+    "Address": "Statue_Stone",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Copper",
+    "Address": "Statue_Copper",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Metal",
+    "Address": "Statue_Metal",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Statue_Marble",
+    "Address": "Statue_Marble",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_TCorridor1",
+    "Address": "T Corridor1",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_TCorridor2",
+    "Address": "T Corridor2",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_TCorridor3",
+    "Address": "T Corridor3",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_TCorridor4",
+    "Address": "T Corridor4",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Demo Room5",
+    "Address": "Demo Room5",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Demo Room6",
+    "Address": "Demo Room6",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Stage1_Demo Room7",
+    "Address": "Demo Room7",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_PolygonNightclubs_01_A",
+    "Address": "PolygonNightclubs_01_A",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Bottle_Blue",
+    "Address": "Junk_Bottle_Blue[SM_Prop_Bar_Bottle_07]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Bottle_Pink_Large",
+    "Address": "Junk_Bottle_Pink_Large[SM_Prop_Bottle_Large_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Can_Navy",
+    "Address": "Junk_Can_Navy[SM_Prop_Can_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Fish",
+    "Address": "Junk_Fish[SM_Prop_Display_Fish_02]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Glasses",
+    "Address": "Junk_Glasses[SM_Prop_Glasses_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Microphone",
+    "Address": "Junk_Microphone[SM_Prop_Microphone_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Junk_Sculpture",
+    "Address": "Junk_Sculpture[SM_Prop_Sculpture_01]",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Material_PolygonNightclub_Mat_01_A_Metallic",
+    "Address": "PolygonNightclub_Mat_01_A_Metallic",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_MeshCollier_Junk_Bottle_Blue",
+    "Address": "MeshCollider_Junk_Bottle_Blue",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_MeshCollider_Junk_Bottle_Pink_Large",
+    "Address": "MeshCollider_Junk_Bottle_Pink_Large",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_MeshCollier_Junk_Glasses",
+    "Address": "MeshCollider_Junk_Glasses",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_ItemObject",
+    "Address": "ItemObject",
     "AssetType": null
   }
 ]

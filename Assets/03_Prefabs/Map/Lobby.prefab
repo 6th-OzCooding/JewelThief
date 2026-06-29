@@ -14646,7 +14646,7 @@ GameObject:
   - component: {fileID: 8455537949901002402}
   - component: {fileID: 2416352675209394402}
   - component: {fileID: 479592415987639581}
-  - component: {fileID: 4258658098753049809}
+  - component: {fileID: 989368628541935301}
   m_Layer: 0
   m_Name: StageSelectChair
   m_TagString: Untagged
@@ -14762,7 +14762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageSelectChair
   _name: "\uC2A4\uD14C\uC774\uC9C0 \uC120\uD0DD"
   _stageSelectController: {fileID: 996879441456969415}
---- !u!114 &4258658098753049809
+--- !u!114 &989368628541935301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8375938101542100599}
   - component: {fileID: 3934776421292825283}
   - component: {fileID: 1939727076065272339}
+  - component: {fileID: 7668982404217759346}
   m_Layer: 0
   m_Name: InteractableContainer_Prefab
   m_TagString: Untagged
@@ -82,3 +83,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273415f78d5d1524191d0c4088dc22ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableContainerAnimeController
+--- !u!114 &7668982404217759346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525542138672972026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d7236001bc418b9bd6d526127f8e73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PopupInfoTarget
+  _targetType: 2

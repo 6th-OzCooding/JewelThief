@@ -1,10 +1,14 @@
 [
   {
-    "Id": "Pool_Jewel",
-    "InitSize": 10
+    "Id": "ItemObject",
+    "InitSize": 20
   },
   {
     "Id": "Pool_Tool",
+    "InitSize": 5
+  },
+  {
+    "Id": "Pool_Statue",
     "InitSize": 5
   },
   {
@@ -26,5 +30,29 @@
   {
     "Id": "Door_Prefab",
     "InitSize": 5
+  },
+  {
+    "Id": "Pool_Throw",
+    "InitSize": 10
+  },
+  {
+    "Id": "Pool_Bullet",
+    "InitSize": 10
+  },
+  {
+    "Id": "Police_Normal",
+    "InitSize": 3
+  },
+  {
+    "Id": "Police_Shoot",
+    "InitSize": 3
+  },
+  {
+    "Id": "Police_Throw",
+    "InitSize": 3
+  },
+  {
+    "Id": "Police_Dog",
+    "InitSize": 3
   }
 ]

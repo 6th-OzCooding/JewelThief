@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum BoxState
+public enum InteractableObjectAnimState
 {
     Idle,
     Open
@@ -8,40 +8,40 @@ public enum BoxState
 
 public class InteractableContainerAnimeController : MonoBehaviour
 {
-    private Animator _animatorBox;
-    private BoxState _currentStat;
+    private Animator _animatorInteractableObject;
+    private InteractableObjectAnimState _currentStat;
 
-    public bool HasAnimator => _animatorBox != null;
+    public bool HasAnimator => _animatorInteractableObject != null;
 
     public void InitMeshAnime(GameObject meshObject)
     {
-        _animatorBox = null;
+        _animatorInteractableObject = null;
 
         if (meshObject == null)
             return;
 
-        _animatorBox = meshObject.GetComponentInChildren<Animator>(true);
+        _animatorInteractableObject = meshObject.GetComponentInChildren<Animator>(true);
 
-        if (_animatorBox == null)
+        if (_animatorInteractableObject == null)
         {
             Debug.LogWarning($"{meshObject.name}에는 Animator가 없습니다. 애니메이션 없이 처리합니다.");
         }
     }
 
-    public void SetStat(BoxState newStat)
+    public void SetStat(InteractableObjectAnimState newStat)
     {
-        if (newStat == BoxState.Idle)
+        if (newStat == InteractableObjectAnimState.Idle)
             return;
 
-        if (_animatorBox == null)
+        if (_animatorInteractableObject == null)
             return;
 
         _currentStat = newStat;
 
         switch (_currentStat)
         {
-            case BoxState.Open:
-                _animatorBox.SetBool("isOpend", true);
+            case InteractableObjectAnimState.Open:
+                _animatorInteractableObject.SetBool("isOpend", true);
                 break;
         }
     }

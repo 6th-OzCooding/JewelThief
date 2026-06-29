@@ -148,5 +148,23 @@
     "Name": "Win_03",
     "Volume": 1,
     "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_024",
+    "Name": "Z_Electricity_01",
+    "Volume": 1,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_025",
+    "Name": "Z_FootStep_01",
+    "Volume": 1,
+    "IsLoop": false
+  },
+  {
+    "Id": "Sound_SFX_026",
+    "Name": "Z_FootStep_02",
+    "Volume": 1,
+    "IsLoop": false
   }
 ]
