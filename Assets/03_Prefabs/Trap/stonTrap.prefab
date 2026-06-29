@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6376844237189004946}
   - component: {fileID: 3604614728384682636}
   - component: {fileID: 8434473862896825431}
+  - component: {fileID: -2523256828222936087}
   m_Layer: 0
   m_Name: stonTrap
   m_TagString: Untagged
@@ -116,6 +117,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-2523256828222936087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526006210144340232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d7236001bc418b9bd6d526127f8e73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PopupInfoTarget
+  _targetType: 3
 --- !u!1 &7098412230891606134
 GameObject:
   m_ObjectHideFlags: 0

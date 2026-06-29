@@ -1,20 +1,15 @@
 ﻿using TeamConvention.Interfaces;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class StoneTrap : BaseDisarmableObejct
 {
     [SerializeField] private Transform spawnPo;
-    ItemData stoneData;
     private bool _isWorked = false;
     
     private void SpawnRemainItem(string itemId, Vector3 playerPos) 
     {
-        string poolPrefab = GameManager.DataTable.GetItemData(itemId).Husks;
-        var stoneObject = GameManager.Pool.SpawnFromPool("Pool_Jewel", playerPos);
-        stoneObject.GetComponent<Jewel>().InitFromSpawner(itemId);
-    
-    
+        var stoneObject = GameManager.Pool.SpawnFromPool("ItemObject", playerPos);
+        stoneObject.GetComponent<Item>().InitFromSpawner(itemId);
     }
     protected override void LoadData(string id) { }
     protected override void OnDisarm()
@@ -25,7 +20,7 @@ public class StoneTrap : BaseDisarmableObejct
     private void OnTriggerEnter(Collider other)
     {
         if (_isWorked|| _isDisarmed) { return; }
-        ItemData stoneData = GameManager.DataTable.GetItemData("Item_Jewel_Stone");
+        ItemData stoneData = GameManager.DataTable.GetItemData("Item_Junk_Stone");
         if (other.CompareTag("Player"))
         {
             Debug.Log("플레이어 감지 ");

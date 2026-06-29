@@ -163,23 +163,6 @@
     "MeshCollider": null
   },
   {
-    "Id": "Item_Jewel_Stone",
-    "Name": "돌",
-    "Description": "돌이다",
-    "StringItemType": "Jewel",
-    "StringItemGrade": "Rare",
-    "Weight": 1,
-    "Price": 1,
-    "IconPath": null,
-    "ChargeCount": null,
-    "MaterialPaths": [
-      "Lit"
-    ],
-    "MeshPath": "Jewel_Stone[Cube.058]",
-    "Husks": "JewelObject",
-    "HoldType": "Pocket"
-  },
-  {
     "Id": "Item_Painting_01",
     "Name": "명화",
     "Description": "벽에 걸려있는 그림이다.",
@@ -473,6 +456,24 @@
     "MeshPath": "Junk_Sculpture[SM_Prop_Sculpture_01]",
     "Husks": "JunkObject",
     "StringHoldType": null,
+    "MeshCollider": null
+  },
+  {
+    "Id": "Item_Junk_Stone",
+    "Name": "돌",
+    "Description": "돌이다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Rare",
+    "Weight": 2,
+    "Price": 1,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "Lit"
+    ],
+    "MeshPath": "Jewel_Stone[Cube.058]",
+    "Husks": "JunkObject",
+    "StringHoldType": "Pocket",
     "MeshCollider": null
   }
 ]
