@@ -6,7 +6,7 @@ public class GamePlayHelper : Editor
     [MenuItem("Tools/GamePlayHelper/End Stage")]
     private static void EndStage()
     {
-        GameManager.Instance.ExitInGame();
+        GameManager.Instance.ReturnToLobby();
     }
 
     [MenuItem("Tools/GamePlayHelper/Save Data")]

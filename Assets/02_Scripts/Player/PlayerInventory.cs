@@ -601,4 +601,25 @@ public class PlayerInventory : MonoBehaviour
             JewelInventory.AddJewelToTempQueue(gem);
         }
     }
+
+    public void RemoveAllItems()
+    {
+        _bagItems.Clear();
+        ClearHandItem(PlayerHandType.Left);
+        ClearHandItem(PlayerHandType.Right);
+
+        Debug.Log("적에게 잡혀 가방/양손 아이템이 모두 몰수되었습니다. (Tool 제외)");
+
+        // TODO(김경훈 2026-06-29): lInventoryManager의 보석 몰수 기능 확정되면 연동
+    }
+
+    public void RemoveToolItems()
+    {
+     
+        ClearHandItem(PlayerHandType.Left);
+        ClearHandItem(PlayerHandType.Right);
+
+        Debug.Log("탈출하여 양손 아이템이 사라졌습니다.");
+
+    }
 }

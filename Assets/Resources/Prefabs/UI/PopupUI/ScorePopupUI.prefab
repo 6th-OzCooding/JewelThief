@@ -206,11 +206,15 @@ MonoBehaviour:
   _aRankMin: 1000
   _bRankMin: 500
   _cRankMin: 100
+  _bonus5Min: 50
+  _bonus3Min: 30
+  _bonus1Min: 10
   _arrestText: {fileID: 5293562278404194077}
   _expensiveText: {fileID: 4333439657751502037}
   _sumText: {fileID: 5592289242398122121}
   _ratingText: {fileID: 8046246894109926387}
   _timeText: {fileID: 7380273398213070202}
+  _timeBonusText: {fileID: 7380273398213070202}
 --- !u!1 &1819063906354494334
 GameObject:
   m_ObjectHideFlags: 0

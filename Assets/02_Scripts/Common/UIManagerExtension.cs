@@ -217,6 +217,29 @@ public static class UIManagerExtension
     }
 
     /// <summary>
+    /// 결과(점수) 팝업 UI를 엽니다.
+    /// </summary>
+    public static ScorePopupUI OpenScorePopupUI(this UIManager uIManager)
+    {
+        UIBase uiBase = uIManager.OpenPopupUI(UIType.ScorePopupUI);
+        if (uiBase == null)
+            return null;
+
+        if (!uiBase.TryGetComponent(out ScorePopupUI scorePopupUI))
+        {
+            Debug.LogWarning("ScorePopupUI 프리팹에 ScorePopupUI 컴포넌트가 없습니다.");
+            return null;
+        }
+
+        return scorePopupUI;
+    }
+
+    public static void CloseScorePopupUI(this UIManager uIManager)
+    {
+        uIManager.ClosePopupUI(UIType.ScorePopupUI);
+    }
+
+    /// <summary>
     /// 게임 플레이 화면용 중앙 포인터 UI를 켜고 마우스 커서를 잠급니다.
     /// </summary>
     public static void EnterGameplayCursorMode(this UIManager uiManager)
