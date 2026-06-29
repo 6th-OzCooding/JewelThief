@@ -128,7 +128,9 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
                     if (dataId == rightHandItemDataId)
                     {
                         _hasRequiresTool = true;
+
                         // key에 따른 사용로직 추가 필요
+
                         return;
                     }
                     else if (dataId == leftHandItemDataId)

@@ -61,7 +61,7 @@ public class ShootEnemy : MonoBehaviour
             if (projScript != null && _enemyBase != null)
             {
                 // 적이 바라보는 방향으로 발사
-                projScript.Initialize(transform.forward, _enemyBase.AttackDamage);
+                projScript.Initialize(transform.forward);
             }
 
             if (_taserEffect != null)

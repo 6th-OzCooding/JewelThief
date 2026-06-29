@@ -5,13 +5,12 @@
     "ViewRadius": 5,
     "ViewAngle": 120,
     "ViewHeight": 0.8,
-    "DetectRadius": 10,
+    "DetectRadius": 15,
     "WalkSpeed": 3,
     "RunSpeed": 4.5,
     "AttackRadius": 1.5,
     "MinApproachDistance": 1,
     "AttackDelay": 0,
-    "AttackDamage": 1,
     "PrefabAddress": "Police_Normal"
   },
   {
@@ -20,13 +19,12 @@
     "ViewRadius": 8,
     "ViewAngle": 140,
     "ViewHeight": 1.2,
-    "DetectRadius": 12,
+    "DetectRadius": 18,
     "WalkSpeed": 3,
     "RunSpeed": 3,
     "AttackRadius": 8,
     "MinApproachDistance": 5,
     "AttackDelay": 1.5,
-    "AttackDamage": 5,
     "PrefabAddress": "Police_Shoot"
   },
   {
@@ -35,28 +33,12 @@
     "ViewRadius": 10,
     "ViewAngle": 140,
     "ViewHeight": 0.7,
-    "DetectRadius": 12,
+    "DetectRadius": 18,
     "WalkSpeed": 2,
     "RunSpeed": 2,
     "AttackRadius": 10,
     "MinApproachDistance": 6,
     "AttackDelay": 1,
-    "AttackDamage": 8,
     "PrefabAddress": "Police_Throw"
-  },
-  {
-    "Id": "Enemy_04",
-    "Name": "Police_Dog",
-    "ViewRadius": 20,
-    "ViewAngle": 200,
-    "ViewHeight": 0.4,
-    "DetectRadius": 30,
-    "WalkSpeed": 4,
-    "RunSpeed": 5,
-    "AttackRadius": 1,
-    "MinApproachDistance": 1,
-    "AttackDelay": 0,
-    "AttackDamage": 0.5,
-    "PrefabAddress": "Police_Dog"
   }
 ]

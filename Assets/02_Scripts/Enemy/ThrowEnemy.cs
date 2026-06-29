@@ -13,7 +13,6 @@ public class ThrowEnemy : MonoBehaviour
     private EnemyBase _enemyBase;
     private void Awake()
     {
-        // 곤봉을 던지는 캐릭터의 공격력을 가져온다.
         _enemyBase = GetComponent<EnemyBase>();
     }
 
@@ -44,7 +43,7 @@ public class ThrowEnemy : MonoBehaviour
             BarProjectile projScript = projectile.GetComponent<BarProjectile>();
             if (projScript != null && _enemyBase != null)
             {
-                projScript.Initialize(transform.forward, _enemyBase.AttackDamage);
+                projScript.Initialize(transform.forward);
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(_respawnTime), cancellationToken: token);
