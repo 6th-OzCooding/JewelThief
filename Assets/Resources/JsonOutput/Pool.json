@@ -50,9 +50,5 @@
   {
     "Id": "Police_Throw",
     "InitSize": 3
-  },
-  {
-    "Id": "Police_Dog",
-    "InitSize": 3
   }
 ]

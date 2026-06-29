@@ -37,9 +37,13 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     [Header("Test Options")]
     [SerializeField] private bool _skipStartupUIForTest;
+    [Header("InGame Spawn")]
+    [SerializeField] private float _inGameSpawnHeightOffset = 1f;
 
     public bool _isInGame { get; private set; } = false;
     public bool _isPaused { get; private set; } = false;
+
+    public bool IsEnteringInGame { get; private set; } = false;
 
     private PlayerController _playerController;
 
@@ -198,7 +202,10 @@ public class GameManager : SingletonBehaviour<GameManager>
             }
 
             if (_lobbyInstance.TryGetComponent(out _lobbyController))
-                return _lobbyController.Enter();
+            {
+                _playerController = _lobbyController.Enter();
+                return _playerController;
+            }
             else
                 Debug.LogError("Lobby 프리팹에 LobbyController 컴포넌트가 없습니다.");
         }
@@ -211,7 +218,8 @@ public class GameManager : SingletonBehaviour<GameManager>
             }
 
             _lobbyInstance.SetActive(true);
-            return _lobbyController.Enter();
+            _playerController = _lobbyController.Enter();
+            return _playerController;
         }
 
         return null;
@@ -219,12 +227,21 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public void EnterInGame(string StageId)
     {
-        GenerateMap();
+        EnterInGameAsync(StageId).Forget();
+    }
+
+    private async UniTaskVoid EnterInGameAsync(string stageId)
+    {
+        IsEnteringInGame = true;
 
         if (_lobbyInstance != null)
             _lobbyInstance.SetActive(false);
 
-        StageData stageData = _dataTable.GetStageData(StageId);
+        await GenerateMap();
+
+        RespawnPlayerToStartTile();
+
+        StageData stageData = _dataTable.GetStageData(stageId);
         if (stageData != null)
         {
             _soundManager.PlayBGM(SoundId.BGM_PlayTheme);
@@ -234,8 +251,25 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isInGame = true;
         _isPaused = false;
 
+        IsEnteringInGame = false;
     }
 
+    private void RespawnPlayerToStartTile()
+    {
+        if (_playerController == null)
+        {
+            Debug.LogError("PlayerController가 없어 시작 좌표 재스폰을 건너뜁니다.");
+            return;
+        }
+
+        if (!_wfcMapGeneration.TryGetStartTileWorldPosition(out Vector3 startPosition))
+        {
+            Debug.LogError("시작 타일 좌표를 찾지 못해 재스폰을 건너뜁니다.");
+            return;
+        }
+
+        _playerController.Teleport(startPosition + Vector3.up * _inGameSpawnHeightOffset);
+    }
     /// <summary>
     /// InGame 이탈 시점 호출
     /// </summary>
@@ -261,7 +295,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     }
 
     // TODO(김익환 2026-06-25): 맵 로딩 ui 필요
-    private void GenerateMap()
+    private async UniTask GenerateMap()
     {
         if (null == _mapRoot)
         {
@@ -271,7 +305,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             _navMeshSurface.layerMask = LayerMask.GetMask("Floor");
         }
 
-        _wfcMapGeneration.StartGenerateMap(_navMeshSurface, _mapRoot).Forget();
+        await _wfcMapGeneration.StartGenerateMap(_navMeshSurface, _mapRoot);
     }
 
     /// <summary>

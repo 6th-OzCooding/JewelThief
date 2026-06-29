@@ -102,13 +102,21 @@ public static class UIManagerExtension
         return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TitleUI);
     }
 
-    // TODO: (김경훈 - 26.06.22) 임시 추가, 계층 및 루트 확정 필요
-    public static UIBase OpenStageSelectUI(this UIManager uimanager)
+    public static StageSelectUI OpenStageSelectUI(this UIManager uimanager)
     {
-        return uimanager.OpenUI(UIRootType.MainUI, UIType.StageSelectUI);
+        UIBase uiBase = uimanager.OpenUI(UIRootType.MainUI, UIType.StageSelectUI);
+        if (uiBase == null)
+            return null;
+
+        if (!uiBase.TryGetComponent(out StageSelectUI stageSelectUI))
+        {
+            Debug.LogWarning("StageSelectUI 프리팹에 StageSelectUI 컴포넌트가 없습니다.");
+            return null;
+        }
+
+        return stageSelectUI;
     }
 
-    // TODO: (김경훈 - 26.06.22) 임시 추가, 계층 및 루트 확정 필요
     public static void CloseStageSelectUI(this UIManager uimanager)
     {
         uimanager.CloseUI(UIType.StageSelectUI);

@@ -597,6 +597,20 @@ public class WFCMapGeneration
         return tile != null;
     }
 
+    public bool TryGetStartTileWorldPosition(out Vector3 position)
+    {
+        position = default;
+
+        if (_startGrid == null)
+            return false;
+
+        if (!_generatedTiles.TryGetValue(_startGrid.Index, out MapTile startTile) || startTile == null)
+            return false;
+
+        position = startTile.transform.position;
+        return true;
+    }
+
     private Direction GetOppositeDirection(Direction direction)
     {
         return direction switch

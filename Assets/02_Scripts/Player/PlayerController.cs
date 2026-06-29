@@ -261,6 +261,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     {
         if (_inputHandler == null) return;
         if (_inputHandler.CurrentMode != PlayerInputMode.Gameplay) return;
+        if (GameManager.Instance != null && GameManager.Instance.IsEnteringInGame) return;
 
         Vector3 input = _inputHandler.InputVector;
         _moveDirection = (transform.forward * input.z + transform.right * input.x).normalized;

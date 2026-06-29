@@ -67,7 +67,10 @@ public class StageSelectController : MonoBehaviour
         await TweenCameraToScreenAsync(camTransform);
 
         await UniTask.Delay(_uiDelay);
-        GameManager.UI.OpenStageSelectUI();
+
+        StageSelectUI stageSelectUI = GameManager.UI.OpenStageSelectUI();
+        if (stageSelectUI != null)
+            stageSelectUI.SetController(this);
     }
 
     private async UniTask TweenCameraToScreenAsync(Transform camTransform)
