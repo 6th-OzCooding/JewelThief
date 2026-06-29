@@ -10,7 +10,13 @@ public class WeightSensorTrap : BaseDisarmableObejct
     [SerializeField] private Transform _pressurePlateMesh;      // 밟았을 때 발판이 살짝 아래로 내려가도록 설정
     [SerializeField] private float _pressedYOffset = -0.05f;         // 밟혔을 때 내려갈 높이
 
+    [Header("안경 투시 기믹 설정")]
+    [SerializeField] private MeshRenderer _plateRenderer;       // 안경 미착용 시 발판을 투명하게 숨길 렌더러
+    [SerializeField] private string _visibleLayer = "Interactable";
+    [SerializeField] private string _invisibleLayer = "Default";
+
     private Vector3 _initialPlateLocalPosition;
+    private bool _isTrackingGlasses = false;
 
     protected override void LoadData(string id)
     {
@@ -36,7 +42,32 @@ public class WeightSensorTrap : BaseDisarmableObejct
 
         Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = true;
+
+        _isTrackingGlasses = true;
+        UpdateTrapVisibility(false);
     }
+
+    private void Update()
+    {
+        if (!_isInitialized || _isDisarmed || !_isTrackingGlasses) return;
+
+        bool isWearingGlasses = CheckIfPlayerWearingGlasses();
+        UpdateTrapVisibility(isWearingGlasses);
+    }
+
+    private void UpdateTrapVisibility(bool isVisible)
+    {
+        if (_isDisarmed) return;
+
+        if (_plateRenderer != null)
+        {
+            _plateRenderer.enabled = isVisible;     // 안경이 없으면 투명해짐
+        }
+
+        string targetLayerName = isVisible ? _visibleLayer : _invisibleLayer;
+        gameObject.layer = LayerMask.NameToLayer(targetLayerName);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (_isDisarmed || !_isInitialized) return;
@@ -94,15 +125,30 @@ public class WeightSensorTrap : BaseDisarmableObejct
     {
         Debug.Log($"ID: {_disarmObjId} - 무력화되어 더이상 작동하지 않습니다.");
 
+        _isTrackingGlasses = false;
+
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
             col.enabled = false;
         }
 
+        if (_plateRenderer != null) _plateRenderer.enabled = true;
+        gameObject.layer = LayerMask.NameToLayer(_invisibleLayer);
+
         if (_pressurePlateMesh != null)
         {
             _pressurePlateMesh.localPosition = _initialPlateLocalPosition;
         }
+    }
+
+    private bool CheckIfPlayerWearingGlasses()
+    {
+        // 테스트용으로 G키를 누르고 있으면 안경을 쓴 것으로 간주
+        if (Input.GetKey(KeyCode.G))
+        {
+            return true;
+        }
+        return false;
     }
 }
