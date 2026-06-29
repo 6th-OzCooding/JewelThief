@@ -1,9 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class SoundManager
 {
     private AudioSource SFXSourcePlayer;
     private AudioSource BGMSourcePlayer;
+
+    private readonly Dictionary<string, CancellationTokenSource> _repeatingSfxCtsDic = new();
+
+    private readonly Dictionary<string, float> _repeatingSfxIntervalDic = new();
 
     public void Init(GameObject gameManager)
     {
@@ -70,4 +78,60 @@ public class SoundManager
         BGMSourcePlayer.pitch = Mathf.Clamp(pitch, 0f, 2f);
     }
 
+    #region Repeating SFX
+
+    public void PlayRepeatingSFX(string soundDataId, float interval)
+    {
+        if (string.IsNullOrEmpty(soundDataId))
+        {
+            Debug.LogError("반복 재생할 사운드 ID가 비어 있습니다.");
+            return;
+        }
+
+        if (interval <= 0f)
+        {
+            Debug.LogError($"반복 재생 간격이 올바르지 않습니다. interval: {interval}");
+            return;
+        }
+
+        if (_repeatingSfxCtsDic.ContainsKey(soundDataId)
+            && _repeatingSfxIntervalDic.TryGetValue(soundDataId, out float currentInterval)
+            && Mathf.Approximately(currentInterval, interval))
+        {
+            return;
+        }
+
+        StopRepeatingSFX(soundDataId);
+
+        CancellationTokenSource cts = new CancellationTokenSource();
+        _repeatingSfxCtsDic[soundDataId] = cts;
+        _repeatingSfxIntervalDic[soundDataId] = interval;
+
+        RepeatingSfxRoutine(soundDataId, interval, cts.Token).Forget();
+    }
+
+    public void StopRepeatingSFX(string soundDataId)
+    {
+        if (string.IsNullOrEmpty(soundDataId)) return;
+
+        if (_repeatingSfxCtsDic.TryGetValue(soundDataId, out CancellationTokenSource cts))
+        {
+            cts.Cancel();
+            cts.Dispose();
+            _repeatingSfxCtsDic.Remove(soundDataId);
+            _repeatingSfxIntervalDic.Remove(soundDataId);
+        }
+    }
+
+    private async UniTaskVoid RepeatingSfxRoutine(string soundDataId, float interval, CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            PlaySFX(soundDataId);
+
+            await UniTask.Delay(TimeSpan.FromSeconds(interval), cancellationToken: token).SuppressCancellationThrow();
+        }
+    }
+
+    #endregion
 }

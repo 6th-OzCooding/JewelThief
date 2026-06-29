@@ -42,6 +42,7 @@ public class ShopManager
             return false;
         }
 
+        GameManager.Sound.PlaySFX(SoundId.SFX_Purchase01);
         return true;
     }
 

@@ -115,6 +115,8 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         _uiManager.Init();
         InitAsync().Forget();
+
+        AddGold(2000);
     }
 
     private async UniTaskVoid InitAsync()

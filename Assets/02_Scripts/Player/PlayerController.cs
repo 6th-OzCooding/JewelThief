@@ -18,6 +18,14 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     private bool _isStaminaCooling = false; //스태미나 고갈을 표현하는 상태변수
     private bool _isSprinting = false; // 매 FixedUpdate 시작에 1회 계산해 캐싱하는 스프린트 상태 (한 프레임 내 일관성 보장)
 
+    [Header("발자국 사운드 설정")]
+    [SerializeField] private float _footStepInterval = 0.6f; //걷기 시 발자국 간격
+    [SerializeField] private float _footStepIntervalSprint = 0.3f; //스프린트 시 발자국 간격
+    [SerializeField] private float _footStepGroundedGrace = 0.1f; //접지가 잠깐 끊겨도 이 시간 동안은 접지로 간주(경사/이동시작 떨림 방지)
+    private bool _isFootStepPlaying = false; //발자국 반복 재생 중인지 여부
+    private bool _wasSprintingForFootStep = false; //직전 프레임의 스프린트 여부 (전환 감지용)
+    private float _lastGroundedTime = 0f; //마지막으로 접지로 판정된 시각 (디바운스용)
+
     [Header("점프관련 설정")]
     [SerializeField] private float _jumpForce = 7f; // 점프 힘 (높이 조절)
     [SerializeField] private Transform _groundCheck;    // 발 밑에 배치할 빈 오브젝트
@@ -157,6 +165,12 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
                 GameManager.Instance.OnPlayerCaught -= _playerInventory.RemoveAllItems;
             }
         }
+
+        if (_isFootStepPlaying)
+        {
+            GameManager.Sound.StopRepeatingSFX(SoundId.SFX_FootStep_01);
+            _isFootStepPlaying = false;
+        }
     }
 
     void FixedUpdate()
@@ -208,6 +222,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
                 _isStaminaCooling = false;
             }
         }
+
+        UpdateFootStepSfx();
     }
 
     private bool IsSprint() //스프린트 입력되고, 좌표 변경되는 중, 스태미나 0이상, 앉기가 입력되지 않을때 true
@@ -236,6 +252,38 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
             _rigidbody_Player.linearVelocity.y,
             _moveDirection.z * currentMoveSpeed
             );
+    }
+
+    private void UpdateFootStepSfx()
+    {
+        if (_isGrounded)
+            _lastGroundedTime = Time.time;
+
+        bool isGameplayMode = _inputHandler != null && _inputHandler.CurrentMode == PlayerInputMode.Gameplay;
+        bool hasMoveInput = _inputHandler != null && _inputHandler.HasMoveInput;
+        bool isGroundedStable = Time.time - _lastGroundedTime <= _footStepGroundedGrace;
+        bool isMoving = isGameplayMode && hasMoveInput && isGroundedStable && !_isCrouching;
+
+        if (isMoving)
+        {
+            float interval = _isSprinting ? _footStepIntervalSprint : _footStepInterval;
+            bool sprintStateChanged = _isFootStepPlaying && _wasSprintingForFootStep != _isSprinting;
+
+            if (!_isFootStepPlaying || sprintStateChanged)
+            {
+                GameManager.Sound.PlayRepeatingSFX(SoundId.SFX_FootStep_01, interval);
+                _isFootStepPlaying = true;
+                _wasSprintingForFootStep = _isSprinting;
+            }
+        }
+        else
+        {
+            if (_isFootStepPlaying)
+            {
+                GameManager.Sound.StopRepeatingSFX(SoundId.SFX_FootStep_01);
+                _isFootStepPlaying = false;
+            }
+        }
     }
 
     private float GetCurrentMoveSpeed()
@@ -331,6 +379,9 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
         {
             // Y축 방향으로 순간적인 힘을 빡 꽂아넣어 '딱딱하게' 뛰어오르게 합니다.
             _rigidbody_Player.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+
+            _isGrounded = false;
+            _lastGroundedTime = Time.time - _footStepGroundedGrace;
         }
 
         _inputHandler.JumpRequested = false;
