@@ -212,7 +212,6 @@ public class EnemyData : BaseData
     public float AttackRadius;
     public float MinApproachDistance;
     public float AttackDelay;
-    public float AttackDamage;
     public string PrefabAddress;
 }
 
