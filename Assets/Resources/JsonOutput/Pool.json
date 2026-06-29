@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "Id": "ItemObject",
     "InitSize": 20
@@ -13,7 +13,7 @@
   },
   {
     "Id": "InteractableContainer_Prefab",
-    "InitSize": 5
+    "InitSize": 10
   },
   {
     "Id": "Effect_High",
@@ -49,10 +49,6 @@
   },
   {
     "Id": "Police_Throw",
-    "InitSize": 3
-  },
-  {
-    "Id": "Police_Dog",
     "InitSize": 3
   }
 ]

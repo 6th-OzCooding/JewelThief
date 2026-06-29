@@ -4,7 +4,8 @@ using UnityEngine;
 public class WallProvider : ISpawnPositionProvider
 {
     private int _spawnTryCount = 30;
-    private float _rayDistance = 3f;
+    private float _rayDistance = 1.5f;
+    private readonly float _wallOffset = 0f;
 
     private LayerMask _wallLayer;
     private LayerMask _obstacleLayer;
@@ -27,14 +28,14 @@ public class WallProvider : ISpawnPositionProvider
 
             var dir = _directions[Random.Range(0, _directions.Length)];
 
-            if (!Physics.Raycast(randomPoint, dir, out RaycastHit hit, _rayDistance, _wallLayer))
+            if (!Physics.Raycast(randomPoint, dir, out RaycastHit hit, _rayDistance, _wallLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
-            Vector3 position = hit.point;
+            Vector3 position = hit.point + hit.normal * _wallOffset;
             // 오브젝트의 forward 방향, 로컬 Z축이 안 쪽임
             Quaternion rotation = Quaternion.LookRotation(-hit.normal, Vector3.up);
 
-            if (Physics.CheckBox(position, _checkHalfExtents, rotation, _obstacleLayer))
+            if (Physics.CheckBox(position, _checkHalfExtents, rotation, _obstacleLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
             transform = new SpawnInfo(position, rotation, true);
