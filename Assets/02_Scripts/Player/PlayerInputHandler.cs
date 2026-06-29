@@ -6,6 +6,9 @@ public class PlayerInputHandler : MonoBehaviour
 {
     public Vector3 InputVector { get; private set; } // WASD 키보드 이동값을 받는 벡터
     public Vector2 LookVector { get; private set; } //카메라 회전값을 받는 벡터
+
+    //추가 - 이동 입력이 들어와 있는지 여부 (발자국 사운드 등 떨림 없는 입력 기반 판정에 사용)
+    public bool HasMoveInput => InputVector.sqrMagnitude > 0.01f;
     public bool JumpRequested { get; set; }  // 점프 입력이 들어왔는지 확인하는 플래그
     public bool InteractRequested { get; set; } // interact입력이 들어왔는지 확인하는 플래그
     public bool SprintRequested { get; private set; } // Sprint 입력이 들어왔는지 확인하는 플래그
@@ -20,7 +23,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     public event Action OnJewelryInventoryToggleEvent; // B키 (보석 인벤토리 열기/ 닫기)
 
-    // 추가: 입력 모드 전환 (이동/시선 허용 여부 + 커서 잠금 상태를 함께 제어)
     public void SetMode(PlayerInputMode mode)
     {
         CurrentMode = mode;
@@ -63,13 +65,11 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (value.isPressed)
         {
-            //CrouchRequested = !CrouchRequested;
             OnCrouchChanged?.Invoke();
         }
-       
+
     }
 
-    // B키 보석 인벤토리
     private void OnJewelryInventory(InputValue value)
     {
         JewelryInventoryRequested = value.isPressed;
