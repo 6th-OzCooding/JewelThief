@@ -32,4 +32,7 @@ public static class SoundId
     public const string SFX_Win01 = "Sound_SFX_021";
     public const string SFX_Win02 = "Sound_SFX_022";
     public const string SFX_Win03 = "Sound_SFX_023";
+    public const string SFX_Z_Electricity_01 = "Sound_SFX_024";
+    public const string SFX_FootStep_01 = "Sound_SFX_025";
+    public const string SFX_FootStep_02 = "Sound_SFX_026";
 }

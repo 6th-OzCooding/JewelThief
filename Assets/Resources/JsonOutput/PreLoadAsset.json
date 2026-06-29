@@ -205,6 +205,21 @@
     "AssetType": null
   },
   {
+    "Id": "PreLoadAsset_Sound_SFX_024",
+    "Address": "Z_Electricity_01",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_025",
+    "Address": "Z_FootStep_01",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Sound_SFX_026",
+    "Address": "Z_FootStep_02",
+    "AssetType": null
+  },
+  {
     "Id": "PreLoadAsset_FBX_KeyFBX",
     "Address": "KeyFBX",
     "AssetType": null
