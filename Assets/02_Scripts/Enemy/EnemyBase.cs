@@ -46,9 +46,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float _minApproachDistance = 2.0f;
     // 테이저와 곤봉을 위한 딜레이 변수
     [SerializeField] private float _attackDelay = 0f;
-    // 플레이어의 스태미나를 줄이는 데미지 변수
-    [SerializeField] private float _attackDamage = 0f;
-    public float AttackDamage => _attackDamage;
+
     // 원거리 공격하는 애들한테만 쓰이는 쿨타임 중에 움직일 때, 사거리 안에 있으면 발만 움직이는 것 해결하기 위한 변수
     public bool IsAttackCooldown { get; private set; } = false;
 
@@ -292,7 +290,7 @@ public class EnemyBase : MonoBehaviour
         // 딱 공격하는 순간 일시정지가 되면 멈출 수 있게 
         await UniTask.WaitWhile(() => GameManager.Instance != null && GameManager.Instance.IsPaused, cancellationToken: CancelToken);
 
-        // 플레이어에게 공격을 했을 때, 데미지로 플레이어의 스태미나를 감소하게 하는 메서드
+        // 플레이어에게 공격을 했을 때, 체력 카운틀를 감소하는 메서드
         if (TargetPlayer != null)
         {
             PlayerController player = TargetPlayer.GetComponent<PlayerController>();

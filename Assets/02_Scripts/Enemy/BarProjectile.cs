@@ -9,13 +9,11 @@ public class BarProjectile : MonoBehaviour
     [SerializeField] private float _lifeTime = 3f;
     [SerializeField] private float _spinSpeed = 1000f; // 회전 속도
 
-    private float _damage;
     private Vector3 _flyDirection;
     private CancellationTokenSource _cts;
 
-    public void Initialize(Vector3 direction, float damage)
+    public void Initialize(Vector3 direction)
     {
-        _damage = damage;
         _flyDirection = direction.normalized;
 
         transform.forward = _flyDirection;
@@ -72,7 +70,6 @@ public class BarProjectile : MonoBehaviour
                 if (player != null)
                 {
                     player.OnPlayerHit();
-                    Debug.Log($"플레이어에게 곤봉 적중! 데미지: {_damage}");
                 }
                 ReturnToPool();
                 return;

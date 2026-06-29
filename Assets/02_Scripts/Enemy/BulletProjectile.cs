@@ -8,13 +8,11 @@ public class BulletProjectile : MonoBehaviour
     [SerializeField] private float _speed = 20f;
     [SerializeField] private float _lifeTime = 2f;
 
-    private float _damage;
     private Vector3 _flyDirection;
     private CancellationTokenSource _cts;
 
-    public void Initialize(Vector3 direction, float damage)
+    public void Initialize(Vector3 direction)
     {
-        _damage = damage;
         _flyDirection = direction.normalized;
         transform.forward = _flyDirection;
         // Dispose로 메모리 누수문제 해결
@@ -69,7 +67,6 @@ public class BulletProjectile : MonoBehaviour
                 if (player != null)
                 {
                     player.OnPlayerHit();
-                    Debug.Log($"플레이어에게 총알 적중! 데미지: {_damage}");
                 }
                 ReturnToPool();
                 return;
