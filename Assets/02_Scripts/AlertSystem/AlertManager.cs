@@ -200,7 +200,7 @@ public class AlertManager
         _currentLevel = AlertLevel.High;
 
         GameManager.Sound.StopBGM();
-        GameManager.Sound.PlaySFX(SoundId.SFX_Lose01);
+        GameManager.Sound.PlaySFX(SoundId.SFX_TimeUp01);
 
         RaiseAlertLevelChanged(_currentLevel, playSfx: false);
         OnTimeUp?.Invoke();
