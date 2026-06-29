@@ -1,14 +1,10 @@
 [
   {
-    "Id": "Pool_Jewel",
-    "InitSize": 10
+    "Id": "ItemObject",
+    "InitSize": 20
   },
   {
     "Id": "Pool_Tool",
-    "InitSize": 5
-  },
-  {
-    "Id": "Pool_Painting",
     "InitSize": 5
   },
   {

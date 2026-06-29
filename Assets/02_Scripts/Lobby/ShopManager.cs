@@ -34,7 +34,7 @@ public class ShopManager
             return false;
         }
 
-        bool isAcquired = inventoryOwner.TryAcquireItem(itemData, HoldType.Hold);
+        bool isAcquired = inventoryOwner.TryAcquireItem(itemData, itemData.GetHoldType());
         if (!isAcquired)
         {
             Debug.LogWarning("습득 실패 -> 골드 환불"); // 확인용 로그

@@ -4,7 +4,7 @@
     "Name": "만능 열쇠",
     "Description": "잠겨있는 무언가를 열 수 있다.\n여러 번 사용할 수 있다.",
     "StringItemType": "Tool",
-    "StringItemGrade": "None",
+    "StringItemGrade": "Epic",
     "Weight": 2,
     "Price": 100000,
     "IconPath": null,
@@ -14,14 +14,15 @@
     ],
     "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
     "Husks": "ToolObject",
-    "HoldType": null
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Tool_Key",
     "Name": "열쇠",
     "Description": "잠겨있는 무언가를 열 수 있다.\n한 번만 사용 할 수 있다.",
     "StringItemType": "Tool",
-    "StringItemGrade": "None",
+    "StringItemGrade": "Rare",
     "Weight": 1,
     "Price": 30,
     "IconPath": null,
@@ -31,7 +32,8 @@
     ],
     "MeshPath": "KeyFBX[SM_Gen_Prop_Key_01]",
     "Husks": "ToolObject",
-    "HoldType": null
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Jewel_Diamond",
@@ -49,7 +51,8 @@
     ],
     "MeshPath": "Jewel_Cone[Cone]",
     "Husks": "JewelObject",
-    "HoldType": "Hold"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Jewel_Amethyst",
@@ -66,7 +69,8 @@
     ],
     "MeshPath": "Jewel_Cone[Cone]",
     "Husks": "JewelObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Pocket",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Jewel_Aquamarine",
@@ -83,14 +87,15 @@
     ],
     "MeshPath": "Jewel_Cone[Cone]",
     "Husks": "JewelObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Pocket",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Jewel_Emerald",
     "Name": "에메랄드",
     "Description": "에메랄드다.",
     "StringItemType": "Jewel",
-    "StringItemGrade": "Rare",
+    "StringItemGrade": "Epic",
     "Weight": 6,
     "Price": 600,
     "IconPath": null,
@@ -100,14 +105,15 @@
     ],
     "MeshPath": "Jewel_Cone[Cone]",
     "Husks": "JewelObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Pocket",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Jewel_Ruby",
     "Name": "루비",
     "Description": "루비다.",
     "StringItemType": "Jewel",
-    "StringItemGrade": "Rare",
+    "StringItemGrade": "Unique",
     "Weight": 5,
     "Price": 500,
     "IconPath": null,
@@ -117,7 +123,8 @@
     ],
     "MeshPath": "Jewel_Cone[Cone]",
     "Husks": "JewelObject",
-    "HoldType": "Hold"
+    "StringHoldType": "Pocket",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Jewel_Sapphire",
@@ -134,7 +141,8 @@
     ],
     "MeshPath": "Jewel_Cone[Cone]",
     "Husks": "JewelObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Pocket",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Jewel_Topaz",
@@ -151,7 +159,8 @@
     ],
     "MeshPath": "Jewel_Cone[Cone]",
     "Husks": "JewelObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Pocket",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Jewel_Stone",
@@ -187,7 +196,8 @@
     ],
     "MeshPath": "Painting_1_Mesh[Painting_1]",
     "Husks": "PaintingObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Painting_02",
@@ -205,7 +215,8 @@
     ],
     "MeshPath": "Painting_2_Mesh[Painting_2]",
     "Husks": "PaintingObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Painting_03",
@@ -224,7 +235,8 @@
     ],
     "MeshPath": "Painting_3_Mesh[Painting_8]",
     "Husks": "PaintingObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Painting_04",
@@ -242,7 +254,8 @@
     ],
     "MeshPath": "Painting_4_Mesh[Painting_4]",
     "Husks": "PaintingObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Painting_05",
@@ -260,7 +273,8 @@
     ],
     "MeshPath": "Painting_5_Mesh[Painting_5]",
     "Husks": "PaintingObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Statue_Stone",
@@ -277,7 +291,8 @@
     ],
     "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
     "Husks": "StatueObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Statue_Copper",
@@ -294,7 +309,8 @@
     ],
     "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
     "Husks": "StatueObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Statue_Metal",
@@ -311,7 +327,8 @@
     ],
     "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
     "Husks": "StatueObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
   },
   {
     "Id": "Item_Statue_Marble",
@@ -328,6 +345,134 @@
     ],
     "MeshPath": "SeatedLion[Seated_Lion_LOD0]",
     "Husks": "StatueObject",
-    "HoldType": "Pocket"
+    "StringHoldType": "Hold",
+    "MeshCollider": null
+  },
+  {
+    "Id": "Item_Junk_Bottle_Blue",
+    "Name": "파란 병",
+    "Description": "평범한 파란 병이다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Rare",
+    "Weight": 5,
+    "Price": 100,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Junk_Bottle_Blue[SM_Prop_Bar_Bottle_07]",
+    "Husks": "JunkObject",
+    "StringHoldType": null,
+    "MeshCollider": "MeshCollider_Junk_Bottle_Blue"
+  },
+  {
+    "Id": "Item_Junk_Bottle_Pink_Large",
+    "Name": "큰 핑크색 병",
+    "Description": "크기가 큰 핑크색 병이다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Rare",
+    "Weight": 5,
+    "Price": 100,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Junk_Bottle_Pink_Large[SM_Prop_Bottle_Large_01]",
+    "Husks": "JunkObject",
+    "StringHoldType": null,
+    "MeshCollider": "MeshCollider_Junk_Bottle_Pink_Large"
+  },
+  {
+    "Id": "Item_Junk_Can_Navy",
+    "Name": "남색 캔",
+    "Description": "누가 먹다남은 음료이다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Rare",
+    "Weight": 5,
+    "Price": 100,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Junk_Can_Navy[SM_Prop_Can_01]",
+    "Husks": "JunkObject",
+    "StringHoldType": null,
+    "MeshCollider": null
+  },
+  {
+    "Id": "Item_Junk_Fish",
+    "Name": "청새치",
+    "Description": "엄청 큰 청새치다. 맛있어 보인다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Unique",
+    "Weight": 15,
+    "Price": 4000,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Junk_Fish[SM_Prop_Display_Fish_02]",
+    "Husks": "JunkObject",
+    "StringHoldType": "Hold",
+    "MeshCollider": null
+  },
+  {
+    "Id": "Item_Junk_Glasses",
+    "Name": "썬글라스",
+    "Description": "화려한 썬글라스다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Rare",
+    "Weight": 5,
+    "Price": 100,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Junk_Glasses[SM_Prop_Glasses_01]",
+    "Husks": "JunkObject",
+    "StringHoldType": null,
+    "MeshCollider": "MeshCollider_Junk_Glasses"
+  },
+  {
+    "Id": "Item_Junk_Microphone",
+    "Name": "마이크",
+    "Description": "손 마이크이다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Rare",
+    "Weight": 5,
+    "Price": 100,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Junk_Microphone[SM_Prop_Microphone_01]",
+    "Husks": "JunkObject",
+    "StringHoldType": null,
+    "MeshCollider": null
+  },
+  {
+    "Id": "Item_Junk_Sculpture",
+    "Name": "조각품",
+    "Description": "예술가의 혼이 담긴 조각품이다.",
+    "StringItemType": "Junk",
+    "StringItemGrade": "Legendary",
+    "Weight": 20,
+    "Price": 5000,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclub_Mat_01_A_Metallic",
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Junk_Sculpture[SM_Prop_Sculpture_01]",
+    "Husks": "JunkObject",
+    "StringHoldType": null,
+    "MeshCollider": null
   }
 ]

@@ -125,6 +125,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e7ef58d8ebd3054e9bbef7742edcd62
+    m_Address: Z_FootStep_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f2199fe6c356a943b3ca45fe881506c
     m_Address: Police_Shoot
     m_ReadOnly: 0
@@ -305,6 +310,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98ce49082421aa4419717dc82143e687
+    m_Address: Z_FootStep_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98d8e10b70dd0244d9c0576f92ee1fac
     m_Address: Purchase_02
     m_ReadOnly: 0
@@ -390,6 +400,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c5978cf060582574eac488bf33f2b54f
+    m_Address: Z_Electricity_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c6774015cb57c9043b126f4904aab41f
     m_Address: T Corridor4
     m_ReadOnly: 0
@@ -447,11 +462,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d862b54069c446c429b9f2d57b048fba
     m_Address: BoundaryTile
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: db2583b456d5bba40ae4f1447803e4f3
-    m_Address: Jewel_Stone
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
