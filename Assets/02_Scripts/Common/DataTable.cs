@@ -14,7 +14,6 @@ public class DataTable
     private Dictionary<string, PreLoadAssetData> _preLoadAssetDataTable { get; set; } = new();
     private Dictionary<string, PoolData> _poolDataTable { get; set; } = new();
     private Dictionary<string, InteractableContainerData> _interactableContainerDataTable { get; set; } = new();
-    private Dictionary<string, InventoryTypeData> _inventoryTypeDataTable { get; set; } = new();
     private Dictionary<string, ItemData> _itemDataTable { get; set; } = new();
     private Dictionary<string, Door> _doorDataTable { get; set; } = new();
     private Dictionary<string, PopupViewData> _popupViewDataTable { get; set; } = new();
@@ -37,9 +36,6 @@ public class DataTable
         _interactableContainerDataTable = LoadData<InteractableContainerData>("InteractableContainer");
         _doorDataTable = LoadData<Door>("Door");
         _itemDataTable = LoadData<ItemData>("ItemData");
-
-        // TODO (김경훈 - 06.20: 아이템 데이터로 통합 후 삭제)
-        _inventoryTypeDataTable = LoadData<InventoryTypeData>("InventoryTypeData");
         _popupViewDataTable = LoadData<PopupViewData>("PopupViewData");
         _soundDataTable = LoadData<SoundData>("SoundData");
         _stageDataTable = LoadData<StageData>("StageData");
@@ -80,13 +76,6 @@ public class DataTable
     {
         if (null == _itemDataTable || string.IsNullOrEmpty(id)) return null;
         return _itemDataTable.TryGetValue(id, out var data) ? data : null;
-    }
-
-    // TODO (김경훈 - 06.20: 아이템 데이터로 통합 후 삭제)
-    public InventoryTypeData GetInventoryTypeData(string id)
-    {
-        if (null == _inventoryTypeDataTable || string.IsNullOrEmpty(id)) return null;
-        return _inventoryTypeDataTable.TryGetValue(id, out var data) ? data : null;
     }
 
     public PopupViewData GetPopupViewData(string id)

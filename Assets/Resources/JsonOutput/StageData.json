@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "Id": "Stage_01",
     "Name": "TestMap",
@@ -43,6 +43,7 @@
     "MaxStatue": 4,
     "MaxContainer": 12,
     "MaxTrap": 12,
+    "MaxPainting": 8,
     "ExitCount": 3,
     "TileAddress": null
   },
@@ -56,6 +57,7 @@
     "MaxStatue": 6,
     "MaxContainer": 15,
     "MaxTrap": 15,
+    "MaxPainting": 10,
     "ExitCount": 3,
     "TileAddress": null
   }
