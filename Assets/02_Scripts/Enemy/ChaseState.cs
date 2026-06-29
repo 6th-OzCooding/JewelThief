@@ -7,12 +7,14 @@ public class ChaseState : IEnemyState
 
     private Vector3 _lastPosition;
     private float _stuckTimer = 0f;
-    private const float STUCK_CHECK_INTERVAL = 1.5f;
-    private const float MIN_MOVE_DISTANCE = 1.5f;
+    // 1.5초동안 1.5f 이하로 이동할 시 장애물이 있는 것으로 판단하게 하는 변수들 (수정 가능하게 변경)
+    private const float STUCK_CHECK_INTERVAL = 1f;
+    private const float MIN_MOVE_DISTANCE = 1f;
 
+    // 탐지도중 가다 벽에 부딪혔을 때, 임시로 다른 위치로 갔다가 다시 플레이어에게 돌아가게 하는 변수
     private bool _isAvoiding = false;
     private float _avoidTimer = 0f;
-    private const float AVOID_DURATION = 1.5f;
+    private const float AVOID_DURATION = 2f;
 
     public ChaseState(EnemyBase enemy) { _enemy = enemy; }
 

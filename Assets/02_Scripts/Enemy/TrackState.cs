@@ -6,11 +6,11 @@ public class TrackState : IEnemyState
     // 거리 안에 있다면 플레이어 방향으로 걸어감
     private EnemyBase _enemy;
 
-    // 벽에 부딪히는 경우를 위한 변수
     private Vector3 _lastPosition;
     private float _stuckTimer = 0f;
-    private const float STUCK_CHECK_INTERVAL = 1.5f;
-    private const float MIN_MOVE_DISTANCE = 1.5f;
+    // 1.5초동안 1.5f 이하로 이동할 시 장애물이 있는 것으로 판단하게 하는 변수들
+    private const float STUCK_CHECK_INTERVAL = 1f;
+    private const float MIN_MOVE_DISTANCE = 1f;
 
     // 탐지도중 가다 벽에 부딪혔을 때, 임시로 다른 위치로 갔다가 다시 플레이어에게 돌아가게 하는 변수
     private bool _isAvoiding = false;

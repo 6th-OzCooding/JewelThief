@@ -33,11 +33,11 @@
   },
   {
     "Id": "Pool_Throw",
-    "InitSize": 10
+    "InitSize": 15
   },
   {
     "Id": "Pool_Bullet",
-    "InitSize": 10
+    "InitSize": 15
   },
   {
     "Id": "Police_Normal",

@@ -320,6 +320,16 @@
     "AssetType": null
   },
   {
+    "Id": "PreLoadAsset_GameObject_MeshBrokenIronBoxPrefab",
+    "Address": "Mesh_BrokenIronBox_Prefab",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_MeshSafePrefab",
+    "Address": "Mesh_Safe_Prefab",
+    "AssetType": null
+  },
+  {
     "Id": "PreLoadAsset_GameObject_MeshWoodBoxPrefab",
     "Address": "Mesh_WoodBox_Prefab",
     "AssetType": null
