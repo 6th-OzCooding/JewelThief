@@ -2,7 +2,7 @@
 using TeamConvention.Interfaces;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
+public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,IStatModifiable
 {
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 8f;
@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     private bool _isFootStepPlaying = false; //발자국 반복 재생 중인지 여부
     private bool _wasSprintingForFootStep = false; //직전 프레임의 스프린트 여부 (전환 감지용)
     private float _lastGroundedTime = 0f; //마지막으로 접지로 판정된 시각 (디바운스용)
+
+    private float _moveSpeedDebuffMultiplier = 1f;
 
     [Header("점프관련 설정")]
     [SerializeField] private float _jumpForce = 7f; // 점프 힘 (높이 조절)
@@ -290,18 +292,18 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     {
         if (_isCrouching) //웅크린 상태일때
         {
-            return _moveSpeed * _crouchScale;
+            return _moveSpeed * _crouchScale * _moveSpeedDebuffMultiplier;
         }
 
         if (_isSprinting)
         {
-            return _moveSpeed * _sprintScale;
+            return _moveSpeed * _sprintScale * _moveSpeedDebuffMultiplier;
 
         }
         //나중에 아래로 옮겨야 함
 
         if (_playerInventory == null)
-            return _moveSpeed;
+            return _moveSpeed * _moveSpeedDebuffMultiplier;
 
         float currentWeight = _playerInventory.GetTotalCarryWeight();
         float maxWeight = _playerInventory.MaxCarryWeight;
@@ -324,7 +326,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
 
         if (_isOverweight)
         {
-            return _moveSpeed * _overweightScale;
+            return _moveSpeed * _overweightScale * _moveSpeedDebuffMultiplier;
         }
 
         /* if (_inputHandler.SprintRequested) //스프린트 키가 눌렸을 때
@@ -334,7 +336,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
          }*/
         // _playerInventory이 완성되면 위에 있는 걸 지우고 여기로 옮겨야 함
 
-        return _moveSpeed;
+        return _moveSpeed * _moveSpeedDebuffMultiplier;
+
     }
 
     private void RotatePlayer()
@@ -476,5 +479,21 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner
     private void PlayerDie()
     {
         Debug.Log("플레이어가 죽었습니다.");
+    }
+    public void SetStatMultiplier(DebuffType type, float value)
+    {
+        switch (type) 
+        {
+            case DebuffType.MoveSpeed: _moveSpeedDebuffMultiplier = value; break;
+            default: break;
+        }
+    }
+    public void ResetStatMultiplier(DebuffType type) 
+    {
+        switch (type)
+        {
+            case DebuffType.MoveSpeed: _moveSpeedDebuffMultiplier = 1f; break;
+            default: break;
+        }
     }
 }
