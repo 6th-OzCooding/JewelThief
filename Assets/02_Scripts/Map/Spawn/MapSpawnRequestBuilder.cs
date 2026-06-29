@@ -40,7 +40,8 @@ public class MapSpawnRequestBuilder
             MapSpawnObjectType.Junk => stageData.MaxJunk,
             MapSpawnObjectType.Statue => stageData.MaxStatue,
             MapSpawnObjectType.Trap => stageData.MaxTrap,
-            MapSpawnObjectType.Container => stageData.MaxContainer,
+            MapSpawnObjectType.FloorContainer => stageData.MaxFloorContainer,
+            MapSpawnObjectType.WallContainer => stageData.MaxWallContainer,
             MapSpawnObjectType.Enemy => stageData.MaxEnemy,
             MapSpawnObjectType.Painting => stageData.MaxPainting,
             _ => 0

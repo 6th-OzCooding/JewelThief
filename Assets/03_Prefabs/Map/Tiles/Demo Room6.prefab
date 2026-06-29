@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1 &2637478058601715968
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 2
+  _areaType: 3
 --- !u!65 &99476024597275626
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -462,6 +462,105 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5841246868396730379}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4517203202304708150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 767926646945639988}
+  m_Layer: 0
+  m_Name: FloorWall Area Group
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &767926646945639988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517203202304708150}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.17, y: 0, z: -36.15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1731250152813420077}
+  m_Father: {fileID: 5841246868396730379}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4679009739561781252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1731250152813420077}
+  - component: {fileID: 6803513947199103042}
+  - component: {fileID: 4758870396090081459}
+  m_Layer: 0
+  m_Name: Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1731250152813420077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4679009739561781252}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.236}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 767926646945639988}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6803513947199103042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4679009739561781252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
+  _areaType: 4
+--- !u!65 &4758870396090081459
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4679009739561781252}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8, y: 0.2, z: 6}
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &5679438364114638790
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1 &5731974220193700377
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +660,7 @@ Transform:
   m_Children:
   - {fileID: 2797267380853172419}
   - {fileID: 4470945230657596300}
+  - {fileID: 767926646945639988}
   - {fileID: 6870921358283734368}
   - {fileID: 4925813144352542276}
   - {fileID: 4591981192966470212}
@@ -779,7 +879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1 &6899399895374218562
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,7 +957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 0
+  _areaType: 1
 --- !u!65 &8138406684843945350
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -988,7 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1001 &22468239769221471
 PrefabInstance:
   m_ObjectHideFlags: 0

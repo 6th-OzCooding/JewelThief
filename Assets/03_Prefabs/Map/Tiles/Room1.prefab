@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1 &240313689047168475
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1 &2824127543945974538
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +235,73 @@ Transform:
   - {fileID: 7585643785506157235}
   m_Father: {fileID: 613968098636902403}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4532478097995989324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8253007225423192264}
+  - component: {fileID: 7655789525352446056}
+  - component: {fileID: 7738780494689473759}
+  m_Layer: 19
+  m_Name: Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8253007225423192264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532478097995989324}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 455550367528876707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7655789525352446056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532478097995989324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
+  _areaType: 4
+--- !u!65 &7738780494689473759
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532478097995989324}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8, y: 0.2, z: 8}
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &4782127787509145376
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 2
+  _areaType: 3
 --- !u!65 &3227929805863587789
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -368,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1 &6226539858680646643
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +481,38 @@ Transform:
   - {fileID: 4295408066917327861}
   - {fileID: 5170175895101630189}
   - {fileID: 1675026458284758358}
+  m_Father: {fileID: 613968098636902403}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6342732839790359467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 455550367528876707}
+  m_Layer: 19
+  m_Name: FloorWall Area Group
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &455550367528876707
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6342732839790359467}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8253007225423192264}
   m_Father: {fileID: 613968098636902403}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6800506744043718316
@@ -482,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1 &7318167160159680421
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 0
+  _areaType: 1
 --- !u!65 &2889098435378797404
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -652,7 +751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353fa9c9efa5f9e4cb84fc67adefdfc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnArea
-  _areaType: 1
+  _areaType: 2
 --- !u!1 &8509202331639784430
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,6 +783,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8421097629248774802}
+  - {fileID: 455550367528876707}
   - {fileID: 4082283781552679435}
   - {fileID: 3985445657805737974}
   - {fileID: 3922144769627085071}

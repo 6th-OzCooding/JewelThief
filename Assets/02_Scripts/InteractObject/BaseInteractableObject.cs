@@ -8,7 +8,7 @@ public abstract class BaseInteractableObject : MonoBehaviour, IInteractable
     protected string _objectComment;
 
     private bool _isInitialized = false;
-    private bool _isGravityOff = false;
+    private bool _isKinematic = false;
 
     private Animator _animator;
 
@@ -40,9 +40,9 @@ public abstract class BaseInteractableObject : MonoBehaviour, IInteractable
     {
         _isInitialized = false;
 
-        if (_isGravityOff)
+        if (_isKinematic)
         {
-            GetComponent<Rigidbody>().useGravity = false;
+            GetComponent<Rigidbody>().isKinematic = _isKinematic;
         }
     }
 
@@ -72,10 +72,10 @@ public abstract class BaseInteractableObject : MonoBehaviour, IInteractable
 
     public string GetName => _objectName;
 
-    public void InitFromSpawner(string id, bool offGravity = false)
+    public void InitFromSpawner(string id, bool isKinematic = false)
     {
         _objectId = id;
-        _isGravityOff = offGravity;
+        _isKinematic = isKinematic;
         LoadData(id);
         OnInitalized();
         _isInitialized = true;

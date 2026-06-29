@@ -10,12 +10,12 @@ public struct SpawnInfo
 {
     public Vector3 Position;
     public Quaternion Rotation;
-    public bool IsGravityOff;
+    public bool IsKinematic;
 
-    public SpawnInfo(Vector3 position, Quaternion rotation, bool isGravityOff = false)
+    public SpawnInfo(Vector3 position, Quaternion rotation, bool isKinematic = false)
     {
         Position = position;
         Rotation = rotation;
-        IsGravityOff = isGravityOff;
+        IsKinematic = isKinematic;
     }
 }
