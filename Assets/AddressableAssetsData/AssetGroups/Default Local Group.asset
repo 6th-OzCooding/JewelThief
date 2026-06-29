@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,26 +15,6 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: be8d15f0c8cf30e4ca7e0a93622c918e
   m_SerializeEntries:
-  - m_GUID: 006235b25867908418567637ba7a0f39
-    m_Address: SeatedLion
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 028a6bb6e696e5c4794e0d5ae98ec79d
-    m_Address: Junk_Sculpture
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 04933c45a0a5dfe44bb714276bc692e0
-    m_Address: KeyFBX
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 06ffdc796a51f3a46807b4654e3d9fd1
-    m_Address: Statue_Stone
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0f8e6137e16581542baa0fc00d3f8c33
     m_Address: Pool_Bullet
     m_ReadOnly: 0
@@ -50,11 +30,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 169da0b69d9908e48bbee8c07e16a535
-    m_Address: Junk_Fish
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1c31387baab812741821e94cd49ec9c6
     m_Address: Effect_Low
     m_ReadOnly: 0
@@ -65,28 +40,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1ec0f794fda98254bb72db6e8a4e4944
-    m_Address: MeshCollider_Junk_Bottle_Pink_Large
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1f84ea28775ed4f479903d2949684cc0
-    m_Address: MeshCollider_Junk_Glasses
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 223416086535a7b43a073dca9b5d410a
     m_Address: Painting_1_Mesh
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 22e8642e2c45f144c9a2fb94c077b2c1
-    m_Address: Junk_Microphone
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 25af85828bde484408ec40d86c4e07e6
-    m_Address: Junk_Glasses
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -115,11 +70,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3b670c261baf57449aa641edb6bde69d
-    m_Address: PolygonNightclubs_01_A
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b93206fec571744cb62b7d2e3bd3362
     m_Address: Win_01
     m_ReadOnly: 0
@@ -132,11 +82,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4078261080fb44a4e953d55f9d0d70e7
     m_Address: M_Gemstone_Emerald
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 426a97308da40a640907690ce523dadd
-    m_Address: Statue_Metal
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -262,11 +207,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78fb78614443e604daae12413ee3b9f5
     m_Address: Effect_Normal
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7953302bbdf9f0a4599f13d2d54c8061
-    m_Address: Junk_Bottle_Blue
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -425,11 +365,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: be3c2daed67d47f49b2d3ce7373962d2
-    m_Address: PolygonNightclub_Mat_01_A_Metallic
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf1ec8a4d5fb1db4787a5e1d5fd38c42
     m_Address: Pool_Throw
     m_ReadOnly: 0
@@ -475,11 +410,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cc41612db60a50e45bb4994866ccf19a
-    m_Address: Junk_Bottle_Pink_Large
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cdde25d2baf76704b830d75b51155ae4
     m_Address: M_Gemstone_Topaz
     m_ReadOnly: 0
@@ -520,6 +450,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db2583b456d5bba40ae4f1447803e4f3
+    m_Address: Jewel_Stone
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: db56d1ee0639e504bb557eda71f1052f
     m_Address: Yellow
     m_ReadOnly: 0
@@ -527,11 +462,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: df1de575ade9c63428426b98128e5d44
     m_Address: Black
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e15129e138b524b41bff44fcbbc69421
-    m_Address: Statue_Marble
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -552,11 +482,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e6e2c036a7f77ef47bde648215da9967
     m_Address: Painting_5_Mesh
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e7d69863d0e540540816e3ea2b33a8d7
-    m_Address: Statue_Copper
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
