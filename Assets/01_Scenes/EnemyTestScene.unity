@@ -711,13 +711,17 @@ PrefabInstance:
       propertyPath: _attackDamage
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2951404586956976516, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
+      propertyPath: _detectRadius
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3069605828623462851, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
       propertyPath: m_Name
       value: Police_Normal
       objectReference: {fileID: 0}
     - target: {fileID: 3069605828623462851, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3283935488539747353, guid: 6a942ba9bd7b93d48b51636f61672f10, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2383,6 +2387,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6404793186569756027, guid: 2ab63363a75ada447bd07872061b528f, type: 3}
+      propertyPath: _detectRadius
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2402,7 +2410,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 411195453258113593, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649028076739538614, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
+      propertyPath: _detectRadius
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6089835730745821097, guid: 4f2199fe6c356a943b3ca45fe881506c, type: 3}
       propertyPath: _firePoint
