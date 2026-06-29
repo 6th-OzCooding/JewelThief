@@ -85,8 +85,7 @@ public class LobbyController : MonoBehaviour
 
     public void Exit()
     {
-        if (_lobbyInstance != null)
-            _lobbyInstance.SetActive(false);
+        // TODO (김경훈 - 26.06.22): 추후 본부에서 나갈 때 필요한 정리 로직
 
     }
 }
