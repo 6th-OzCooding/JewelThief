@@ -325,7 +325,7 @@ public class EnemyBase : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (Anim == null && !Application.isPlaying) return;
+        //if (Anim == null && !Application.isPlaying) return;
 
         Vector3 origin = transform.position + Vector3.up * _viewHeight;
         Vector3 forward = transform.forward;

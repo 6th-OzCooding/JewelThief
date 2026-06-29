@@ -89,9 +89,9 @@ public class TrackState : IEnemyState
 
     private void SetAvoidDestination()
     {
-        // 현재 위치 반경 3~5 근처 랜덤한 곳으로 위치를 찍어 비켜서게 만듭니다.
+        // 현재 위치 반경 10~20 근처 랜덤한 곳으로 위치를 찍어 비켜서게 만듭니다.
         Vector2 randomCircle = Random.insideUnitCircle.normalized;
-        float randomDist = Random.Range(3f, 5f);
+        float randomDist = Random.Range(10f, 20f);
         Vector3 randomDirection = new Vector3(randomCircle.x, 0, randomCircle.y) * randomDist;
         Vector3 targetPos = _enemy.transform.position + randomDirection;
 

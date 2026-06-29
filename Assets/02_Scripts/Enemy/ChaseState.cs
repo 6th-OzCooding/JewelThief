@@ -90,7 +90,7 @@ public class ChaseState : IEnemyState
     private void SetAvoidDestination()
     {
         Vector2 randomCircle = Random.insideUnitCircle.normalized;
-        float randomDist = Random.Range(3f, 5f);
+        float randomDist = Random.Range(10f, 20f);
         Vector3 randomDirection = new Vector3(randomCircle.x, 0, randomCircle.y) * randomDist;
         Vector3 targetPos = _enemy.transform.position + randomDirection;
 
