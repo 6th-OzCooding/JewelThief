@@ -36,7 +36,7 @@ public class ScorePopupUI : UIBase
         GameManager.UI.EnterGameplayCursorMode();
 
         // 성공/실패 관계없이 확인 시점에 로비로 복귀
-        GameManager.Instance.ExitInGame();
+        GameManager.Instance.ReturnToLobby();
     }
 
     // 경찰에게 잡협을때는 유죄로 뛰움 

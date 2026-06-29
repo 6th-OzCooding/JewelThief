@@ -612,4 +612,14 @@ public class PlayerInventory : MonoBehaviour
 
         // TODO(김경훈 2026-06-29): lInventoryManager의 보석 몰수 기능 확정되면 연동
     }
+
+    public void RemoveToolItems()
+    {
+     
+        ClearHandItem(PlayerHandType.Left);
+        ClearHandItem(PlayerHandType.Right);
+
+        Debug.Log("탈출하여 양손 아이템이 사라졌습니다.");
+
+    }
 }

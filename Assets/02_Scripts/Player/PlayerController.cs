@@ -76,10 +76,13 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     [SerializeField] private InteractionHoverDetector _hoverDetector;
 
     [Header("플레이어 스탯")]
+    [SerializeField] private int _playerLife = 10;
     [SerializeField] private float _playerSp = 100;
     [SerializeField] private float _spintSpUsePerSecond = 5; //스프린트 시 초당 소모되는 스태미나
     [SerializeField] private float _spintSpAddPerSecond = 3; //평소 초당 회복되는 스태미나
     private float _playerMaxSp;
+    private int _playerMaxLife;
+
 
     public Vector3 Position => this.transform.position;
     public Transform CameraTransform => Camera_FPS != null ? Camera_FPS.transform : null;
@@ -89,11 +92,21 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     /// 현재 플레이어 스태미나 값입니다.
     /// </summary>
     public float CurrentStamina => _playerSp;
+    public float CurrentLife => _playerLife;
 
+    public void ResetPlayerStat() //플레이어 스폰했을 때 줄어든 스탯 초기화시키기
+    {
+        _playerLife = _playerMaxLife;
+        _playerSp = _playerMaxSp;
+        _moveSpeedDebuffMultiplier = 1f;
+
+    }
     /// <summary>
     /// 최대 플레이어 스태미나 값입니다.
     /// </summary>
     public float MaxStamina => _playerMaxSp;
+    public float MaxLife => _playerMaxLife;
+
 
     void Awake()
     {
@@ -124,6 +137,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         }
 
         _playerMaxSp = _playerSp; //최대 스태미나 지정
+        _playerMaxLife = _playerLife;
 
         _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
 
@@ -149,6 +163,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             {
                 GameManager.Instance.OnExitInGame += _playerInventory.FindToolAndRemove;
                 GameManager.Instance.OnPlayerCaught += _playerInventory.RemoveAllItems;
+                GameManager.Instance.OnPlayerEscape += _playerInventory.RemoveToolItems;
+
             }
 
         }
@@ -165,6 +181,8 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             {
                 GameManager.Instance.OnExitInGame -= _playerInventory.FindToolAndRemove;
                 GameManager.Instance.OnPlayerCaught -= _playerInventory.RemoveAllItems;
+                GameManager.Instance.OnPlayerEscape -= _playerInventory.RemoveToolItems;
+
             }
         }
 
@@ -447,7 +465,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     {
         _playerSp -= damage;
         Debug.Log($"플레이어 Sp: {_playerSp}");
-        GameManager.Instance?.OnPlayerHit();
+        //GameManager.Instance?.OnPlayerHit();
     }
 
     public void TakePlayerSpDamagePerSecond(float damage)
@@ -479,7 +497,24 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     private void PlayerDie()
     {
         Debug.Log("플레이어가 죽었습니다.");
+        GameManager.Instance.GameOver();
     }
+
+    public void OnPlayerHit()
+    {
+        if (!GameManager.Instance._isInGame || GameManager.Instance._isPaused)
+            return;
+
+        _playerLife--;
+        Debug.Log($"플레이어 피격 누적: {_playerLife}/{_playerMaxLife}");
+
+        if (_playerLife <= 0)
+        {
+            GameManager.Instance.GameOver();
+        }
+    }
+    
+
     public void SetStatMultiplier(DebuffType type, float value)
     {
         switch (type) 

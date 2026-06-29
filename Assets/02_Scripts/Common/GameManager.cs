@@ -38,11 +38,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     [Header("Test Options")]
     [SerializeField] private bool _skipStartupUIForTest;
 
-    private bool _isInGame = false;
-    private bool _isPaused = false;
+    public bool _isInGame { get; private set; } = false;
+    public bool _isPaused { get; private set; } = false;
 
-    private int _playerHitCount = 0;
-    private const int MAX_PLAYERHIT_COUNT = 10;
+    private PlayerController _playerController;
 
     private Transform _mapRoot = null;
     private Transform _poolRoot = null;
@@ -60,6 +59,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public event Action<string[]> OnExitInGame;
     public event Action OnPlayerCaught;
+    public event Action OnPlayerEscape;
 
     #endregion
 
@@ -126,8 +126,8 @@ public class GameManager : SingletonBehaviour<GameManager>
             await Resource.Init();
             InitNonAsync();
 
-            PlayerController playerController = EnterLobby(true);
-            UI.ShowStartupUIOnGameStart(playerController);
+            _playerController = EnterLobby(true);
+            UI.ShowStartupUIOnGameStart(_playerController);
             return;
         }
 
@@ -234,13 +234,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isInGame = true;
         _isPaused = false;
 
-        _playerHitCount = 0;
     }
 
     /// <summary>
     /// InGame 이탈 시점 호출
     /// </summary>
-    public void ExitInGame()
+    public void ReturnToLobby()
     {
         _isInGame = false;
         _isPaused = false;
@@ -291,25 +290,33 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isPaused = false;
     }
 
-    public void OnPlayerHit()
+   private void EscapeSuccessful() //나중에 탈출에 성공했을 때 이걸 불러와야 함
     {
-        if (!_isInGame || _isPaused)
-            return;
+        _isPaused = true;
 
-        _playerHitCount++;
-        Debug.Log($"플레이어 피격 누적: {_playerHitCount}/{MAX_PLAYERHIT_COUNT}");
+        OnPlayerEscape?.Invoke();
 
-        if (_playerHitCount >= MAX_PLAYERHIT_COUNT)
+        int totalValue = 0;
+        string bestGemName = "";
+        float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
+
+        ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
+        if (scorePopupUI != null)
         {
-            GameOver();
+            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: true);
+        }
+        else
+        {
+            Debug.LogError("ScorePopupUI를 열지 못했습니다.");
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
         _isPaused = true;
 
         OnPlayerCaught?.Invoke();
+        _playerController.ResetPlayerStat();
 
         // TODO(김경훈 2026-06-29): 보석 계산 메서드 확인 후 totalValue/bestGemName 연동
         int totalValue = 0;
