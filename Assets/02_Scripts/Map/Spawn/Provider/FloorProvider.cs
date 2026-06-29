@@ -24,12 +24,12 @@ public class FloorProvider : ISpawnPositionProvider
             SpawnArea area = spawnAreas[Random.Range(0, spawnAreas.Count)];
             Vector3 randomPoint = area.GetRandomPosition();
 
-            if (!Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit, _rayDistance, _targetLayer))
+            if (!Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit, _rayDistance, _targetLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
             Vector3 position = hit.point + hit.normal;
 
-            if (Physics.CheckBox(position, _checkHalfExtents, Quaternion.identity, _obstacleLayer))
+            if (Physics.CheckBox(position, _checkHalfExtents, Quaternion.identity, _obstacleLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
             transform = new SpawnInfo(position, Quaternion.identity);
