@@ -2,7 +2,7 @@
   {
     "Id": "Stage_01",
     "Name": "TestMap",
-    "TimeLimit": 600,
+    "TimeLimit": 300,
     "MaxTool": 2,
     "MaxJewel": 3,
     "MaxJunk": 6,

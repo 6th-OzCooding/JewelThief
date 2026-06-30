@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -22,7 +22,6 @@ public class MainHUD : UIBase
     {
         SubscribeQuickSlotHUD();
         SubscribeToolInventory();
-        _timerHUD?.ResetTimer();
         RefreshQuickSlotHUD();
         RefreshHUD();
     }
@@ -67,14 +66,6 @@ public class MainHUD : UIBase
     public void SetStamina(float currentStamina, float maxStamina)
     {
         _playerStatusHUD?.SetStamina(currentStamina, maxStamina);
-    }
-
-    /// <summary>
-    /// Displays remaining time in mm:ss format.
-    /// </summary>
-    public void SetTimer(float remainingSeconds)
-    {
-        _timerHUD?.SetTimer(remainingSeconds);
     }
 
     private void RefreshHUD()

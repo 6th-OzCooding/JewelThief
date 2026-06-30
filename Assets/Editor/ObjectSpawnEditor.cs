@@ -1,9 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering.LookDev;
 
 public class ObjectSpawnEditor : EditorWindow
 {
+    private const string COMMON_ITEM_OBJECT_POOL_ID = "ItemObject";
+
     private enum ItemObjectType
     {
         Jewel,
@@ -13,10 +14,10 @@ public class ObjectSpawnEditor : EditorWindow
         Statue
     }
 
-    private string _jewelObjectAddress = "Pool_Jewel";
+    private string _jewelObjectAddress = COMMON_ITEM_OBJECT_POOL_ID;
     private string _toolObjectAddress = "Pool_Tool";
-    private string _PaintingObjectAddress = "Pool_Painting";
-    private string _StatueObjectAddress = "Pool_Statue";
+    private string _PaintingObjectAddress = COMMON_ITEM_OBJECT_POOL_ID;
+    private string _StatueObjectAddress = COMMON_ITEM_OBJECT_POOL_ID;
     private string _interactableObjectAddress = "InteractableContainer_Prefab";
     // private string _interactableObjectAddress = "Door_Prefab";
 
@@ -37,7 +38,7 @@ public class ObjectSpawnEditor : EditorWindow
     };
     private static string[] _interactableItemIds =
     {
-        
+
         "Object_01",
         "Object_02",
         "Object_03",
@@ -62,8 +63,6 @@ public class ObjectSpawnEditor : EditorWindow
         "Item_Statue_Metal",
         "Item_Statue_Marble"
     };
-    private static StageRuntimeInterface[] _stageRuntimeInterfaces;
-
     private ItemObjectType _selectedType = ItemObjectType.Jewel;
 
     private bool _showJewelObject = true;
@@ -80,7 +79,7 @@ public class ObjectSpawnEditor : EditorWindow
 
     private bool _useGravity = false;
 
-    private Vector3 _spawnPosition = new Vector3(0f, -99f, 0f);
+    private Vector3 _spawnPosition = new Vector3(0f, -49f, 0f);
 
     [MenuItem("Tools/Item Object Spawner")]
     private static void Open()
@@ -320,38 +319,58 @@ public class ObjectSpawnEditor : EditorWindow
             return;
         }
 
-        GameObject spawnedObject = GameManager.Pool.SpawnFromPool(objectAddress, _spawnPosition, Quaternion.identity);
+        GameObject spawnedObject = SpawnSelectedObject(objectAddress);
+        if (spawnedObject == null)
+            return;
 
-        switch (_selectedType)
+        if (IsCommonItemObjectType(_selectedType))
         {
-            case ItemObjectType.Jewel:
-                spawnedObject.GetComponent<Jewel>().InitFromSpawner(itemId);
-                break;
-            case ItemObjectType.Tool:
-                spawnedObject.GetComponent<Tool>().InitFromSpawner(itemId);
-                break;
-            case ItemObjectType.Interactable:
-                spawnedObject.GetComponent<BaseDisarmableObejct>().InitFromSpawner(itemId);
-                break;
-            case ItemObjectType.Painting:
-                spawnedObject.GetComponent<Painting>().InitFromSpawner(itemId);
-                break;
-            case ItemObjectType.Statue:
-                spawnedObject.GetComponent<Statue>().InitFromSpawner(itemId);
-                break;
-            default:
-                Debug.LogError("선택된 오브젝트가 Jewel 또는 Tool이 아닙니다.");
-                Destroy(spawnedObject);
+            if (!spawnedObject.TryGetComponent(out BaseInteractableObject itemObject))
+            {
+                Debug.LogError($"{objectAddress} 프리팹에 BaseInteractableObject 컴포넌트가 없습니다.");
+                GameManager.Pool.DespawnToPool(spawnedObject);
                 return;
+            }
+
+            itemObject.InitFromSpawner(itemId);
+        }
+        else if (_selectedType == ItemObjectType.Tool)
+        {
+            spawnedObject.GetComponent<Tool>().InitFromSpawner(itemId);
+        }
+        else if (_selectedType == ItemObjectType.Interactable)
+        {
+            spawnedObject.GetComponent<BaseDisarmableObejct>().InitFromSpawner(itemId);
+        }
+        else
+        {
+            Debug.LogError("지원하지 않는 오브젝트 타입입니다.");
+            GameManager.Pool.DespawnToPool(spawnedObject);
+            return;
         }
 
         if (spawnedObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
         {
             rigidbody.useGravity = _useGravity;
+            rigidbody.isKinematic = !_useGravity;
+            rigidbody.linearVelocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
         }
 
         EditorUtility.SetDirty(spawnedObject);
         Selection.activeGameObject = spawnedObject;
+    }
+
+    private GameObject SpawnSelectedObject(string objectAddress)
+    {
+        return GameManager.Pool.SpawnFromPool(objectAddress, _spawnPosition, Quaternion.identity);
+    }
+
+    private bool IsCommonItemObjectType(ItemObjectType itemObjectType)
+    {
+        return itemObjectType == ItemObjectType.Jewel ||
+               itemObjectType == ItemObjectType.Painting ||
+               itemObjectType == ItemObjectType.Statue;
     }
 
     private string GetSelectedObjectAddress()

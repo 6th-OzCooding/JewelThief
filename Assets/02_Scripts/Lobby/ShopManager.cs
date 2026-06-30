@@ -46,7 +46,7 @@ public class ShopManager
         return true;
     }
 
-    public SellResult SellAllJewels(IInventoryOwner inventoryOwner)
+    public SellResult SellAllItem(IInventoryOwner inventoryOwner)
     {
         SellResult result = new SellResult();
 
@@ -100,6 +100,6 @@ public class ShopManager
     // 판매 가능 여부(보석 종류) 판정
     private bool IsSellableItem(InventoryItem item)
     {
-        return item != null && item.ItemData != null && item.ItemData.GetItemType() == ItemType.Jewel;
+        return item != null && item.ItemData != null && item.ItemData.GetItemType() != ItemType.Tool;
     }
 }
