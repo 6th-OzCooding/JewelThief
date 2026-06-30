@@ -40,8 +40,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     [Header("InGame Spawn")]
     [SerializeField] private float _inGameSpawnHeightOffset = 1f;
 
-    public bool _isInGame { get; private set; } = false;
-    public bool _isPaused { get; private set; } = false;
+    private bool _isInGame = false;
+    private bool _isPaused = false;
 
     public bool IsEnteringInGame { get; private set; } = false;
 
@@ -275,12 +275,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             return;
         }
 
-        if (!_wfcMapGeneration.TryGetStartTileWorldPosition(out Vector3 startPosition))
-        {
-            Debug.LogError("시작 타일 좌표를 찾지 못해 재스폰을 건너뜁니다.");
-            return;
-        }
-
+        Vector3 startPosition = _wfcMapGeneration.GetStartTileWorldPosition();
         _playerController.Teleport(startPosition + Vector3.up * _inGameSpawnHeightOffset);
     }
 

@@ -1,11 +1,9 @@
-﻿using System.Net;
 using TeamConvention.Interfaces;
 using UnityEngine;
 
 public class Tool : BaseInteractableObject
 {
     private ItemData _itemData;
-    public int ChargeCount { get; set; }
 
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private MeshFilter _meshFilter;
@@ -15,10 +13,13 @@ public class Tool : BaseInteractableObject
     {
         _objectId = _itemData.Id;
         _objectName = _itemData.Name;
-        ChargeCount = _itemData.ChargeCount;
 
-        _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
-        _meshCollider.sharedMesh = _meshFilter.sharedMesh;
+        Mesh loadedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
+        if (loadedMesh != null)
+        {
+            _meshFilter.sharedMesh = loadedMesh;
+            _meshCollider.sharedMesh = loadedMesh;
+        }
 
         var materialPath = _itemData.MaterialPaths;
         Material[] materials = new Material[materialPath.Count];
@@ -33,7 +34,7 @@ public class Tool : BaseInteractableObject
 
     protected override bool CheckCanInteract()
     {
-        return ChargeCount > 0;
+        return true;
     }
 
     protected override void LoadData(string id)
@@ -43,15 +44,17 @@ public class Tool : BaseInteractableObject
 
     protected override void OnInteract(IInteractor interactor)
     {
-        ChargeCount--;
-        if(ChargeCount <= 0)
+        if (interactor is not IInventoryOwner inventoryOwner)
         {
-            if(interactor is IInventoryOwner inventoryOwner)
-            {
-                inventoryOwner.ClearHandItem(PlayerHandType.Right);
-                GameManager.Pool.DespawnToPool(this.gameObject);
-
-            }
+            Debug.LogError($"{_itemData.Name}을(를) 획득할 수 없습니다. 상호작용 대상이 인벤토리를 가지고 있지 않습니다.");
+            return;
         }
+
+        if (!inventoryOwner.TryAcquireItem(_itemData, _itemData.GetHoldType()))
+        {
+            return;
+        }
+
+        GameManager.Pool.DespawnToPool(this.gameObject);
     }
 }

@@ -58,7 +58,17 @@ public class Item : BaseInteractableObject
 
     protected override void OnInteract(IInteractor interactor)
     {
-        // TODO(김익환, 26.06.27): 인벤토리 시스템 구현 후 아이템 획득 로직 추가
+        if (interactor is not IInventoryOwner inventoryOwner)
+        {
+            Debug.LogError($"{_itemData.Name}을(를) 획득할 수 없습니다. 상호작용 대상이 인벤토리를 가지고 있지 않습니다.");
+            return;
+        }
+
+        if (!inventoryOwner.TryAcquireItem(_itemData, _itemData.GetHoldType()))
+        {
+            return;
+        }
+
         GameManager.Pool.DespawnToPool(this.gameObject);
     }
 }

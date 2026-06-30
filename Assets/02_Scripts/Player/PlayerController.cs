@@ -61,6 +61,19 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     public InventoryItem RemoveBagItem(InventoryItem inventoryItem) => _playerInventory?.RemoveBagItem(inventoryItem);
     public InventoryItem ClearHandItem(PlayerHandType handType) => _playerInventory?.ClearHandItem(handType);
 
+    /// <summary>
+    /// 현재 선택된 퀵슬롯 Tool을 대상이 요구하는 Tool 목록에 맞춰 사용합니다.
+    /// </summary>
+    public bool TryUseSelectedTool(IReadOnlyList<string> requiredToolIds, out InventoryItem usedToolItem)
+    {
+        usedToolItem = null;
+
+        if (_playerInventory == null)
+            return false;
+
+        return _playerInventory.TryUseSelectedTool(requiredToolIds, out usedToolItem);
+    }
+
     public bool TryAcquireItem(ItemData itemData, HoldType holdType)
     {
         if (_playerInventory == null)
@@ -503,7 +516,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
 
     public void OnPlayerHit()
     {
-        if (!GameManager.Instance._isInGame || GameManager.Instance._isPaused)
+        if (!GameManager.Instance.IsInGame || GameManager.Instance.IsPaused)
             return;
 
         _playerLife--;
