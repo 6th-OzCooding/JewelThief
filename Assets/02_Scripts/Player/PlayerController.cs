@@ -31,13 +31,13 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     [Header("점프관련 설정")]
     [SerializeField] private float _jumpForce = 7f; // 점프 힘 (높이 조절)
     [SerializeField] private Transform _groundCheck;    // 발 밑에 배치할 빈 오브젝트
-    [SerializeField] private float _groundCheckRadius = 0.5f; // 체크 범위
+    [SerializeField] private float _groundCheckRadius = 0.1f; // 체크 범위
     [SerializeField] private LayerMask _groundLayer;    // 지면으로 인식할 레이어 (Platforms 등)
     private bool _isGrounded = false; // 바닥에 붙어있는지 여부
 
     [Header("머리 관련 체크 설정")]
     [SerializeField] private Transform _headCheck; // 아까 만든 머리 위 빈 오브젝트 할당
-    [SerializeField] private float _headCheckRadius = 0.5f;       // 체크할 구체의 반지름
+    [SerializeField] private float _headCheckRadius = 0.3f;       // 체크할 구체의 반지름
     [SerializeField] private LayerMask _headLayer;
     private bool _isHeading = false; // 머리에 무언가 부딪혔는지 여부
 
@@ -261,6 +261,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     {
         if (_inputHandler == null) return;
         if (_inputHandler.CurrentMode != PlayerInputMode.Gameplay) return;
+        if (GameManager.Instance != null && GameManager.Instance.IsEnteringInGame) return;
 
         Vector3 input = _inputHandler.InputVector;
         _moveDirection = (transform.forward * input.z + transform.right * input.x).normalized;
