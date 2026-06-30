@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using TeamConvention.Interfaces;
 using UnityEngine;
 
 /// <summary>
@@ -22,7 +23,7 @@ public enum HoldType
 /// <summary>
 /// 플레이어 인벤토리 안에서 관리되는 런타임 아이템 정보입니다.
 /// </summary>
-public class InventoryItem
+public class InventoryItem : IUseTool
 {
     /// <summary>
     /// 아이템의 기본 데이터입니다.
@@ -35,12 +36,67 @@ public class InventoryItem
     public HoldType CurrentHoldType { get; }
 
     /// <summary>
+    /// Tool 아이템의 남은 사용 가능 횟수입니다.
+    /// </summary>
+    public int RemainingUseCount { get; private set; }
+
+    /// <summary>
+    /// Tool 아이템 데이터 Id입니다.
+    /// </summary>
+    public string ToolId => ItemData?.Id;
+
+    /// <summary>
     /// 인벤토리에서 사용할 아이템 정보를 생성합니다.
     /// </summary>
     public InventoryItem(ItemData itemData, HoldType holdType)
     {
         ItemData = itemData;
         CurrentHoldType = holdType;
+        RemainingUseCount = IsToolData(itemData) ? itemData.ChargeCount : 0;
+    }
+
+    /// <summary>
+    /// 대상이 요구하는 Tool 목록에 이 Tool이 포함되는지 확인합니다.
+    /// </summary>
+    public bool CanUseTool(IReadOnlyList<string> requiredToolIds)
+    {
+        if (!IsToolData(ItemData))
+            return false;
+
+        if (RemainingUseCount == 0)
+            return false;
+
+        if (requiredToolIds == null || requiredToolIds.Count == 0)
+            return false;
+
+        for (int i = 0; i < requiredToolIds.Count; i++)
+        {
+            if (requiredToolIds[i] == ToolId)
+                return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 대상이 요구하는 Tool 목록에 맞으면 Tool을 1회 사용합니다.
+    /// </summary>
+    public bool UseTool(IReadOnlyList<string> requiredToolIds)
+    {
+        if (!CanUseTool(requiredToolIds))
+            return false;
+
+        if (RemainingUseCount > 0)
+        {
+            RemainingUseCount--;
+        }
+
+        return true;
+    }
+
+    private static bool IsToolData(ItemData itemData)
+    {
+        return itemData != null && itemData.GetItemType() == ItemType.Tool;
     }
 }
 
@@ -49,6 +105,8 @@ public class InventoryItem
 /// </summary>
 public class PlayerInventory : MonoBehaviour
 {
+    private const int MAX_TOOL_ITEM_COUNT = 4;
+
     [Header("무게 설정")]
     [SerializeField] private float _baseCarryWeightLimit = 50f;
     [SerializeField] private float _bagAdditionalWeightLimit = 0f;
@@ -61,6 +119,9 @@ public class PlayerInventory : MonoBehaviour
 
     private readonly List<InventoryItem> _bagItems = new List<InventoryItem>();
     private readonly List<InventoryItem> _toolItems = new List<InventoryItem>();
+    private readonly Dictionary<int, IUseTool> _quickSlotTools = new Dictionary<int, IUseTool>();
+
+    private int _selectedQuickSlotIndex = -1;
 
     /// <summary>
     /// 왼손에 든 아이템입니다.
@@ -378,7 +439,7 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public bool TryRegisterQuickSlotTool(ItemData itemData)
     {
-        // TODO: 다음 PR에서 Tool 타입 검증, 최대 4개 제한, 중복 등록 정책을 정한 뒤 구현합니다.
+        // TODO: Tool 전용 인벤토리와 퀵슬롯을 분리하기로 결정되면 등록/해제 정책을 구현합니다.
         return false;
     }
 
@@ -393,6 +454,8 @@ public class PlayerInventory : MonoBehaviour
         InventoryItem toolItem = _toolItems[quickSlotIndex];
         if (toolItem == null || toolItem.ItemData == null || !IsToolItem(toolItem.ItemData))
             return false;
+
+        _selectedQuickSlotIndex = quickSlotIndex;
 
         // 퀵슬롯 Tool 전환은 드롭이 아니라 오른손의 활성 Tool을 바꾸는 동작입니다.
         InventoryItem previousRightHandItem = RightHandItem;
@@ -412,6 +475,37 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log($"{previousRightHandItem.ItemData.Name}을(를) {toolItem.ItemData.Name}(으)로 교체했습니다. 실제 드롭 생성은 다음 단계에서 연결합니다.");
         LogCarryWeightState();
+        return true;
+    }
+
+    /// <summary>
+    /// 현재 선택된 퀵슬롯 Tool을 대상이 요구하는 Tool 목록에 맞춰 사용합니다.
+    /// </summary>
+    public bool TryUseSelectedTool(IReadOnlyList<string> requiredToolIds, out InventoryItem usedToolItem)
+    {
+        usedToolItem = null;
+
+        if (!_quickSlotTools.TryGetValue(_selectedQuickSlotIndex, out IUseTool selectedTool))
+            return false;
+
+        if (!selectedTool.UseTool(requiredToolIds))
+            return false;
+
+        usedToolItem = _toolItems[_selectedQuickSlotIndex];
+        Debug.Log($"{usedToolItem.ItemData.Name}을(를) 사용했습니다. 남은 사용 횟수: {selectedTool.RemainingUseCount}");
+
+        if (selectedTool.RemainingUseCount == 0)
+        {
+            Debug.Log($"{usedToolItem.ItemData.Name}의 사용 횟수가 모두 소진되어 Tool 인벤토리에서 제거합니다.");
+            RemoveToolItemAt(_selectedQuickSlotIndex);
+            _selectedQuickSlotIndex = -1;
+            NotifyToolItemsChanged();
+        }
+        else
+        {
+            NotifyToolItemsChanged();
+        }
+
         return true;
     }
 
@@ -446,8 +540,15 @@ public class PlayerInventory : MonoBehaviour
         if (itemData == null || !IsToolItem(itemData))
             return false;
 
+        if (_toolItems.Count >= MAX_TOOL_ITEM_COUNT)
+        {
+            Debug.LogWarning($"{itemData.Name}을(를) 보관할 수 없습니다. Tool은 최대 {MAX_TOOL_ITEM_COUNT}개까지만 소지할 수 있습니다.");
+            return false;
+        }
+
         InventoryItem inventoryItem = new InventoryItem(itemData, HoldType.Hold);
         _toolItems.Add(inventoryItem);
+        _quickSlotTools[_toolItems.Count - 1] = inventoryItem;
 
         Debug.Log($"{itemData.Name}을(를) Tool 전용 인벤토리에 보관했습니다. Tool은 가방 용량과 무게 계산에서 제외됩니다.");
         NotifyToolItemsChanged();
@@ -578,14 +679,50 @@ public class PlayerInventory : MonoBehaviour
             if (_toolItems[i]?.ItemData?.Id != toolId)
                 continue;
 
-            Debug.Log($"{_toolItems[i].ItemData.Name}을(를) Tool 전용 인벤토리에서 제거했습니다.");
-            _toolItems.RemoveAt(i);
+            RemoveToolItemAt(i);
             isRemoved = true;
         }
 
         if (isRemoved)
         {
             NotifyToolItemsChanged();
+        }
+    }
+
+    private void RemoveToolItemAt(int toolIndex)
+    {
+        if (toolIndex < 0 || toolIndex >= _toolItems.Count)
+            return;
+
+        InventoryItem removedToolItem = _toolItems[toolIndex];
+        Debug.Log($"{removedToolItem.ItemData.Name}을(를) Tool 전용 인벤토리에서 제거했습니다.");
+
+        if (LeftHandItem == removedToolItem)
+            ClearHandItem(PlayerHandType.Left);
+
+        if (RightHandItem == removedToolItem)
+            ClearHandItem(PlayerHandType.Right);
+
+        _toolItems.RemoveAt(toolIndex);
+        RebuildQuickSlotTools();
+
+        if (_selectedQuickSlotIndex == toolIndex)
+        {
+            _selectedQuickSlotIndex = -1;
+        }
+        else if (_selectedQuickSlotIndex > toolIndex)
+        {
+            _selectedQuickSlotIndex--;
+        }
+    }
+
+    private void RebuildQuickSlotTools()
+    {
+        _quickSlotTools.Clear();
+
+        for (int i = 0; i < _toolItems.Count; i++)
+        {
+            _quickSlotTools[i] = _toolItems[i];
         }
     }
 

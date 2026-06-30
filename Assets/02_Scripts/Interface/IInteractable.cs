@@ -24,6 +24,7 @@ namespace TeamConvention.Interfaces
         InventoryItem RightHandItem { get; }
 
         bool TryAcquireItem(ItemData itemData, HoldType holdType);
+        bool TryUseSelectedTool(IReadOnlyList<string> requiredToolIds, out InventoryItem usedToolItem);
         InventoryItem RemoveBagItem(InventoryItem inventoryItem);
         InventoryItem ClearHandItem(PlayerHandType handType);
     }
