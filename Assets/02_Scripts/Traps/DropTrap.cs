@@ -1,26 +1,29 @@
 ﻿using TeamConvention.Interfaces;
 using UnityEngine;
 
-public class DropTrap : BaseDisarmableObejct
+public class DropTrap : BaseTrap
 {
     private DropTrapAnimController _animController;
     private bool _isActivated = false;
+
     private void OnEnable()
     {
         _animController = GetComponent<DropTrapAnimController>();
     }
+
     private void SpawnDroppedItem(string itemId, Vector3 playerPos)
     {
         var dropObject = GameManager.Pool.SpawnFromPool("ItemObject", playerPos);
         dropObject.GetComponent<Item>().InitFromSpawner(itemId);
     }
-    protected override void LoadData(string id) { }
+
     protected override void OnDisarm()
     {
         base.OnDisarm();
         _isDisarmed = true;
         _animController.SetState(TrapAnimState.Broken);
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (_isDisarmed) return;

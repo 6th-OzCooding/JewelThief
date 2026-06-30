@@ -1,7 +1,7 @@
 ﻿using TeamConvention.Interfaces;
 using UnityEngine;
 
-public class StoneTrap : BaseDisarmableObejct
+public class StoneTrap : BaseTrap
 {
     [SerializeField] private Transform spawnPo;
     private bool _isWorked = false;
@@ -11,12 +11,13 @@ public class StoneTrap : BaseDisarmableObejct
         var stoneObject = GameManager.Pool.SpawnFromPool("ItemObject", playerPos);
         stoneObject.GetComponent<Item>().InitFromSpawner(itemId);
     }
-    protected override void LoadData(string id) { }
+
     protected override void OnDisarm()
     {
         base.OnDisarm();
         _isDisarmed = true;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (_isWorked|| _isDisarmed) { return; }

@@ -540,6 +540,11 @@
     "AssetType": "Mesh"
   },
   {
+    "Id": "PreLoadAsset_Mesh_Junk_Glasses",
+    "Address": "Junk_Glasses[SM_Prop_Glasses_01]",
+    "AssetType": "Mesh"
+  },
+  {
     "Id": "PreLoadAsset_Mesh_Junk_Microphone",
     "Address": "Junk_Microphone[SM_Prop_Microphone_01]",
     "AssetType": "Mesh"
@@ -567,6 +572,31 @@
   {
     "Id": "PreLoadAsset_GameObject_ItemObject",
     "Address": "ItemObject",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_Turret",
+    "Address": "TurretTrap",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_Turret_Bullet",
+    "Address": "Turret_Bullet",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_StonTrap",
+    "Address": "StonTrap",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_WebTrap",
+    "Address": "WebTrap",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_BaseTrap",
+    "Address": "BaseTrap",
     "AssetType": null
   }
 ]
