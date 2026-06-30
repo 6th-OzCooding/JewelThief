@@ -272,12 +272,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             return;
         }
 
-        if (!_wfcMapGeneration.TryGetStartTileWorldPosition(out Vector3 startPosition))
-        {
-            Debug.LogError("시작 타일 좌표를 찾지 못해 재스폰을 건너뜁니다.");
-            return;
-        }
-
+        Vector3 startPosition = _wfcMapGeneration.GetStartTileWorldPosition();
         _playerController.Teleport(startPosition + Vector3.up * _inGameSpawnHeightOffset);
     }
 
