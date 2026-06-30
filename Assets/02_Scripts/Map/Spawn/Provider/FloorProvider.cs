@@ -27,7 +27,7 @@ public class FloorProvider : ISpawnPositionProvider
             if (!Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit, _rayDistance, _targetLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
-            Vector3 position = hit.point + hit.normal;
+            Vector3 position = hit.point;// + hit.normal;
 
             if (Physics.CheckBox(position, _checkHalfExtents, Quaternion.identity, _obstacleLayer, QueryTriggerInteraction.Ignore))
                 continue;

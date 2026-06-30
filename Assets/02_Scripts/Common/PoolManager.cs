@@ -32,6 +32,12 @@ public class PoolManager
     public GameObject SpawnFromPool(string poolId, Vector3 position, Quaternion rotation)
         => GetFromPool(poolId, position, rotation);
 
+    public GameObject SpawnFromPool(string pooId, Vector3 position, Quaternion rotation, Transform parent)
+        => GetFromPool(pooId, position, rotation, parent);
+
+    public GameObject SpawnFromPool(string pooId, Transform parent, bool orginTF)
+        => GetFromPool(pooId, Vector3.zero, Quaternion.identity, parent, orginTF);
+
     public T SpawnFromPool<T>(string poolId, Vector3 position) where T : Component
     {
         GameObject obj = GetFromPool(poolId, position, Quaternion.identity);
@@ -70,7 +76,7 @@ public class PoolManager
         activedObjects.Clear();
     }
 
-    private GameObject GetFromPool(string poolId, Vector3 position, Quaternion rotation)
+    private GameObject GetFromPool(string poolId, Vector3 position, Quaternion rotation, Transform parent = null, bool orginTF = false)
     {
         if (!objectPools.ContainsKey(poolId))
             throw new Exception($"Pool Id({poolId})에 해당하는 풀은 존재하지 않습니다.");
@@ -82,8 +88,17 @@ public class PoolManager
         }
 
         GameObject obj = poolQueue.Dequeue();
-        obj.transform.position = position;
-        obj.transform.rotation = rotation;
+
+        if (!orginTF)
+        {
+            obj.transform.position = position;
+            obj.transform.rotation = rotation;
+        }
+
+        if (null != parent)
+        {
+            obj.transform.SetParent(parent, false);
+        }
         obj.gameObject.SetActive(true);
 
         if (!activedObjects.ContainsKey(poolId))

@@ -65,6 +65,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d078e15d2233ef4d86be4ea9a2a8bcf
+    m_Address: Global Volume
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1dfc93650565f744080e5d530ab73da1
     m_Address: Mesh_WoodBox_Prefab
     m_ReadOnly: 0
@@ -336,7 +341,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8f4b1709c49dc9a43b117e2b8ee7c96a
-    m_Address: Turret
+    m_Address: TurretTrap
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -407,6 +412,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a7c8682b5b22fa549b6a0796e7259611
     m_Address: M_Gemstone_Sapphire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9c74d6305e8e8f448d059f443f29688
+    m_Address: BaseTrap
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

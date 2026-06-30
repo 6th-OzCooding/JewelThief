@@ -573,5 +573,30 @@
     "Id": "PreLoadAsset_GameObject_ItemObject",
     "Address": "ItemObject",
     "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_Turret",
+    "Address": "TurretTrap",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_Turret_Bullet",
+    "Address": "Turret_Bullet",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_StonTrap",
+    "Address": "StonTrap",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_WebTrap",
+    "Address": "WebTrap",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_BaseTrap",
+    "Address": "BaseTrap",
+    "AssetType": null
   }
 ]

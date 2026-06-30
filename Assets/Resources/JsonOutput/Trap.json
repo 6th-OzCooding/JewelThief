@@ -1,0 +1,17 @@
+[
+  {
+    "Id": "Trap_Web",
+    "Name": null,
+    "ObjectPrefabPath": "WebTrap"
+  },
+  {
+    "Id": "Trap_Ston",
+    "Name": null,
+    "ObjectPrefabPath": "StonTrap"
+  },
+  {
+    "Id": "Trap_Turret",
+    "Name": null,
+    "ObjectPrefabPath": "TurretTrap"
+  }
+]

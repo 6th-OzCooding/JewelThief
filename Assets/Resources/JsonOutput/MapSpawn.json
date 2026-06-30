@@ -55,6 +55,17 @@
     ]
   },
   {
+    "Id": "MapSoawn_Floor_Trap",
+    "StringSpawnArea": "Floor",
+    "StringSpawnType": "FloorTrap",
+    "StringInteractType": "Disarm",
+    "PoolAddress": "BaseTrap",
+    "ItemId": [
+      "Trap_Web",
+      "Trap_Turret"
+    ]
+  },
+  {
     "Id": "MapSpawn_Floor_Container",
     "StringSpawnArea": "Floor",
     "StringSpawnType": "FloorContainer",
@@ -90,6 +101,16 @@
     "PoolAddress": "InteractableContainer_Prefab",
     "ItemId": [
       "Object_01"
+    ]
+  },
+  {
+    "Id": "MapSpawn_Ceiling_Trap",
+    "StringSpawnArea": "Ceiling",
+    "StringSpawnType": "CeilingTrap",
+    "StringInteractType": "Disarm",
+    "PoolAddress": "BaseTrap",
+    "ItemId": [
+      "Trap_Ston"
     ]
   }
 ]
