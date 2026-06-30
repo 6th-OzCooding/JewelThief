@@ -35,7 +35,6 @@ public class MapSpawnRequestBuilder
     {
         return type switch
         {
-            MapSpawnObjectType.Tool => stageData.MaxTool,
             MapSpawnObjectType.Jewel => stageData.MaxJewel,
             MapSpawnObjectType.Junk => stageData.MaxJunk,
             MapSpawnObjectType.Statue => stageData.MaxStatue,
@@ -43,7 +42,6 @@ public class MapSpawnRequestBuilder
             MapSpawnObjectType.CeilingTrap => stageData.MaxCeilingTrap,
             MapSpawnObjectType.FloorContainer => stageData.MaxFloorContainer,
             MapSpawnObjectType.WallContainer => stageData.MaxWallContainer,
-            MapSpawnObjectType.Enemy => stageData.MaxEnemy,
             MapSpawnObjectType.Painting => stageData.MaxPainting,
             _ => 0
         };

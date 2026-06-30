@@ -51,7 +51,6 @@ public enum ItemGrade
 public enum MapSpawnObjectType
 {
     None,
-    Tool,
     Jewel,
     Junk,
     Statue,
@@ -198,9 +197,9 @@ public class StageData : BaseData
     public int MaxWallContainer;
     public int MaxFloorTrap;
     public int MaxCeilingTrap;
-    public int MaxEnemy;
     public int MaxPainting;
     public int ExitCount;
+    public List<int> MaxEnemies;
     public List<string> TileAddress;
 }
 

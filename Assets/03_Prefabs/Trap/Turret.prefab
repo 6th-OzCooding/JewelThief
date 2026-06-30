@@ -164,13 +164,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Turret
   _headTransform: {fileID: 8815139748837306439}
   _fireTransform: {fileID: 5988756101135169442}
+  _detectionPositionOffset: {x: 0, y: -0.5, z: 0}
   _rayDistance: 10
   _playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
   _scanHalfAngle: 45
   _scanSpeed: 35
-  _warmUpTime: 4
+  _warmUpTime: 2
   _cooldownTime: 4
   _bulletCount: 18
   _fireIntervalMs: 100
@@ -324,8 +325,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8340230982716408433}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.012518098, z: -0, w: 0.9999217}
-  m_LocalPosition: {x: 0, y: 0.354, z: 1.407}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.18, z: 0.709}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
