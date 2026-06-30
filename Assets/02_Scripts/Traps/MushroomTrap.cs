@@ -1,13 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MushroomTrap : BaseDisarmableObejct
+public class MushroomTrap : BaseTrap
 {
     [SerializeField] private ParticleSystem _smokeParticle;
 
     private bool _isActivated = false;
-
-    protected override void LoadData(string id) { }
 
     protected override void OnDisarm()
     {
@@ -27,7 +24,6 @@ public class MushroomTrap : BaseDisarmableObejct
             if (_smokeParticle != null)
             {
                 _smokeParticle.Play();
-                // DespawnAfterParticleAsync().Forget();
             }
             else
             {
@@ -37,15 +33,4 @@ public class MushroomTrap : BaseDisarmableObejct
             GameManager.Sound.PlaySFX(SoundId.SFX_Explosion03);
         }
     }
-
-    // TODO (김경훈 - 26.06.30) - Trap쪽이 풀로 관리되는 경우 주석해제
-    //private async UniTaskVoid DespawnAfterParticleAsync()
-    //{
-    //    float waitSeconds = _smokeParticle.main.duration + _smokeParticle.main.startLifetime.constantMax;
-
-    //    await UniTask.Delay(System.TimeSpan.FromSeconds(waitSeconds),
-    //        cancellationToken: this.GetCancellationTokenOnDestroy());
-
-    //    GameManager.Pool.DespawnToPool(this.gameObject);
-    //}
 }

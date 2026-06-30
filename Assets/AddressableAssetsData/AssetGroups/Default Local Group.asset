@@ -85,6 +85,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22a9c7e1d46fbc741a2425dec66022ed
+    m_Address: Color_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 22e8642e2c45f144c9a2fb94c077b2c1
     m_Address: Junk_Microphone
     m_ReadOnly: 0
@@ -445,6 +450,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0d7ca2bc8f03744f9bcba591c5b55c5
+    m_Address: Color_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b1fda2122b30bd94caab8565edd73ca9
     m_Address: GunTrap_01
     m_ReadOnly: 0
@@ -542,6 +552,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d54ee4ed1c70dc74786204d422484add
     m_Address: BackUpTile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d62bceedd58c4bc479683a8f5d58c5d6
+    m_Address: MushroomTrap
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

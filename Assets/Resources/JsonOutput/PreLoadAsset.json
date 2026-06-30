@@ -598,5 +598,20 @@
     "Id": "PreLoadAsset_GameObject_BaseTrap",
     "Address": "BaseTrap",
     "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_MushroomTrap",
+    "Address": "MushroomTrap",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Color_1",
+    "Address": "Color_1",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_Material_Color_2",
+    "Address": "Color_2",
+    "AssetType": null
   }
 ]
