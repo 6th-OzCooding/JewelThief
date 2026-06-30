@@ -540,6 +540,11 @@
     "AssetType": "Mesh"
   },
   {
+    "Id": "PreLoadAsset_Mesh_Junk_Glasses",
+    "Address": "Junk_Glasses[SM_Prop_Glasses_01]",
+    "AssetType": "Mesh"
+  },
+  {
     "Id": "PreLoadAsset_Mesh_Junk_Microphone",
     "Address": "Junk_Microphone[SM_Prop_Microphone_01]",
     "AssetType": "Mesh"

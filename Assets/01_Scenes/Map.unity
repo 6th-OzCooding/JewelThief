@@ -1027,6 +1027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _skipStartupUIForTest: 0
+  _inGameSpawnHeightOffset: 1
   SelectedStageId: 
 --- !u!4 &2044133021
 Transform:
