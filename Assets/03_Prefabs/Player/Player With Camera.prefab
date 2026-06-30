@@ -674,6 +674,7 @@ GameObject:
   - component: {fileID: 8220170413300471297}
   - component: {fileID: 4512568042570907233}
   - component: {fileID: 6484167880159171074}
+  - component: {fileID: 1270527736168246647}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -855,6 +856,18 @@ MonoBehaviour:
   _bagAdditionalWeightLimit: 0
   _bagMaxCapacity: 10
   _handItemViewer: {fileID: 0}
+--- !u!114 &1270527736168246647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824055085373153065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 845e76c38ed698343a684bd0d639cf6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDebuffHandler
 --- !u!1 &6070634622092023255
 GameObject:
   m_ObjectHideFlags: 0
