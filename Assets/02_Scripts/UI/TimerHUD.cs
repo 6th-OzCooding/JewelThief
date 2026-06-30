@@ -63,8 +63,9 @@ public class TimerHUD : MonoBehaviour
             return;
         }
 
-        ShowStageTimer();
         SetTimer(GameManager.Alert.GetRemainingTime());
+        ShowStageTimer();
+        
     }
 
     private void ShowLobbyGold()
