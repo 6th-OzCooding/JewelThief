@@ -357,6 +357,9 @@ public class InteractableContainer : BaseDisarmableObejct
             case ItemType.Tool:
                 return "Pool_Tool";
 
+            case ItemType.Junk:
+                return "ItemObject";
+
             default:
                 Debug.LogError($"지원하지 않는 아이템 타입입니다.");
                 return null;

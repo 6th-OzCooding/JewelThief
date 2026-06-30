@@ -33,7 +33,8 @@ public enum ItemType
 {
     None = 0,
     Tool,
-    Jewel
+    Jewel,
+    Junk
 }
 
 public enum ItemGrade
