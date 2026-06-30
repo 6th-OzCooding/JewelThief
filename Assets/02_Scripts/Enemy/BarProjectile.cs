@@ -66,8 +66,6 @@ public class BarProjectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("곤봉: 적 맞고 파괴됨");
-            ReturnToPool();
             return;
         }
 
@@ -78,6 +76,12 @@ public class BarProjectile : MonoBehaviour
             {
                 player.OnPlayerHit();
                 Debug.Log("곤봉: 플레이어가 곤봉에 맞았습니다.");
+            }
+
+            if (other.TryGetComponent(out IDebuffable debuffTarget))
+            {
+                debuffTarget.ApplyDebuff(DebuffType.MoveSpeed, 0.25f, 3.0f);
+                Debug.Log("[디버프] 곤봉 효과: 이동 속도 75% 감소 (3초)");
             }
             ReturnToPool();
             return;

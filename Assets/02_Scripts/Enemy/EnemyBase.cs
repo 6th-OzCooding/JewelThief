@@ -285,8 +285,6 @@ public class EnemyBase : MonoBehaviour
         // 만약 Enemy가 없어진다면 (오브젝트가 삭제된다면) 바로 공격 함수 종료
         if (CancelToken.IsCancellationRequested) return;
 
-        Debug.Log("Enemy가 Player를 공격했습니다!");
-
         Anim.SetBool("isRun", false);
         Anim.SetTrigger("isAttack");
 
@@ -312,12 +310,16 @@ public class EnemyBase : MonoBehaviour
         await UniTask.WaitWhile(() => GameManager.Instance != null && GameManager.Instance.IsPaused, cancellationToken: CancelToken);
 
         // 플레이어에게 공격을 했을 때, 체력 카운틀를 감소하는 메서드
-        if (TargetPlayer != null)
+        if (throwScript == null && shootScript == null)
         {
-            PlayerController player = TargetPlayer.GetComponent<PlayerController>();
-            if (player != null)
+            if (TargetPlayer != null)
             {
-                player.OnPlayerHit();
+                PlayerController player = TargetPlayer.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    player.OnPlayerHit();
+                    Debug.Log("근접 공격: Police_Normal이 플레이어를 때렸습니다!");
+                }
             }
         }
 

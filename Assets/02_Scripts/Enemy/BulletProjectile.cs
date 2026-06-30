@@ -62,8 +62,6 @@ public class BulletProjectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("총알: 적 맞고 파괴됨");
-            ReturnToPool();
             return;
         }
 
@@ -75,6 +73,13 @@ public class BulletProjectile : MonoBehaviour
                 player.OnPlayerHit();
                 Debug.Log("총알: 플레이어가 총알에 맞았습니다.");
             }
+
+            if (other.TryGetComponent(out IDebuffable debuffTarget))
+            {
+                debuffTarget.ApplyDebuff(DebuffType.MoveSpeed, 0.01f, 1.5f);
+                Debug.Log("[디버프] 테이저건 효과: 이동 속도 99% 감소 (1.5초)");
+            }
+
             ReturnToPool();
             return;
         }
