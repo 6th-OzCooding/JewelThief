@@ -94,6 +94,7 @@ public class MapObjectSpawner
 
     private void SpawnEnemy()
     {
+        Debug.Log("적 스폰 시작");
         IReadOnlyList<SpawnArea> areas = _registry.GetAreas(AreaType.Floor);
         _providers.TryGetValue(AreaType.Floor, out ISpawnPositionProvider provider);
 
