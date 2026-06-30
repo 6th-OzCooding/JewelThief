@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using NUnit.Framework;
 using System;
 using Unity.AI.Navigation;
 using UnityEngine;
@@ -233,7 +232,6 @@ public class GameManager : SingletonBehaviour<GameManager>
     public void EnterInGame(string StageId)
     {
         EnterInGameAsync(StageId).Forget();
-
     }
 
     private async UniTaskVoid EnterInGameAsync(string stageId)
