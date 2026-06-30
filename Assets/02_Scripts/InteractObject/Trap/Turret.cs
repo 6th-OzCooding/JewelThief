@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UnityEngine;
 
 public class Turret : BaseDisarmableObejct
@@ -42,6 +43,9 @@ public class Turret : BaseDisarmableObejct
 
     private void Update()
     {
+        if (GameManager.Instance.IsPaused) 
+            return;
+
         if (_isFireRoutineRunning)
             return;
 
@@ -55,7 +59,7 @@ public class Turret : BaseDisarmableObejct
 
 
         Debug.Log("플레이어 감지");
-        FireRoutineAsync().Forget();
+        FireRoutineAsync(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
     private void ScanHead()
@@ -81,11 +85,11 @@ public class Turret : BaseDisarmableObejct
     }
 
 
-    private async UniTaskVoid FireRoutineAsync()
+    private async UniTaskVoid FireRoutineAsync(CancellationToken token)
     {
         _isFireRoutineRunning = true;
 
-        await UniTask.Delay(TimeSpan.FromSeconds(_warmUpTime), cancellationToken: this.GetCancellationTokenOnDestroy());
+        await PauseAwareDelay(_warmUpTime, token);
 
         GameObject bulletPrefab = Utils.ResourcesLoad<GameObject>("Bullet");
 
@@ -94,11 +98,31 @@ public class Turret : BaseDisarmableObejct
             var bullet = Instantiate(bulletPrefab, _fireTransform.position, _fireTransform.rotation);
             bullet.GetComponent<Bullet>().Init(_fireTransform.forward);
 
-            await UniTask.Delay(_fireIntervalMs, cancellationToken: this.GetCancellationTokenOnDestroy());
+            await PauseAwareDelay(_fireIntervalMs, token);
         }
 
-        await UniTask.Delay(TimeSpan.FromSeconds(_cooldownTime), cancellationToken: this.GetCancellationTokenOnDestroy());
+        await PauseAwareDelay(_cooldownTime, token);
 
         _isFireRoutineRunning = false;
+    }
+
+    private async UniTask PauseAwareDelay(float seconds, CancellationToken token)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < seconds)
+        {
+            token.ThrowIfCancellationRequested();
+
+            if (GameManager.Instance.IsPaused)
+            {
+                await UniTask.WaitUntil(() => !GameManager.Instance.IsPaused, cancellationToken: token);
+                continue;
+            }
+
+            elapsedTime += Time.deltaTime;
+
+            await UniTask.Yield(PlayerLoopTiming.Update, token);
+        }
     }
 }

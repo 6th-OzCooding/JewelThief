@@ -16,6 +16,9 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        if(GameManager.Instance.IsPaused)
+            return;
+
         transform.position += _moveDirection * _speed * Time.deltaTime;
     }
 

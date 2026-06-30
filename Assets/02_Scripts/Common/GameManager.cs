@@ -40,8 +40,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     [Header("InGame Spawn")]
     [SerializeField] private float _inGameSpawnHeightOffset = 1f;
 
-    public bool _isInGame { get; private set; } = false;
-    public bool _isPaused { get; private set; } = false;
+    private bool _isInGame = false;
+    private bool _isPaused = false;
 
     public bool IsEnteringInGame { get; private set; } = false;
 
