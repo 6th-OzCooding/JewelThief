@@ -5198,7 +5198,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 64319597458206716, guid: 47c46d97d67148d4aaf24b84e231994d, type: 3}
       propertyPath: m_Convex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8072541138455718498, guid: 47c46d97d67148d4aaf24b84e231994d, type: 3}
       propertyPath: m_RootOrder
@@ -6036,7 +6036,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 64319597458206716, guid: 47c46d97d67148d4aaf24b84e231994d, type: 3}
       propertyPath: m_Convex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8072541138455718498, guid: 47c46d97d67148d4aaf24b84e231994d, type: 3}
       propertyPath: m_RootOrder

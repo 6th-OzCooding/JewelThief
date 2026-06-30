@@ -31,7 +31,8 @@ public enum UIType
     SimplePopupUI,
     ShopInfoPopupUI,
     ScorePopupUI,
-    JewelInventoryUI
+    JewelInventoryUI,
+    InGameLoadingUI
 }
 
 /// <summary>
@@ -102,13 +103,21 @@ public static class UIManagerExtension
         return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TitleUI);
     }
 
-    // TODO: (김경훈 - 26.06.22) 임시 추가, 계층 및 루트 확정 필요
-    public static UIBase OpenStageSelectUI(this UIManager uimanager)
+    public static StageSelectUI OpenStageSelectUI(this UIManager uimanager)
     {
-        return uimanager.OpenUI(UIRootType.MainUI, UIType.StageSelectUI);
+        UIBase uiBase = uimanager.OpenUI(UIRootType.MainUI, UIType.StageSelectUI);
+        if (uiBase == null)
+            return null;
+
+        if (!uiBase.TryGetComponent(out StageSelectUI stageSelectUI))
+        {
+            Debug.LogWarning("StageSelectUI 프리팹에 StageSelectUI 컴포넌트가 없습니다.");
+            return null;
+        }
+
+        return stageSelectUI;
     }
 
-    // TODO: (김경훈 - 26.06.22) 임시 추가, 계층 및 루트 확정 필요
     public static void CloseStageSelectUI(this UIManager uimanager)
     {
         uimanager.CloseUI(UIType.StageSelectUI);
@@ -125,6 +134,22 @@ public static class UIManagerExtension
     public static void CloseMainUI(this UIManager uiManager)
     {
         uiManager.CloseUI(UIType.TitleUI);
+    }
+
+    /// <summary>
+    /// 인게임 진입(맵 생성) 중 표시되는 로딩 UI를 엽니다.
+    /// </summary>
+    public static UIBase OpenInGameLoadingUI(this UIManager uiManager)
+    {
+        return uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.InGameLoadingUI);
+    }
+
+    /// <summary>
+    /// 인게임 진입 중 표시되는 로딩 UI를 닫습니다.
+    /// </summary>
+    public static void CloseInGameLoadingUI(this UIManager uiManager)
+    {
+        uiManager.CloseUI(UIType.InGameLoadingUI);
     }
 
     /// <summary>

@@ -7,9 +7,16 @@ public class StageSelectUI : UIBase
     [Header("UI Elements")]
     [SerializeField] private StageButton[] _stageButtons;
 
+    private StageSelectController _stageSelectController;
+
     private void Start()
     {
         InitializeStageData();
+    }
+
+    public void SetController(StageSelectController controller)
+    {
+        _stageSelectController = controller;
     }
 
     private void InitializeStageData()
@@ -38,6 +45,10 @@ public class StageSelectUI : UIBase
 
         GameManager.Instance.SelectedStageId = stageData.Id;
         GameManager.UI.CloseStageSelectUI();
+
+        if (_stageSelectController != null)
+            _stageSelectController.ExitStageSelect();
+
         GameManager.Instance.EnterInGame(stageData.Id);
 
     }

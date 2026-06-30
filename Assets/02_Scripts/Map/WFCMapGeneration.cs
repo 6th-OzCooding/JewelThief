@@ -597,6 +597,11 @@ public class WFCMapGeneration
         return tile != null;
     }
 
+    public Vector3 GetStartTileWorldPosition()
+    {
+        return _startGrid.transform.position;
+    }
+
     private Direction GetOppositeDirection(Direction direction)
     {
         return direction switch
