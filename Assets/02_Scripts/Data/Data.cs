@@ -34,6 +34,8 @@ public enum ItemType
     None = 0,
     Tool,
     Jewel,
+    Painting,
+    Statue,
     Junk
 }
 

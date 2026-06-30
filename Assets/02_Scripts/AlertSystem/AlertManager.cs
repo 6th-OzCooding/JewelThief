@@ -59,8 +59,6 @@ public class AlertManager
         if (amount <= 0f) return;
 
         _remainingTime += amount;
-
-        // TODO(김경훈 2026-06-13): 타이머 증가 시 경계레벨 감소 여부 논의 필요
     }
 
     // 타이머 감소 요청 (함정 발동, 플레이어 행동 등)
