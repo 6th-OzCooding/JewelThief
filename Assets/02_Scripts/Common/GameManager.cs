@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using NUnit.Framework;
 using System;
 using Unity.AI.Navigation;
 using UnityEngine;
@@ -233,7 +232,6 @@ public class GameManager : SingletonBehaviour<GameManager>
     public void EnterInGame(string StageId)
     {
         EnterInGameAsync(StageId).Forget();
-
     }
 
     private async UniTaskVoid EnterInGameAsync(string stageId)
@@ -254,6 +252,9 @@ public class GameManager : SingletonBehaviour<GameManager>
             _soundManager.PlayBGM(SoundId.BGM_PlayTheme);
             _alertManager.Init(stageData.TimeLimit);
         }
+
+        if (JewelInventoryManager.Instance != null)
+            JewelInventoryManager.Instance.InitStageStartPrice();
 
         _isInGame = true;
         _isPaused = false;
@@ -301,13 +302,18 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         _isPaused = true;
 
-        OnPlayerCaught?.Invoke();
-        _playerController.ResetPlayerStat();
-
-        // TODO(김경훈 2026-06-29): 보석 계산 메서드 확인 후 totalValue/bestGemName 연동
         int totalValue = 0;
         string bestGemName = "";
+        if (JewelInventoryManager.Instance != null)
+        {
+            totalValue = JewelInventoryManager.Instance.GetCurrentStageScore();
+            bestGemName = JewelInventoryManager.Instance.GetMostExpensiveJewelName();          
+        }
+
         float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
+
+        OnPlayerCaught?.Invoke();
+        _playerController.ResetPlayerStat();        
 
         ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
         if (scorePopupUI != null)
@@ -358,16 +364,21 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         _isPaused = true;
 
-        OnPlayerEscape?.Invoke();
-
         int totalValue = 0;
         string bestGemName = "";
+        if (JewelInventoryManager.Instance != null)
+        {
+            bestGemName = JewelInventoryManager.Instance.GetMostExpensiveJewelName();
+            totalValue = JewelInventoryManager.Instance.GetStageScoreAndFinalize();
+        }
+
+        OnPlayerEscape?.Invoke();
         float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
 
         ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
         if (scorePopupUI != null)
         {
-            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: true);
+            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: false);
         }
         else
         {

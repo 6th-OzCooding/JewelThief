@@ -13,5 +13,10 @@
     "Id": "Trap_Turret",
     "Name": null,
     "ObjectPrefabPath": "TurretTrap"
+  },
+  {
+    "Id": "Trap_Mushroom",
+    "Name": null,
+    "ObjectPrefabPath": "MushroomTrap"
   }
 ]

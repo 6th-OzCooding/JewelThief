@@ -747,7 +747,8 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log("적에게 잡혀 가방/양손 아이템이 모두 몰수되었습니다. (Tool 제외)");
 
-        // TODO(김경훈 2026-06-29): lInventoryManager의 보석 몰수 기능 확정되면 연동
+        if (JewelInventory != null)
+            JewelInventory.ClearAllJewelsOnCaught();
     }
 
     public void RemoveToolItems()

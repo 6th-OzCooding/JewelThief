@@ -6,42 +6,33 @@ using UnityEngine;
 /// </summary>
 public class TimerHUD : MonoBehaviour
 {
-    private enum TimerSourceType
-    {
-        TestLocalTimer,
-        AlertManager
-    }
-
     [Header("Timer")]
     [SerializeField] private TMP_Text _timeLimitText;
     [SerializeField] private TMP_Text _currentGoldText;
-    [SerializeField] private TimerSourceType _timerSourceType = TimerSourceType.TestLocalTimer;
-    [SerializeField] private float _testTimerSeconds = 600f;
 
     [Header("Timer Presentation")]
     [SerializeField] private Color _normalTextColor = Color.white;
     [SerializeField] private Color _dangerTextColor = Color.red;
     [SerializeField] private float _dangerTextScale = 1.2f;
 
-    [Header("Test Options")]
-    [SerializeField] private float _testDecreaseSeconds = 60f;
-
-    private float _currentTestTimerSeconds;
+    private float _stageTimeLimit = 0f;
     private Vector3 _baseTextScale = Vector3.one;
 
     private void OnEnable()
     {
         CacheBaseTextScale();
-        ResetTimer();
+        CacheStageTimeLimit();
         Refresh();
     }
 
-    /// <summary>
-    /// Resets the local test timer to the configured test duration.
-    /// </summary>
-    public void ResetTimer()
+    private void CacheStageTimeLimit()
     {
-        _currentTestTimerSeconds = Mathf.Max(0f, _testTimerSeconds);
+        if (GameManager.Instance == null)
+            return;
+
+        StageData stageData = GameManager.DataTable.GetStageData(GameManager.Instance.SelectedStageId);
+        if (stageData != null)
+            _stageTimeLimit = stageData.TimeLimit;
     }
 
     /// <summary>
@@ -60,31 +51,20 @@ public class TimerHUD : MonoBehaviour
     }
 
     /// <summary>
-    /// Refreshes the timer display from the configured timer source.
+    /// Refreshes the timer display from AlertManager.
     /// </summary>
     public void Refresh()
     {
-        if (GameManager.Instance != null && !GameManager.Instance.IsInGame)
+        if (GameManager.Instance == null) return;
+
+        if (!GameManager.Instance.IsInGame)
         {
             ShowLobbyGold();
             return;
         }
 
         ShowStageTimer();
-
-        if (_timerSourceType == TimerSourceType.AlertManager)
-        {
-            if (GameManager.Instance == null) return;
-
-            SetTimer(GameManager.Alert.GetRemainingTime());
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
-            DecreaseTestTimer(_testDecreaseSeconds);
-
-        _currentTestTimerSeconds = Mathf.Max(0f, _currentTestTimerSeconds - Time.deltaTime);
-        SetTimer(_currentTestTimerSeconds);
+        SetTimer(GameManager.Alert.GetRemainingTime());
     }
 
     private void ShowLobbyGold()
@@ -92,7 +72,7 @@ public class TimerHUD : MonoBehaviour
         SetTextActive(_timeLimitText, false);
         SetTextActive(_currentGoldText, true);
 
-        if (_currentGoldText == null || GameManager.Instance == null) return;
+        if (_currentGoldText == null) return;
 
         _currentGoldText.text = $"보유 자금\n{GameManager.Instance.Gold}$";
     }
@@ -111,11 +91,6 @@ public class TimerHUD : MonoBehaviour
         text.gameObject.SetActive(isActive);
     }
 
-    private void DecreaseTestTimer(float decreaseSeconds)
-    {
-        _currentTestTimerSeconds = Mathf.Max(0f, _currentTestTimerSeconds - decreaseSeconds);
-    }
-
     private void CacheBaseTextScale()
     {
         if (_timeLimitText == null) return;
@@ -127,7 +102,7 @@ public class TimerHUD : MonoBehaviour
     {
         if (_timeLimitText == null) return;
 
-        float maxSeconds = Mathf.Max(1f, _testTimerSeconds);
+        float maxSeconds = Mathf.Max(1f, _stageTimeLimit);
         float normalizedTime = Mathf.Clamp01(remainingSeconds / maxSeconds);
         float dangerRate = 1f - normalizedTime;
 
