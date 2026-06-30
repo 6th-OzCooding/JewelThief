@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 
@@ -8,6 +10,7 @@ public class MapObjectSpawner
     private MapSpawnRequestBuilder _requestBuilder;
 
     private Dictionary<AreaType, ISpawnPositionProvider> _providers;
+    private StageData _stageData;
 
     public MapObjectSpawner()
     {
@@ -21,6 +24,8 @@ public class MapObjectSpawner
             { AreaType.Ceiling, new CeilingProvider() },
             { AreaType.FloorWall, new FloorWallProvider() }
         };
+
+        GameManager.Alert.OnTimeUp += SpawnEnemy;
     }
 
     public void ObjectSpawnAfterMapGenerated(IEnumerable<MapTile> generatedTiles)
@@ -29,9 +34,9 @@ public class MapObjectSpawner
         _registry.RegisterFromRoot(generatedTiles);
 
         var mapSpawnData = GameManager.DataTable.GetMapSpawnDataTable();
-        StageData stageData = GameManager.DataTable.GetStageData(GameManager.Instance.SelectedStageId);
+        _stageData = GameManager.DataTable.GetStageData(GameManager.Instance.SelectedStageId);
 
-        List<MapSpawnRequest> requests = _requestBuilder.Build(mapSpawnData, stageData);
+        List<MapSpawnRequest> requests = _requestBuilder.Build(mapSpawnData, _stageData);
 
         foreach (MapSpawnRequest request in requests)
         {
@@ -84,6 +89,33 @@ public class MapObjectSpawner
             default:
                 Debug.Log("잘못된 상호작용 타입: " + data.GetInteractType());
                 return true;
+        }
+    }
+
+    private void SpawnEnemy()
+    {
+        IReadOnlyList<SpawnArea> areas = _registry.GetAreas(AreaType.Floor);
+        _providers.TryGetValue(AreaType.Floor, out ISpawnPositionProvider provider);
+
+        for (int i = 0; i < _stageData.MaxEnemies.Count; i++)
+        {
+            int monsterCount = _stageData.MaxEnemies[i];
+            int spawnedCount = 0;
+            string enemyId = "Enemy_0" + $"{i + 1}";
+            string enemyPoolAddress = GameManager.DataTable.GetEnemyData(enemyId).Name;
+
+            for (int j = 0; j < monsterCount; j++)
+            {
+                if (!provider.GetSpawnInfo(areas, out SpawnInfo spawnInfo))
+                {
+                    Debug.LogWarning("스폰 Transform 얻기 실패");
+                    continue;
+                }
+
+                GameManager.Pool.SpawnFromPool(enemyPoolAddress, spawnInfo.Position);
+
+                spawnedCount++;
+            }
         }
     }
 }
