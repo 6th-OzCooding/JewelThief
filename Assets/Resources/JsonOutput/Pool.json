@@ -13,7 +13,7 @@
   },
   {
     "Id": "InteractableContainer_Prefab",
-    "InitSize": 10
+    "InitSize": 5
   },
   {
     "Id": "Effect_High",
@@ -33,11 +33,11 @@
   },
   {
     "Id": "Pool_Throw",
-    "InitSize": 10
+    "InitSize": 15
   },
   {
     "Id": "Pool_Bullet",
-    "InitSize": 10
+    "InitSize": 15
   },
   {
     "Id": "Police_Normal",
@@ -50,5 +50,25 @@
   {
     "Id": "Police_Throw",
     "InitSize": 3
+  },
+  {
+    "Id": "TurretTrap",
+    "InitSize": 5
+  },
+  {
+    "Id": "Turret_Bullet",
+    "InitSize": 18
+  },
+  {
+    "Id": "StonTrap",
+    "InitSize": 5
+  },
+  {
+    "Id": "WebTrap",
+    "InitSize": 5
+  },
+  {
+    "Id": "BaseTrap",
+    "InitSize": 15
   }
 ]
