@@ -379,7 +379,10 @@ public class InteractableContainer : BaseDisarmableObejct
         switch (itemData.GetItemType()) 
         {
             case ItemType.Jewel:
-                return "Pool_Jewel";
+            case ItemType.Statue:
+            case ItemType.Painting:
+            case ItemType.Junk:
+                return "ItemObject";
 
             case ItemType.Tool:
                 return "Pool_Tool";
