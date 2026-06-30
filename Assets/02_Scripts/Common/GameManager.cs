@@ -340,7 +340,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         HandleStageEnd(isCaught: true);
     }
 
-    public void EscapeSuccessful()
+    public void Escape()
     {
         HandleStageEnd(isCaught: false);
     }
