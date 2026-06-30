@@ -57,7 +57,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!114 &3934776421292825283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableContainer
   _animController: {fileID: 1939727076065272339}
+  _audioSource: {fileID: 0}
 --- !u!114 &1939727076065272339
 MonoBehaviour:
   m_ObjectHideFlags: 0

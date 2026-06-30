@@ -322,7 +322,6 @@ public class InteractableContainer : BaseDisarmableObejct
         _audioSource.Play();
     }
 
-    //                          AI생성
     private GameObject SpawnItemObjectFromPool(ItemData itemData, string itemId)
     {
         string poolId = GetItemPoolId(itemData);
@@ -336,50 +335,24 @@ public class InteractableContainer : BaseDisarmableObejct
             Quaternion.identity
         );
 
-        switch (poolId)
+        spawnedObject.TryGetComponent<BaseInteractableObject>(out BaseInteractableObject spawnInteractableObject);
+        if(spawnInteractableObject == null) 
         {
-            case "Pool_Jewel":
-
-                if (spawnedObject.TryGetComponent<Jewel>(out Jewel jewel))
-                {
-                    jewel.InitFromSpawner(itemId);
-                }
-                else
-                {
-                    Debug.LogError("Pool_Jewel 프리팹에 Jewel 컴포넌트가 없습니다.");
-                    GameManager.Pool.DespawnToPool(spawnedObject);
-                    return null;
-                }
-                break;
-            case "Pool_Tool":
-
-                if (spawnedObject.TryGetComponent<Tool>(out Tool tool))
-                {
-                    tool.InitFromSpawner(itemId);
-                }
-                else
-                {
-                    Debug.LogError("Pool_Tool 프리팹에 Tool 컴포넌트가 없습니다.");
-                    GameManager.Pool.DespawnToPool(spawnedObject);
-                    return null;
-                }
-                break;
-            default:
-                Debug.LogError($"지원하지 않는 PoolId입니다: {poolId}");
-                GameManager.Pool.DespawnToPool(spawnedObject);
-                return null;
+            Debug.LogError($"{spawnInteractableObject.GetName}에 spawnInteractableObject를 상속받지 않았습니다.");
+            return null;
         }
 
+        spawnInteractableObject.InitFromSpawner(itemId);
+        
         return spawnedObject;
     }
 
-    //                          AI생성
     private string GetItemPoolId(ItemData itemData)
     {
         switch (itemData.GetItemType()) 
         {
             case ItemType.Jewel:
-                return "Pool_Jewel";
+                return "ItemObject";
 
             case ItemType.Tool:
                 return "Pool_Tool";

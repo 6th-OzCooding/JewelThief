@@ -14,19 +14,20 @@
       0
     ],
     "ItemIdList": [
-      "Item_Jewel_Diamond",
-      "Item_Jewel_Amethyst",
-      "Item_Jewel_Aquamarine",
-      "Item_Jewel_Emerald",
-      "Item_Jewel_Ruby",
-      "Item_Jewel_Sapphire",
-      "Item_Jewel_Topaz"
+      "Item_Junk_Bottle_Blue",
+      "Item_Junk_Bottle_Pink_Large",
+      "Item_Junk_Can_Navy",
+      "Item_Junk_Fish",
+      "Item_Junk_Glasses",
+      "Item_Junk_Microphone",
+      "Item_Junk_Sculpture",
+      "Item_Junk_Stone"
     ],
     "RateList": [
-      100,
-      0,
-      0,
-      0
+      40,
+      20,
+      20,
+      20
     ],
     "MaxItemCount": 1,
     "ContainerMeshPrefabPath": "Mesh_Cabinet"
@@ -141,9 +142,9 @@
     ],
     "RateList": [
       0,
-      40,
-      50,
-      10
+      70,
+      25,
+      5
     ],
     "MaxItemCount": 1,
     "ContainerMeshPrefabPath": "Mesh_BrokenIronBox_Prefab"
