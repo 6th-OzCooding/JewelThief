@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 
-public class Turret : BaseDisarmableObejct
+public class Turret : BaseTrap
 {
     [Header("References")]
     [SerializeField] private Transform _headTransform;
@@ -34,11 +34,6 @@ public class Turret : BaseDisarmableObejct
 
         if (_headTransform != null)
             _baseHeadLocalRotation = _headTransform.localRotation;
-    }
-
-    protected override void LoadData(string id)
-    {
-        //GameManager.DataTable.GetTrapData();
     }
 
     private void Update()

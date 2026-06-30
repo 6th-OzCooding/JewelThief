@@ -52,7 +52,8 @@ public enum MapSpawnObjectType
     Jewel,
     Junk,
     Statue,
-    Trap,
+    FloorTrap,
+    CeilingTrap,
     FloorContainer,
     WallContainer,
     Enemy,
@@ -192,7 +193,8 @@ public class StageData : BaseData
     public int MaxStatue;
     public int MaxFloorContainer;
     public int MaxWallContainer;
-    public int MaxTrap;
+    public int MaxFloorTrap;
+    public int MaxCeilingTrap;
     public int MaxEnemy;
     public int MaxPainting;
     public int ExitCount;
@@ -232,4 +234,11 @@ public class MapSpawnData : BaseData
 
     public InteractType GetInteractType()
         => Enum.TryParse<InteractType>(StringInteractType, out var result) ? result : InteractType.None;
+}
+
+[Serializable]
+public class TrapData : BaseData
+{
+    public string Name;
+    public string ObjectPrefabPath;
 }
