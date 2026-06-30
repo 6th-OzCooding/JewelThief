@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,IStatModifiable
 {
     [Header("이동 설정")]
-    [SerializeField] private float _moveSpeed = 8f;
-    [SerializeField] private float _sprintScale = 2f; //스프린트 속도 배율
+    [SerializeField] private float _moveSpeed = 4f;
+    [SerializeField] private float _sprintScale = 1.3f; //스프린트 속도 배율
     [SerializeField] private float _crouchScale = 0.3f; //앉을 때 속도 배율
     [SerializeField] private float _overweightScale = 0.5f; //무게 초과했을 때 속도 배율 
     [SerializeField] private float _minMoveSpeed = 1f; //최소한의 속도
