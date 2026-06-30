@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ public class QuickSlotHUD : MonoBehaviour
     [Header("Slot Roots")]
     [SerializeField] private Transform[] _slotIconRoots;
     [SerializeField] private GameObject[] _slotSelectImages;
+    [SerializeField] private GameObject[] _slotCountImages;
+    [SerializeField] private TMP_Text[] _slotCountTexts;
 
     [Header("Test Options")]
     [SerializeField] private string _testIconResourcesPath = "Images/MasterkeyIconTest";
@@ -29,6 +32,7 @@ public class QuickSlotHUD : MonoBehaviour
     private void OnEnable()
     {
         HideAllSelectImages();
+        HideAllCountImages();
     }
 
     private void Update()
@@ -78,6 +82,7 @@ public class QuickSlotHUD : MonoBehaviour
     public void RefreshToolSlots(IReadOnlyList<InventoryItem> toolItems)
     {
         ClearAllSlotIcons();
+        HideAllCountImages();
 
         if (toolItems == null || _slotIconRoots == null)
             return;
@@ -96,6 +101,7 @@ public class QuickSlotHUD : MonoBehaviour
                 continue;
 
             CreateIcon(_slotIconRoots[i], iconSprite);
+            RefreshSlotCount(i, toolItems[i]);
         }
 
         if (_selectedSlotIndex >= 0 && !HasIcon(_selectedSlotIndex))
@@ -212,6 +218,78 @@ public class QuickSlotHUD : MonoBehaviour
         {
             ClearSlotIconRoot(_slotIconRoots[i]);
         }
+    }
+
+    private void HideAllCountImages()
+    {
+        if (_slotCountImages == null)
+            return;
+
+        for (int i = 0; i < _slotCountImages.Length; i++)
+        {
+            SetSlotCountVisible(i, false);
+        }
+    }
+
+    private void RefreshSlotCount(int slotIndex, InventoryItem inventoryItem)
+    {
+        if (inventoryItem == null)
+        {
+            SetSlotCountVisible(slotIndex, false);
+            return;
+        }
+
+        int remainingUseCount = inventoryItem.RemainingUseCount;
+        if (remainingUseCount <= 0)
+        {
+            SetSlotCountVisible(slotIndex, false);
+            return;
+        }
+
+        SetSlotCountVisible(slotIndex, true);
+
+        TMP_Text countText = GetSlotCountText(slotIndex);
+        if (countText != null)
+        {
+            countText.text = remainingUseCount.ToString();
+        }
+    }
+
+    private void SetSlotCountVisible(int slotIndex, bool isVisible)
+    {
+        GameObject countImage = GetSlotCountImage(slotIndex);
+        if (countImage != null)
+        {
+            countImage.SetActive(isVisible);
+        }
+
+        TMP_Text countText = GetSlotCountText(slotIndex);
+        if (countText != null)
+        {
+            countText.gameObject.SetActive(isVisible);
+        }
+    }
+
+    private GameObject GetSlotCountImage(int slotIndex)
+    {
+        if (_slotCountImages == null)
+            return null;
+
+        if (slotIndex < 0 || slotIndex >= _slotCountImages.Length)
+            return null;
+
+        return _slotCountImages[slotIndex];
+    }
+
+    private TMP_Text GetSlotCountText(int slotIndex)
+    {
+        if (_slotCountTexts == null)
+            return null;
+
+        if (slotIndex < 0 || slotIndex >= _slotCountTexts.Length)
+            return null;
+
+        return _slotCountTexts[slotIndex];
     }
 
     private void ClearSlotIconRoot(Transform slotIconRoot)

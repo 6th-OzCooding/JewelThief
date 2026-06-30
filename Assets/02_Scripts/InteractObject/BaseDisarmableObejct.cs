@@ -88,8 +88,6 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
         if (!CanInteract())
             return;
         
-        CheckRequireTools(interactor);
-        
         Disarm(interactor);
     }
 
@@ -104,50 +102,28 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
 
     private void CheckRequireTools(IInteractor interactor)
     {
-        // TODO(안우재 2026-6-23)
-        // 플레이어에 Player가 들고 있다면 매개변수로 받아오도록 처리
-        // GameManager가 들고 있다면 GameManager를 통해 접근해서 인벤토리 내에
-        // 필요 아이템(_requiredToolIdList)과 비교하여 있는지 검사하는 로직 추가 필요 
-        // 그거에 따라서 _hasRequiresTool 값 할당
-        // 예상안) LeftHandItem, RightHandItem과 _requiredToolIdList를 비교해서 있다면 사용하여
-        // 해제하는 것으로 예상중. 오른손, 왼손 둘 다 들고 있는경우 오른손을 먼저 비교 사용
         _hasRequiresTool = false;
-        if (interactor == null) return;
-        if (_requiredToolIdList.Contains("None") || _requiredToolIdList ==null || _requiredToolIdList.Count == 0) return;
 
-        if(interactor is PlayerController player)
-        {
-            if(player is IInventoryOwner playerHandSituation)
-            {
-                string leftHandItemDataId = playerHandSituation.LeftHandItem?.ItemData?.Id;
-                string rightHandItemDataId = playerHandSituation.RightHandItem?.ItemData?.Id;
+        if (interactor == null)
+            return;
 
-                foreach (string dataId in _requiredToolIdList)
-                {
-                    // key가 사라지거나 하므로 오른손 왼손 구별하여 if문 작성
-                    if (dataId == rightHandItemDataId)
-                    {
-                        _hasRequiresTool = true;
+        if (_requiredToolIdList == null || _requiredToolIdList.Count == 0)
+            return;
 
-                        // key에 따른 사용로직 추가 필요
+        if (_requiredToolIdList.Contains("None"))
+            return;
 
-                        return;
-                    }
-                    else if (dataId == leftHandItemDataId)
-                    {
-                        _hasRequiresTool = true;
-                        // key에 따른 사용로직 추가 필요
-                        return;
-                    }
-                }
-            }
-        }
+        if (interactor is not IInventoryOwner inventoryOwner)
+            return;
+
+        _hasRequiresTool = inventoryOwner.TryUseSelectedTool(_requiredToolIdList, out _);
     }
 
     public void Disarm(IInteractor interactor)
     {
         if (CanDisarm())
         {
+            CheckRequireTools(interactor);
             OnDisarm(_hasRequiresTool);
             return;
         }
