@@ -28,6 +28,16 @@ public class BarProjectile : MonoBehaviour
         AutoDespawnRoutine(_cts.Token).Forget();
     }
 
+    private void OnDisable()
+    {
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
+    }
+
     private async UniTaskVoid AutoDespawnRoutine(CancellationToken token)
     {
         bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(_lifeTime), cancellationToken: token).SuppressCancellationThrow();
@@ -38,13 +48,6 @@ public class BarProjectile : MonoBehaviour
 
     private void ReturnToPool()
     {
-        // Dispose를 사용하여 메모리 누수 문제 해결
-        if (_cts != null)
-        {
-            _cts.Cancel();
-            _cts.Dispose();
-            _cts = null;
-        }
         if (gameObject.activeInHierarchy)
         {
             GameManager.Pool.DespawnToPool(gameObject);
@@ -54,40 +57,19 @@ public class BarProjectile : MonoBehaviour
     private void Update()
     {
         transform.Rotate(Vector3.right * _spinSpeed * Time.deltaTime, Space.Self);
+
         float moveDistance = _speed * Time.deltaTime;
-
-        if (Physics.Raycast(transform.position, _flyDirection, out RaycastHit hit, moveDistance))
-        {
-            if (hit.collider.CompareTag("Enemy"))
-            {
-                Debug.Log("적 맞고 파괴됨");
-                ReturnToPool();
-                return;
-            }
-            else if (hit.collider.CompareTag("Player"))
-            {
-                PlayerController player = hit.collider.GetComponent<PlayerController>();
-                if (player != null)
-                {
-                    player.OnPlayerHit();
-                }
-                ReturnToPool();
-                return;
-            }
-            else
-            {
-                Debug.Log("벽 맞고 파괴됨");
-                ReturnToPool();
-                return;
-            }
-        }
-
         transform.position += _flyDirection * moveDistance;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy")) return;
+        if (other.CompareTag("Enemy"))
+        {
+            Debug.Log("곤봉: 적 맞고 파괴됨");
+            ReturnToPool();
+            return;
+        }
 
         if (other.CompareTag("Player"))
         {
@@ -95,9 +77,12 @@ public class BarProjectile : MonoBehaviour
             if (player != null)
             {
                 player.OnPlayerHit();
-                Debug.Log("플레이어가 곤봉에 맞았습니다.");
+                Debug.Log("곤봉: 플레이어가 곤봉에 맞았습니다.");
             }
+            ReturnToPool();
+            return;
         }
+
         ReturnToPool();
     }
 }

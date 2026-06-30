@@ -107,14 +107,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   _viewRadius: 8
   _viewAngle: 140
-  _viewHeight: 1.2
+  _viewHeight: 0.5
   _detectRadius: 12
   _walkSpeed: 3
   _runSpeed: 3
   _attackRadius: 8
   _minApproachDistance: 5
   _attackDelay: 1.5
-  _attackDamage: 5
 --- !u!114 &6089835730745821097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +129,6 @@ MonoBehaviour:
   _taserEffect: {fileID: 5477526759706404288}
   _shootDelay: 0.5
   _effectDuration: 1
-  _bulletPrefab: {fileID: 1087995890372706508, guid: 0f8e6137e16581542baa0fc00d3f8c33, type: 3}
   _firePoint: {fileID: 8710949686342887585}
 --- !u!54 &729247758777245714
 Rigidbody:

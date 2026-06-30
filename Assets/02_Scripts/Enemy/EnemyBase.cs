@@ -51,8 +51,8 @@ public class EnemyBase : MonoBehaviour
     public bool IsAttackCooldown { get; private set; } = false;
 
     // 기본값은 0초로 잡음
-    private float _attackTimer = 0f; 
-    
+    private float _attackTimer = 0f;
+
     private float _detectTimer = 0.0f; // 탐지되고 나면 다시 초기화하기 위한 변수
     private float _detectDelay = 0.1f; // Collider로 탐지하는데 0.1초 제한을 두기 위한 변수
 
@@ -96,7 +96,28 @@ public class EnemyBase : MonoBehaviour
             Anim.speed = 1f;
             Anim.SetBool("isRun", false);
         }
-        // 시작 상태는 Normal로 지정
+        InitializeStateAfterPoolSpawn().Forget();
+    }
+
+    private async UniTaskVoid InitializeStateAfterPoolSpawn()
+    {
+        // 풀 매니저가 위치를 hit.position으로 옮길 수 있도록 1프레임 대기
+        await UniTask.Yield(PlayerLoopTiming.Update, CancelToken);
+        if (CancelToken.IsCancellationRequested) return;
+
+        if (Nav != null)
+        {
+            // 현재 바뀐 위치로 강제 인식시킴
+            Nav.Warp(transform.position);
+
+            if (Nav.isOnNavMesh)
+            {
+                Nav.isStopped = false;
+                Nav.ResetPath();
+            }
+        }
+
+        // 1프레임 기다린 후, 위치가 완전히 잡히면 그때서야 상태 시작!
         if (StateContext != null)
         {
             StateContext.Initialize(StateContext.NormalState);

@@ -1505,14 +1505,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   _viewRadius: 10
   _viewAngle: 140
-  _viewHeight: 0.7
+  _viewHeight: 0.6
   _detectRadius: 12
   _walkSpeed: 2
   _runSpeed: 2
   _attackRadius: 10
   _minApproachDistance: 6
   _attackDelay: 1
-  _attackDamage: 8
 --- !u!114 &984648289878472173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1526,7 +1525,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowEnemy
   _policeBar: {fileID: 835151399971044383}
-  _barProjectilePrefab: {fileID: 590264075299352562, guid: bf1ec8a4d5fb1db4787a5e1d5fd38c42, type: 3}
   _firePoint: {fileID: 9150044068849863141}
   _throwDelay: 0.5
   _respawnTime: 1
