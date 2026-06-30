@@ -10,6 +10,7 @@ public class Turret : BaseTrap
     [SerializeField] private Transform _fireTransform;
 
     [Header("Detection")]
+    [SerializeField] private Vector3 _detectionPositionOffset = new Vector3(0f, -0.5f, 0f);
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _playerLayerMask;
 
@@ -38,7 +39,7 @@ public class Turret : BaseTrap
 
     private void Update()
     {
-        if (GameManager.Instance.IsPaused) 
+        if (GameManager.Instance.IsPaused)
             return;
 
         if (_isFireRoutineRunning)
@@ -46,7 +47,11 @@ public class Turret : BaseTrap
 
         ScanHead();
 
-        if (!Physics.Raycast(_fireTransform.position, _fireTransform.forward, out RaycastHit hit,
+
+        Debug.DrawRay(_fireTransform.position + _detectionPositionOffset, _fireTransform.forward * _rayDistance, Color.red);
+
+
+        if (!Physics.Raycast(_fireTransform.position + _detectionPositionOffset, _fireTransform.forward, out RaycastHit hit,
                 _rayDistance, _playerLayerMask, QueryTriggerInteraction.Ignore))
             return;
 
@@ -84,17 +89,20 @@ public class Turret : BaseTrap
     {
         _isFireRoutineRunning = true;
 
+        Debug.Log("예열");
         await PauseAwareDelay(_warmUpTime, token);
-
-        GameObject bulletPrefab = Utils.ResourcesLoad<GameObject>("Bullet");
 
         for (int i = 0; i < _bulletCount; i++)
         {
-            var bullet = Instantiate(bulletPrefab, _fireTransform.position, _fireTransform.rotation);
-            bullet.GetComponent<Bullet>().Init(_fireTransform.forward);
+            Debug.Log($"발사{i + 1}");
 
-            await PauseAwareDelay(_fireIntervalMs, token);
+            var bullet = GameManager.Pool.SpawnFromPool<Bullet>("Turret_Bullet", _fireTransform.position);
+            bullet.Init(_fireTransform.forward);
+
+            await PauseAwareDelay(_fireIntervalMs / 1000f, token);
         }
+
+        Debug.Log("재장전");
 
         await PauseAwareDelay(_cooldownTime, token);
 

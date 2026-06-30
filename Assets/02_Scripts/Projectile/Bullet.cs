@@ -5,19 +5,29 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _speed = 10f;
     [SerializeField] private float _lifeTime = 5f;
 
+    private float _elapsedTime = 0f;
+
     Vector3 _moveDirection;
 
     public void Init(Vector3 direction)
     {
+        _elapsedTime = 0f;
         _moveDirection = direction.normalized;
         transform.rotation = Quaternion.LookRotation(_moveDirection);
-        Destroy(gameObject, _lifeTime);
     }
 
     private void Update()
     {
         if(GameManager.Instance.IsPaused)
             return;
+
+        _elapsedTime += Time.deltaTime;
+
+        if (_elapsedTime >= _lifeTime)
+        {
+            GameManager.Pool.DespawnToPool(this.gameObject);
+            return;
+        }
 
         transform.position += _moveDirection * _speed * Time.deltaTime;
     }
@@ -26,8 +36,7 @@ public class Bullet : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            Debug.Log($"Bullet hit: {other.gameObject.name}");
-            Destroy(gameObject);
+            GameManager.Pool.DespawnToPool(this.gameObject);
         }
     }
 }
