@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3736206867845325410}
   - component: {fileID: 2691380440959399112}
+  - component: {fileID: 1084278191821222351}
+  - component: {fileID: 5458910323791374977}
   m_Layer: 0
   m_Name: Escape
   m_TagString: Untagged
@@ -48,6 +50,46 @@ MonoBehaviour:
   _meshFilter: {fileID: 3234196841739614043}
   _meshRenderer: {fileID: 8979040912725670324}
   _meshCollider: {fileID: 2814454045083596319}
+--- !u!114 &1084278191821222351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4463526780185692950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d7236001bc418b9bd6d526127f8e73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PopupInfoTarget
+  _targetType: 4
+--- !u!54 &5458910323791374977
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4463526780185692950}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7855771123505203578
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,8 +102,6 @@ GameObject:
   - component: {fileID: 3234196841739614043}
   - component: {fileID: 8979040912725670324}
   - component: {fileID: 2814454045083596319}
-  - component: {fileID: 8851730412205315294}
-  - component: {fileID: 7951307203514793271}
   m_Layer: 0
   m_Name: EscapeModel
   m_TagString: Untagged
@@ -163,43 +203,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6667446799917024712, guid: 356ef81127125b043af6f2d18e8152a9, type: 2}
---- !u!54 &8851730412205315294
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7855771123505203578}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &7951307203514793271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7855771123505203578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1d7236001bc418b9bd6d526127f8e73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PopupInfoTarget
-  _targetType: 4
