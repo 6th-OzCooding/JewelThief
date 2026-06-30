@@ -43,7 +43,17 @@ public class ThrowEnemy : MonoBehaviour
             BarProjectile projScript = projectile.GetComponent<BarProjectile>();
             if (projScript != null && _enemyBase != null)
             {
-                projScript.Initialize(transform.forward);
+                Vector3 throwDirection = transform.forward;
+                
+                if (_enemyBase.TargetPlayer != null)
+                {
+                    Collider playerCol = _enemyBase.TargetPlayer.GetComponent<Collider>();
+                    Vector3 targetCenter = playerCol != null ? playerCol.bounds.center : _enemyBase.TargetPlayer.transform.position + Vector3.up * 1f;
+
+                    throwDirection = (targetCenter - spawnPos).normalized;
+                }
+
+                projScript.Initialize(throwDirection);
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(_respawnTime), cancellationToken: token);

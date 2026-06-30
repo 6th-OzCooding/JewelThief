@@ -51,8 +51,8 @@ public class EnemyBase : MonoBehaviour
     public bool IsAttackCooldown { get; private set; } = false;
 
     // 기본값은 0초로 잡음
-    private float _attackTimer = 0f; 
-    
+    private float _attackTimer = 0f;
+
     private float _detectTimer = 0.0f; // 탐지되고 나면 다시 초기화하기 위한 변수
     private float _detectDelay = 0.1f; // Collider로 탐지하는데 0.1초 제한을 두기 위한 변수
 
@@ -96,7 +96,28 @@ public class EnemyBase : MonoBehaviour
             Anim.speed = 1f;
             Anim.SetBool("isRun", false);
         }
-        // 시작 상태는 Normal로 지정
+        InitializeStateAfterPoolSpawn().Forget();
+    }
+
+    private async UniTaskVoid InitializeStateAfterPoolSpawn()
+    {
+        // 풀 매니저가 위치를 hit.position으로 옮길 수 있도록 1프레임 대기
+        await UniTask.Yield(PlayerLoopTiming.Update, CancelToken);
+        if (CancelToken.IsCancellationRequested) return;
+
+        if (Nav != null)
+        {
+            // 현재 바뀐 위치로 강제 인식시킴
+            Nav.Warp(transform.position);
+
+            if (Nav.isOnNavMesh)
+            {
+                Nav.isStopped = false;
+                Nav.ResetPath();
+            }
+        }
+
+        // 1프레임 기다린 후, 위치가 완전히 잡히면 그때서야 상태 시작!
         if (StateContext != null)
         {
             StateContext.Initialize(StateContext.NormalState);
@@ -264,8 +285,6 @@ public class EnemyBase : MonoBehaviour
         // 만약 Enemy가 없어진다면 (오브젝트가 삭제된다면) 바로 공격 함수 종료
         if (CancelToken.IsCancellationRequested) return;
 
-        Debug.Log("Enemy가 Player를 공격했습니다!");
-
         Anim.SetBool("isRun", false);
         Anim.SetTrigger("isAttack");
 
@@ -291,12 +310,16 @@ public class EnemyBase : MonoBehaviour
         await UniTask.WaitWhile(() => GameManager.Instance != null && GameManager.Instance.IsPaused, cancellationToken: CancelToken);
 
         // 플레이어에게 공격을 했을 때, 체력 카운틀를 감소하는 메서드
-        if (TargetPlayer != null)
+        if (throwScript == null && shootScript == null)
         {
-            PlayerController player = TargetPlayer.GetComponent<PlayerController>();
-            if (player != null)
+            if (TargetPlayer != null)
             {
-                player.OnPlayerHit();
+                PlayerController player = TargetPlayer.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    player.OnPlayerHit();
+                    Debug.Log("근접 공격: Police_Normal이 플레이어를 때렸습니다!");
+                }
             }
         }
 

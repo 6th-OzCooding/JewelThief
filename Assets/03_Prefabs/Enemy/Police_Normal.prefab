@@ -643,7 +643,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -17.377, y: 0.013771385, z: 0.23392174}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7507308581005724393}
@@ -736,14 +736,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   _viewRadius: 5
   _viewAngle: 120
-  _viewHeight: 0.8
+  _viewHeight: 0.3
   _detectRadius: 10
   _walkSpeed: 3
   _runSpeed: 4.5
   _attackRadius: 1.5
   _minApproachDistance: 1
   _attackDelay: 0
-  _attackDamage: 0
 --- !u!195 &5228809722326151580
 NavMeshAgent:
   m_ObjectHideFlags: 0

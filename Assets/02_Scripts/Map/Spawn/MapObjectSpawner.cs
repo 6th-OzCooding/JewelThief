@@ -2,8 +2,7 @@
 using UnityEditor.PackageManager.Requests;
 using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.UIElements;
-
+using UnityEngine.AI;
 
 public class MapObjectSpawner
 {
@@ -50,7 +49,6 @@ public class MapObjectSpawner
         if (!_providers.TryGetValue(request.SpawnData.GetAreaType(), out ISpawnPositionProvider provider))
         {
             Debug.LogWarning($"잘못된 스폰 영역: {request.SpawnData.GetAreaType()}");
-            Debug.LogWarning($"잘못된 스폰 영역: {request.SpawnData.StringSpawnArea}");
             return;
         }
 
@@ -98,22 +96,43 @@ public class MapObjectSpawner
     {
         Debug.Log("적 스폰 시작");
         IReadOnlyList<SpawnArea> areas = _registry.GetAreas(AreaType.Floor);
-        _providers.TryGetValue(AreaType.Floor, out ISpawnPositionProvider provider);
-
-        for (int i = 0; i < _stageData.MaxEnemies.Count; i++)
+        if (!_providers.TryGetValue(AreaType.Floor, out ISpawnPositionProvider provider))
         {
-            int monsterCount = _stageData.MaxEnemies[i];
-            int spawnedCount = 0;
-            string enemyId = "Enemy_0" + $"{i + 1}";
-            string enemyPoolAddress = GameManager.DataTable.GetEnemyData(enemyId).Name;
+            Debug.LogWarning("Floor 스폰위치를 찾을 수 없습니다.");
+            return;
+        }
 
-            for (int j = 0; j < monsterCount; j++)
+        StageEnemyData stageEnemyData = GameManager.DataTable.GetStageEnemyData(_stageData.StageEnemyId);
+
+        if (stageEnemyData == null)
+        {
+            Debug.LogError("StageEnemyData를 찾을 수 없습니다.");
+            return;
+        }
+
+        for (int i = 0; i < stageEnemyData.EnemyName.Count; i++)
+        {
+            string enemyPoolAddress = stageEnemyData.EnemyName[i];
+            int monsterCount = stageEnemyData.EnemyCount[i];
+
+            int spawnedCount = 0;
+            int maxRetries = 30;
+            int currentTry = 0;
+
+            while (spawnedCount < monsterCount && currentTry < maxRetries)
             {
+                currentTry++;
                 SpawnInfo spawnInfo = provider.GetSpawnInfo(areas);
 
-                GameManager.Pool.SpawnFromPool(enemyPoolAddress, spawnInfo.Position);
-
-                spawnedCount++;
+                if (NavMesh.SamplePosition(spawnInfo.Position, out NavMeshHit hit, 10.0f, NavMesh.AllAreas))
+                {
+                    GameManager.Pool.SpawnFromPool(enemyPoolAddress, hit.position);
+                    spawnedCount++;
+                }
+                else
+                {
+                    Debug.LogError("제대로 된 위치를 찾지 못하여 재시도 합니다.");
+                }
             }
         }
     }
