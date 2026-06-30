@@ -2,6 +2,7 @@
 using UnityEditor.PackageManager.Requests;
 using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 public class MapObjectSpawner
@@ -49,6 +50,7 @@ public class MapObjectSpawner
         if (!_providers.TryGetValue(request.SpawnData.GetAreaType(), out ISpawnPositionProvider provider))
         {
             Debug.LogWarning($"잘못된 스폰 영역: {request.SpawnData.GetAreaType()}");
+            Debug.LogWarning($"잘못된 스폰 영역: {request.SpawnData.StringSpawnArea}");
             return;
         }
 
@@ -57,13 +59,9 @@ public class MapObjectSpawner
 
         for (int i = 0; i < request.SpawnCount; i++)
         {
-            if (!provider.GetSpawnInfo(areas, out SpawnInfo spawnInfo))
-            {
-                Debug.LogWarning($"스폰 Transform 얻기 실패: {request.SpawnData.Id}");
-                continue;
-            }
+            SpawnInfo spawnInfo = provider.GetSpawnInfo(areas);
 
-            if (!TrySpawn(request.SpawnData, spawnInfo.Position, spawnInfo.Rotation, spawnInfo.IsKinematic))
+            if (!TrySpawn(request, spawnInfo))
             {
                 Debug.LogWarning($"스폰 실패: {request.SpawnData.Id}");
                 continue;
@@ -73,18 +71,22 @@ public class MapObjectSpawner
         }
     }
 
-    private bool TrySpawn(MapSpawnData data, Vector3 position, Quaternion rotation, bool isKinematic = false)
+    private bool TrySpawn(MapSpawnRequest requestData, SpawnInfo spawnInfo)
     {
+        MapSpawnData data = requestData.SpawnData;
+
         string itemId = data.ItemId[Random.Range(0, data.ItemId.Count)];
         string poolAddress = data.PoolAddress;
 
         switch (data.GetInteractType())
         {
             case InteractType.Interact:
-                GameManager.Pool.SpawnFromPool<BaseInteractableObject>(poolAddress, position, rotation).InitFromSpawner(itemId, isKinematic);
+                GameManager.Pool.SpawnFromPool<BaseInteractableObject>
+                    (poolAddress, spawnInfo.Position, spawnInfo.Rotation).InitFromSpawner(itemId, data.IsKinematic);
                 return true;
             case InteractType.Disarm:
-                GameManager.Pool.SpawnFromPool<BaseDisarmableObejct>(poolAddress, position, rotation).InitFromSpawner(itemId);
+                GameManager.Pool.SpawnFromPool<BaseDisarmableObejct>
+                    (poolAddress, spawnInfo.Position, spawnInfo.Rotation).InitFromSpawner(itemId);
                 return true;
             default:
                 Debug.Log("잘못된 상호작용 타입: " + data.GetInteractType());
@@ -107,11 +109,7 @@ public class MapObjectSpawner
 
             for (int j = 0; j < monsterCount; j++)
             {
-                if (!provider.GetSpawnInfo(areas, out SpawnInfo spawnInfo))
-                {
-                    Debug.LogWarning("스폰 Transform 얻기 실패");
-                    continue;
-                }
+                SpawnInfo spawnInfo = provider.GetSpawnInfo(areas);
 
                 GameManager.Pool.SpawnFromPool(enemyPoolAddress, spawnInfo.Position);
 

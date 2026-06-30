@@ -613,5 +613,20 @@
     "Id": "PreLoadAsset_Material_Color_2",
     "Address": "Color_2",
     "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_GameObject_Escape",
+    "Address": "Escape",
+    "AssetType": null
+  },
+  {
+    "Id": "PreLoadAsset_MeshCollider_Escape",
+    "Address": "MeshCollider_Escape",
+    "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Mesh_Escape",
+    "Address": "Mesh_Escape[SM_Prop_Vent_01]",
+    "AssetType": "Mesh"
   }
 ]

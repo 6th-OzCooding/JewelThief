@@ -32,8 +32,10 @@ public class FloorWallProvider : ISpawnPositionProvider
         _obstacleLayer = LayerMask.GetMask("Obstacle");
     }
 
-    public bool GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas, out SpawnInfo spawnInfo)
+    public SpawnInfo GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas)
     {
+        SpawnInfo spawnInfo = default;
+
         for (int i = 0; i < _spawnTryCount; i++)
         {
             SpawnArea area = spawnAreas[Random.Range(0, spawnAreas.Count)];
@@ -76,12 +78,10 @@ public class FloorWallProvider : ISpawnPositionProvider
                     continue;
 
                 spawnInfo = new SpawnInfo(candidatePosition, rotation);
-                return true;
             }
         }
 
-        spawnInfo = default;
-        return false;
+        return spawnInfo;
     }
 
     private bool TryGetFloor(Vector3 startPosition, out RaycastHit hit)

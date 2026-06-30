@@ -360,7 +360,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isPaused = false;
     }
 
-   private void EscapeSuccessful()  // TODO (한재덕 - 26.06.29) 탈출 성공시 메서드 호출 필요
+   public void EscapeSuccessful()  // TODO (한재덕 - 26.06.29) 탈출 성공시 메서드 호출 필요
     {
         _isPaused = true;
 
