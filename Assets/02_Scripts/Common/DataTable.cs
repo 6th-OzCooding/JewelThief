@@ -22,6 +22,7 @@ public class DataTable
     private Dictionary<string, EnemyData> _enemyDataTable { get; set; } = new();
     private Dictionary<string, MapSpawnData> _mapSpawnDataTable { get; set; } = new();
     private Dictionary<string, TrapData> _trapDataTable { get; set; } = new();
+    private Dictionary<string, StageEnemyData> _stageEnemyDataTable { get; set; } = new();
 
     [Serializable]
     class SerializationWrapper<T>
@@ -29,7 +30,7 @@ public class DataTable
         public List<T> items;
     }
 
-    
+
     public void LoadAllData()
     {
         _preLoadAssetDataTable = LoadData<PreLoadAssetData>("PreLoadAsset");
@@ -43,6 +44,7 @@ public class DataTable
         _enemyDataTable = LoadData<EnemyData>("Enemy");
         _mapSpawnDataTable = LoadData<MapSpawnData>("MapSpawn");
         _trapDataTable = LoadData<TrapData>("Trap");
+        _stageEnemyDataTable = LoadData<StageEnemyData>("StageEnemyData");
     }
 
     #region Getters
@@ -115,7 +117,11 @@ public class DataTable
         if (string.IsNullOrEmpty(id)) return null;
         return _trapDataTable.TryGetValue(id, out var data) ? data : null;
     }
-
+    public StageEnemyData GetStageEnemyData(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return null;
+        return _stageEnemyDataTable.TryGetValue(id, out var data) ? data : null;
+    }
     #endregion
 
     Dictionary<string, T> LoadData<T>(string tableNmae) where T : BaseData

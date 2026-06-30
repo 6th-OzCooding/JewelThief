@@ -1,0 +1,41 @@
+[
+  {
+    "Id": "Stage_Enemy_01",
+    "EnemyName": [
+      "Police_Normal",
+      "Police_Shoot",
+      "Police_Throw"
+    ],
+    "EnemyCount": [
+      4,
+      2,
+      3
+    ]
+  },
+  {
+    "Id": "Stage_Enemy_02",
+    "EnemyName": [
+      "Police_Normal",
+      "Police_Shoot",
+      "Police_Throw"
+    ],
+    "EnemyCount": [
+      6,
+      4,
+      1
+    ]
+  },
+  {
+    "Id": "Stage_Enemy_03",
+    "EnemyName": [
+      "Police_Normal",
+      "Police_Shoot",
+      "Police_Throw"
+    ],
+    "EnemyCount": [
+      5,
+      1,
+      2
+    ]
+  }
+]
