@@ -18,7 +18,7 @@ public abstract class BaseDisarmableObejct : MonoBehaviour, IInteractable, IDisa
 
     protected Animator _animator;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (null == _animator)
             TryGetComponent(out _animator);

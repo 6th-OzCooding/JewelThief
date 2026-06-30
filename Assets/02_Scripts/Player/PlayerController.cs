@@ -503,7 +503,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
 
     public void OnPlayerHit()
     {
-        if (!GameManager.Instance._isInGame || GameManager.Instance._isPaused)
+        if (!GameManager.Instance.IsInGame || GameManager.Instance.IsPaused)
             return;
 
         _playerLife--;

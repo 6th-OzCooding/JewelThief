@@ -109,10 +109,18 @@ public class PoolManager
     private GameObject LoadGameObject(string address)
     {
         GameObject gameObject = GameManager.Resource.GetLoadedAsset<GameObject>(address);
+
         if (null == gameObject)
         {
-            throw new Exception($"Pool Address({address})에 해당하는 프리팹이 ResourceManager에서 로드되어 있지 않습니다.");
+            // 그냥 프리펩 로드
+            Debug.Log($"Pool Address({address})에 에셋이 ResourceManager에서 로드되어 있지 않습니다.\n Resources 로드를 합니다.");
+            gameObject = Resources.Load<GameObject>($"Poo/{address}");
         }
+        else
+        {
+            Debug.Log($"Pool Address({address})에 에셋이 ResourceManager에서 로드되어 있습니다.");
+        }
+
         return gameObject;
     }
 }
