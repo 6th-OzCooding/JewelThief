@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 
 public enum SoundType
@@ -89,7 +90,7 @@ public class PreLoadAssetData : BaseData
 }
 
 [Serializable]
-public class ItemData : BaseData 
+public class ItemData : BaseData
 {
     public string Name;
     public string Description;
@@ -114,7 +115,7 @@ public class ItemData : BaseData
 }
 
 [Serializable]
-public class ToolData : ItemData 
+public class ToolData : ItemData
 {
     public int Durability;
 }
@@ -122,7 +123,7 @@ public class ToolData : ItemData
 [Serializable]
 public class JewelData : ItemData
 {
-    
+
 }
 
 [Serializable]
@@ -199,8 +200,15 @@ public class StageData : BaseData
     public int MaxCeilingTrap;
     public int MaxPainting;
     public int ExitCount;
-    public List<int> MaxEnemies;
+    public string StageEnemyId;
     public List<string> TileAddress;
+}
+
+[Serializable]
+public class StageEnemyData : BaseData
+{
+    public List<string> EnemyName;
+    public List<int> EnemyCount;
 }
 
 [Serializable]

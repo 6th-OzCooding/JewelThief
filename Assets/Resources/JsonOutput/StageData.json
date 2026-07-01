@@ -3,11 +3,7 @@
     "Id": "Stage_01",
     "Name": "TestMap",
     "TimeLimit": 300,
-    "MaxEnemies": [
-      4,
-      3,
-      2
-    ],
+    "StageEnemyId": "Stage_Enemy_01",
     "MaxJewel": 3,
     "MaxJunk": 6,
     "MaxStatue": 2,
@@ -43,11 +39,7 @@
     "Id": "Stage_02",
     "Name": "City",
     "TimeLimit": 600,
-    "MaxEnemies": [
-      6,
-      4,
-      3
-    ],
+    "StageEnemyId": "Stage_Enemy_02",
     "MaxJewel": 6,
     "MaxJunk": 8,
     "MaxStatue": 4,
@@ -63,11 +55,7 @@
     "Id": "Stage_03",
     "Name": "Museum",
     "TimeLimit": 600,
-    "MaxEnemies": [
-      7,
-      6,
-      5
-    ],
+    "StageEnemyId": "Stage_Enemy_03",
     "MaxJewel": 9,
     "MaxJunk": 10,
     "MaxStatue": 6,

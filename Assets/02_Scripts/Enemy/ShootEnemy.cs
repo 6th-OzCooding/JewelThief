@@ -60,8 +60,16 @@ public class ShootEnemy : MonoBehaviour
 
             if (projScript != null && _enemyBase != null)
             {
-                // 적이 바라보는 방향으로 발사
-                projScript.Initialize(transform.forward);
+                Vector3 shootDirection = transform.forward;
+                if (_enemyBase.TargetPlayer != null)
+                {
+                    Collider playerCol = _enemyBase.TargetPlayer.GetComponent<Collider>();
+                    // 플레이어의 콜리더 중심점을 찾거나, 없다면 발끝에서 1만큼 올린 위치를 타겟으로 잡습니다.
+                    Vector3 targetCenter = playerCol != null ? playerCol.bounds.center : _enemyBase.TargetPlayer.transform.position + Vector3.up * 1f;
+
+                    shootDirection = (targetCenter - _firePoint.position).normalized;
+                }
+                projScript.Initialize(shootDirection);
             }
 
             if (_taserEffect != null)
