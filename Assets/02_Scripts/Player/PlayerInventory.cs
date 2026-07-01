@@ -117,6 +117,12 @@ public class PlayerInventory : MonoBehaviour
     [Header("손 아이템 표시")]
     [SerializeField] private PlayerHandItemViewer _handItemViewer;
 
+    [Header("월드 드롭 설정")]
+    [SerializeField] private float _dropForwardOffset = 0.6f;
+    [SerializeField] private float _dropHeightOffset = 1.2f;
+    [SerializeField] private float _dropUpImpulse = 1.5f;
+    [SerializeField] private float _dropForwardImpulse = 1f;
+
     private readonly List<InventoryItem> _bagItems = new List<InventoryItem>();
     private readonly List<InventoryItem> _toolItems = new List<InventoryItem>();
     private readonly Dictionary<int, IUseTool> _quickSlotTools = new Dictionary<int, IUseTool>();
@@ -133,8 +139,6 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public InventoryItem RightHandItem { get; private set; }
 
-    public JewelInventoryManager JewelInventory { get; private set; }
-
     /// <summary>
     /// 가방에 들어 있는 아이템 목록입니다.
     /// </summary>
@@ -149,6 +153,11 @@ public class PlayerInventory : MonoBehaviour
     /// Tool 전용 인벤토리 목록이 변경될 때 호출됩니다.
     /// </summary>
     public event Action<IReadOnlyList<InventoryItem>> OnToolItemsChanged;
+
+    /// <summary>
+    /// 가방 아이템 목록이 변경될 때 호출됩니다.
+    /// </summary>
+    public event Action<IReadOnlyList<InventoryItem>> OnBagItemsChanged;
 
     /// <summary>
     /// 플레이어가 기본으로 버틸 수 있는 무게 제한입니다.
@@ -180,11 +189,6 @@ public class PlayerInventory : MonoBehaviour
         InitializeHandItemViewer();
     }
 
-    private void Start()
-    {
-        JewelInventory = JewelInventoryManager.Instance;
-    }
-
     /// <summary>
     /// 현재 가방에 들어 있는 아이템의 총 무게를 반환합니다.
     /// </summary>
@@ -205,17 +209,7 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public float GetTotalCarryWeight()
     {
-        // 보석 인벤토리 무게도 추가 해서 수정함
-        float normalItemWeight = GetCurrentBagWeight() + GetItemWeight(LeftHandItem) + GetItemWeight(RightHandItem);
-
-        float jewelWeight = 0f;
-
-        if (JewelInventory != null)
-        {
-            jewelWeight = JewelInventory.GetTotalJewelWeight();
-        }
-
-        return normalItemWeight + jewelWeight;
+        return GetCurrentBagWeight() + GetItemWeight(LeftHandItem) + GetItemWeight(RightHandItem);
     }
 
     /// <summary>
@@ -270,6 +264,7 @@ public class PlayerInventory : MonoBehaviour
 
         LogBagItemAdded(itemData);
         LogCarryWeightState();
+        NotifyBagItemsChanged();
         return true;
     }
 
@@ -430,8 +425,15 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public bool TryDropHandItem(PlayerHandType handType)
     {
-        // TODO: 다음 PR에서 손 위치 소켓 또는 플레이어 기준 위치를 받아 월드 아이템 생성/낙하 처리까지 연결합니다.
-        return false;
+        InventoryItem handItem = GetHandItem(handType);
+        if (handItem == null)
+            return false;
+
+        if (!TrySpawnDroppedWorldItem(handItem))
+            return false;
+
+        ClearHandItem(handType);
+        return true;
     }
 
     /// <summary>
@@ -457,8 +459,14 @@ public class PlayerInventory : MonoBehaviour
 
         _selectedQuickSlotIndex = quickSlotIndex;
 
-        // 퀵슬롯 Tool 전환은 드롭이 아니라 오른손의 활성 Tool을 바꾸는 동작입니다.
         InventoryItem previousRightHandItem = RightHandItem;
+        if (previousRightHandItem != null && !IsToolItem(previousRightHandItem.ItemData))
+        {
+            if (!TrySpawnDroppedWorldItem(previousRightHandItem))
+                return false;
+        }
+
+        // 퀵슬롯 Tool 전환은 드롭이 아니라 오른손의 활성 Tool을 바꾸는 동작입니다.
         SetHandItem(PlayerHandType.Right, toolItem);
 
         if (previousRightHandItem == null)
@@ -473,8 +481,23 @@ public class PlayerInventory : MonoBehaviour
             return true;
         }
 
-        Debug.Log($"{previousRightHandItem.ItemData.Name}을(를) {toolItem.ItemData.Name}(으)로 교체했습니다. 실제 드롭 생성은 다음 단계에서 연결합니다.");
+        Debug.Log($"{previousRightHandItem.ItemData.Name}을(를) {toolItem.ItemData.Name}(으)로 교체하고 기존 아이템을 월드에 드롭했습니다.");
         LogCarryWeightState();
+        return true;
+    }
+
+    /// <summary>
+    /// 가방에 들어 있는 아이템을 제거하고 플레이어 앞 월드 좌표에 드롭합니다.
+    /// </summary>
+    public bool TryDropBagItem(InventoryItem inventoryItem)
+    {
+        if (inventoryItem == null || !_bagItems.Contains(inventoryItem))
+            return false;
+
+        if (!TrySpawnDroppedWorldItem(inventoryItem))
+            return false;
+
+        RemoveBagItem(inventoryItem);
         return true;
     }
 
@@ -522,6 +545,7 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log($"{inventoryItem.ItemData.Name}을(를) 가방에서 제거했습니다. 현재 가방 용량: {CurrentBagCapacity}/{BagMaxCapacity}");
         LogCarryWeightState();
+        NotifyBagItemsChanged();
         return inventoryItem;
     }
 
@@ -614,6 +638,61 @@ public class PlayerInventory : MonoBehaviour
     private bool IsToolItem(ItemData itemData)
     {
         return itemData != null && itemData.GetItemType() == ItemType.Tool;
+    }
+
+    private InventoryItem GetHandItem(PlayerHandType handType)
+    {
+        if (handType == PlayerHandType.Left)
+            return LeftHandItem;
+
+        if (handType == PlayerHandType.Right)
+            return RightHandItem;
+
+        return null;
+    }
+
+    private bool TrySpawnDroppedWorldItem(InventoryItem inventoryItem)
+    {
+        if (inventoryItem == null || inventoryItem.ItemData == null)
+            return false;
+
+        string poolId = GetWorldDropPoolId(inventoryItem.ItemData);
+        GameObject droppedObject = GameManager.Pool.SpawnFromPool(poolId, GetDropPosition(), transform.rotation);
+        if (droppedObject == null)
+            return false;
+
+        if (droppedObject.TryGetComponent(out BaseInteractableObject interactableObject))
+        {
+            interactableObject.InitFromSpawner(inventoryItem.ItemData.Id);
+        }
+
+        InitializeDroppedPhysics(droppedObject);
+        return true;
+    }
+
+    private string GetWorldDropPoolId(ItemData itemData)
+    {
+        if (IsToolItem(itemData))
+            return "Pool_Tool";
+
+        return "ItemObject";
+    }
+
+    private Vector3 GetDropPosition()
+    {
+        return transform.position + transform.forward * _dropForwardOffset + Vector3.up * _dropHeightOffset;
+    }
+
+    private void InitializeDroppedPhysics(GameObject droppedObject)
+    {
+        if (!droppedObject.TryGetComponent(out Rigidbody rigidbody))
+            return;
+
+        rigidbody.useGravity = true;
+        rigidbody.isKinematic = false;
+        rigidbody.linearVelocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
+        rigidbody.AddForce(Vector3.up * _dropUpImpulse + transform.forward * _dropForwardImpulse, ForceMode.Impulse);
     }
 
     private void InitializeHandItemViewer()
@@ -731,12 +810,9 @@ public class PlayerInventory : MonoBehaviour
         OnToolItemsChanged?.Invoke(ToolItems);
     }
 
-    public void AddJewel(Jewel gem)
+    private void NotifyBagItemsChanged()
     {
-        if (JewelInventory != null)
-        {
-            JewelInventory.AddJewelToTempQueue(gem);
-        }
+        OnBagItemsChanged?.Invoke(BagItems);
     }
 
     public void RemoveAllItems()
@@ -746,10 +822,16 @@ public class PlayerInventory : MonoBehaviour
         ClearHandItem(PlayerHandType.Right);
 
         Debug.Log("적에게 잡혀 가방/양손 아이템이 모두 몰수되었습니다. (Tool 제외)");
-
-        if (JewelInventory != null)
-            JewelInventory.ClearAllJewelsOnCaught();
+        NotifyBagItemsChanged();
     }
 
-    
+    public void RemoveToolItems()
+    {
+     
+        ClearHandItem(PlayerHandType.Left);
+        ClearHandItem(PlayerHandType.Right);
+
+        Debug.Log("탈출하여 양손 아이템이 사라졌습니다.");
+
+    }
 }
