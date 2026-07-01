@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public enum SpawnObjectType
@@ -38,6 +37,11 @@ public class InteractableContainer : BaseDisarmableObejct
     private List<string> _spawnedItemList = new List<string>();
 
     private GameObject _meshObject;
+
+    private void OnDisable()
+    {
+        Destroy(_meshObject);
+    }
 
     protected override void OnInitalized()
     {

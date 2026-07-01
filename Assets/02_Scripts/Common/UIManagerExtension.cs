@@ -32,7 +32,8 @@ public enum UIType
     ShopInfoPopupUI,
     ScorePopupUI,
     JewelInventoryUI,
-    InGameLoadingUI
+    InGameLoadingUI,
+    BagInventoryViewUI
 }
 
 /// <summary>
@@ -55,18 +56,6 @@ public static class UIManagerExtension
     {
         MainHUD mainHUD = uiManager.OpenMainHUD();
         mainHUD?.SetPlayerController(playerController);
-        uiManager.EnterGameplayCursorMode();
-
-        return mainHUD;
-    }
-
-    /// <summary>
-    /// 인벤토리 시스템 테스트용 게임 플레이 UI를 엽니다.
-    /// </summary>
-    public static MainHUD ShowInventorySystemTestUI(this UIManager uiManager)
-    {
-        uiManager.CloseLoadingUI();
-        MainHUD mainHUD = uiManager.OpenMainHUD();
         uiManager.EnterGameplayCursorMode();
 
         return mainHUD;
@@ -121,6 +110,33 @@ public static class UIManagerExtension
     public static void CloseStageSelectUI(this UIManager uimanager)
     {
         uimanager.CloseUI(UIType.StageSelectUI);
+    }
+
+    /// <summary>
+    /// 3D 가방 뷰에서 플레이어의 가방 상태를 표시하는 UI를 엽니다.
+    /// </summary>
+    public static BagInventoryViewUI OpenBagInventoryViewUI(this UIManager uiManager, PlayerInventory playerInventory)
+    {
+        UIBase uiBase = uiManager.OpenUI(UIRootType.MainUI, UIType.BagInventoryViewUI);
+        if (uiBase == null)
+            return null;
+
+        if (!uiBase.TryGetComponent(out BagInventoryViewUI bagInventoryViewUI))
+        {
+            Debug.LogWarning("BagInventoryViewUI 프리팹에 BagInventoryViewUI 컴포넌트가 없습니다.");
+            return null;
+        }
+
+        bagInventoryViewUI.BindPlayerInventory(playerInventory);
+        return bagInventoryViewUI;
+    }
+
+    /// <summary>
+    /// 3D 가방 뷰에서 표시하던 가방 상태 UI를 닫습니다.
+    /// </summary>
+    public static void CloseBagInventoryViewUI(this UIManager uiManager)
+    {
+        uiManager.CloseUI(UIType.BagInventoryViewUI);
     }
 
     /// <summary>

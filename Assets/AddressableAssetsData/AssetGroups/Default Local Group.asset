@@ -75,11 +75,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1ec0f794fda98254bb72db6e8a4e4944
-    m_Address: MeshCollider_Junk_Bottle_Pink_Large
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 223416086535a7b43a073dca9b5d410a
     m_Address: Painting_1_Mesh
     m_ReadOnly: 0
@@ -437,11 +432,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa6d0a258191a6f43b1d7f0f906d98d0
     m_Address: Painting_3_Mesh
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: abb4da7564a49f54c8f16a13bf0865b3
-    m_Address: MeshCollider_Junk_Bottle_Blue
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

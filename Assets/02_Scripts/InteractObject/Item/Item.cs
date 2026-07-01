@@ -30,10 +30,18 @@ public class Item : BaseInteractableObject
         ItemGrade = _itemData.GetItemGrade();
 
         _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
-        if (!string.IsNullOrEmpty(_itemData.MeshCollider))
-            _meshCollider.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshCollider);
-        else
-            _meshCollider.sharedMesh = _meshFilter.sharedMesh;
+
+        BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
+        if (boxCollider == null)
+        {
+            boxCollider = gameObject.AddComponent<BoxCollider>();
+        }
+
+        if (_meshFilter.sharedMesh != null)
+        {
+            boxCollider.center = _meshFilter.sharedMesh.bounds.center;
+            boxCollider.size = _meshFilter.sharedMesh.bounds.size;
+        }
 
         var materialPath = _itemData.MaterialPaths;
         Material[] materials = new Material[materialPath.Count];
@@ -60,7 +68,6 @@ public class Item : BaseInteractableObject
     {
         if (interactor is not IInventoryOwner inventoryOwner)
         {
-            Debug.LogError($"{_itemData.Name}을(를) 획득할 수 없습니다. 상호작용 대상이 인벤토리를 가지고 있지 않습니다.");
             return;
         }
 
