@@ -171,7 +171,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             {
                 GameManager.Instance.OnExitInGame += _playerInventory.FindToolAndRemove;
                 GameManager.Instance.OnPlayerCaught += _playerInventory.RemoveAllItems;
-                GameManager.Instance.OnPlayerEscape += _playerInventory.RemoveToolItems;
 
             }
 
@@ -189,8 +188,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
             {
                 GameManager.Instance.OnExitInGame -= _playerInventory.FindToolAndRemove;
                 GameManager.Instance.OnPlayerCaught -= _playerInventory.RemoveAllItems;
-                GameManager.Instance.OnPlayerEscape -= _playerInventory.RemoveToolItems;
-
             }
         }
 

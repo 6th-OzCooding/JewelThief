@@ -68,7 +68,6 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public event Action<string[]> OnExitInGame;
     public event Action OnPlayerCaught;
-    public event Action OnPlayerEscape;
 
     #endregion
 
@@ -390,7 +389,6 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
         else
         {
-            OnPlayerEscape?.Invoke();
         }
 
         ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
