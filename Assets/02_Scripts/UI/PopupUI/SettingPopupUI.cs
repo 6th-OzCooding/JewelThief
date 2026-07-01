@@ -1,6 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
 using TMPro;
+using TMPro.Examples;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SettingPopupUI : UIBase
 {
@@ -14,14 +18,23 @@ public class SettingPopupUI : UIBase
     [SerializeField] private TitleButtonElement _saveButton; 
     [SerializeField] private TitleButtonElement _backButton;
 
+    [Header("텍스트 연결")]
+    [SerializeField] private TMP_Text _controlText;
+
+
+    [Header("인풋 시스템 연결")]
+    [SerializeField] private PlayerInput playerInput; // 인스펙터에서 PlayerInput 컴포넌트 할당
+    InputAction lookAction;
+
     private float _savedVolume;
     private float _savedSensitivity;
     private int _savedDisplayMode;
 
+   
     private void OnEnable()
     {
         _savedVolume = PlayerPrefs.GetFloat("MasterVolume", 1.0f);
-        _savedSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 50.0f);
+        _savedSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1.0f);
         _savedDisplayMode = PlayerPrefs.GetInt("DisplayMode", 0);
 
         _volumeSlider.value = _savedVolume;
@@ -35,6 +48,14 @@ public class SettingPopupUI : UIBase
         _resetButton.Init(OnClickReset);
         _saveButton.Init(OnClickSave);
         _backButton.Init(OnClickBack);
+
+
+        if (playerInput != null)
+        {
+            lookAction = playerInput.actions.FindAction("Look");
+            lookAction?.Enable(); // 액션이 확실히 활성화되어 있도록 보장
+        }
+        ApplySensitivity(_savedSensitivity);
     }
 
     private void OnDisable()
@@ -63,12 +84,8 @@ public class SettingPopupUI : UIBase
 
     private void OnSensitivityChanged(float value)
     {
-        /*
-        PlayerController player = Object.FindFirstObjectByType<PlayerController>();
-        if (player != null)
-        {
-            player.SetMouseSensitivity(value);
-        }  */
+        ApplySensitivity(value);
+
     }
 
     private void OnDisplayModeChanged(int index)
@@ -82,13 +99,12 @@ public class SettingPopupUI : UIBase
     private void OnClickReset()
     {
         _volumeSlider.value = 1.0f;
-        _controlSlider.value = 50.0f;
+        _controlSlider.value = 0.5f;
         _displayDropdown.value = 0;
 
         GameManager.Sound.SetMasterVolume(1.0f);
 
-       /* PlayerController player = Object.FindFirstObjectByType<PlayerController>();
-        if (player != null) player.SetMouseSensitivity(50.0f);  */
+        ApplySensitivity(0.5f);
     }
 
     private void OnClickSave()
@@ -109,13 +125,25 @@ public class SettingPopupUI : UIBase
     {
         GameManager.Sound.SetMasterVolume(_savedVolume);
 
-        /*
-        PlayerController player = Object.FindFirstObjectByType<PlayerController>();
-        if (player != null) player.SetMouseSensitivity(_savedSensitivity);  */
+        ApplySensitivity(_savedSensitivity);
 
         if (_savedDisplayMode == 0) Screen.fullScreenMode = FullScreenMode.Windowed;
         else if (_savedDisplayMode == 1) Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
 
         GameManager.UI.ClosePopupUI(UIType.SettingPopup);
     }
+        private void ApplySensitivity(float scrollValue)
+    {
+        if (lookAction == null) return;
+
+        // 0 ~ 1 인 스크롤값을 0 ~ 4로 변경
+        float newSensitivity = scrollValue * 4;
+        InputBinding binding = lookAction.bindings[1];
+        // 안전하게 해당 액션의 2번째 바인딩에 프로세서 오버라이드를 직접 적용합니다.
+        binding.overrideProcessors = $"scaleVector2(x={newSensitivity},y={newSensitivity})";
+        lookAction.ApplyBindingOverride(1, binding);
+
+        _controlText.text = $"{newSensitivity:F2}";
+    }
 }
+
