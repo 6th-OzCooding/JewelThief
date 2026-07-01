@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: be8d15f0c8cf30e4ca7e0a93622c918e
   m_SerializeEntries:
+  - m_GUID: 006235b25867908418567637ba7a0f39
+    m_Address: SeatedLion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 028a6bb6e696e5c4794e0d5ae98ec79d
     m_Address: Junk_Sculpture
     m_ReadOnly: 0
@@ -27,6 +32,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 04933c45a0a5dfe44bb714276bc692e0
     m_Address: KeyFBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06ffdc796a51f3a46807b4654e3d9fd1
+    m_Address: Statue_Stone
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -145,6 +155,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 426a97308da40a640907690ce523dadd
+    m_Address: Statue_Metal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 455d6f49b2f92ef4f819067f6dab8cce
     m_Address: PlayTheme
     m_ReadOnly: 0
@@ -192,6 +207,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 55af624d731fc954ca4009254829fe4d
     m_Address: RightTop Corridor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a6f21327c6e4864c99ccf7caa91ca6d
+    m_Address: Mashroom_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -481,7 +501,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2ee0adf282326246bc6300be2049c67
-    m_Address: JewelInventory
+    m_Address: BagInventoryView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -580,6 +600,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e15129e138b524b41bff44fcbbc69421
+    m_Address: Statue_Marble
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e440abf894c0e7a4da3ab9802b2b10b3
     m_Address: MapGrid
     m_ReadOnly: 0
@@ -597,6 +622,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e6e2c036a7f77ef47bde648215da9967
     m_Address: Painting_5_Mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7d69863d0e540540816e3ea2b33a8d7
+    m_Address: Statue_Copper
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
