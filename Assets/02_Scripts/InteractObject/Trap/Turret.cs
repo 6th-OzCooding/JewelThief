@@ -94,7 +94,7 @@ public class Turret : BaseTrap
 
         for (int i = 0; i < _bulletCount; i++)
         {
-            Debug.Log($"발사{i + 1}");
+            GameManager.Sound.PlaySFX(SoundId.SFX_GunTrap01);
 
             var bullet = GameManager.Pool.SpawnFromPool<Bullet>("Turret_Bullet", _fireTransform.position);
             bullet.Init(_fireTransform.forward);
