@@ -7,7 +7,8 @@
     "PoolAddress": "Pool_Tool",
     "ItemId": [
       "Item_Tool_Key"
-    ]
+    ],
+    "IsKinematic": false
   },
   {
     "Id": "MapSpawn_Floor_Jewel",
@@ -23,7 +24,8 @@
       "Item_Jewel_Ruby",
       "Item_Jewel_Sapphire",
       "Item_Jewel_Topaz"
-    ]
+    ],
+    "IsKinematic": false
   },
   {
     "Id": "MapSpawn_Floor_Junk",
@@ -39,7 +41,8 @@
       "Item_Junk_Glasses",
       "Item_Junk_Microphone",
       "Item_Junk_Sculpture"
-    ]
+    ],
+    "IsKinematic": false
   },
   {
     "Id": "MapSpawn_Floor_Statue",
@@ -52,7 +55,8 @@
       "Item_Statue_Copper",
       "Item_Statue_Metal",
       "Item_Statue_Marble"
-    ]
+    ],
+    "IsKinematic": false
   },
   {
     "Id": "MapSoawn_Floor_Trap",
@@ -62,8 +66,10 @@
     "PoolAddress": "BaseTrap",
     "ItemId": [
       "Trap_Web",
-      "Trap_Turret"
-    ]
+      "Trap_Turret",
+      "Trap_Mushroom"
+    ],
+    "IsKinematic": false
   },
   {
     "Id": "MapSpawn_Floor_Container",
@@ -77,7 +83,8 @@
       "Object_04",
       "Object_05",
       "Object_06"
-    ]
+    ],
+    "IsKinematic": false
   },
   {
     "Id": "MapSpawn_Wall_Painting",
@@ -91,7 +98,8 @@
       "Item_Painting_03",
       "Item_Painting_04",
       "Item_Painting_05"
-    ]
+    ],
+    "IsKinematic": true
   },
   {
     "Id": "MapSpawn_FloorWall_Container",
@@ -101,7 +109,8 @@
     "PoolAddress": "InteractableContainer_Prefab",
     "ItemId": [
       "Object_01"
-    ]
+    ],
+    "IsKinematic": false
   },
   {
     "Id": "MapSpawn_Ceiling_Trap",
@@ -111,6 +120,18 @@
     "PoolAddress": "BaseTrap",
     "ItemId": [
       "Trap_Ston"
-    ]
+    ],
+    "IsKinematic": true
+  },
+  {
+    "Id": "MapSpawn_Ceiling_Escape",
+    "StringSpawnArea": "Ceiling",
+    "StringSpawnType": "Escape",
+    "StringInteractType": "Interact",
+    "PoolAddress": "Escape",
+    "ItemId": [
+      "Item_Escape_Ceiling"
+    ],
+    "IsKinematic": true
   }
 ]

@@ -1,19 +1,24 @@
 ﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class ResourceManager
 {
+    private const int MAX_LOAD_COUNT = 4;
+
     private Dictionary<string, AsyncOperationHandle> _handles = new();
 
-    private int _progessCount = 0;
+    private int _progressCount = 0;
 
     public async UniTask Init(System.Action<float> onProgress = null)
     {
-        // TODO(김익환 2026-06-14): 크기가 큰 에셋들은 미리 로드하기 - audio, material, mesh, texture 등
-        // preLoadAddresses에 미리 로드될 address 넣기
+        _progressCount = 0; ;
+        onProgress?.Invoke(0f);
+
         var dataTable = GameManager.DataTable.GetPreLoadAssetDataTable();
 
         int totalCount = dataTable.Count;
@@ -24,59 +29,59 @@ public class ResourceManager
             return;
         }
 
+        List<UniTask> loadTasks = new(totalCount);
+        using SemaphoreSlim semaphore = new(MAX_LOAD_COUNT);
+
+
         foreach (PreLoadAssetData preLoadData in dataTable.Values)
         {
-            switch (preLoadData.AssetType)
-            {
-                case "Mesh":
-                    await PreLoadAssetAsync<Mesh>(
-                        preLoadData.Address,
-                        _progessCount,
-                        totalCount,
-                        onProgress
-                    );
-                    break;
-
-                case "Material":
-                    await PreLoadAssetAsync<Material>(
-                        preLoadData.Address,
-                        _progessCount,
-                        totalCount,
-                        onProgress
-                    );
-                    break;
-
-                case "Prefab":
-                case "GameObject":
-                    await PreLoadAssetAsync<GameObject>(
-                        preLoadData.Address,
-                        _progessCount,
-                        totalCount,
-                        onProgress
-                    );
-                    break;
-
-                default:
-                    await PreLoadAssetAsync<Object>(
-                        preLoadData.Address,
-                        _progessCount,
-                        totalCount,
-                        onProgress
-                    );
-                    break;
-
-            }
-
-            float progress = (_progessCount + 1) / (float)totalCount;
-            onProgress?.Invoke(progress);
-            _progessCount++;
-
+            loadTasks.Add(LoadWithSemaphoreAsync(preLoadData, semaphore, 
+                () =>
+                {
+                    _progressCount++;
+                    onProgress?.Invoke(_progressCount / (float)totalCount);
+                }));
         }
+
+        await UniTask.WhenAll(loadTasks);
 
         onProgress?.Invoke(1f);
     }
 
-    public async UniTask<T> LoadAssetAsync<T>(string address) where T : Object
+    private async UniTask LoadWithSemaphoreAsync(PreLoadAssetData preLoadData, SemaphoreSlim semaphore, System.Action onCompleted)
+    {
+        await semaphore.WaitAsync();
+
+        try
+        {
+            switch (preLoadData.AssetType)
+            {
+                case "Mesh":
+                    await PreLoadAssetAsync<Mesh>(preLoadData.Address);
+                    break;
+
+                case "Material":
+                    await PreLoadAssetAsync<Material>(preLoadData.Address);
+                    break;
+
+                case "Prefab":
+                case "GameObject":
+                    await PreLoadAssetAsync<GameObject>(preLoadData.Address);
+                    break;
+
+                default:
+                    await PreLoadAssetAsync<UnityEngine.Object>(preLoadData.Address);
+                    break;
+            }
+        }
+        finally
+        {
+            onCompleted?.Invoke();
+            semaphore.Release();
+        }
+    }
+
+    public async UniTask<T> LoadAssetAsync<T>(string address) where T : UnityEngine.Object
     {
         if (_handles.TryGetValue(address, out AsyncOperationHandle cachedHandle))
             return cachedHandle.Result as T;
@@ -101,7 +106,8 @@ public class ResourceManager
         }
     }
 
-    public T GetLoadedAsset<T>(string address) where T : Object
+
+    public T GetLoadedAsset<T>(string address) where T : UnityEngine.Object
     {
         if (!_handles.TryGetValue(address, out AsyncOperationHandle handle))
         {
@@ -150,7 +156,7 @@ public class ResourceManager
         Debug.Log("모든 에셋 메모리 해제 완료");
     }
 
-    private async UniTask PreLoadAssetAsync<T>(string address, int loadedIndex, int totalCount, System.Action<float> onProgress)
+    private async UniTask PreLoadAssetAsync<T>(string address)
     {
         if (_handles.TryGetValue(address, out AsyncOperationHandle cacedHandle))
         {
@@ -165,24 +171,24 @@ public class ResourceManager
 
         AsyncOperationHandle<T> loadHandle = Addressables.LoadAssetAsync<T>(address);
 
-        while (!loadHandle.IsDone)
+        try
         {
-            float currentProgress = loadHandle.PercentComplete;
-            float progress = (loadedIndex + currentProgress) / totalCount;
+            T result = await loadHandle.Task;
 
-            onProgress?.Invoke(progress);
+            if (result == null)
+            {
+                Debug.LogWarning($"에셋 로드 결과가 null입니다: {address}");
+                if (loadHandle.IsValid())
+                    Addressables.Release(loadHandle);
 
-            await UniTask.Yield();
-        }
+                return;
+            }
 
-        if (loadHandle.Status == AsyncOperationStatus.Succeeded)
-        {
             _handles[address] = loadHandle;
-            Debug.Log($"에셋 프리로드 완료: {address}");
         }
-        else
+        catch (Exception ex)
         {
-            Debug.LogWarning($"에셋 로드 실패: {address}, Exection: {loadHandle.OperationException}");
+            Debug.LogWarning($"에셋 로드 실패: {address}, Exception: {ex}");
 
             if (loadHandle.IsValid())
                 Addressables.Release(loadHandle);

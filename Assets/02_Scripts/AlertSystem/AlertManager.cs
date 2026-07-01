@@ -30,8 +30,8 @@ public class AlertManager
 
     public void Init(float timeLimit)
     {
-        _timeLimit = 5f;
-        _remainingTime = 5f;
+        _timeLimit = 5f; //timeLimit;
+        _remainingTime = 5f;// timeLimit;
         _currentLevel = AlertLevel.Low;
         _isTimeUp = false;
         _isPaused = false;

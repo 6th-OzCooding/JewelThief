@@ -61,6 +61,7 @@ public enum MapSpawnObjectType
     WallContainer,
     Enemy,
     Painting,
+    Escape,
 }
 
 public enum InteractType
@@ -235,6 +236,7 @@ public class MapSpawnData : BaseData
     public string StringInteractType;
     public string PoolAddress;
     public List<string> ItemId;
+    public bool IsKinematic;
 
     public AreaType GetAreaType()
     => Enum.TryParse<AreaType>(StringSpawnArea, out var result) ? result : AreaType.None;

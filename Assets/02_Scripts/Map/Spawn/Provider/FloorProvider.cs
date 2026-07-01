@@ -17,8 +17,10 @@ public class FloorProvider : ISpawnPositionProvider
         _obstacleLayer = LayerMask.GetMask("Obstacle");
     }
 
-    public bool GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas, out SpawnInfo transform)
+    public SpawnInfo GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas)
     {
+        SpawnInfo spawnInfo = default;
+
         for (int i = 0; i < _spawnTryCount; i++)
         {
             SpawnArea area = spawnAreas[Random.Range(0, spawnAreas.Count)];
@@ -32,11 +34,9 @@ public class FloorProvider : ISpawnPositionProvider
             if (Physics.CheckBox(position, _checkHalfExtents, Quaternion.identity, _obstacleLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
-            transform = new SpawnInfo(position, Quaternion.identity);
-            return true;
+            spawnInfo = new SpawnInfo(position, Quaternion.identity);
         }
 
-        transform = default;
-        return false;
+        return spawnInfo;
     }
 }

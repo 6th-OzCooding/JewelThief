@@ -70,5 +70,13 @@
   {
     "Id": "BaseTrap",
     "InitSize": 15
+  },
+  {
+    "Id": "MushroomTrap",
+    "InitSize": 5
+  },
+  {
+    "Id": "Escape",
+    "InitSize": 7
   }
 ]

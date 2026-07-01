@@ -168,7 +168,7 @@ MonoBehaviour:
   _rayDistance: 10
   _playerLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048640
   _scanHalfAngle: 45
   _scanSpeed: 35
   _warmUpTime: 2
