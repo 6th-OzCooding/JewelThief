@@ -6,8 +6,8 @@ using UnityEngine;
 public class BarProjectile : MonoBehaviour
 {
     [SerializeField] private float _speed = 7f;
-    [SerializeField] private float _lifeTime = 3f;
-    [SerializeField] private float _spinSpeed = 1000f; // 회전 속도
+    [SerializeField] private float _lifeTime = 10f;
+    [SerializeField] private float _spinSpeed = 500f; // 회전 속도
 
     private Vector3 _flyDirection;
     private CancellationTokenSource _cts;
@@ -64,11 +64,11 @@ public class BarProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
-        {
-            return;
-        }
+        if (other.isTrigger) return;
 
+        if (other.CompareTag("Enemy") || other.CompareTag("Ground")) return;
+
+        // 2. 플레이어 명중 시
         if (other.CompareTag("Player"))
         {
             PlayerController player = other.GetComponent<PlayerController>();
@@ -86,7 +86,6 @@ public class BarProjectile : MonoBehaviour
             ReturnToPool();
             return;
         }
-
         ReturnToPool();
     }
 }

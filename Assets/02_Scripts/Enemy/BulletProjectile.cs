@@ -6,7 +6,7 @@ using UnityEngine;
 public class BulletProjectile : MonoBehaviour
 {
     [SerializeField] private float _speed = 20f;
-    [SerializeField] private float _lifeTime = 2f;
+    [SerializeField] private float _lifeTime = 10f;
 
     private Vector3 _flyDirection;
     private CancellationTokenSource _cts;
@@ -60,6 +60,8 @@ public class BulletProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger) return;
+
         if (other.CompareTag("Enemy"))
         {
             return;
@@ -83,7 +85,6 @@ public class BulletProjectile : MonoBehaviour
             ReturnToPool();
             return;
         }
-
         ReturnToPool();
     }
 }
