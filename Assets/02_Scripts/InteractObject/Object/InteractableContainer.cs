@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public enum SpawnObjectType
@@ -38,6 +37,11 @@ public class InteractableContainer : BaseDisarmableObejct
     private List<string> _spawnedItemList = new List<string>();
 
     private GameObject _meshObject;
+
+    private void OnDisable()
+    {
+        Destroy(_meshObject);
+    }
 
     protected override void OnInitalized()
     {
@@ -132,7 +136,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
         GameObject obj = Instantiate(prefab, transform);
 
-        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localPosition = prefab.transform.position;
         obj.transform.localRotation = Quaternion.identity;
         obj.transform.localScale = Vector3.one;
 
@@ -338,7 +342,8 @@ public class InteractableContainer : BaseDisarmableObejct
         spawnedObject.TryGetComponent<BaseInteractableObject>(out BaseInteractableObject spawnInteractableObject);
         if(spawnInteractableObject == null) 
         {
-            Debug.LogError($"{spawnInteractableObject.GetName}에 spawnInteractableObject를 상속받지 않았습니다.");
+            Debug.LogError($"{poolId} 프리팹에 BaseInteractableObject를 상속한 컴포넌트가 없습니다.");
+            GameManager.Pool.DespawnToPool(spawnedObject);
             return null;
         }
 

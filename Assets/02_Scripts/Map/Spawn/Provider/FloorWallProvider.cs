@@ -14,10 +14,6 @@ public class FloorWallProvider : ISpawnPositionProvider
     // 프리팹 pivot이 중앙이고 깊이가 1이면 0.5 정도가 적절함
     private readonly float _wallOffset = 0f;
 
-    // 바닥에서 얼마나 띄울 것인지
-    // pivot이 바닥에 있으면 0, pivot이 중앙이면 오브젝트 높이의 절반
-    private readonly float _floorOffset = 0f;
-
     private readonly LayerMask _floorLayer;
     private readonly LayerMask _wallLayer;
     private readonly LayerMask _obstacleLayer;
@@ -68,8 +64,6 @@ public class FloorWallProvider : ISpawnPositionProvider
                 if (!TryGetFloor(finalFloorCheckPoint, out RaycastHit finalFloorHit))
                     continue;
 
-                candidatePosition.y = finalFloorHit.point.y + _floorOffset;
-
                 // 현재 WallProvider와 같은 회전 convention 사용
                 // prefab의 local forward 방향이 반대로 되어 있으면 wallNormal로 바꾸면 됨
                 Quaternion rotation = Quaternion.LookRotation(wallNormal, Vector3.up);
@@ -77,6 +71,7 @@ public class FloorWallProvider : ISpawnPositionProvider
                 if (Physics.CheckBox(candidatePosition, _checkHalfExtents, rotation, _obstacleLayer, QueryTriggerInteraction.Ignore))
                     continue;
 
+                candidatePosition.y = 0f;
                 spawnInfo = new SpawnInfo(candidatePosition, rotation);
             }
         }

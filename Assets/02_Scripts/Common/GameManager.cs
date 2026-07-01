@@ -28,7 +28,8 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private WFCMapGeneration _wfcMapGeneration;
     private LobbyController _lobbyController;
-    private GameObject _jewelPuzzleInstance;
+    private GameObject _bagInventoryViewInstance;
+    private BagInventoryViewController _bagInventoryViewController;
 
     #endregion
 
@@ -38,9 +39,14 @@ public class GameManager : SingletonBehaviour<GameManager>
     [SerializeField] private bool _skipStartupUIForTest;
     [Header("InGame Spawn")]
     [SerializeField] private float _inGameSpawnHeightOffset = 1f;
+    [Header("Bag Inventory View")]
+    [SerializeField] private string _bagInventoryViewPrefabAddress = "BagInventoryView";
+    [SerializeField] private Vector3 _bagInventoryViewSpawnPosition = new Vector3(10000f, 10000f, 10000f);
 
     private bool _isInGame = false;
     private bool _isPaused = false;
+    private int _stageStartBagPrice = 0;
+    private readonly System.Collections.Generic.HashSet<InventoryItem> _stageStartCollectibleItems = new();
 
     public bool IsEnteringInGame { get; private set; } = false;
 
@@ -62,7 +68,6 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public event Action<string[]> OnExitInGame;
     public event Action OnPlayerCaught;
-    public event Action OnPlayerEscape;
 
     #endregion
 
@@ -192,22 +197,26 @@ public class GameManager : SingletonBehaviour<GameManager>
             _lobbyInstance = Instantiate(_lobbyPrefab);
             _lobbyInstance.SetActive(true);
 
-            // --- [추가] 보석 인벤토리 시스템 소환 ---
-            GameObject puzzlePrefab = _resourceManager.GetLoadedAsset<GameObject>("JewelInventory");
-            if (puzzlePrefab != null)
+            GameObject bagInventoryViewPrefab = _resourceManager.GetLoadedAsset<GameObject>(_bagInventoryViewPrefabAddress);
+            if (bagInventoryViewPrefab != null)
             {
-                Vector3 spawnPosition = new Vector3(10000f, 10000f, 10000f);
-                _jewelPuzzleInstance = Instantiate(puzzlePrefab, spawnPosition, Quaternion.identity);
-                _jewelPuzzleInstance.SetActive(true);
+                _bagInventoryViewInstance = Instantiate(bagInventoryViewPrefab, _bagInventoryViewSpawnPosition, Quaternion.identity);
+                _bagInventoryViewController = _bagInventoryViewInstance.GetComponentInChildren<BagInventoryViewController>(true);
+
+                if (_bagInventoryViewController == null)
+                {
+                    Debug.LogError("BagInventoryViewController가 가방 뷰 프리팹에 연결되지 않았습니다.");
+                }
             }
             else
             {
-                Debug.LogError("JewelInventory 프리팹을 찾을 수 없습니다.");
+                Debug.LogError("가방 뷰 프리팹을 찾을 수 없습니다.");
             }
 
             if (_lobbyInstance.TryGetComponent(out _lobbyController))
             {
                 _playerController = _lobbyController.Enter();
+                BindBagInventoryView(_playerController);
                 return _playerController;
             }
             else
@@ -223,6 +232,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
             _lobbyInstance.SetActive(true);
             _playerController = _lobbyController.Enter();
+            BindBagInventoryView(_playerController);
             return _playerController;
         }
 
@@ -253,8 +263,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             _alertManager.Init(stageData.TimeLimit);
         }
 
-        if (JewelInventoryManager.Instance != null)
-            JewelInventoryManager.Instance.InitStageStartPrice();
+        InitStageStartBagPrice();
 
         _isInGame = true;
         _isPaused = false;
@@ -281,7 +290,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         _isInGame = false;
         _isPaused = false;
+        _alertManager?.ResumeTimer();                           
+        _playerController?.SetInputMode(PlayerInputMode.Gameplay);
 
+        Pool.AllDespawnToPool();
         _wfcMapGeneration.Release();
 
         OnExitInGame?.Invoke(_removeToolIdsWhenInGameExit);
@@ -298,32 +310,21 @@ public class GameManager : SingletonBehaviour<GameManager>
         _playerController.Teleport(_lobbyController.SpawnPosition);
     }
 
-    public void GameOver()
+    private void BindBagInventoryView(PlayerController playerController)
     {
-        _isPaused = true;
+        if (_bagInventoryViewController == null || playerController == null)
+            return;
 
-        int totalValue = 0;
-        string bestGemName = "";
-        if (JewelInventoryManager.Instance != null)
+        PlayerInventory playerInventory = playerController.GetComponent<PlayerInventory>();
+        PlayerInputHandler playerInput = playerController.GetComponent<PlayerInputHandler>();
+
+        if (playerInventory == null || playerInput == null)
         {
-            totalValue = JewelInventoryManager.Instance.GetCurrentStageScore();
-            bestGemName = JewelInventoryManager.Instance.GetMostExpensiveJewelName();          
+            Debug.LogError("BagInventoryViewController에 연결할 PlayerInventory 또는 PlayerInputHandler를 찾지 못했습니다.");
+            return;
         }
 
-        float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
-
-        OnPlayerCaught?.Invoke();
-        _playerController.ResetPlayerStat();        
-
-        ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
-        if (scorePopupUI != null)
-        {
-            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: true);
-        }
-        else
-        {
-            Debug.LogError("ScorePopupUI를 열지 못했습니다.");
-        }
+        _bagInventoryViewController.BindPlayer(playerInventory, playerInput);
     }
 
     public void QuitGame()
@@ -360,30 +361,159 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isPaused = false;
     }
 
-   public void EscapeSuccessful()  // TODO (한재덕 - 26.06.29) 탈출 성공시 메서드 호출 필요
+    public void GameOver()
+    {
+        HandleStageEnd(isCaught: true);
+    }
+
+    public void Escape()
+    {
+        HandleStageEnd(isCaught: false);
+    }
+
+    private void HandleStageEnd(bool isCaught)
     {
         _isPaused = true;
+        _alertManager?.PauseTimer();
+        _playerController?.SetInputMode(PlayerInputMode.UIOnly);
 
-        int totalValue = 0;
-        string bestGemName = "";
-        if (JewelInventoryManager.Instance != null)
-        {
-            bestGemName = JewelInventoryManager.Instance.GetMostExpensiveJewelName();
-            totalValue = JewelInventoryManager.Instance.GetStageScoreAndFinalize();
-        }
+        int totalValue = GetCurrentStageBagScore();
+        string bestGemName = GetMostExpensiveStageBagItemName();
 
-        OnPlayerEscape?.Invoke();
         float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
 
-        ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
-        if (scorePopupUI != null)
+        if (isCaught)
         {
-            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: false);
+            OnPlayerCaught?.Invoke();
+            _playerController.ResetPlayerStat();
         }
         else
         {
-            Debug.LogError("ScorePopupUI를 열지 못했습니다.");
         }
+
+        ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
+        if (scorePopupUI != null)
+            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: isCaught);
+        else
+            Debug.LogError("ScorePopupUI를 열지 못했습니다.");
+    }
+
+    private void InitStageStartBagPrice()
+    {
+        PlayerInventory playerInventory = GetPlayerInventory();
+        if (playerInventory == null)
+        {
+            _stageStartBagPrice = 0;
+            _stageStartCollectibleItems.Clear();
+            return;
+        }
+
+        _stageStartBagPrice = GetTotalCarriedCollectiblePrice(playerInventory);
+        CacheStageStartCollectibleItems(playerInventory);
+    }
+
+    private int GetCurrentStageBagScore()
+    {
+        PlayerInventory playerInventory = GetPlayerInventory();
+        if (playerInventory == null)
+            return 0;
+
+        int earnedScore = GetTotalCarriedCollectiblePrice(playerInventory) - _stageStartBagPrice;
+        return Mathf.Max(0, earnedScore);
+    }
+
+    private int GetTotalCarriedCollectiblePrice(PlayerInventory playerInventory)
+    {
+        if (playerInventory == null)
+            return 0;
+
+        int totalPrice = 0;
+        System.Collections.Generic.IReadOnlyList<InventoryItem> bagItems = playerInventory.BagItems;
+
+        for (int i = 0; i < bagItems.Count; i++)
+        {
+            if (!IsScoreCollectibleItem(bagItems[i]))
+                continue;
+
+            totalPrice += bagItems[i].ItemData.Price;
+        }
+
+        totalPrice += GetScoreCollectiblePrice(playerInventory.LeftHandItem);
+        totalPrice += GetScoreCollectiblePrice(playerInventory.RightHandItem);
+        return totalPrice;
+    }
+
+    private string GetMostExpensiveStageBagItemName()
+    {
+        PlayerInventory playerInventory = GetPlayerInventory();
+        if (playerInventory == null)
+            return "없음";
+
+        System.Collections.Generic.IReadOnlyList<InventoryItem> bagItems = playerInventory.BagItems;
+        if (GetCurrentStageBagScore() <= 0)
+            return "없음";
+
+        InventoryItem bestItem = null;
+        int maxPrice = -1;
+
+        for (int i = 0; i < bagItems.Count; i++)
+        {
+            UpdateBestNewScoreItem(bagItems[i], ref bestItem, ref maxPrice);
+        }
+
+        UpdateBestNewScoreItem(playerInventory.LeftHandItem, ref bestItem, ref maxPrice);
+        UpdateBestNewScoreItem(playerInventory.RightHandItem, ref bestItem, ref maxPrice);
+
+        return bestItem?.ItemData?.Name ?? "없음";
+    }
+
+    private void CacheStageStartCollectibleItems(PlayerInventory playerInventory)
+    {
+        _stageStartCollectibleItems.Clear();
+
+        System.Collections.Generic.IReadOnlyList<InventoryItem> bagItems = playerInventory.BagItems;
+
+        for (int i = 0; i < bagItems.Count; i++)
+        {
+            if (IsScoreCollectibleItem(bagItems[i]))
+                _stageStartCollectibleItems.Add(bagItems[i]);
+        }
+
+        if (IsScoreCollectibleItem(playerInventory.LeftHandItem))
+            _stageStartCollectibleItems.Add(playerInventory.LeftHandItem);
+
+        if (IsScoreCollectibleItem(playerInventory.RightHandItem))
+            _stageStartCollectibleItems.Add(playerInventory.RightHandItem);
+    }
+
+    private int GetScoreCollectiblePrice(InventoryItem inventoryItem)
+    {
+        if (!IsScoreCollectibleItem(inventoryItem))
+            return 0;
+
+        return inventoryItem.ItemData.Price;
+    }
+
+    private void UpdateBestNewScoreItem(InventoryItem inventoryItem, ref InventoryItem bestItem, ref int maxPrice)
+    {
+        if (!IsScoreCollectibleItem(inventoryItem) || _stageStartCollectibleItems.Contains(inventoryItem) || inventoryItem.ItemData.Price <= maxPrice)
+            return;
+
+        maxPrice = inventoryItem.ItemData.Price;
+        bestItem = inventoryItem;
+    }
+
+    private bool IsScoreCollectibleItem(InventoryItem inventoryItem)
+    {
+        return inventoryItem?.ItemData != null && inventoryItem.ItemData.GetItemType() != ItemType.Tool;
+    }
+
+    private PlayerInventory GetPlayerInventory()
+    {
+        if (_playerController == null)
+            return null;
+
+        return _playerController.GetComponent<PlayerInventory>();
     }
 
     private void PoolInit()

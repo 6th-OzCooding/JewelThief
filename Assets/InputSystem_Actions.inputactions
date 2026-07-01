@@ -246,7 +246,7 @@
                     "id": "8c8e490b-c610-4785-884f-f04217b23ca4",
                     "path": "<Pointer>/delta",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=2,y=2)",
                     "groups": ";Keyboard&Mouse;Touch",
                     "action": "Look",
                     "isComposite": false,
@@ -486,7 +486,7 @@
                 {
                     "name": "",
                     "id": "4cbaee67-67ce-4af2-a2fc-ffd31e8c083c",
-                    "path": "<Keyboard>/b",
+                    "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
