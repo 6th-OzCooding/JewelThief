@@ -19,7 +19,7 @@ public class UserDataManager
         }
     }
 
-    public void LoadUserData()
+    public void LoadAllUserData()
     {
         for (int i = 0; i < userDataList.Count; i++)
         {
@@ -27,7 +27,7 @@ public class UserDataManager
         }
     }
 
-    public void SaveUserData()
+    public void SaveAllUserData()
     {
         for (int i = 0; i < userDataList.Count; i++)
         {
