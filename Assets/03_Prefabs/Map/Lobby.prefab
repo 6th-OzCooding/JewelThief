@@ -1138,7 +1138,7 @@ GameObject:
   - component: {fileID: 4444709070935814842}
   - component: {fileID: 1894379439564064368}
   - component: {fileID: 3981217340531774391}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1364,7 +1364,7 @@ GameObject:
   - component: {fileID: 4427550291164602227}
   - component: {fileID: 1915479830914919353}
   - component: {fileID: 2700647698729697382}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1705,7 +1705,7 @@ GameObject:
   - component: {fileID: 5529569174912199819}
   - component: {fileID: 3394406978471773335}
   - component: {fileID: 3833597500571544964}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ShopDisplay_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1819,7 +1819,7 @@ GameObject:
   - component: {fileID: 4535940684962407886}
   - component: {fileID: 1807651321428168964}
   - component: {fileID: 2808442180839193307}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2268,7 +2268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7962100969709280444}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SpawnTool_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4934,7 +4934,7 @@ GameObject:
   - component: {fileID: 4204575319034216683}
   - component: {fileID: 5397802965573507283}
   - component: {fileID: 7825381408130486006}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Drinks_Fridge_01_Door_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7203,7 +7203,7 @@ GameObject:
   - component: {fileID: 4257715668294183146}
   - component: {fileID: 2085877592222260256}
   - component: {fileID: 2530179228872456191}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7541,7 +7541,7 @@ GameObject:
   - component: {fileID: 3792499003667084203}
   - component: {fileID: 1388620006887622497}
   - component: {fileID: 3836635293234346857}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: SM_Bld_Steps_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7991,7 +7991,7 @@ GameObject:
   - component: {fileID: 4417669151933612009}
   - component: {fileID: 5215178596363394345}
   - component: {fileID: 320854995987485912}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Drinks_Fridge_01_Door_03_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8307,7 +8307,7 @@ GameObject:
   - component: {fileID: 3837718621881091917}
   - component: {fileID: 1343945745921684359}
   - component: {fileID: 8237905412283538185}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stanchions_Rope_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8533,7 +8533,7 @@ GameObject:
   - component: {fileID: 3829877609971205939}
   - component: {fileID: 1351785967440016377}
   - component: {fileID: 783590624587393844}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stanchion_Gold_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8645,7 +8645,7 @@ GameObject:
   - component: {fileID: 7570709011635404928}
   - component: {fileID: 7154983401929754065}
   - component: {fileID: 7641238361700939876}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Drinks_Fridge_01_Door_02_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11696,7 +11696,7 @@ GameObject:
   - component: {fileID: 3600544318977708948}
   - component: {fileID: 1590690627382110046}
   - component: {fileID: 739492955612159293}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Speaker_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14786,7 +14786,7 @@ GameObject:
   - component: {fileID: 3289577460414709805}
   - component: {fileID: 739181930355258599}
   - component: {fileID: 326325644703219650}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Bar_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15603,7 +15603,7 @@ GameObject:
   - component: {fileID: 3258757089989100596}
   - component: {fileID: 782950166314807550}
   - component: {fileID: 9190258427602063933}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_06 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16391,7 +16391,7 @@ GameObject:
   - component: {fileID: 3328439625115478286}
   - component: {fileID: 708201476786707908}
   - component: {fileID: 3907874854331627035}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18203,7 +18203,7 @@ GameObject:
   - component: {fileID: 2979010627153519596}
   - component: {fileID: 1059301560632842022}
   - component: {fileID: 3556967584468368633}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19285,7 +19285,7 @@ GameObject:
   - component: {fileID: 3157780427712688782}
   - component: {fileID: 879969772021614148}
   - component: {fileID: 3048213646733883980}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: SM_Bld_Steps_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19939,7 +19939,7 @@ GameObject:
   - component: {fileID: 6612719443773472511}
   - component: {fileID: 5699635275666047733}
   - component: {fileID: 5940275923725657759}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ShopDisplay_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21179,7 +21179,7 @@ GameObject:
   - component: {fileID: 2719212892987779324}
   - component: {fileID: 168993777298578486}
   - component: {fileID: 4447274902188947433}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21608,7 +21608,7 @@ GameObject:
   - component: {fileID: 2675155389360231051}
   - component: {fileID: 199557987949946433}
   - component: {fileID: 1934759240864120460}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stanchion_Gold_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23276,7 +23276,7 @@ GameObject:
   - component: {fileID: 2825687272118060134}
   - component: {fileID: 59159033061339308}
   - component: {fileID: 6228953187050221096}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23614,7 +23614,7 @@ GameObject:
   - component: {fileID: 2346970563051927242}
   - component: {fileID: 537874505181348352}
   - component: {fileID: 991621441227110740}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24156,7 +24156,7 @@ GameObject:
   - component: {fileID: 2308951676144497768}
   - component: {fileID: 571952862107680930}
   - component: {fileID: 5858196996832648742}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25507,7 +25507,7 @@ GameObject:
   - component: {fileID: 2464483856722068841}
   - component: {fileID: 420924160777810339}
   - component: {fileID: 2944646382625678436}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25971,7 +25971,7 @@ GameObject:
   - component: {fileID: 2582117829179947395}
   - component: {fileID: 302147125719453001}
   - component: {fileID: 4314157286251603606}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26982,7 +26982,7 @@ GameObject:
   - component: {fileID: 1122432246140730202}
   - component: {fileID: 5340650384824452656}
   - component: {fileID: 8328819768392330650}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Drinks_Fridge_01_Door_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27187,7 +27187,7 @@ GameObject:
   - component: {fileID: 2024504880892268403}
   - component: {fileID: 4322482847579388857}
   - component: {fileID: 7881026703374034237}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27300,7 +27300,7 @@ GameObject:
   - component: {fileID: 2144258603667697623}
   - component: {fileID: 4189782100324440861}
   - component: {fileID: 7820108946054235545}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28848,7 +28848,7 @@ GameObject:
   - component: {fileID: 2176316706569938029}
   - component: {fileID: 4167839332788965543}
   - component: {fileID: 1798285156197037517}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30400,7 +30400,7 @@ GameObject:
   - component: {fileID: 1746271326497891149}
   - component: {fileID: 4600699479657256839}
   - component: {fileID: 3849715373441674451}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_07 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30850,7 +30850,7 @@ GameObject:
   - component: {fileID: 2254229070955163820}
   - component: {fileID: 4194204850012960662}
   - component: {fileID: 155346137445795781}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ShopDisplay_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31978,7 +31978,7 @@ GameObject:
   - component: {fileID: 1927798579625133301}
   - component: {fileID: 4405679122368426047}
   - component: {fileID: 201425950721088480}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32947,7 +32947,7 @@ GameObject:
   - component: {fileID: 1980863560874531617}
   - component: {fileID: 4366670435855757291}
   - component: {fileID: 249388634295796788}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34299,7 +34299,7 @@ GameObject:
   - component: {fileID: 1471717030890778900}
   - component: {fileID: 3713325226117023198}
   - component: {fileID: 893937701620461057}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35854,7 +35854,7 @@ GameObject:
   - component: {fileID: 1723247477462076033}
   - component: {fileID: 3462919820325420619}
   - component: {fileID: 1144271916047963540}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35967,7 +35967,7 @@ GameObject:
   - component: {fileID: 1688294781970134949}
   - component: {fileID: 3497872360703869807}
   - component: {fileID: 1109423059970828464}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36394,7 +36394,7 @@ GameObject:
   - component: {fileID: 1223665397793980046}
   - component: {fileID: 3972072048840313412}
   - component: {fileID: 644054878070235547}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36620,7 +36620,7 @@ GameObject:
   - component: {fileID: 1202739737596656429}
   - component: {fileID: 3986822714137579495}
   - component: {fileID: 4756866068715482404}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_06 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37700,7 +37700,7 @@ GameObject:
   - component: {fileID: 1267658232064013878}
   - component: {fileID: 3923575615325111036}
   - component: {fileID: 6852985091167366235}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Coat_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37813,7 +37813,7 @@ GameObject:
   - component: {fileID: 1253247012312206145}
   - component: {fileID: 3927309081980747659}
   - component: {fileID: 4177635138187536682}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Bar_Sink_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38153,7 +38153,7 @@ GameObject:
   - component: {fileID: 1257389396650911761}
   - component: {fileID: 3933845584102333659}
   - component: {fileID: 3353649136257565718}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stanchion_Gold_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39055,7 +39055,7 @@ GameObject:
   - component: {fileID: 1348918069892710722}
   - component: {fileID: 3845131386266547592}
   - component: {fileID: 4294723079387201197}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Bar_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39281,7 +39281,7 @@ GameObject:
   - component: {fileID: 1299095335944343158}
   - component: {fileID: 3883131037429316284}
   - component: {fileID: 1516536263455426136}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Jukebox_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39958,7 +39958,7 @@ GameObject:
   - component: {fileID: 925363891043992170}
   - component: {fileID: 3112966765642413728}
   - component: {fileID: 9048006528723609636}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40760,7 +40760,7 @@ GameObject:
   - component: {fileID: 865190378839982264}
   - component: {fileID: 3162988572219749490}
   - component: {fileID: 9027098634026298102}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40873,7 +40873,7 @@ GameObject:
   - component: {fileID: 1005625706028361223}
   - component: {fileID: 3030997356859527885}
   - component: {fileID: 807179049422059431}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46949,7 +46949,7 @@ GameObject:
   - component: {fileID: 457888119806603331}
   - component: {fileID: 2431461767317111945}
   - component: {fileID: 44368044332655075}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_02 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47288,7 +47288,7 @@ GameObject:
   - component: {fileID: 2447316339036899418}
   - component: {fileID: 7315940539705001357}
   - component: {fileID: 7315940539705001359}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Sofa_01_Straight_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48190,7 +48190,7 @@ GameObject:
   - component: {fileID: 57790332886761765}
   - component: {fileID: 2821970575868179951}
   - component: {fileID: 1785150919166615088}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50984,7 +50984,7 @@ GameObject:
   - component: {fileID: 8963092606136443577}
   - component: {fileID: 6595445192988399219}
   - component: {fileID: 7235099259513142700}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51323,7 +51323,7 @@ GameObject:
   - component: {fileID: 6625192986282882149}
   - component: {fileID: 2269961537768536498}
   - component: {fileID: 2269961537768536496}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Sofa_01_Straight_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52226,7 +52226,7 @@ GameObject:
   - component: {fileID: 9040498237318366885}
   - component: {fileID: 6526483827625882223}
   - component: {fileID: 5098860001627539468}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Speaker_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52466,7 +52466,7 @@ GameObject:
   - component: {fileID: 9008421408756101766}
   - component: {fileID: 6548410617810552396}
   - component: {fileID: 883589514578401480}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55631,7 +55631,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4593246532778904321}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SpawnTool_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55979,7 +55979,7 @@ GameObject:
   - component: {fileID: 8781353156822282871}
   - component: {fileID: 6789551793936615101}
   - component: {fileID: 3129605076817110142}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56995,7 +56995,7 @@ GameObject:
   - component: {fileID: 8802104045447846913}
   - component: {fileID: 6756434869672372427}
   - component: {fileID: 8127235584765918476}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57337,7 +57337,7 @@ GameObject:
   - component: {fileID: 4032369905106485322}
   - component: {fileID: 4032369905106485321}
   - component: {fileID: 4032369905106485320}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Sofa_01_Corner_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59004,7 +59004,7 @@ GameObject:
   - component: {fileID: 8438309381105544744}
   - component: {fileID: 5980238131691297506}
   - component: {fileID: 6646010782043623879}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Bar_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59117,7 +59117,7 @@ GameObject:
   - component: {fileID: 7218121185041944652}
   - component: {fileID: 5706249127591581892}
   - component: {fileID: 387218981339793746}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Drinks_Fridge_01_Door_01_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59885,7 +59885,7 @@ GameObject:
   - component: {fileID: 8584795940147488736}
   - component: {fileID: 5820802624074814250}
   - component: {fileID: 460534971685014958}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59998,7 +59998,7 @@ GameObject:
   - component: {fileID: 8587521700971440666}
   - component: {fileID: 5821454700533030608}
   - component: {fileID: 462310608424304724}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63149,7 +63149,7 @@ GameObject:
   - component: {fileID: 5418022237878595113}
   - component: {fileID: 1099232980000924670}
   - component: {fileID: 1099232980000924668}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Sofa_01_Straight_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67649,7 +67649,7 @@ GameObject:
   - component: {fileID: 7595994029737908334}
   - component: {fileID: 5660623524894928036}
   - component: {fileID: 8169834420888242043}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68778,7 +68778,7 @@ GameObject:
   - component: {fileID: 7641962339813278439}
   - component: {fileID: 5614092127994328621}
   - component: {fileID: 4840259602907921672}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Bar_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69318,7 +69318,7 @@ GameObject:
   - component: {fileID: 6007700315901616735}
   - component: {fileID: 7273445400405503482}
   - component: {fileID: 4833645838440765744}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Plant_Small_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69409,7 +69409,7 @@ GameObject:
   - component: {fileID: 7277622982323266552}
   - component: {fileID: 4835661771841214258}
   - component: {fileID: 1565066818639497654}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71712,7 +71712,7 @@ GameObject:
   - component: {fileID: 7283139708020226456}
   - component: {fileID: 4825078908192197970}
   - component: {fileID: 6551402764428350879}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stanchion_Gold_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72050,7 +72050,7 @@ GameObject:
   - component: {fileID: 7397249031956570153}
   - component: {fileID: 4705339689610990819}
   - component: {fileID: 9125207091128450876}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72387,7 +72387,7 @@ GameObject:
   - component: {fileID: 7394000417144927509}
   - component: {fileID: 4717577224437596639}
   - component: {fileID: 9121959104465267200}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73885,7 +73885,7 @@ GameObject:
   - component: {fileID: 8096080178268962342}
   - component: {fileID: 6566346791776309711}
   - component: {fileID: 9136934917291529648}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Drinks_Fridge_01_Door_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76299,7 +76299,7 @@ GameObject:
   - component: {fileID: 7146420660238810525}
   - component: {fileID: 4956731406561249623}
   - component: {fileID: 8873884534039536264}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77078,7 +77078,7 @@ GameObject:
   - component: {fileID: 8871077218056955582}
   - component: {fileID: 4570460569465432937}
   - component: {fileID: 4570460569465432939}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Sofa_01_Straight_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77327,7 +77327,7 @@ GameObject:
   - component: {fileID: 6687062511940087972}
   - component: {fileID: 8874836356234593390}
   - component: {fileID: 4955726098065043377}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78004,7 +78004,7 @@ GameObject:
   - component: {fileID: 7748006524227974112}
   - component: {fileID: 6641025455510748229}
   - component: {fileID: 8920890060461279375}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: SM_Prop_Papers_02 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78997,7 +78997,7 @@ GameObject:
   - component: {fileID: 6717738040670745227}
   - component: {fileID: 8853729894222136897}
   - component: {fileID: 3205796946196568261}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79222,7 +79222,7 @@ GameObject:
   - component: {fileID: 6705901067866054923}
   - component: {fileID: 2202519670863921458}
   - component: {fileID: 8953265555515477228}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ShopDisplay_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79652,7 +79652,7 @@ GameObject:
   - component: {fileID: 8776182340056239747}
   - component: {fileID: 4448060278720496468}
   - component: {fileID: 4448060278720496470}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Sofa_01_Straight_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80460,7 +80460,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8284443403262962578}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SpawnTool_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82612,7 +82612,7 @@ GameObject:
   - component: {fileID: 6442527654346604457}
   - component: {fileID: 9118807988992559971}
   - component: {fileID: 3970722175008974285}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: SM_Bld_Steps_01_Angled_Outer_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83398,7 +83398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8200556092579568533}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SpawnTool_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85248,7 +85248,7 @@ GameObject:
   - component: {fileID: 6573357407734676293}
   - component: {fileID: 8997548797691547535}
   - component: {fileID: 3061943954295476491}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85811,7 +85811,7 @@ GameObject:
   - component: {fileID: 6117268698667517500}
   - component: {fileID: 8286641118773342966}
   - component: {fileID: 5918848291756545948}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_02 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86774,7 +86774,7 @@ GameObject:
   - component: {fileID: 6179975535599821789}
   - component: {fileID: 8225640312053749527}
   - component: {fileID: 6858217296714285776}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87111,7 +87111,7 @@ GameObject:
   - component: {fileID: 6164157260621496859}
   - component: {fileID: 8245962375668020945}
   - component: {fileID: 6257311076246957579}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Drinks_Fridge_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88790,7 +88790,7 @@ GameObject:
   - component: {fileID: 6323979687587380789}
   - component: {fileID: 8081636194607074047}
   - component: {fileID: 1212578353255293553}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stanchions_Rope_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89330,7 +89330,7 @@ GameObject:
   - component: {fileID: 5824105238235387701}
   - component: {fileID: 8590501470667006975}
   - component: {fileID: 5248964704659474464}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91106,7 +91106,7 @@ GameObject:
   - component: {fileID: 5927609980343522207}
   - component: {fileID: 8478007155444639573}
   - component: {fileID: 3190549717336866408}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Plant_Vase_04 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91558,7 +91558,7 @@ GameObject:
   - component: {fileID: 5924528167700715444}
   - component: {fileID: 8492893565310477182}
   - component: {fileID: 2557853870890040826}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92789,7 +92789,7 @@ GameObject:
   - component: {fileID: 5477531204292032641}
   - component: {fileID: 7773475542684224587}
   - component: {fileID: 4414492913382937295}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96370,7 +96370,7 @@ GameObject:
   - component: {fileID: 5299098915136210135}
   - component: {fileID: 7957536369650888733}
   - component: {fileID: 5759265498784948072}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Coat_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97392,7 +97392,7 @@ GameObject:
   - component: {fileID: 5376082748042996606}
   - component: {fileID: 7890123544940879796}
   - component: {fileID: 4644699459218115187}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97505,7 +97505,7 @@ GameObject:
   - component: {fileID: 5354166248445968290}
   - component: {fileID: 7901889473478200168}
   - component: {fileID: 6411360129210716721}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_04 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99307,7 +99307,7 @@ GameObject:
   - component: {fileID: 4979471072382059171}
   - component: {fileID: 7133233174007150185}
   - component: {fileID: 6706374155524316598}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99758,7 +99758,7 @@ GameObject:
   - component: {fileID: 5082724566837237922}
   - component: {fileID: 7020408516085869672}
   - component: {fileID: 8045906292993697613}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Bar_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99872,7 +99872,7 @@ GameObject:
   - component: {fileID: 5085980380371952851}
   - component: {fileID: 7021674204114047001}
   - component: {fileID: 7557901261361714544}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: SM_Bld_Steps_01_Corner_Outer_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101315,7 +101315,7 @@ GameObject:
   - component: {fileID: 762681748653199536}
   - component: {fileID: 5739091213897332752}
   - component: {fileID: 7435216064159522817}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: MoneyLaundry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102528,7 +102528,7 @@ GameObject:
   - component: {fileID: 4720200588613549907}
   - component: {fileID: 7378429067000187801}
   - component: {fileID: 3514761664869995805}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Stool_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103318,7 +103318,7 @@ GameObject:
   - component: {fileID: 4684265299654291538}
   - component: {fileID: 7414382050708669592}
   - component: {fileID: 6416128863865974599}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Chair_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103431,7 +103431,7 @@ GameObject:
   - component: {fileID: 4820262117077332302}
   - component: {fileID: 7278368483018687876}
   - component: {fileID: 239364475882064076}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Planter_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105570,6 +105570,10 @@ PrefabInstance:
     - target: {fileID: 2695364041428283047, guid: 65206f998ef121f4a870ead75b264d00, type: 3}
       propertyPath: m_Name
       value: Washing_Machine_04_Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 2695364041428283047, guid: 65206f998ef121f4a870ead75b264d00, type: 3}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3327047402736710685, guid: 65206f998ef121f4a870ead75b264d00, type: 3}
       propertyPath: m_RootOrder

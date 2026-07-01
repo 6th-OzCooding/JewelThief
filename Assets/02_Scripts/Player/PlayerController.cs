@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     [SerializeField] private float _spintSpAddPerSecond = 3; //평소 초당 회복되는 스태미나
     private float _playerMaxSp;
     private int _playerMaxLife;
-
+    private bool _isInLobby = false;
 
     public Vector3 Position => this.transform.position;
     public Transform CameraTransform => Camera_FPS != null ? Camera_FPS.transform : null;
@@ -225,11 +225,14 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         if (_isSprinting)
         {
             //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
-            TakePlayerSpDamagePerSecond(_spintSpUsePerSecond); //스태미나를 초당 정해진 값만큼 깎음
-            if (_playerSp <= 0f)
+            if (!_isInLobby)
             {
-                _playerSp = 0f;
-                _isStaminaCooling = true;
+                TakePlayerSpDamagePerSecond(_spintSpUsePerSecond);
+                if (_playerSp <= 0f)
+                {
+                    _playerSp = 0f;
+                    _isStaminaCooling = true;
+                }
             }
         }
         else  //스프린트 상태가 아니고, 스태미나가 최대가 아닐 때 회복한다
@@ -249,6 +252,11 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         }
 
         UpdateFootStepSfx();
+    }
+
+    public void BlockStaminaConsume(bool isLobby)
+    {
+        _isInLobby = isLobby;
     }
 
     private bool IsSprint() //스프린트 입력되고, 좌표 변경되는 중, 스태미나 0이상, 앉기가 입력되지 않을때 true
