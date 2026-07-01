@@ -34,6 +34,7 @@ public class FloorProvider : ISpawnPositionProvider
             if (Physics.CheckBox(position, _checkHalfExtents, Quaternion.identity, _obstacleLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
+            position.y = 0f;
             spawnInfo = new SpawnInfo(position, Quaternion.identity);
         }
 

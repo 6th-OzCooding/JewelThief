@@ -350,8 +350,8 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_JewelInventory",
-    "Address": "JewelInventory",
+    "Id": "PreLoadAsset_BagInventoryView",
+    "Address": "BagInventoryView",
     "AssetType": null
   },
   {
@@ -605,11 +605,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_Mesh_MushroomTrap",
-    "Address": "Mashroom_1",
-    "AssetType": "Mesh"
-  },
-  {
     "Id": "PreLoadAsset_Material_Color_1",
     "Address": "Color_1",
     "AssetType": null
@@ -633,5 +628,10 @@
     "Id": "PreLoadAsset_Mesh_Escape",
     "Address": "Mesh_Escape[SM_Prop_Vent_01]",
     "AssetType": "Mesh"
+  },
+  {
+    "Id": "PreLoadAsset_Materail_Mashroom_1 ",
+    "Address": "Mashroom_1",
+    "AssetType": null
   }
 ]
