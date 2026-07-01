@@ -8,6 +8,11 @@ public class InteractableDoor : BaseDisarmableObejct
     private string _doorMeshPrefabPath;
     private GameObject _doorMeshObject;
 
+    private void OnEnable()
+    {
+        LoadData("Door_01");
+    }
+
     private void OnDisable()
     {
         Destroy(_doorMeshObject);
