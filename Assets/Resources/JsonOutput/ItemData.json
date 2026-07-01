@@ -392,7 +392,7 @@
     "StringItemType": "Junk",
     "StringItemGrade": "Unique",
     "Weight": 15,
-    "Price": 4000,
+    "Price": 100000,
     "IconPath": null,
     "ChargeCount": null,
     "MaterialPaths": [
@@ -475,5 +475,59 @@
     "Husks": "JunkObject",
     "StringHoldType": "Pocket",
     "MeshCollider": null
+  },
+  {
+    "Id": "Item_Escape_Floor",
+    "Name": "탈출구",
+    "Description": "탈출구",
+    "StringItemType": "Escape",
+    "StringItemGrade": "Rare",
+    "Weight": 0,
+    "Price": 0,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Mesh_Escape[SM_Prop_Vent_01]",
+    "Husks": "Escape",
+    "StringHoldType": null,
+    "MeshCollider": "MeshCollider_Escape"
+  },
+  {
+    "Id": "Item_Escape_Wall",
+    "Name": "탈출구",
+    "Description": "탈출구",
+    "StringItemType": "Escape",
+    "StringItemGrade": "Rare",
+    "Weight": 0,
+    "Price": 0,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Mesh_Escape[SM_Prop_Vent_01]",
+    "Husks": "Escape",
+    "StringHoldType": null,
+    "MeshCollider": "MeshCollider_Escape"
+  },
+  {
+    "Id": "Item_Escape_Ceiling",
+    "Name": "탈출구",
+    "Description": "탈출구",
+    "StringItemType": "Escape",
+    "StringItemGrade": "Rare",
+    "Weight": 0,
+    "Price": 0,
+    "IconPath": null,
+    "ChargeCount": null,
+    "MaterialPaths": [
+      "PolygonNightclubs_01_A"
+    ],
+    "MeshPath": "Mesh_Escape[SM_Prop_Vent_01]",
+    "Husks": "Escape",
+    "StringHoldType": null,
+    "MeshCollider": "MeshCollider_Escape"
   }
 ]

@@ -17,8 +17,10 @@ public class CeilingProvider : ISpawnPositionProvider
         _obstacleLayer = LayerMask.GetMask("Obstacle");
     }
 
-    public bool GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas, out SpawnInfo spawnInfo)
+    public SpawnInfo GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas)
     {
+        SpawnInfo spawnInfo = default;
+
         for (int i = 0; i < _spawnTryCount; i++)
         {
             SpawnArea area = spawnAreas[Random.Range(0, spawnAreas.Count)];
@@ -32,16 +34,14 @@ public class CeilingProvider : ISpawnPositionProvider
 
             // 프리팹의 local up 방향을 천장 normal 방향으로 맞춤
             // 즉, 기본적으로 세워진 오브젝트를 천장에 거꾸로 붙이는 회전
-            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, -hit.normal);
+            //Quaternion rotation = Quaternion.FromToRotation(Vector3.up, -hit.normal);
 
-            if (Physics.CheckBox(position, _checkHalfExtents, rotation, _obstacleLayer, QueryTriggerInteraction.Ignore))
+            if (Physics.CheckBox(position, _checkHalfExtents, Quaternion.identity, _obstacleLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
-            spawnInfo = new SpawnInfo(position, rotation, true);
-            return true;
+            spawnInfo = new SpawnInfo(position, Quaternion.identity);
         }
 
-        spawnInfo = default;
-        return false;
+        return spawnInfo;
     }
 }

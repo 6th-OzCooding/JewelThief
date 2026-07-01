@@ -19,8 +19,10 @@ public class WallProvider : ISpawnPositionProvider
         _obstacleLayer = LayerMask.GetMask("Obstacle");
     }
 
-    public bool GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas, out SpawnInfo transform)
+    public SpawnInfo GetSpawnInfo(IReadOnlyList<SpawnArea> spawnAreas)
     {
+        SpawnInfo spawnInfo = default;
+
         for (int i = 0; i < _spawnTryCount; i++)
         {
             SpawnArea area = spawnAreas[Random.Range(0, spawnAreas.Count)];
@@ -38,11 +40,9 @@ public class WallProvider : ISpawnPositionProvider
             if (Physics.CheckBox(position, _checkHalfExtents, rotation, _obstacleLayer, QueryTriggerInteraction.Ignore))
                 continue;
 
-            transform = new SpawnInfo(position, rotation, true);
-            return true;
+            spawnInfo = new SpawnInfo(position, rotation);
         }
 
-        transform = default;
-        return false;
+        return spawnInfo;
     }
 }

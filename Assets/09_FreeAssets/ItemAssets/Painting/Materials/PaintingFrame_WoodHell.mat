@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: PaintingFrame_WoodHell
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: 29aee64d6be06dc44b03128a226addf3, type: 2}
+  m_Parent: {fileID: 2100000, guid: 6c3bd5dae5ddc3c4c9d883b82b31a4cb, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []

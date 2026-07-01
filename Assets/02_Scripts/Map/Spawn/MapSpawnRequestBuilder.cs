@@ -43,6 +43,7 @@ public class MapSpawnRequestBuilder
             MapSpawnObjectType.FloorContainer => stageData.MaxFloorContainer,
             MapSpawnObjectType.WallContainer => stageData.MaxWallContainer,
             MapSpawnObjectType.Painting => stageData.MaxPainting,
+            MapSpawnObjectType.Escape => stageData.ExitCount,
             _ => 0
         };
     }

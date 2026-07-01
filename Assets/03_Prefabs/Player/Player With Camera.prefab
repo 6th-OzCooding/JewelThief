@@ -731,7 +731,7 @@ MonoBehaviour:
   _groundCheckRadius: 0.1
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32768
   _headCheck: {fileID: 2864941268612226769}
   _headCheckRadius: 0.3
   _headLayer:
