@@ -39,7 +39,7 @@ public class ConfirmPopupUI : UIBase
             _onConfirmAction.Invoke();
         }
 
-        GameManager.UI.ClosePopupUI(UIType.ConfirmPopup);
+        GameManager.Instance.QuitGame();
     }
 
     private void OnClickNo()
