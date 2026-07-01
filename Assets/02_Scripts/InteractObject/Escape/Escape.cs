@@ -41,7 +41,8 @@ public class Escape : BaseInteractableObject
 
     protected override bool CheckCanInteract()
     {
-        return GameManager.Alert.GetRemainingTime() <= 0f;
+        return true;
+        //return GameManager.Alert.GetRemainingTime() <= 0f;
     }
 
     protected override void LoadData(string id) 

@@ -132,7 +132,7 @@ public class InteractableContainer : BaseDisarmableObejct
 
         GameObject obj = Instantiate(prefab, transform);
 
-        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localPosition = prefab.transform.position;
         obj.transform.localRotation = Quaternion.identity;
         obj.transform.localScale = Vector3.one;
 
