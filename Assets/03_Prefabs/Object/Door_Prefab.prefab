@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3663409518660331012}
   - component: {fileID: 8582649157353168948}
   - component: {fileID: 6246025433970583955}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Door_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1289202152484291622}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.06496, y: 0, z: 5.80778}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableDoor
   _animController: {fileID: 8582649157353168948}
+  _audioSource: {fileID: 0}
 --- !u!114 &8582649157353168948
 MonoBehaviour:
   m_ObjectHideFlags: 0
