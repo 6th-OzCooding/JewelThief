@@ -221,7 +221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2224699554623832276}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.12838644, y: 0.65636224, z: 0.11472265, w: 0.7345368}
+  m_LocalRotation: {x: 0.003885169, y: 0.86415946, z: -0.0066726548, w: 0.50315887}
   m_LocalPosition: {x: 0, y: 0.317, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -241,8 +241,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 0
-    m_Value: 0
+    Enabled: 1
+    m_Value: 10
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -299,7 +299,7 @@ MonoBehaviour:
   ReferenceFrame: 0
   RecenterTarget: 1
   PanAxis:
-    Value: 83.56622
+    Value: 119.57959
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -309,7 +309,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: -19.828651
+    Value: 0.88480747
     Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0
@@ -423,7 +423,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3029062730831253007}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.12838644, y: 0.65636224, z: 0.11472265, w: 0.7345368}
+  m_LocalRotation: {x: 0.003885169, y: 0.86415946, z: -0.0066726548, w: 0.50315887}
   m_LocalPosition: {x: 0, y: 0.317, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -716,8 +716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab8406a27da89f458cbe8ca59e0b33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _moveSpeed: 5
-  _sprintScale: 2
+  _moveSpeed: 4
+  _sprintScale: 1.3
   _crouchScale: 0.3
   _overweightScale: 0.5
   _minMoveSpeed: 1
@@ -744,7 +744,7 @@ MonoBehaviour:
   _inputHandler: {fileID: 5910133177189523141}
   _playerInventory: {fileID: 6484167880159171074}
   _hoverDetector: {fileID: 3658483056578502361}
-  _playerLife: 10
+  _playerLife: 5
   _playerSp: 100
   _spintSpUsePerSecond: 20
   _spintSpAddPerSecond: 6
