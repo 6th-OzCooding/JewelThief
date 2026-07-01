@@ -605,11 +605,6 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_Mesh_MushroomTrap",
-    "Address": "Mashroom_1",
-    "AssetType": "Mesh"
-  },
-  {
     "Id": "PreLoadAsset_Material_Color_1",
     "Address": "Color_1",
     "AssetType": null
