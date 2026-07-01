@@ -731,7 +731,7 @@ MonoBehaviour:
   _groundCheckRadius: 0.1
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 294912
   _headCheck: {fileID: 2864941268612226769}
   _headCheckRadius: 0.3
   _headLayer:
@@ -856,6 +856,10 @@ MonoBehaviour:
   _bagAdditionalWeightLimit: 0
   _bagMaxCapacity: 10
   _handItemViewer: {fileID: 0}
+  _dropForwardOffset: 0.6
+  _dropHeightOffset: 1.2
+  _dropUpImpulse: 1.5
+  _dropForwardImpulse: 1
 --- !u!114 &3801501349489705643
 MonoBehaviour:
   m_ObjectHideFlags: 0

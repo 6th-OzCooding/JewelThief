@@ -127,7 +127,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         _uiManager.Init();
         InitAsync().Forget();
 
-        AddGold(2000);
+        AddGold(500);
     }
 
     private async UniTaskVoid InitAsync()
@@ -242,6 +242,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public void EnterInGame(string StageId)
     {
         EnterInGameAsync(StageId).Forget();
+        _playerController.BlockStaminaConsume(false);
     }
 
     private async UniTaskVoid EnterInGameAsync(string stageId)
@@ -268,7 +269,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isInGame = true;
         _isPaused = false;
 
-        await UniTask.Delay(2000);  // 플레이어 이동이 노출되는 것을 방지
+        await UniTask.Delay(3000);  // 플레이어 이동이 노출되는 것을 방지
 
         UI.CloseInGameLoadingUI();
         IsEnteringInGame = false;
@@ -374,6 +375,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void HandleStageEnd(bool isCaught)
     {
         _isPaused = true;
+        Sound.StopBGM();
         _alertManager?.PauseTimer();
         _playerController?.SetInputMode(PlayerInputMode.UIOnly);
 
