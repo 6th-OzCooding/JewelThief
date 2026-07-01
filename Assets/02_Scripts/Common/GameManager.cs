@@ -281,7 +281,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         _isInGame = false;
         _isPaused = false;
+        _alertManager?.ResumeTimer();                           
+        _playerController?.SetInputMode(PlayerInputMode.Gameplay);
 
+        Pool.AllDespawnToPool();
         _wfcMapGeneration.Release();
 
         OnExitInGame?.Invoke(_removeToolIdsWhenInGameExit);
@@ -296,34 +299,6 @@ public class GameManager : SingletonBehaviour<GameManager>
             return;
 
         _playerController.Teleport(_lobbyController.SpawnPosition);
-    }
-
-    public void GameOver()
-    {
-        _isPaused = true;
-
-        int totalValue = 0;
-        string bestGemName = "";
-        if (JewelInventoryManager.Instance != null)
-        {
-            totalValue = JewelInventoryManager.Instance.GetCurrentStageScore();
-            bestGemName = JewelInventoryManager.Instance.GetMostExpensiveJewelName();          
-        }
-
-        float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
-
-        OnPlayerCaught?.Invoke();
-        _playerController.ResetPlayerStat();        
-
-        ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
-        if (scorePopupUI != null)
-        {
-            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: true);
-        }
-        else
-        {
-            Debug.LogError("ScorePopupUI를 열지 못했습니다.");
-        }
     }
 
     public void QuitGame()
@@ -360,30 +335,50 @@ public class GameManager : SingletonBehaviour<GameManager>
         _isPaused = false;
     }
 
-   public void EscapeSuccessful()  // TODO (한재덕 - 26.06.29) 탈출 성공시 메서드 호출 필요
+    public void GameOver()
+    {
+        HandleStageEnd(isCaught: true);
+    }
+
+    public void Escape()
+    {
+        HandleStageEnd(isCaught: false);
+    }
+
+    private void HandleStageEnd(bool isCaught)
     {
         _isPaused = true;
+        _alertManager?.PauseTimer();
+        _playerController?.SetInputMode(PlayerInputMode.UIOnly);
 
         int totalValue = 0;
         string bestGemName = "";
         if (JewelInventoryManager.Instance != null)
         {
             bestGemName = JewelInventoryManager.Instance.GetMostExpensiveJewelName();
-            totalValue = JewelInventoryManager.Instance.GetStageScoreAndFinalize();
+
+            totalValue = isCaught
+                ? JewelInventoryManager.Instance.GetCurrentStageScore()
+                : JewelInventoryManager.Instance.GetStageScoreAndFinalize();
         }
 
-        OnPlayerEscape?.Invoke();
         float remainingTime = _alertManager != null ? _alertManager.GetRemainingTime() : 0f;
 
-        ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
-        if (scorePopupUI != null)
+        if (isCaught)
         {
-            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: false);
+            OnPlayerCaught?.Invoke();
+            _playerController.ResetPlayerStat();
         }
         else
         {
-            Debug.LogError("ScorePopupUI를 열지 못했습니다.");
+            OnPlayerEscape?.Invoke();
         }
+
+        ScorePopupUI scorePopupUI = UI.OpenScorePopupUI();
+        if (scorePopupUI != null)
+            scorePopupUI.DisplayScore(totalValue, bestGemName, remainingTime, isCaught: isCaught);
+        else
+            Debug.LogError("ScorePopupUI를 열지 못했습니다.");
     }
 
     private void PoolInit()
