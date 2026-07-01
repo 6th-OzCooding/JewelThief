@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3288187165635722645}
   - component: {fileID: 1128867761421666236}
   - component: {fileID: 4750030562036048449}
-  - component: {fileID: 7849804925262788436}
   m_Layer: 0
   m_Name: CenterPointUI
   m_TagString: Untagged
@@ -87,17 +86,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed404bd33a0f3c3479a20a9be3dda113, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CenterPointUI
---- !u!114 &7849804925262788436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6720880011301914042}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c3519f3507943de978328cef63a994f, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::CenterPointUICursorMode

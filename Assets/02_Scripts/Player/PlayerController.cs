@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
     [SerializeField] private InteractionHoverDetector _hoverDetector;
 
     [Header("플레이어 스탯")]
-    [SerializeField] private int _playerLife = 5;
+    [SerializeField] private int _playerLife = 10;
     [SerializeField] private float _playerSp = 100;
     [SerializeField] private float _spintSpUsePerSecond = 5; //스프린트 시 초당 소모되는 스태미나
     [SerializeField] private float _spintSpAddPerSecond = 3; //평소 초당 회복되는 스태미나
