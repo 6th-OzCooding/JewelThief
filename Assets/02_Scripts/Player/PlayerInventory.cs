@@ -751,20 +751,5 @@ public class PlayerInventory : MonoBehaviour
             JewelInventory.ClearAllJewelsOnCaught();
     }
 
-    public void RemoveToolItems()
-    {
-     
-        if(LeftHandItem.ItemData.StringItemType == "Tool")
-        {
-            ClearHandItem(PlayerHandType.Left);
-
-        }
-        if (RightHandItem.ItemData.StringItemType == "Tool")
-        {
-            ClearHandItem(PlayerHandType.Right);
-        }
-
-        Debug.Log("탈출하여 양손 아이템이 사라졌습니다.");
-
-    }
+    
 }
