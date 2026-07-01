@@ -496,7 +496,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2ee0adf282326246bc6300be2049c67
-    m_Address: JewelInventory
+    m_Address: BagInventoryView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

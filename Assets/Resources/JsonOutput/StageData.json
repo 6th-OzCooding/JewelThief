@@ -3,7 +3,7 @@
     "Id": "Stage_01",
     "Name": "TestMap",
     "TimeLimit": 300,
-    "StageEnemyId": "Stage_Enemy_01",
+    "StageEnemyId": "StageEnemy_01",
     "MaxJewel": 3,
     "MaxJunk": 6,
     "MaxStatue": 2,
@@ -12,7 +12,7 @@
     "MaxFloorTrap": 8,
     "MaxCeilingTrap": 4,
     "MaxPainting": 6,
-    "ExitCount": 2,
+    "ExitCount": 5,
     "TileAddress": [
       "All Direction Corridor",
       "Vertical Corridor",
@@ -39,7 +39,7 @@
     "Id": "Stage_02",
     "Name": "City",
     "TimeLimit": 600,
-    "StageEnemyId": "Stage_Enemy_02",
+    "StageEnemyId": "StageEnemy_02",
     "MaxJewel": 6,
     "MaxJunk": 8,
     "MaxStatue": 4,
@@ -48,14 +48,14 @@
     "MaxFloorTrap": 10,
     "MaxCeilingTrap": 6,
     "MaxPainting": 8,
-    "ExitCount": 3,
+    "ExitCount": 7,
     "TileAddress": null
   },
   {
     "Id": "Stage_03",
     "Name": "Museum",
     "TimeLimit": 600,
-    "StageEnemyId": "Stage_Enemy_03",
+    "StageEnemyId": "StageEnemy_03",
     "MaxJewel": 9,
     "MaxJunk": 10,
     "MaxStatue": 6,
@@ -64,7 +64,7 @@
     "MaxFloorTrap": 12,
     "MaxCeilingTrap": 8,
     "MaxPainting": 10,
-    "ExitCount": 3,
+    "ExitCount": 9,
     "TileAddress": null
   }
 ]

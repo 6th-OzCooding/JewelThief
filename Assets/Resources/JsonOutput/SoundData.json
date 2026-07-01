@@ -79,7 +79,7 @@
   },
   {
     "Id": "Sound_SFX_012",
-    "Name": "GunTrap_Fire",
+    "Name": "GunTrap_01",
     "Volume": 1,
     "IsLoop": true
   },
