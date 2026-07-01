@@ -418,6 +418,7 @@ public class BagInventoryViewController : MonoBehaviour
 
         GameManager.UI.CloseUI(UIType.MainHUD);
         GameManager.UI.CloseCenterPointUI();
+        GameManager.UI.OpenBagInventoryViewUI(_playerInventory);
 
         UIBase centerPointUI = GameManager.UI.OpenCenterPointUI();
         if (centerPointUI != null && centerPointUI.TryGetComponent(out _centerPointCursorMode))
@@ -441,6 +442,7 @@ public class BagInventoryViewController : MonoBehaviour
         }
 
         GameManager.UI.CloseCenterPointUI();
+        GameManager.UI.CloseBagInventoryViewUI();
 
         if (_previousInputMode == PlayerInputMode.Gameplay)
         {
