@@ -180,8 +180,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uC774\uB3D9 : WASD\n\uC810\uD504 : Space\n\uB2EC\uB9AC\uAE30 : Shift\n\uC6C5\uD06C\uB9AC\uAE30
-    : C\n\uC0C1\uD638\uC791\uC6A9 : E\n\uAC00\uBC29 \uC5F4\uAE30 : I\n\uD035\uC2AC\uB86F
-    \uC804\uD658 : 1~4\n"
+    : C\n\uC0C1\uD638\uC791\uC6A9 : E\n\uD035\uC2AC\uB86F \uC804\uD658 : 1~4\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 286022aa2f24b934593c77fab77c67d9, type: 2}
   m_sharedMaterial: {fileID: -8536455285225053147, guid: 286022aa2f24b934593c77fab77c67d9, type: 2}
@@ -289,7 +288,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 450}
+  m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &7104581134115292655
 CanvasRenderer:
@@ -1917,9 +1916,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimerHUD
   _timeLimitText: {fileID: 5336824890904990756}
   _currentGoldText: {fileID: 5599256434398064445}
+  _timerSourceType: 0
+  _testTimerSeconds: 600
   _normalTextColor: {r: 1, g: 1, b: 1, a: 1}
   _dangerTextColor: {r: 1, g: 0, b: 0, a: 1}
   _dangerTextScale: 1.2
+  _testDecreaseSeconds: 60
 --- !u!1 &4367769909857299368
 GameObject:
   m_ObjectHideFlags: 0

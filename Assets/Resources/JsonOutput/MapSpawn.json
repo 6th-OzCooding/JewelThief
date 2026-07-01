@@ -49,7 +49,7 @@
     "StringSpawnArea": "Floor",
     "StringSpawnType": "Statue",
     "StringInteractType": "Interact",
-    "PoolAddress": "ItemObject",
+    "PoolAddress": "Pool_Statue",
     "ItemId": [
       "Item_Statue_Stone",
       "Item_Statue_Copper",
@@ -130,7 +130,7 @@
     "StringInteractType": "Interact",
     "PoolAddress": "Escape",
     "ItemId": [
-      "Item_Escape"
+      "Item_Escape_Ceiling"
     ],
     "IsKinematic": true
   }
