@@ -36935,7 +36935,7 @@ GameObject:
   - component: {fileID: 1196009532021340166}
   - component: {fileID: 3998601756829027532}
   - component: {fileID: 3903883074839657611}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39620,7 +39620,7 @@ GameObject:
   - component: {fileID: 1408191696255804644}
   - component: {fileID: 3777976563227398190}
   - component: {fileID: 1580145497410912091}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Coat_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46047,7 +46047,7 @@ GameObject:
   - component: {fileID: 421414552425617616}
   - component: {fileID: 2467371182644702234}
   - component: {fileID: 6298881503222206169}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Table_06 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50080,7 +50080,7 @@ GameObject:
   - component: {fileID: 148013607461105387}
   - component: {fileID: 2731766182489381409}
   - component: {fileID: 9164867149867611454}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_Prop_Bar_01_Corner_L_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
