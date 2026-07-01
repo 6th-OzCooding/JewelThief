@@ -30,7 +30,7 @@ public class Item : BaseInteractableObject
         ItemGrade = _itemData.GetItemGrade();
 
         _meshFilter.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshPath);
-        if (_itemData.MeshCollider != "")
+        if (!string.IsNullOrEmpty(_itemData.MeshCollider))
             _meshCollider.sharedMesh = GameManager.Resource.GetLoadedAsset<Mesh>(_itemData.MeshCollider);
         else
             _meshCollider.sharedMesh = _meshFilter.sharedMesh;

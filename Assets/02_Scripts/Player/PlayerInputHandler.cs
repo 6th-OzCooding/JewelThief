@@ -21,7 +21,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public event Action OnCrouchChanged;
 
-    public event Action OnJewelryInventoryToggleEvent; // B키 (보석 인벤토리 열기/ 닫기)
+    public event Action OnJewelryInventoryToggleEvent; // I키 (가방 뷰 열기/닫기)
 
     public void SetMode(PlayerInputMode mode)
     {

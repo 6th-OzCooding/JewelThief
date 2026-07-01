@@ -338,7 +338,8 @@ public class InteractableContainer : BaseDisarmableObejct
         spawnedObject.TryGetComponent<BaseInteractableObject>(out BaseInteractableObject spawnInteractableObject);
         if(spawnInteractableObject == null) 
         {
-            Debug.LogError($"{spawnInteractableObject.GetName}에 spawnInteractableObject를 상속받지 않았습니다.");
+            Debug.LogError($"{poolId} 프리팹에 BaseInteractableObject를 상속한 컴포넌트가 없습니다.");
+            GameManager.Pool.DespawnToPool(spawnedObject);
             return null;
         }
 
