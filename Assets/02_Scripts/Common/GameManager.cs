@@ -40,7 +40,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     [Header("InGame Spawn")]
     [SerializeField] private float _inGameSpawnHeightOffset = 1f;
     [Header("Bag Inventory View")]
-    [SerializeField] private string _bagInventoryViewPrefabAddress = "JewelInventory";
+    [SerializeField] private string _bagInventoryViewPrefabAddress = "BagInventoryView";
     [SerializeField] private Vector3 _bagInventoryViewSpawnPosition = new Vector3(10000f, 10000f, 10000f);
 
     private bool _isInGame = false;

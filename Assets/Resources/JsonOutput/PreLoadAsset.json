@@ -350,8 +350,8 @@
     "AssetType": null
   },
   {
-    "Id": "PreLoadAsset_JewelInventory",
-    "Address": "JewelInventory",
+    "Id": "PreLoadAsset_BagInventoryView",
+    "Address": "BagInventoryView",
     "AssetType": null
   },
   {
@@ -603,11 +603,6 @@
     "Id": "PreLoadAsset_GameObject_MushroomTrap",
     "Address": "MushroomTrap",
     "AssetType": null
-  },
-  {
-    "Id": "PreLoadAsset_Mesh_MushroomTrap",
-    "Address": "Mashroom_1",
-    "AssetType": "Mesh"
   },
   {
     "Id": "PreLoadAsset_Material_Color_1",
