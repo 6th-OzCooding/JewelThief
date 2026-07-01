@@ -41,6 +41,7 @@ public class LobbyController : MonoBehaviour
             return null;
         }
 
+        playerController.BlockStaminaConsume(true);
         _stageSelectController.SetPlayerCameraTransform(playerController.CameraTransform);
         DisplayShopTools();
         return playerController;
