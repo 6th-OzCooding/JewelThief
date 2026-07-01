@@ -98,6 +98,8 @@ public class GameManager : SingletonBehaviour<GameManager>
             return;
 
         Gold += amount;
+
+        _userDataManager.GetUserData<UserPlayData>().SetGold(Gold);
     }
 
     // 골드 차감 시도 (상점 등)
@@ -107,6 +109,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             return false;
 
         Gold -= amount;
+        _userDataManager.GetUserData<UserPlayData>().SetGold(Gold);
         return true;
     }
 
@@ -122,12 +125,11 @@ public class GameManager : SingletonBehaviour<GameManager>
         _dataTable.LoadAllData();
 
         _userDataManager.Init();
-        _userDataManager.LoadUserData();
+        _userDataManager.LoadAllUserData();
+        SetLoadData();
 
         _uiManager.Init();
         InitAsync().Forget();
-
-        AddGold(2000);
     }
 
     private async UniTaskVoid InitAsync()
@@ -329,6 +331,8 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public void QuitGame()
     {
+        _userDataManager.SaveAllUserData();
+
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #else
@@ -524,5 +528,10 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
 
         _poolManager.Init(_poolRoot);
+    }
+
+    private void SetLoadData()
+    {
+        Gold = _userDataManager.GetUserData<UserPlayData>().GetGold();
     }
 }
