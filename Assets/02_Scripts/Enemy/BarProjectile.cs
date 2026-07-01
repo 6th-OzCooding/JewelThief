@@ -66,7 +66,10 @@ public class BarProjectile : MonoBehaviour
     {
         if (other.isTrigger) return;
 
-        if (other.CompareTag("Enemy") || other.CompareTag("Ground")) return;
+        if (other.CompareTag("Enemy"))
+        {
+            return;
+        }
 
         // 2. 플레이어 명중 시
         if (other.CompareTag("Player"))
