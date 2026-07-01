@@ -52,6 +52,6 @@ public class Escape : BaseInteractableObject
 
     protected override void OnInteract(IInteractor interactor)
     {
-        GameManager.Instance.EscapeSuccessful();
+        GameManager.Instance.Escape();
     }
 }
