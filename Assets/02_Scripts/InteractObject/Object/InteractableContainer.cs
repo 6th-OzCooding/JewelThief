@@ -39,6 +39,11 @@ public class InteractableContainer : BaseDisarmableObejct
 
     private GameObject _meshObject;
 
+    private void OnDisable()
+    {
+        Destroy(_meshObject);
+    }
+
     protected override void OnInitalized()
     {
         base.OnInitalized();
