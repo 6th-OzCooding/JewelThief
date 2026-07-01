@@ -155,11 +155,6 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
         _standCameraLocalY = _tranform_CameraRig.localPosition.y; //서있을 때의 카메라 높이 저장
 
         _playerInventory = GetComponent<PlayerInventory>();
-
-        if (JewelInventoryManager.Instance != null)
-        {
-            JewelInventoryManager.Instance.InitializePlayer(transform, GetComponent<PlayerInputHandler>());
-        }
     }
 
     void OnEnable()
@@ -424,6 +419,9 @@ public class PlayerController : MonoBehaviour, IInteractor, IInventoryOwner,ISta
 
     public void TryInteract()
     {
+        if (_inputHandler != null && _inputHandler.CurrentMode != PlayerInputMode.Gameplay)
+            return;
+
         if (_hoverDetector == null)
         {
             Debug.LogWarning("InteractionHoverDetector가 연결되지 않았습니다.");
