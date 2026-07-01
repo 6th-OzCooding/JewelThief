@@ -228,8 +228,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _skipStartupUIForTest: 0
-  _gold: 0
-  _selectedStageId: 
+  _inGameSpawnHeightOffset: 1
+  _bagInventoryViewPrefabAddress: BagInventoryView
+  _bagInventoryViewSpawnPosition: {x: 10000, y: 10000, z: 10000}
+  SelectedStageId: 
 --- !u!4 &1488187415
 Transform:
   m_ObjectHideFlags: 0
