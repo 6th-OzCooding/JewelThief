@@ -105,7 +105,7 @@ public class Turret : BaseTrap
         Debug.Log("재장전");
 
         await PauseAwareDelay(_cooldownTime, token);
-
+        GameManager.Sound.StopSFX();
         _isFireRoutineRunning = false;
     }
 
@@ -115,6 +115,7 @@ public class Turret : BaseTrap
 
         while (elapsedTime < seconds)
         {
+            
             token.ThrowIfCancellationRequested();
 
             if (GameManager.Instance.IsPaused)
