@@ -180,7 +180,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uC774\uB3D9 : WASD\n\uC810\uD504 : Space\n\uB2EC\uB9AC\uAE30 : Shift\n\uC6C5\uD06C\uB9AC\uAE30
-    : C\n\uC0C1\uD638\uC791\uC6A9 : E\n\uD035\uC2AC\uB86F \uC804\uD658 : 1~4\n"
+    : C\n\uC0C1\uD638\uC791\uC6A9 : E\n\uAC00\uBC29 \uC5F4\uAE30 : I\n\uD035\uC2AC\uB86F
+    \uC804\uD658 : 1~4\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 286022aa2f24b934593c77fab77c67d9, type: 2}
   m_sharedMaterial: {fileID: -8536455285225053147, guid: 286022aa2f24b934593c77fab77c67d9, type: 2}
@@ -288,7 +289,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 400}
+  m_SizeDelta: {x: 400, y: 450}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &7104581134115292655
 CanvasRenderer:
