@@ -1,6 +1,6 @@
 [
   {
-    "Id": "Stage_Enemy_01",
+    "Id": "StageEnemy_01",
     "EnemyName": [
       "Police_Normal",
       "Police_Shoot",
@@ -13,7 +13,7 @@
     ]
   },
   {
-    "Id": "Stage_Enemy_02",
+    "Id": "StageEnemy_02",
     "EnemyName": [
       "Police_Normal",
       "Police_Shoot",
@@ -26,7 +26,7 @@
     ]
   },
   {
-    "Id": "Stage_Enemy_03",
+    "Id": "StageEnemy_03",
     "EnemyName": [
       "Police_Normal",
       "Police_Shoot",
