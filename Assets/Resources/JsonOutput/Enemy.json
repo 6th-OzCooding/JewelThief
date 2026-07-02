@@ -1,10 +1,10 @@
 [
   {
-    "Id": "Enemy_01",
+    "Id": "Police_Normal",
     "Name": "Police_Normal",
     "ViewRadius": 5,
     "ViewAngle": 120,
-    "ViewHeight": 0.8,
+    "ViewHeight": 0.3,
     "DetectRadius": 15,
     "WalkSpeed": 3,
     "RunSpeed": 4.5,
@@ -14,11 +14,11 @@
     "PrefabAddress": "Police_Normal"
   },
   {
-    "Id": "Enemy_02",
+    "Id": "Police_Shoot",
     "Name": "Police_Shoot",
     "ViewRadius": 8,
     "ViewAngle": 140,
-    "ViewHeight": 1.2,
+    "ViewHeight": 0.5,
     "DetectRadius": 18,
     "WalkSpeed": 3,
     "RunSpeed": 3,
@@ -28,11 +28,11 @@
     "PrefabAddress": "Police_Shoot"
   },
   {
-    "Id": "Enemy_03",
+    "Id": "Police_Throw",
     "Name": "Police_Throw",
     "ViewRadius": 10,
     "ViewAngle": 140,
-    "ViewHeight": 0.7,
+    "ViewHeight": 0.6,
     "DetectRadius": 18,
     "WalkSpeed": 2,
     "RunSpeed": 2,
