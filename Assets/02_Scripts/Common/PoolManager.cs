@@ -54,6 +54,14 @@ public class PoolManager
         else
             throw new Exception($"Pool Id({poolId})에 올바른 컴포넌트가 존재하지 않습니다. component: {typeof(T)}.");
     }
+    public T SpawnFromPool<T>(string poolId, Vector3 position, Quaternion rotation, Transform parent) where T : Component
+    {
+        GameObject obj = GetFromPool(poolId, position, rotation, parent);
+        if (obj.TryGetComponent<T>(out T component))
+            return component;
+        else
+            throw new Exception($"Pool Id({poolId})에 올바른 컴포넌트가 존재하지 않습니다. component: {typeof(T)}.");
+    }
 
     public void DespawnToPool(GameObject obj)
     {
@@ -129,7 +137,7 @@ public class PoolManager
         {
             // 그냥 프리펩 로드
             Debug.Log($"Pool Address({address})에 에셋이 ResourceManager에서 로드되어 있지 않습니다.\n Resources 로드를 합니다.");
-            gameObject = Resources.Load<GameObject>($"Poo/{address}");
+            gameObject = Resources.Load<GameObject>($"Pool/{address}");
         }
         else
         {

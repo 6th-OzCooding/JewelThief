@@ -296,8 +296,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         _alertManager?.ResumeTimer();                           
         _playerController?.SetInputMode(PlayerInputMode.Gameplay);
 
-        Pool.AllDespawnToPool();
         _wfcMapGeneration.Release();
+        _poolManager.AllDespawnToPool();
 
         OnExitInGame?.Invoke(_removeToolIdsWhenInGameExit);
 
