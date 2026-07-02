@@ -175,11 +175,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4deebf0b960164241b321322ebeb4078
-    m_Address: ToolObject
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e7ef58d8ebd3054e9bbef7742edcd62
     m_Address: Z_FootStep_01
     m_ReadOnly: 0
