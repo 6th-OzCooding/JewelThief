@@ -110,6 +110,14 @@ public class SoundManager
         RepeatingSfxRoutine(soundDataId, interval, cts.Token).Forget();
     }
 
+    public void StopSFX()
+    {
+        if (SFXSourcePlayer != null)
+        {
+            SFXSourcePlayer.Stop();
+        }
+    }
+
     public void StopRepeatingSFX(string soundDataId)
     {
         if (string.IsNullOrEmpty(soundDataId)) return;
