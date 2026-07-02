@@ -162,8 +162,7 @@ public class WFCMapGeneration
         {
             for (int x = 0; x < _mapSize; x++)
             {
-                MapGrid newGrid = GameObject.Instantiate(_mapGridObject, new Vector3(x * _gridSpacing, 0, y * _gridSpacing), Quaternion.identity, _mapRoot);
-
+                MapGrid newGrid = GameManager.Pool.SpawnFromPool<MapGrid>("MapGrid", new Vector3(x * _gridSpacing, 0, y * _gridSpacing), Quaternion.identity, _mapRoot);
                 newGrid.CreateMapGrid(false, _tileObjects, index);
                 _grids.Add(newGrid);
                 index++;
@@ -279,10 +278,10 @@ public class WFCMapGeneration
             return false;
         }
 
-        var newTile = GameObject.Instantiate(selectedTile
-                    , currentGrid.transform.position + selectedTile.transform.position
-                    , selectedTile.transform.rotation
-                    , _mapRoot);
+        var newTile = GameManager.Pool.SpawnFromPool<MapTile>(selectedTile.name,
+            currentGrid.transform.position + selectedTile.transform.position,
+            selectedTile.transform.rotation,
+            _mapRoot);
 
         _generatedTiles[currentGrid.Index] = newTile;
 
@@ -475,17 +474,14 @@ public class WFCMapGeneration
 
             _generationCount++;
 
-            var newTile = GameObject.Instantiate(tile,
-            currentGrid.transform.position + tile.transform.position,
-            tile.transform.rotation
-            , _mapRoot);
+            var newTile = GameManager.Pool.SpawnFromPool<MapTile>(tile.name,
+                currentGrid.transform.position + tile.transform.position,
+                tile.transform.rotation,
+                _mapRoot);
 
             if (presetTile.IsStartTile)
             {
                 _startGrid = currentGrid;
-#if UNITY_EDITOR
-                newTile.SetStartTile();
-#endif
             }
 
             _generatedTiles[currentGrid.Index] = newTile;
@@ -506,7 +502,7 @@ public class WFCMapGeneration
     {
         foreach (var grid in _grids)
         {
-            GameObject.Destroy(grid.gameObject);
+            GameManager.Pool.DespawnToPool(grid.gameObject);
         }
         _grids.Clear();
     }
@@ -515,7 +511,7 @@ public class WFCMapGeneration
     {
         foreach (var tile in _generatedTiles.Values)
         {
-            GameObject.Destroy(tile.gameObject);
+            GameManager.Pool.DespawnToPool(tile.gameObject);
         }
         _generatedTiles.Clear();
     }
@@ -656,7 +652,7 @@ public class WFCMapGeneration
             MapTile tile = pair.Value;
 
             if (tile != null)
-                GameObject.Destroy(tile.gameObject);
+                GameManager.Pool.DespawnToPool(tile.gameObject);
 
             _removeTiles.Add(gridIndex);
         }

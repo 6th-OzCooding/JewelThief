@@ -23,23 +23,5 @@ public class MapTile : MonoBehaviour
 
     public MapTileType TileType => _tileType;
     public int Weight => _weight;
-
-
-    private bool _isStartTile = false;
-
-
-    public void SetStartTile()
-    {
-        _isStartTile = true;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (_isStartTile)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position, new Vector3(5, 10, 5));
-        }
-    }
 }
 

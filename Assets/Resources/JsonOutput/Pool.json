@@ -78,5 +78,85 @@
   {
     "Id": "Escape",
     "InitSize": 7
+  },
+  {
+    "Id": "MapGrid",
+    "InitSize": 100
+  },
+  {
+    "Id": "All Direction Corridor",
+    "InitSize": 10
+  },
+  {
+    "Id": "Vertical Corridor",
+    "InitSize": 10
+  },
+  {
+    "Id": "Horizontal Corridor",
+    "InitSize": 10
+  },
+  {
+    "Id": "RightTop Corridor",
+    "InitSize": 10
+  },
+  {
+    "Id": "RightDown Corridor",
+    "InitSize": 10
+  },
+  {
+    "Id": "LeftTop Corridor",
+    "InitSize": 10
+  },
+  {
+    "Id": "LeftDown Corridor",
+    "InitSize": 10
+  },
+  {
+    "Id": "T Corridor1",
+    "InitSize": 10
+  },
+  {
+    "Id": "T Corridor2",
+    "InitSize": 10
+  },
+  {
+    "Id": "T Corridor3",
+    "InitSize": 10
+  },
+  {
+    "Id": "T Corridor4",
+    "InitSize": 10
+  },
+  {
+    "Id": "Room1",
+    "InitSize": 10
+  },
+  {
+    "Id": "Demo Room1",
+    "InitSize": 10
+  },
+  {
+    "Id": "Demo Room2",
+    "InitSize": 10
+  },
+  {
+    "Id": "Demo Room3",
+    "InitSize": 10
+  },
+  {
+    "Id": "Demo Room4",
+    "InitSize": 10
+  },
+  {
+    "Id": "Demo Room5",
+    "InitSize": 10
+  },
+  {
+    "Id": "Demo Room6",
+    "InitSize": 10
+  },
+  {
+    "Id": "Demo Room7",
+    "InitSize": 10
   }
 ]
